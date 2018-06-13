@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Menu, Avatar, Button } from "antd";
+import { Menu, Button } from "antd";
 import "./Topbar.css";
 import "antd/dist/antd.css";
 
@@ -9,9 +9,11 @@ export default class TopbarCompany extends Component {
     return (
       <div>
         <Menu mode="horizontal">
-          <Avatar>
-            <Link to="/welcome">RevTek</Link>
-          </Avatar>
+          <Menu.Item key="welcome">
+            <Link to="/welcome">
+              <div className="logo-button">REVTEK</div>
+            </Link>
+          </Menu.Item>
           <Menu.Item key="about">
             <Link to="/about">about</Link>
           </Menu.Item>
