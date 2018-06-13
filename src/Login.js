@@ -1,24 +1,42 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { Form, Input, Button, Icon, Card } from "antd";
 import "./App.css";
 import TopbarCompany from "./TopbarCompany";
-import { login } from "./Auth.js";
+import firebase from "./Firebase.js";
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      loginSuccessful: false
     };
   }
 
   handleClick = () => {
-    login(this.state.email, this.state.password);
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(this.state.email, this.state.password)
+      .catch(error => {
+        alert(
+          "The email address and/or password you entered was incorrect. Please try again."
+        );
+      });
+    firebase.auth().onAuthStateChanged(user => {
+      if (user !== null) {
+        this.setState({
+          loginSuccessful: true
+        });
+      }
+    });
   };
 
   render() {
+    if (this.state.loginSuccessful) {
+      return <Redirect to="/profile" />;
+    }
     return (
       <div>
         <TopbarCompany />
