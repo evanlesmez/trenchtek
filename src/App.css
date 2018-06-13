@@ -1,10 +1,17 @@
 @import "~antd/dist/antd.css";
-#components-form-demo-normal-login .login-form {
-    max-width: 300px;
-  }
-  #components-form-demo-normal-login .login-form-forgot {
-    float: right;
-  }
-  #components-form-demo-normal-login .login-form-button {
-    width: 100%;
-  }
+
+.login-form {
+  max-width: 80%;
+}
+.login-form-forgot {
+  float: right;
+}
+.login-form-button {
+  width: 100%;
+}
+
+.member-login-button {
+  float: right;
+  margin-right: 7px;
+  margin-top: 7px;
+}

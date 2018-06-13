@@ -1,14 +1,13 @@
-import { ref, firebaseAuth } from './Firebase';
-import firebase from "./Firebase";
+import { firebaseAuth } from "./Firebase";
 
 export function auth(email, pw) {
-    return firebaseAuth().createUserWithEmailAndPassword(email, pw);
+  return firebaseAuth().createUserWithEmailAndPassword(email, pw);
 }
 
 export function logout() {
-    return firebaseAuth().signOut();
+  return firebaseAuth().signOut();
 }
 
 export function login(email, pw) {
-    return firebaseAuth().signInWithEmailAndPassword(email, pw);
+  return firebaseAuth().signInWithEmailAndPassword(email, pw);
 }

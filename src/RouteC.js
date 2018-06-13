@@ -28,7 +28,7 @@ export default class RouteC extends Component {
           <Route path="/browse-contracts" component={BrowseContracts} />
           <Route path="/connect" component={Connect} />
           <Route path="/resources" component={Resources} />
-          <Route path="/register" component={Register}/>
+          <Route path="/register" component={Register} />
         </div>
       </BrowserRouter>
     );
