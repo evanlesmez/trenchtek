@@ -7,7 +7,7 @@ const chalRef = firebase.database().ref("challenges");
 const Panel = Collapse.Panel;
 const FormItem = Form.Item;
 
-export default class Tasks extends Component {
+export default class Challenges extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -57,6 +57,7 @@ export default class Tasks extends Component {
         <div>
           <div>
             <TopbarUser />
+            All challenges:
             {this.state.challenges.map(item => {
               return (
                 <Collapse>
@@ -104,11 +105,13 @@ export default class Tasks extends Component {
       <div>
         <div>
           <TopbarUser />
+          All challenges:
           {this.state.challenges.map(item => {
             return (
               <Collapse>
                 <Panel header={item.name}>
-                  details: {item.details} duedate: {item.duedate}
+                  details: {item.details}
+                  duedate: {item.duedate}
                 </Panel>
               </Collapse>
             );
