@@ -7,7 +7,7 @@ const chalRef = firebase.database().ref("challenges");
 const Panel = Collapse.Panel;
 const FormItem = Form.Item;
 
-export default class Tasks extends Component {
+export default class Challenges extends Component {
   constructor(props) {
     super(props);
     this.state = {
