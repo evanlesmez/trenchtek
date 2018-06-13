@@ -1,28 +1,11 @@
 import React, { Component } from "react";
 import TopbarUser from "./TopbarUser.js";
 import firebase from "./Firebase.js";
-import { Collapse, Button } from "antd";
-import {
-  Form,
-  Input,
-  Tooltip,
-  Icon,
-  Cascader,
-  Select,
-  Row,
-  Col,
-  Checkbox,
-  AutoComplete
-} from "antd";
+import { Collapse, Button, Form, Input } from "antd";
 
 const chalRef = firebase.database().ref("challenges");
 const Panel = Collapse.Panel;
 const FormItem = Form.Item;
-const Option = Select.Option;
-const AutoCompleteOption = AutoComplete.Option;
-let name = null;
-let details = null;
-let duedate = null;
 
 export default class Tasks extends Component {
   constructor(props) {
@@ -43,8 +26,8 @@ export default class Tasks extends Component {
       for (let chal in challenges) {
         newState.push({
           name: chal,
-          details: chal.details,
-          duedate: chal.duedate
+          details: challenges[chal].details,
+          duedate: challenges[chal].duedate
         });
       }
       this.setState({ challenges: newState });
@@ -75,11 +58,14 @@ export default class Tasks extends Component {
           <div>
             <TopbarUser />
             {this.state.challenges.map(item => {
-              <Collapse>
-                <Panel header={item.name}>
-                  details: {item.details} duedate: {item.duedate}
-                </Panel>
-              </Collapse>;
+              return (
+                <Collapse>
+                  <Panel header={item.name}>
+                    details: {item.details}
+                    duedate: {item.duedate}
+                  </Panel>
+                </Collapse>
+              );
             })}
           </div>
           <Button onClick={this.addChal}>Add Challenge</Button>
@@ -119,11 +105,13 @@ export default class Tasks extends Component {
         <div>
           <TopbarUser />
           {this.state.challenges.map(item => {
-            <Collapse>
-              <Panel header={item.name}>
-                details: {item.details} duedate: {item.duedate}
-              </Panel>
-            </Collapse>;
+            return (
+              <Collapse>
+                <Panel header={item.name}>
+                  details: {item.details} duedate: {item.duedate}
+                </Panel>
+              </Collapse>
+            );
           })}
         </div>
         <Button onClick={this.addChal}>Add Challenge</Button>
