@@ -79,8 +79,6 @@ export default class Login extends Component {
               </Form.Item>
             </Form>
           </Card>
-          <br />
-          <Link to="/profile">Click me to log in!!!</Link>
         </center>
       </div>
     );
