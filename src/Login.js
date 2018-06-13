@@ -1,10 +1,19 @@
 import React, { Component } from "react";
+import ReactDOM from 'react-dom';
+import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import { Link } from "react-router-dom";
+import "./App.css"
 
-export default class Login extends Component {
+class Login extends Component {
   render() {
-    return (
-      <div>
+    const {getFieldDecorator}=this.props.form;
+      return (
+      <div id = 'app'>
+        <Form layout = "vertical">
+          <Form.Item>
+            
+          </Form.Item>
+        </Form>
         Login Page
         <br />
         <Link to="/profile">Click me to log in!!!</Link>
@@ -12,3 +21,6 @@ export default class Login extends Component {
     );
   }
 }
+
+export default Form.create()(Login);
+

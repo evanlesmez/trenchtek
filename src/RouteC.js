@@ -10,13 +10,14 @@ import Tasks from "./Tasks.js";
 import BrowseContracts from "./BrowseContracts.js";
 import Connect from "./Connect.js";
 import Resources from "./Resources.js";
+import Register from "./Register.js";
 
 export default class RouteC extends Component {
   render() {
     return (
       <BrowserRouter>
         <div>
-          <Redirect to="/welcome" />
+          <Redirect to="/register" />
           <Route path="/welcome" component={Welcome} />
           <Route path="/about" component={About} />
           <Route path="/meet-the-team" component={Meet} />
@@ -27,6 +28,7 @@ export default class RouteC extends Component {
           <Route path="/browse-contracts" component={BrowseContracts} />
           <Route path="/connect" component={Connect} />
           <Route path="/resources" component={Resources} />
+          <Route path="/register" component={Register}/>
         </div>
       </BrowserRouter>
     );
