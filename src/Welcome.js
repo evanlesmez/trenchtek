@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import TopbarCompany from "./TopbarCompany.js";
-import "./Welcome.css";
+import "./App.css";
 
 //const imageUrl = require("./deskimage.jpg");
 
@@ -11,7 +11,9 @@ export default class Welcome extends Component {
       <div class="welcbg">
         <div>
           <TopbarCompany />
-          Welcome Page
+          <center>
+            <div className="logo-fun">REVTEK</div>
+          </center>
         </div>
       </div>
     );
