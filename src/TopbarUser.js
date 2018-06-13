@@ -4,8 +4,6 @@ import { Menu } from "antd";
 import "./Topbar.css";
 import "antd/dist/antd.css";
 
-const MenuItemGroup = Menu.ItemGroup;
-
 export default class TopbarUser extends Component {
   render() {
     return (
