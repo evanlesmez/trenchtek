@@ -2,12 +2,28 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Form, Input, Button, Icon, Card } from "antd";
 import "./App.css";
+import TopbarCompany from "./TopbarCompany";
+import { login } from "./Auth.js";
 
 export default class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      password: ""
+    };
+  }
+
+  handleClick = () => {
+    login(this.state.email, this.state.password);
+  };
+
   render() {
     return (
       <div>
+        <TopbarCompany />
         <center>
+          <br />
           <br />
           <Card title="Sign in" style={{ width: 450 }}>
             <Form layout="vertical" className="login-form">
@@ -16,7 +32,8 @@ export default class Login extends Component {
                   prefix={
                     <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
                   }
-                  placeholder="Username"
+                  placeholder="Email"
+                  onChange={e => this.setState({ email: e.target.value })}
                 />
               </Form.Item>
               <Form.Item>
@@ -26,6 +43,7 @@ export default class Login extends Component {
                   }
                   type="password"
                   placeholder="Password"
+                  onChange={e => this.setState({ password: e.target.value })}
                 />
               </Form.Item>
               <Form.Item>
@@ -33,6 +51,7 @@ export default class Login extends Component {
                   type="primary"
                   htmlType="submit"
                   className="login-form-button"
+                  onClick={this.handleClick}
                 >
                   Sign in
                 </Button>
