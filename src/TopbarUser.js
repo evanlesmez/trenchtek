@@ -24,7 +24,7 @@ export default class TopbarUser extends Component {
           <Menu.Item key="profile">
             <Link to="/profile">profile</Link>
           </Menu.Item>
-          <Button className="login-logout-button">
+          <Button className="login-logout-button" type="danger" ghost>
             <Link to="/logout">logout</Link>
           </Button>
         </Menu>
