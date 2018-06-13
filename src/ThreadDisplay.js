@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import Post from "./Post";
+import "./Post.css";
 import PostEditor from "./PostEditor";
 import firebase from "./Firebase";
+import { Card } from "antd";
 
+const { Meta } = Card;
 class ThreadDisplay extends Component {
   constructor(props) {
     super(props);
@@ -28,11 +31,22 @@ class ThreadDisplay extends Component {
       this.setState({ posts: posts });
     });
   }
+
   render() {
     return (
       <div>
         {this.state.posts.map(postBody => {
-          return <Post postBody={postBody} />;
+          return (
+            <div className="panel post-border post-body">
+              <Card
+                hoverable
+                style={{ width: 500 }}
+                cover={<img alt="example" src="" />}
+              >
+                <Meta title="Sung Joon" description={postBody} />
+              </Card>
+            </div>
+          );
         })}
         <PostEditor addPost={this.addPost} />
       </div>
