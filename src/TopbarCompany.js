@@ -18,7 +18,7 @@ export default class TopbarCompany extends Component {
           <Menu.Item key="submit-contracts">
             <Link to="/submit-contracts">submit contracts</Link>
           </Menu.Item>
-          <Button className="member-login-button">
+          <Button className="login-logout-button">
             <Link to="/login">member login</Link>
           </Button>
         </Menu>

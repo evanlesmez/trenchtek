@@ -10,6 +10,7 @@ import Tasks from "./Tasks.js";
 import BrowseContracts from "./BrowseContracts.js";
 import Connect from "./Connect.js";
 import Resources from "./Resources.js";
+import Logout from "./Logout.js";
 
 export default class RouteC extends Component {
   render() {
@@ -27,6 +28,7 @@ export default class RouteC extends Component {
           <Route path="/browse-contracts" component={BrowseContracts} />
           <Route path="/connect" component={Connect} />
           <Route path="/resources" component={Resources} />
+          <Route path="/logout" component={Logout} />
         </div>
       </BrowserRouter>
     );

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Menu } from "antd";
+import { Menu, Button } from "antd";
 import "./Topbar.css";
 import "antd/dist/antd.css";
 
@@ -24,6 +24,9 @@ export default class TopbarUser extends Component {
           <Menu.Item key="profile">
             <Link to="/profile">profile</Link>
           </Menu.Item>
+          <Button className="login-logout-button">
+            <Link to="/logout">logout</Link>
+          </Button>
         </Menu>
       </div>
     );

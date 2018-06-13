@@ -15,6 +15,10 @@ export default class Login extends Component {
     };
   }
 
+  componentDidMount() {
+    this.checkUser();
+  }
+
   handleClick = () => {
     firebase
       .auth()
@@ -24,14 +28,24 @@ export default class Login extends Component {
           "The email address and/or password you entered was incorrect. Please try again."
         );
       });
+    this.checkUser();
+  };
+
+  checkUser = () => {
     firebase.auth().onAuthStateChanged(user => {
       if (user !== null) {
         this.setState({
           loginSuccessful: true
         });
+      } else {
+        this.setState({
+          loginSuccessful: false
+        });
       }
     });
   };
+
+  checkUser;
 
   render() {
     if (this.state.loginSuccessful) {
