@@ -1,0 +1,33 @@
+.post-body {
+  margin: 1em 30%;
+}
+.flexhorizontal {
+  display: flex;
+}
+.flexvertical {
+  flex-direction: column;
+}
+.cover {
+  width: 80px;
+  height: 100px;
+}
+.image-cropper {
+  width: 50px;
+  height: 50px;
+  position: relative;
+  border-radius: 50%;
+  border: 3px solid black;
+}
+.card-style {
+  border-radius: 40%;
+  width: 100px;
+}
+.space {
+  width: 10px;
+  height: 10px;
+}
+@media (max-width: 900px) {
+  .post-body {
+    margin: 1em 20%;
+  }
+}

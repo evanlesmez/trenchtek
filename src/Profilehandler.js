@@ -9,7 +9,6 @@ export default class Profilehandler extends Component {
   render() {
     return (
     <div >
-        <TopbarUser />
         <Profile name="Yoshimi" jobTitle="Big Ballin Shotcaller" aboutMe = "dinosaur" skills = {["git", "react", "JSON's"]}
         links = {{github: "github", email: "email", linkedIn: "linkedIn"}}/>
     </div>
