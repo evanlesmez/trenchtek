@@ -22,20 +22,21 @@ h1{
     font-family: "Verdana";
 }
 
-.instuctors{
+.instuctors,.seniorDevs{
     margin-left: 40%;
     color: red;
 
 }
 
-.seniorDevs{
+/* .seniorDevs{
  
     color: blue;
     margin:20%;
     text-align:right;
     margin-left:37%;
+    margin-top:0%;
     white-space: nowrap;
-}
+} */
 
 .textOfCard{
     text-align: center;
@@ -59,7 +60,7 @@ h1{
 .infocard{
     margin-left:30%;
     margin-top: 10%;
-    margin-bottom:10%;
+    margin-bottom:5%;
    
 }
 .texty{
@@ -68,6 +69,10 @@ h1{
    
 }
 
+.individualCards{
+    margin-top:10%;
+    margin-bottom:10%;
+}
 /*
 .eliza,.infocard
     {width:35%;height:1px;padding:0px;}
