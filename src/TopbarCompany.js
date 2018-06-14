@@ -8,7 +8,11 @@ export default class TopbarCompany extends Component {
   render() {
     return (
       <div>
-        <Menu mode="horizontal" defaultSelectedKeys="welcome">
+        <Menu
+          mode="horizontal"
+          classname="navbar"
+          defaultSelectedKeys="welcome"
+        >
           <Menu.Item key="welcome">
             <Link to="/welcome">
               <div className="logo-button">REVTEK</div>
@@ -23,7 +27,10 @@ export default class TopbarCompany extends Component {
           <Menu.Item key="submit-contracts">
             <Link to="/submit-contracts">submit contracts</Link>
           </Menu.Item>
-          <Button className="login-logout-button">
+          <Button
+            className="login-logout-button"
+            onClick={this.handleLoginClick}
+          >
             <Link to="/login">member login</Link>
           </Button>
         </Menu>

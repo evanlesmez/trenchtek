@@ -3,7 +3,6 @@ import { Link, Redirect } from "react-router-dom";
 import { Form, Input, Button, Icon, Card } from "antd";
 import "./App.css";
 import firebase from "./Firebase.js";
-import TopbarCompany from "./TopbarCompany.js";
 
 class Login extends Component {
   constructor(props) {
@@ -53,7 +52,6 @@ class Login extends Component {
     }
     return (
       <div>
-        <TopbarCompany />
         <center>
           <br />
           <br />

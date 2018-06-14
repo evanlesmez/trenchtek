@@ -9,6 +9,9 @@ export default class TopbarUser extends Component {
     return (
       <div>
         <Menu mode="horizontal" defaultSelectedKeys="profile">
+          <Menu.Item key="profile">
+            <Link to="/profile">profile</Link>
+          </Menu.Item>
           <Menu.Item key="challenges">
             <Link to="/challenges">challenges</Link>
           </Menu.Item>
@@ -24,9 +27,7 @@ export default class TopbarUser extends Component {
           <Menu.Item key="resources">
             <Link to="/resources">resources</Link>
           </Menu.Item>
-          <Menu.Item key="profile">
-            <Link to="/profile">profile</Link>
-          </Menu.Item>
+
           <Button className="login-logout-button" type="danger" ghost>
             <Link to="/logout">logout</Link>
           </Button>

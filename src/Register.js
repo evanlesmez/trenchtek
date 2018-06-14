@@ -15,7 +15,6 @@ import {
 import { Link } from "react-router-dom";
 import { auth, logout } from "./Auth";
 import firebase from "./Firebase";
-import TopbarCompany from "./TopbarCompany";
 import "./App.css";
 
 class Register extends Component {
@@ -138,7 +137,6 @@ class Register extends Component {
       !isFieldTouched("title");
     return (
       <div>
-        <TopbarCompany />
         <center>
           <br />
           <br />

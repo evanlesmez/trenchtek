@@ -20,6 +20,11 @@
 .logo-button {
   font-size: 250%;
   font-family: "Faster One";
+  float: left;
+}
+
+a:link {
+  text-decoration: none;
 }
 
 .logo-fun {
@@ -39,4 +44,8 @@
   height: auto;
   margin-left: 0%;
   display: inline-block;
+}
+
+.navbar {
+  display: inline;
 }
