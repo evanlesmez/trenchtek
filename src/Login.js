@@ -5,7 +5,7 @@ import "./App.css";
 import TopbarCompany from "./TopbarCompany";
 import firebase from "./Firebase.js";
 
-export default class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -75,7 +75,7 @@ export default class Login extends Component {
                 </Button>
                 <br />
                 <br />
-                Or <Link to="">register now!</Link>
+                Or <Link to="/register">register now!</Link>
               </Form.Item>
             </Form>
           </Card>
@@ -84,3 +84,5 @@ export default class Login extends Component {
     );
   }
 }
+
+export default Form.create()(Login);

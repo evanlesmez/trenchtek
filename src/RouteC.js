@@ -10,6 +10,7 @@ import Challenges from "./Challenges.js";
 import BrowseContracts from "./BrowseContracts.js";
 import Connect from "./Connect.js";
 import Resources from "./Resources.js";
+import Register from "./Register.js";
 import TaskManager from "./TaskManager";
 
 export default class RouteC extends Component {
@@ -29,6 +30,7 @@ export default class RouteC extends Component {
           <Route path="/browse-contracts" component={BrowseContracts} />
           <Route path="/connect" component={Connect} />
           <Route path="/resources" component={Resources} />
+          <Route path="/register" component={Register} />
         </div>
       </BrowserRouter>
     );

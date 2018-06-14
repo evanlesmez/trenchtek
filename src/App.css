@@ -19,3 +19,17 @@
 .challenge-collapse {
   width: 30%;
 }
+
+.input {
+  width: 55%;
+  height: 25x;
+  margin: 0 auto;
+  display: inline-block;
+}
+
+.inputtitle {
+  width: 65%;
+  height: auto;
+  margin-left: 0%;
+  display: inline-block;
+}
