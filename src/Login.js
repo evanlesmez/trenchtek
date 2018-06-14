@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { Form, Input, Button, Icon, Card } from "antd";
 import "./App.css";
-import TopbarCompany from "./TopbarCompany";
 import firebase from "./Firebase.js";
 
 export default class Login extends Component {
@@ -53,7 +52,6 @@ export default class Login extends Component {
     }
     return (
       <div>
-        <TopbarCompany />
         <center>
           <br />
           <br />
