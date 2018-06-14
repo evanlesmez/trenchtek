@@ -26,3 +26,17 @@
   font-family: "Faster One";
   font-size: 900%;
 }
+
+.input {
+  width: 55%;
+  height: 25x;
+  margin: 0 auto;
+  display: inline-block;
+}
+
+.inputtitle {
+  width: 65%;
+  height: auto;
+  margin-left: 0%;
+  display: inline-block;
+}

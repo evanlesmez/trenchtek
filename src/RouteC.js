@@ -14,6 +14,7 @@ import Logout from "./Logout.js";
 import TaskManager from "./TaskManager.js";
 import TopbarCompany from "./TopbarCompany.js";
 import TopbarUser from "./TopbarUser.js";
+import Register from "./Register.js";
 
 export default class RouteC extends Component {
   render() {
@@ -42,6 +43,7 @@ export default class RouteC extends Component {
             <Route path="/connect" component={Connect} />
             <Route path="/resources" component={Resources} />
             <Route path="/logout" component={Logout} />
+            <Route path="/register" component={Register} />
           </div>
         </div>
       </BrowserRouter>
