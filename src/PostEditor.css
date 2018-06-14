@@ -1,10 +1,12 @@
-.post-editor {
-  margin: 1em 20%;
+.post-editor-input {
+  width: 1000px;
+  margin: auto;
 }
 .post-editor-button {
   float: right;
   margin-top: 1em;
 }
+
 .post-border {
   background-color: #4caf50; /* Green */
   border: none;
@@ -13,12 +15,4 @@
   font-size: 16px;
   cursor: pointer;
   border-radius: 12px;
-}
-@media (max-width: 900px) {
-  .post-editor {
-    margin: 1em;
-  }
-  .post-body {
-    margin: 1em 20%;
-  }
 }
