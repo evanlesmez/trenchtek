@@ -17,7 +17,7 @@ export default class RouteC extends Component {
     return (
       <BrowserRouter>
         <div>
-          <Redirect to="/challenges" />
+          <Redirect to="/task-manager" />
           <Route path="/welcome" component={Welcome} />
           <Route path="/about" component={About} />
           <Route path="/meet-the-team" component={Meet} />

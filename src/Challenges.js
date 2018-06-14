@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import TopbarUser from "./TopbarUser.js";
 import firebase from "./Firebase.js";
 import { Collapse, Button, Form, Input } from "antd";
+import "./App.css";
 
 const chalRef = firebase.database().ref("challenges");
 const Panel = Collapse.Panel;
@@ -60,7 +61,7 @@ export default class Challenges extends Component {
             All challenges:
             {this.state.challenges.map(item => {
               return (
-                <Collapse>
+                <Collapse className="challenge-collapse">
                   <Panel header={item.name}>
                     details: {item.details}
                     duedate: {item.duedate}
@@ -103,12 +104,12 @@ export default class Challenges extends Component {
     }
     return (
       <div>
-        <div>
+        <div className="challengeCollapse">
           <TopbarUser />
           All challenges:
           {this.state.challenges.map(item => {
             return (
-              <Collapse>
+              <Collapse className="challenge-collapse">
                 <Panel header={item.name}>
                   details: {item.details}
                   duedate: {item.duedate}
