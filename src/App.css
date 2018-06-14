@@ -15,3 +15,17 @@
   margin-right: 7px;
   margin-top: 7px;
 }
+
+.input {
+  width: 55%;
+  height: 25x;
+  margin: 0 auto;
+  display: inline-block;
+}
+
+.inputtitle {
+  width: 65%;
+  height: auto;
+  margin-left: 0%;
+  display: inline-block;
+}
