@@ -30,9 +30,9 @@ export default class Profile extends Component {
             <Col span= {4}>
           <img className="profpic" src= "http://static.tvtropes.org/pmwiki/pub/images/reg_anime.jpg" alt = "Prof pic"/> 
             </Col>
-            <Col span ={20}>
+            <Col span ={18}>
             <div id= "userfo" >
-            <h1 > {this.props.name} </h1>
+            <h1 > {this.props.name} </h1> 
             <h2> Job Title </h2>
             <h3> About me: </h3>
             <p> {this.props.aboutMe}</p>
@@ -50,10 +50,12 @@ export default class Profile extends Component {
             </div>
             </div>
             </Col>
+            <Col span = {2}>
+            <button type= "edit"> Edit Page </button>
+            </Col>
           </Row>
           </div>  
           <div className ="profside">
-          <button type= "edit"> Edit Pic </button>
           </div>
         </div>
       </div>
