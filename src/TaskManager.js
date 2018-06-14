@@ -44,16 +44,19 @@ export default class TaskManager extends Component {
   };
 
   submitGroup = e => {
-    this.setState({ [newGroup + "Tasks"]: ["no tasks yet"] });
-    console.log(this.state);
+    //this.setState({ [newGroup + "Tasks"]: ["no tasks yet"] });
     let tempGroup = this.state.groups;
     tempGroup.push(newGroup);
     this.setState({
       groups: tempGroup,
-      groupForm: null
-      //[newGroup + "Tasks"]: ["no tasks yet"]
+      groupForm: null,
+      [newGroup + "Tasks"]: ["no tasks yet"]
     });
     newGroup = null;
+    this.addGroupsToFirebase();
+  };
+
+  addGroupsToFirebase = () => {
     this.state.groups.map(group => {
       taskRef.child(group).set(this.state[group + "Tasks"]);
     });
@@ -87,6 +90,7 @@ export default class TaskManager extends Component {
   };
 
   render() {
+    console.log(this.state);
     return (
       <div>
         <TopbarUser />
