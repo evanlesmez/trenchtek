@@ -1,0 +1,75 @@
+ @import "~antd/dist/antd.css";
+ 
+.searchInfo{
+    text-align: center;
+    margin-top: 60px;
+    font-size: 20px;
+}
+
+.search{
+    width:30%
+}
+
+.searchComponent{
+    margin-left: 37%;
+    margin-top: 3%;
+   
+}
+
+h1{
+   font-size: 25px;
+    margin-top:5%;
+    font-family: "Verdana";
+}
+
+.instuctors{
+    margin-left: 40%;
+    color: red;
+
+}
+
+.seniorDevs{
+ 
+    color: blue;
+    margin:20%;
+    text-align:right;
+    margin-left:37%;
+    white-space: nowrap;
+}
+
+.textOfCard{
+    text-align: center;
+}
+
+
+/* .InstructorCard{
+    margin-left:20%;
+    margin-top:10%;
+   
+} */
+
+
+.InstructorCard{
+    float:left;
+   
+}
+
+
+
+.infocard{
+    margin-left:30%;
+    margin-top: 10%;
+    margin-bottom:10%;
+   
+}
+.texty{
+    margin-left: 25%;
+    width: 35%;
+   
+}
+
+/*
+.eliza,.infocard
+    {width:35%;height:1px;padding:0px;}
+ 
+*/
