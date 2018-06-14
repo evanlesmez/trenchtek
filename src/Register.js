@@ -271,6 +271,9 @@ class Register extends Component {
                     >
                       Register
                     </Button>
+                    <br />
+                    <br />
+                    Or <Link to="/login">login now!</Link>
                   </Form.Item>
                 </center>
               </Row>
