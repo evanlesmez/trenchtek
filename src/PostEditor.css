@@ -1,0 +1,18 @@
+.post-editor-input {
+  width: 1000px;
+  margin: auto;
+}
+.post-editor-button {
+  float: right;
+  margin-top: 1em;
+}
+
+.post-border {
+  background-color: #4caf50; /* Green */
+  border: none;
+  color: white;
+  padding: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 12px;
+}
