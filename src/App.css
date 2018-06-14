@@ -1,4 +1,5 @@
 @import "~antd/dist/antd.css";
+@import url("https://fonts.googleapis.com/css?family=Faster+One");
 
 .login-form {
   max-width: 80%;
@@ -10,10 +11,20 @@
   width: 100%;
 }
 
-.member-login-button {
+.login-logout-button {
   float: right;
   margin-right: 7px;
   margin-top: 7px;
+}
+
+.logo-button {
+  font-size: 250%;
+  font-family: "Faster One";
+}
+
+.logo-fun {
+  font-family: "Faster One";
+  font-size: 900%;
 }
 
 .input {

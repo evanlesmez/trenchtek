@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import TopbarUser from "./TopbarUser.js";
 import firebase from "./Firebase.js";
 import { Collapse, Button, Form, Input } from "antd";
 
@@ -56,7 +55,6 @@ export default class Challenges extends Component {
       return (
         <div>
           <div>
-            <TopbarUser />
             All challenges:
             {this.state.challenges.map(item => {
               return (
@@ -104,7 +102,6 @@ export default class Challenges extends Component {
     return (
       <div>
         <div>
-          <TopbarUser />
           All challenges:
           {this.state.challenges.map(item => {
             return (
