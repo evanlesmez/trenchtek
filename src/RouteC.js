@@ -12,6 +12,7 @@ import Connect from "./Connect.js";
 import Resources from "./Resources.js";
 import Logout from "./Logout.js";
 import TaskManager from "./TaskManager.js";
+import AddGroups from "./AddGroups";
 import TopbarCompany from "./TopbarCompany.js";
 import TopbarUser from "./TopbarUser.js";
 import Register from "./Register.js";
@@ -27,7 +28,7 @@ export default class RouteC extends Component {
     return (
       <BrowserRouter>
         <div>
-          <Redirect to="/welcome" />
+          <Redirect to="/task-manager" />
           <Route path={CompanyRegex} component={TopbarCompany} />
           <Route path={UserRegex} component={TopbarUser} />
           <div>
@@ -38,7 +39,7 @@ export default class RouteC extends Component {
             <Route path="/login" component={Login} />
             <Route path="/profile" component={Profile} />
             <Route path="/challenges" component={Challenges} />
-            <Route path="/task-manager" component={TaskManager} />
+            <Route path="/task-manager" component={AddGroups} />
             <Route path="/browse-contracts" component={BrowseContracts} />
             <Route path="/connect" component={Connect} />
             <Route path="/resources" component={Resources} />

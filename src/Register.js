@@ -40,9 +40,6 @@ class Register extends Component {
 
   compareToFirstPassword = (rule, value, callback) => {
     const form = this.props.form;
-    console.log(this.state);
-    console.log(value);
-    console.log(form.getFieldValue("password"));
     if (value !== this.state.password) {
       callback("Two passwords that you enter is inconsistent!");
     } else {
@@ -64,7 +61,6 @@ class Register extends Component {
   };
 
   handleSubmit = () => {
-    console.log("hey");
     auth(this.state.email, this.state.password)
       .then(user => {
         if (user) {

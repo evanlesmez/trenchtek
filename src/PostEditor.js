@@ -25,7 +25,6 @@ class PostEditor extends Component {
 
   createPost() {
     var object = this.state.newPostBody;
-    //var object = this.state;
     this.props.addPost(object);
     const list = firebase.database().ref("/posts");
     list.push(object);

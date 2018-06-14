@@ -1,83 +1,47 @@
 import React, { Component } from "react";
-import TopbarUser from "./TopbarUser.js";
-import { List, Button, Collapse, Form, Input } from "antd";
+import { Button, Collapse, Form, Input, Checkbox } from "antd";
 import firebase from "./Firebase.js";
 
-const data = ["personal", "group1", "group2"];
 const taskRef = firebase.database().ref("tasks");
 const Panel = Collapse.Panel;
 const FormItem = Form.Item;
-
-//const personalTasks = ["sleep", "eat", "shower"];
-const groupTasks = ["think", "code", "react"];
-let newGroup = null;
+let newTask = null;
 
 export default class TaskManager extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isClicked: false,
-      groups: ["personal", "group1", "group2"],
-      groupForm: null,
-      personalTasks: ["sleep", "eat", "shower"],
-      group1Tasks: ["hello", "we", "code"],
-      group2Tasks: ["in", "react", "framework"]
+      checkForm: [],
+      tasks: []
     };
   }
 
-  componentDidMount() {
-    //data.map(group => taskRef.child(group).set(personalTasks));
-    //taskRef.push(tasks);
-    //tasks.map(task => taskRef.push(task));
-  }
-
-  handleClick = group => {
-    this.setState({ trial: "trial" });
-    taskRef.on("value", snapshot => {
-      let tasks = snapshot.val();
-      for (let task in tasks) {
-        if (task === group) {
-          //console.log(task);
-        }
-      }
-    });
+  checkChange = () => {
+    this.setState({ checkForm: null });
   };
 
-  submitGroup = e => {
-    //this.setState({ [newGroup + "Tasks"]: ["no tasks yet"] });
-    let tempGroup = this.state.groups;
-    tempGroup.push(newGroup);
-    this.setState({
-      groups: tempGroup,
-      groupForm: null,
-      [newGroup + "Tasks"]: ["no tasks yet"]
-    });
-    newGroup = null;
-    this.addGroupsToFirebase();
+  handleTaskChange = e => {
+    newTask = e.target.value;
   };
 
-  addGroupsToFirebase = () => {
-    this.state.groups.map(group => {
-      taskRef.child(group).set(this.state[group + "Tasks"]);
-    });
+  setTasksToFirebase = group => {
+    taskRef.child(group).set(this.state.tasks);
   };
 
-  handleGroupChange = e => {
-    newGroup = e.target.value;
-    //this.setState({ [newGroup + "Tasks"]: ["no tasks yet"] });
-    //console.log(this.state);
+  submitTask = group => {
+    let tempTask = this.state.tasks;
+    tempTask.push(newTask);
+    this.setState({ tasks: tempTask }, this.setTasksToFirebase(group));
   };
 
-  addGroupForm = () => {
-    this.setState({
-      groupForm: (
-        <Form onSubmit={this.submitGroup}>
-          <FormItem label="new group name">
-            <Input
-              onChange={e => {
-                this.handleGroupChange(e, "name");
-              }}
-            />
+  addTaskForm = group => {
+    let tempTask = this.state.checkForm;
+    tempTask.push(
+      <Checkbox onChange={this.checkChange}>
+        <Form onSubmit={() => this.submitTask("den")}>
+          <FormItem label="new task">
+            <Input onChange={this.handleTaskChange} />
           </FormItem>
           <FormItem>
             <Button type="primary" htmlType="submit">
@@ -85,35 +49,27 @@ export default class TaskManager extends Component {
             </Button>
           </FormItem>
         </Form>
-      )
+      </Checkbox>
+    );
+    this.setState({
+      checkForm: tempTask
     });
   };
 
   render() {
-    console.log(this.state);
     return (
       <div>
-        {/* <Collapse className="challenge-collapse">
-          <Panel header={item.name}>
-            details: {item.details}
-            duedate: {item.duedate}
-          </Panel>
-        </Collapse> */}
-        <List
-          bordered
-          dataSource={data}
-          renderItem={item => (
-            <List.Item
-              onClick={() => {
-                this.handleClick(item);
-              }}
-            >
-              {item}
-            </List.Item>
-          )}
-        />
-        <Button onClick={this.addGroupForm}>Add Group</Button>
-        <div>{this.state.groupForm}</div>
+        {this.props.groups.map(group => {
+          return (
+            <Collapse className="challenge-collapse">
+              <Panel header={group}>
+                <Checkbox onChange={this.checkChange}>Checkbox</Checkbox>
+                <Button onClick={this.addTaskForm}>Add Task</Button>
+              </Panel>
+            </Collapse>
+          );
+        })}
+        <div>{this.state.checkForm}</div>
       </div>
     );
   }
