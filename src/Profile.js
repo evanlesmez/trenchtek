@@ -16,9 +16,13 @@ export default class Profile extends Component {
     }
   }
   render() {
+    const skillSpan = this.props.skills.map((skill) => {
+      return(
+      <span> #{skill} </span>
+      )
+    });
     return (
       <div >
-        <TopbarUser />
         <div className="center">
           <div id="imgcontainer">
           <img className = "banner" src = "http://www.twitrcovers.com/wp-content/uploads/2013/02/Programming-Code-l.jpg" alt = "banner"/>
@@ -28,19 +32,20 @@ export default class Profile extends Component {
             </Col>
             <Col span ={20}>
             <div id= "userfo" >
-            <h1  maxlength= "20"> {this.props.name} </h1>
+            <h1 > {this.props.name} </h1>
             <h2> Job Title </h2>
             <h3> About me: </h3>
-            <textarea  maxlength = '50'> {this.props.aboutMe}</textarea>
-            <div>
+            <p> {this.props.aboutMe}</p>
+            <div id= "bottomfo">
               <div>
-               Skills: 
+               Skills: {skillSpan}
               </div>
-            
+             <p>
+                Contact: <a href= {this.props.links.email}> {this.props.links.email}</a>
+              </p> 
               <span>
-             <a href=""> Github</a>
-             <a href=""> LinkedIn</a>
-             <a href=""> </a>
+             <a href={this.props.links.github}> {this.props.links.github},</a>
+             <a href={this.props.links.linkedIn}> {this.props.links.linkedIn}</a>
              </span>
             </div>
             </div>

@@ -2,6 +2,10 @@ body{
     background-color: lightgrey;
 }
 
+
+#bottomfo {
+    color: black;
+}
 .center {
     margin: 75px auto;
     vertical-align: middle;
