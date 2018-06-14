@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import "./PostEditor.css";
 import firebase from "./Firebase";
+import { Input } from "antd";
+import { Button, Menu, Dropdown, Icon } from "antd";
+
+const { TextArea } = Input;
 
 class PostEditor extends Component {
   constructor(props) {
@@ -21,6 +25,7 @@ class PostEditor extends Component {
 
   createPost() {
     var object = this.state.newPostBody;
+    //var object = this.state;
     this.props.addPost(object);
     const list = firebase.database().ref("/posts");
     list.push(object);
@@ -31,20 +36,16 @@ class PostEditor extends Component {
   }
   render() {
     return (
-      <div className="panel post-de ault post-editor">
-        <div className="panel-body">
-          <textarea
-            className="form-control post-editor-input"
-            value={this.state.newPostBody}
-            onChange={this.handlePostEditorInputChange}
-          />
-          <button
-            className="btn btn-success post-editor-button"
-            onClick={this.createPost}
-          >
-            Post
-          </button>
-        </div>
+      <div>
+        <TextArea
+          rows={3}
+          class="post-editor-input"
+          value={this.state.newPostBody}
+          onChange={this.handlePostEditorInputChange}
+        />
+        <Button type="primary" onClick={this.createPost}>
+          Post
+        </Button>
       </div>
     );
   }

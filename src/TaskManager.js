@@ -93,7 +93,6 @@ export default class TaskManager extends Component {
     console.log(this.state);
     return (
       <div>
-        <TopbarUser />
         {/* <Collapse className="challenge-collapse">
           <Panel header={item.name}>
             details: {item.details}

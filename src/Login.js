@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { Form, Input, Button, Icon, Card } from "antd";
 import "./App.css";
-import TopbarCompany from "./TopbarCompany";
 import firebase from "./Firebase.js";
 
 class Login extends Component {
@@ -15,6 +14,10 @@ class Login extends Component {
     };
   }
 
+  componentDidMount() {
+    this.checkUser();
+  }
+
   handleClick = () => {
     firebase
       .auth()
@@ -24,14 +27,24 @@ class Login extends Component {
           "The email address and/or password you entered was incorrect. Please try again."
         );
       });
+    this.checkUser();
+  };
+
+  checkUser = () => {
     firebase.auth().onAuthStateChanged(user => {
       if (user !== null) {
         this.setState({
           loginSuccessful: true
         });
+      } else {
+        this.setState({
+          loginSuccessful: false
+        });
       }
     });
   };
+
+  checkUser;
 
   render() {
     if (this.state.loginSuccessful) {
@@ -39,7 +52,6 @@ class Login extends Component {
     }
     return (
       <div>
-        <TopbarCompany />
         <center>
           <br />
           <br />
