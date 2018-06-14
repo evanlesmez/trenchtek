@@ -5,7 +5,7 @@ import About from "./About.js";
 import Meet from "./Meet.js";
 import SubmitContracts from "./SubmitContracts.js";
 import Login from "./Login.js";
-import Profile from "./Profile.js";
+import Profilehandler from "./Profilehandler.js";
 import Challenges from "./Challenges.js";
 import BrowseContracts from "./BrowseContracts.js";
 import Connect from "./Connect.js";
@@ -15,6 +15,7 @@ import TaskManager from "./TaskManager.js";
 import TopbarCompany from "./TopbarCompany.js";
 import TopbarUser from "./TopbarUser.js";
 import Register from "./Register.js";
+
 
 export default class RouteC extends Component {
   state = {
@@ -30,7 +31,7 @@ export default class RouteC extends Component {
     return (
       <BrowserRouter>
         <div>
-          <Redirect to="/welcome" />
+          <Redirect to="/profile" />
           <Route path={CompanyRegex} component={TopbarCompany} />
           <Route path={UserRegex} component={TopbarUser} />
           <div>
@@ -39,7 +40,7 @@ export default class RouteC extends Component {
             <Route path="/meet-the-team" component={Meet} />
             <Route path="/submit-contracts" component={SubmitContracts} />
             <Route path="/login" component={Login} />
-            <Route path="/profile" component={Profile} />
+            <Route path="/profile" component={Profilehandler} />
             <Route path="/challenges" component={Challenges} />
             <Route path="/task-manager" component={TaskManager} />
             <Route path="/browse-contracts" component={BrowseContracts} />
