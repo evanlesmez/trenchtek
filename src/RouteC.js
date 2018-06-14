@@ -16,7 +16,6 @@ import TopbarCompany from "./TopbarCompany.js";
 import TopbarUser from "./TopbarUser.js";
 import Register from "./Register.js";
 
-
 export default class RouteC extends Component {
   state = {
     currentPage: "welcome"
@@ -31,7 +30,7 @@ export default class RouteC extends Component {
     return (
       <BrowserRouter>
         <div>
-          <Redirect to="/profile" />
+          <Redirect to="/welcome" />
           <Route path={CompanyRegex} component={TopbarCompany} />
           <Route path={UserRegex} component={TopbarUser} />
           <div>

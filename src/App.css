@@ -1,5 +1,5 @@
 @import "~antd/dist/antd.css";
-@import url("https://fonts.googleapis.com/css?family=Faster+One");
+@import url("https://fonts.googleapis.com/css?family=Arvo:400,700");
 
 .login-form {
   max-width: 80%;
@@ -18,17 +18,14 @@
 }
 
 .logo-button {
-  font-size: 250%;
-  font-family: "Faster One";
-  float: left;
+  font-size: 175%;
+  font-family: "Arvo", sans-serif;
+  font-weight: bold;
 }
 
-a:link {
-  text-decoration: none;
-}
-
-.logo-fun {
-  font-family: "Faster One";
+.logo-main {
+  font-family: "Arvo", sans-serif;
+  font-weight: bold;
   font-size: 900%;
 }
 
@@ -46,6 +43,10 @@ a:link {
   display: inline-block;
 }
 
-.navbar {
-  display: inline;
+.topbar-tab {
+  font-family: "Arvo", sans-serif;
+}
+
+body {
+  background-color: white;
 }
