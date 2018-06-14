@@ -8,7 +8,7 @@ export default class TopbarCompany extends Component {
   render() {
     return (
       <div>
-        <Menu mode="horizontal">
+        <Menu mode="horizontal" defaultSelectedKeys="welcome">
           <Menu.Item key="welcome">
             <Link to="/welcome">
               <div className="logo-button">REVTEK</div>

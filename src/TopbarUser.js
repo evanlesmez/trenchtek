@@ -8,7 +8,7 @@ export default class TopbarUser extends Component {
   render() {
     return (
       <div>
-        <Menu mode="horizontal">
+        <Menu mode="horizontal" defaultSelectedKeys="profile">
           <Menu.Item key="challenges">
             <Link to="/challenges">challenges</Link>
           </Menu.Item>
