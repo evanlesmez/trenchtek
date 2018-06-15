@@ -1,27 +1,24 @@
 import React, { Component } from "react";
 import "./App.css";
 
-//const imageUrl = require("./deskimage.jpg");
-
 export default class Welcome extends Component {
   render() {
     return (
-      // <img src="./deskimage.jpg" alt="bg" class="bg" />
-      <div class="welcbg">
-        <div>
-          <center>
-            <div className="logo-main">RevTek</div>
-          </center>
+      <div>
+        <div className="container">
+          <img
+            src="https://images.pexels.com/photos/1068523/pexels-photo-1068523.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260alt="
+            width="100%"
+            height="auto"
+            filter="blur(5px)"
+          />
+          <div className="logo-text">RevTek</div>
+          <div className="welcome-text">
+            Empowering students to change the world. <br /> <br />Providing
+            companies with exceptional talent.
+          </div>
         </div>
       </div>
     );
   }
 }
-
-{
-  /* <div id="bg">
-          <img src="./deskimage.jpg" alt="" />
-        </div> */
-}
-
-// style={{ backgroundImage: "url($" + { imageUrl } + " )" }}

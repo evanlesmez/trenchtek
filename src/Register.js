@@ -109,8 +109,7 @@ class Register extends Component {
     const {
       getFieldDecorator,
       getFieldsError,
-      isFieldTouched,
-      getFieldError
+      isFieldTouched
     } = this.props.form;
     const formItemLayout = {
       labelCol: {
