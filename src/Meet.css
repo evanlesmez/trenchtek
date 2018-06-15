@@ -1,33 +1,99 @@
  @import "~antd/dist/antd.css";
  
 .searchInfo{
+    clear:both;
     text-align: center;
     margin-top: 60px;
     font-size: 20px;
 }
 
 .search{
-    width:30%
+    clear:both;
+    max-width:40%
 }
 
 .searchComponent{
+    clear:both;
     margin-left: 37%;
     margin-top: 3%;
    
 }
+@media (max-width: 1000px){
+    .instuctors{
+        float: right;
+         width: 62%; 
+        height: 7px;
+        display: block;
+        padding: 0px;
+        margin-right: 20px;
+        margin-bottom: 70px
+    }
+
+    .seniorDevs{
+        float: right;
+         width: 69%; 
+        height: 7px;
+        display: block;
+        padding: 0px;
+        margin-right: 20px;
+        margin-bottom: 70px
+    }
+    h1{
+        
+        float: right;
+        width: 97%;
+        height: 7px;
+        display: block;
+        padding: 0px;
+        margin-right: 20px
+    }
+    
+    p{
+       
+        width: 250px;
+        clear:both;
+        /* margin-right:100px; */
+       /* // display:-webkit-inline-box; */
+         float: right; 
+         margin-top: 20px;
+        
+    }
+  .individualCards{
+      left:50%;
+  }
+
+  h5{
+    
+    width: 250px;
+    clear:both;
+    /* margin-right:100px; */
+   /* // display:-webkit-inline-box; */
+     float: right; 
+      
+  }
+   
+}
 
 h1{
+    clear:both;
    font-size: 25px;
     margin-top:5%;
     font-family: "Verdana";
 }
 
-.instuctors,.seniorDevs{
+.seniorDevs{
+    clear:both;
     margin-left: 40%;
     color: red;
 
 }
 
+.instuctors{
+    clear:both;
+    margin-left: 45%;
+    color: red;
+
+}
 /* .seniorDevs{
  
     color: blue;
@@ -39,6 +105,7 @@ h1{
 } */
 
 .textOfCard{
+    clear:both;
     text-align: center;
 }
 
@@ -51,6 +118,7 @@ h1{
 
 
 .InstructorCard{
+    clear:both;
     float:left;
    
 }
@@ -58,6 +126,7 @@ h1{
 
 
 .infocard{
+    clear:both;
     margin-left:30%;
     margin-top: 10%;
     margin-bottom:5%;
@@ -65,13 +134,24 @@ h1{
 }
 .texty{
     margin-left: 25%;
-    width: 35%;
+    max-width: 35%;
    
 }
 
 .individualCards{
+    clear:both;
     margin-top:10%;
     margin-bottom:10%;
+}
+
+.editInfo{
+    clear:both;
+    margin-left: 60%;
+    font-size:10px;
+    color: blue;
+    cursor: pointer;
+    text-decoration: underline
+    
 }
 /*
 .eliza,.infocard
