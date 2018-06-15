@@ -23,12 +23,6 @@
   font-weight: bold;
 }
 
-.logo-main {
-  font-family: "Arvo", sans-serif;
-  font-weight: bold;
-  font-size: 900%;
-}
-
 .input {
   width: 55%;
   height: 25x;
@@ -71,4 +65,41 @@
 
 body {
   background-color: rgb(252, 252, 252);
+}
+
+.welcome-pic {
+  max-width: 100%;
+  height: auto;
+}
+
+img {
+  -webkit-filter: brightness(40%);
+  filter: brightness(40%);
+}
+
+.welcome-text {
+  position: absolute;
+  text-align: center;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Arvo", sans-serif;
+  font-style: italic;
+  font-size: 4.3vw;
+  color: white;
+}
+
+.logo-text {
+  position: absolute;
+  top: 13%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Arvo", sans-serif;
+  font-weight: bold;
+  font-size: 16vw;
+  color: white;
+}
+
+.container {
+  position: relative;
 }
