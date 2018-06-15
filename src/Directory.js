@@ -47,7 +47,6 @@ export default class Directory extends Component {
         person = objects[obj];
         var tag = person.tags.toLowerCase();
         var name = person.name.toLowerCase();
-
         if (
           v.indexOf("#") != -1 &&
           tag.includes(v.toLowerCase().substring(1))
