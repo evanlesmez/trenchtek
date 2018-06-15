@@ -9,6 +9,7 @@ import Profilehandler from "./Profilehandler.js";
 import Challenges from "./Challenges.js";
 import BrowseContracts from "./BrowseContracts.js";
 import Connect from "./Connect.js";
+import Connect2 from "./Connect2.js";
 import Resources from "./Resources.js";
 import Logout from "./Logout.js";
 import TaskManager from "./TaskManager.js";
@@ -44,6 +45,7 @@ export default class RouteC extends Component {
             <Route path="/task-manager" component={TaskManager} />
             <Route path="/browse-contracts" component={BrowseContracts} />
             <Route path="/connect" component={Connect} />
+            <Route path="/connect2" component={Connect2} />
             <Route path="/resources" component={Resources} />
             <Route path="/logout" component={Logout} />
             <Route path="/register" component={Register} />
