@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import firebase from "./Firebase.js";
-import { Button } from "antd";
+import { Button, Card, Input, Form, Icon } from "antd";
+import "./App.css";
 
 const resourcesRef = firebase.database().ref("resources");
 
@@ -9,22 +10,25 @@ export default class Resources extends Component {
     super(props);
     this.state = {
       resources: [],
-      url: "",
       description: "",
-      addResource: false
+      url: "",
+      addingResource: false
     };
   }
 
   handleAddResourceClick = () => {
     this.setState({
-      addResource: true
+      addingResource: true
     });
   };
 
   handleSubmitClick = () => {
-    this.setState({
-      addResource: false
-    });
+    let newResource = {
+      description: this.state.description,
+      url: this.state.url
+    };
+    resourcesRef.push(newResource);
+    this.setState({ url: "", description: "", addingResource: false });
   };
 
   componentDidMount() {
@@ -33,8 +37,8 @@ export default class Resources extends Component {
       let newState = [];
       for (let resource in resources) {
         newState.push({
-          url: resources[resource].url,
-          description: resources[resource].description
+          description: resources[resource].description,
+          url: resources[resource].url
         });
       }
       this.setState({
@@ -44,30 +48,67 @@ export default class Resources extends Component {
   }
 
   render() {
-    if (this.state.addResource) {
+    if (this.state.addingResource) {
       return (
         <div>
-          Add Resource Here:
-          <br />
-          <Button onClick={this.handleSubmitClick}>Submit</Button>
+          <center>
+            <br />
+            <br />
+            <Card title="Add Resource" style={{ width: 450 }}>
+              <Form layout="vertical" className="login-form">
+                <Form.Item>
+                  <Input
+                    placeholder="Description"
+                    prefix={
+                      <Icon
+                        type="info-circle-o"
+                        style={{ color: "rgba(0,0,0,.25)" }}
+                      />
+                    }
+                    onChange={e =>
+                      this.setState({ description: e.target.value })
+                    }
+                  />
+                </Form.Item>
+                <Form.Item>
+                  <Input
+                    placeholder="URL"
+                    prefix={
+                      <Icon
+                        type="compass"
+                        style={{ color: "rgba(0,0,0,.25)" }}
+                      />
+                    }
+                    onChange={e => this.setState({ url: e.target.value })}
+                  />
+                </Form.Item>
+                <Form.Item>
+                  <Button onClick={this.handleSubmitClick}>Submit</Button>
+                </Form.Item>
+              </Form>
+            </Card>
+          </center>
         </div>
       );
     }
     return (
       <div>
-        <Button onClick={this.handleAddResourceClick}>Add Resource</Button>
-        <br />
-        RESOURCES!:
-        {this.state.resources.map(resource => {
-          return (
-            <div>
-              <br />
-              Description: {resource.description}
-              <br />
-              URL: {resource.url}
-            </div>
-          );
-        })}
+        <center>
+          <br />
+          {this.state.resources.map(resource => {
+            return (
+              <div>
+                <Card title={resource.description} style={{ width: 700 }}>
+                  <a href={resource.url} target="_blank">
+                    {resource.url}
+                  </a>
+                </Card>
+                <br />
+              </div>
+            );
+          })}
+          <Button onClick={this.handleAddResourceClick}>Add Resource</Button>
+        </center>
       </div>
     );
   }
