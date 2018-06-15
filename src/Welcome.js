@@ -10,7 +10,7 @@ export default class Welcome extends Component {
       <div class="welcbg">
         <div>
           <center>
-            <div className="logo-fun">REVTEK</div>
+            <div className="logo-main">RevTek</div>
           </center>
         </div>
       </div>
