@@ -1,9 +1,12 @@
 import React, { Component } from "react";
+<<<<<<< HEAD
 import { Link, Redirect } from "react-router-dom";
 import { Form, Input, Button, Icon, Card } from "antd";
 import "./App.css";
 import TopbarCompany from "./TopbarCompany";
 import firebase from "./Firebase.js";
+=======
+>>>>>>> develop
 
 export default class SubmitContracts extends Component {
   constructor(props){
@@ -44,6 +47,7 @@ export default class SubmitContracts extends Component {
 
 
   render() {
+<<<<<<< HEAD
     return (
       <div>
         <TopbarCompany />
@@ -112,5 +116,8 @@ export default class SubmitContracts extends Component {
         </center>
       </div>
     );
+=======
+    return <div>Submit Contracts Page</div>;
+>>>>>>> develop
   }
 }

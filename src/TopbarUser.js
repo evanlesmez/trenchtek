@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Menu } from "antd";
-import "./Topbar.css";
-import "antd/dist/antd.css";
+import { Menu, Button } from "antd";
+import "./App.css";
 
 export default class TopbarUser extends Component {
   render() {
@@ -34,22 +33,43 @@ export default class TopbarUser extends Component {
   } else {
     return (
       <div>
-        <Menu mode="horizontal">
-          <Menu.Item key="tasks">
-            <Link to="/tasks">tasks</Link>
+        <Menu mode="horizontal" defaultSelectedKeys="profile">
+          <Menu.Item key="profile">
+            <Link to="/profile">
+              <div className="topbar-tab">profile</div>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="challenges">
+            <Link to="/challenges">
+              <div className="topbar-tab">challenges</div>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="task-manager">
+            <Link to="/task-manager">
+              <div className="topbar-tab">task manager</div>
+            </Link>
           </Menu.Item>
           <Menu.Item key="browse-contracts">
-            <Link to="/browse-contracts">contracts</Link>
+            <Link to="/browse-contracts">
+              <div className="topbar-tab">contracts</div>
+            </Link>
           </Menu.Item>
           <Menu.Item key="connect">
-            <Link to="/connect">connect</Link>
+            <Link to="/connect">
+              <div className="topbar-tab">connect</div>
+            </Link>
           </Menu.Item>
           <Menu.Item key="resources">
-            <Link to="/resources">resources</Link>
+            <Link to="/resources">
+              <div className="topbar-tab">resources</div>
+            </Link>
           </Menu.Item>
-          <Menu.Item key="profile">
-            <Link to="/profile">profile</Link>
-          </Menu.Item>
+
+          <Button className="login-logout-button" type="danger" ghost>
+            <Link to="/logout">
+              <div className="topbar-tab">logout</div>
+            </Link>
+          </Button>
         </Menu>
       </div>
     );

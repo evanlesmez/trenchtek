@@ -2,10 +2,9 @@ import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { Form, Input, Button, Icon, Card } from "antd";
 import "./App.css";
-import TopbarCompany from "./TopbarCompany";
 import firebase from "./Firebase.js";
 
-export default class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,6 +12,10 @@ export default class Login extends Component {
       password: "",
       loginSuccessful: true
     };
+  }
+
+  componentDidMount() {
+    this.checkUser();
   }
 
   handleClick = () => {
@@ -24,14 +27,24 @@ export default class Login extends Component {
           "The email address and/or password you entered was incorrect. Please try again."
         );
       });
+    this.checkUser();
+  };
+
+  checkUser = () => {
     firebase.auth().onAuthStateChanged(user => {
       if (user !== null) {
         this.setState({
           loginSuccessful: true
         });
+      } else {
+        this.setState({
+          loginSuccessful: false
+        });
       }
     });
   };
+
+  checkUser;
 
   render() {
     if (this.state.loginSuccessful) {
@@ -39,7 +52,6 @@ export default class Login extends Component {
     }
     return (
       <div>
-        <TopbarCompany />
         <center>
           <br />
           <br />
@@ -75,7 +87,7 @@ export default class Login extends Component {
                 </Button>
                 <br />
                 <br />
-                Or <Link to="">register now!</Link>
+                Or <Link to="/register">register now!</Link>
               </Form.Item>
             </Form>
           </Card>
@@ -84,3 +96,5 @@ export default class Login extends Component {
     );
   }
 }
+
+export default Form.create()(Login);
