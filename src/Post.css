@@ -4,6 +4,13 @@
 .flexhorizontal {
   display: flex;
 }
+.flexhorizontal2 {
+  margin-left: 43%;
+  display: flex;
+}
+.directoryfont {
+  font-size: 40;
+}
 .flexvertical {
   flex-direction: column;
 }
@@ -17,6 +24,35 @@
   position: relative;
   border-radius: 50%;
   border: 3px solid black;
+}
+.directory-image {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  border-radius: 50%;
+  border: 3px solid black;
+}
+.username {
+  width: 500px;
+  height: 50px;
+  position: relative;
+  border: 1px solid #5a7191;
+  background-color: #93b9e9;
+  color: #5a7191;
+  padding-top: 13px;
+  padding-left: 10px;
+}
+.tags {
+  width: 500px;
+  height: 50px;
+  position: relative;
+  border: 1px solid rgb(180, 180, 180);
+  background-color: #d3d3d3;
+  color: #5a7191;
+}
+.border {
+  width: 510px;
+  border: 5px solid rgb(180, 180, 180);
 }
 .card-style {
   border-radius: 40%;

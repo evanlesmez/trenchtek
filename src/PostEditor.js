@@ -30,7 +30,7 @@ class PostEditor extends Component {
       upvotes: this.state.newUpvotes
     };
     this.props.addPost(this.state.newPostBody, this.state.newUpvote);
-    let list = firebase.database().ref("/array");
+    let list = firebase.database().ref("/posts");
     list.push(object);
 
     this.setState({
