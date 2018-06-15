@@ -42,6 +42,8 @@ span{
     top:100%;
     font-size:10px;
     color: blue;
+    cursor: pointer;
+    text-decoration: underline
 }
 
 .buttonText{

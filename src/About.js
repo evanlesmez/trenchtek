@@ -72,6 +72,7 @@ export default class About extends Component {
   }
   render() {
 
+
     let historyText = this.state.history;
     let internsText = this.state.interns;
     let companiesText = this.state.companies
@@ -98,7 +99,10 @@ export default class About extends Component {
             <h1 className="historyTitle">Our <span>History</span></h1>
             <div className="eliza"> {historyText}
             </div>
-            <p className="edit" onClick={this.handleEditH}>  Edit</p>
+            <p className="edit"
+              onClick={this.handleEditH}
+
+            >  Edit</p>
           </div>
 
 
@@ -106,7 +110,10 @@ export default class About extends Component {
             <h1 className="historyTitle">Our <span>Interns</span></h1>
             <div className="eliza"> {internsText}
             </div>
-            <p className="edit" onClick={this.handleEditI}>  Edit</p>
+            <p className="edit"
+              onClick={this.handleEditI}
+
+            >  Edit</p>
 
           </div>
 
@@ -114,7 +121,10 @@ export default class About extends Component {
             <h1 className="historyTitle">Our <span>Companies</span></h1>
             <div className="eliza">{companiesText}
             </div>
-            <p className="edit" onClick={this.handleEditC}>  Edit</p>
+            <p className="edit"
+              onClick={this.handleEditC}
+
+            > Edit </p>
 
           </div>
 
