@@ -8,14 +8,12 @@ export default class Welcome extends Component {
         <div className="container">
           <img
             src="https://images.pexels.com/photos/1068523/pexels-photo-1068523.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260alt="
-            width="100%"
-            height="auto"
-            filter="blur(5px)"
+            className="welcome-pic"
           />
           <div className="logo-text">RevTek</div>
           <div className="welcome-text">
-            Empowering students to change the world. <br /> <br />Providing
-            companies with exceptional talent.
+            Providing companies with exceptional talent. <br />Empowering
+            students to change the world.
           </div>
         </div>
       </div>
