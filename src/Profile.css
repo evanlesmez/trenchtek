@@ -1,25 +1,33 @@
 body{
-    background-color: lightgrey;
+    background-color: silver;
 }
 
-
-#bottomfo {
+.header {
+    font-size: 50px;
+    margin-bottom: -1px;
+}
+#sidefo {
+    margin: 70px auto;
+    padding-top: 20px;
     color: black;
-    font-size: 14px;
+    font-size: 18px;
+    padding-right: 70px;
 }
 .center {
     margin: 75px auto;
     vertical-align: middle;
     text-align: center;
-    height: 100%;
+    height: 600px;
     background-color: white;
-    width: 800px;
-    border-color: white;
-    border-width: 1px;
+    width: 1200px;
+    padding-bottom: 30px;
 }
 
 #userfo{
     text-align: center;
+}
+.rower{
+    padding-top: 30px;
 }
 .profpic {
     /* border: 1px groove; */
@@ -28,17 +36,29 @@ body{
     max-height:300px;
     width: auto;
     height: auto;
-    border-radius: 5%;
-    float: middle;
+    margin-left: 70px;
 }
 
 .banner {
     width: 100%;
     height: 75px;
     object-fit: cover; /* Crops */ 
+    margin-bottom: 30px;
 }
-.profside {
-    width: 300px;
+.underpic{
+    padding-top: 40px;
+    color: black;
+    font-size: 3.2em;
+    text-align: center;
+    padding-left: 100px;
+}
+#aboutme{
     text-align: left;
-    padding-left: 50px;
+    padding: 10px;
+    margin: 0 auto;
+    border: 1px solid;
+    border-color: silver;
+    background-color: #F8F8F8;
+    width: 60%;
+    height: 250px;
 }
