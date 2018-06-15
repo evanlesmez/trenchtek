@@ -4,6 +4,13 @@
 .flexhorizontal {
   display: flex;
 }
+.flexhorizontal2 {
+  margin-left: 43%;
+  display: flex;
+}
+.directoryfont {
+  font-size: 40;
+}
 .flexvertical {
   flex-direction: column;
 }
