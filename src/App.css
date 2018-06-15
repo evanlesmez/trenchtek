@@ -37,6 +37,23 @@
   display: inline-block;
 }
 
+.chaldelete {
+  margin-right: 2%;
+  margin-left: auto;
+}
+
+.panelheader {
+  display: flex;
+}
+
+.chalinfo {
+  text-align: left;
+}
+
+#chalbold {
+  font-weight: bold;
+}
+
 .topbar-tab {
   font-family: "Arvo", sans-serif;
 }
