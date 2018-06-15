@@ -82,6 +82,7 @@ class Login extends Component {
                   htmlType="submit"
                   className="login-form-button"
                   onClick={this.handleClick}
+                  ghost
                 >
                   Sign in
                 </Button>
