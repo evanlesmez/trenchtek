@@ -35,6 +35,7 @@ export default class RouteC extends Component {
           <Route path={CompanyRegex} component={TopbarCompany} />
           <Route path={UserRegex} component={TopbarUser} />
           <div>
+            <Redirect to="/welcome" />
             <Route path="/welcome" component={Welcome} />
             <Route path="/about" component={About} />
             <Route path="/meet-the-team" component={Meet} />
