@@ -16,6 +16,7 @@ import TaskManager from "./TaskManager.js";
 import TopbarCompany from "./TopbarCompany.js";
 import TopbarUser from "./TopbarUser.js";
 import Register from "./Register.js";
+import Admin from "./Admin.js";
 
 export default class RouteC extends Component {
   state = {
@@ -49,6 +50,7 @@ export default class RouteC extends Component {
             <Route path="/resources" component={Resources} />
             <Route path="/logout" component={Logout} />
             <Route path="/register" component={Register} />
+            <Route path="/admin" component={Admin} />
           </div>
         </div>
       </BrowserRouter>
