@@ -76,7 +76,12 @@ export default class AddGroups extends Component {
     return (
       <div>
         <TaskManager {...this.state} />
-        <Button onClick={this.addGroupForm}>Add Group</Button>
+        <Button
+          onClick={this.addGroupForm}
+          style={{ marginLeft: 25, marginTop: 10 }}
+        >
+          Add Group
+        </Button>
         <div>{this.state.groupForm}</div>
       </div>
     );

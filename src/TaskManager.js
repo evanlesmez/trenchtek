@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Collapse, Form, Input, Checkbox } from "antd";
+import { Button, Collapse, Form, Input, Checkbox, Card } from "antd";
 import firebase from "./Firebase.js";
 
 const taskRef = firebase.database().ref("tasks");
@@ -12,14 +12,11 @@ export default class TaskManager extends Component {
     super(props);
     this.state = {
       isClicked: false,
-      checkForm: [],
-      tasks: []
+      tasks: [],
+      cardForm: null,
+      cards: []
     };
   }
-
-  checkChange = () => {
-    this.setState({ checkForm: null });
-  };
 
   handleTaskChange = e => {
     newTask = e.target.value;
@@ -32,13 +29,22 @@ export default class TaskManager extends Component {
   submitTask = group => {
     let tempTask = this.state.tasks;
     tempTask.push(newTask);
-    this.setState({ tasks: tempTask }, this.setTasksToFirebase(group));
+    let tempCard = this.state.cards;
+    tempCard.push(
+      <Card style={{ marginTop: 16 }} type="inner" title={newTask}>
+        {newTask} content
+      </Card>
+    );
+    this.setState(
+      { cards: tempCard, cardForm: null },
+      this.setTasksToFirebase(group)
+    );
+    newTask = null;
   };
 
-  addTaskForm = group => {
-    let tempTask = this.state.checkForm;
-    tempTask.push(
-      <Checkbox onChange={this.checkChange}>
+  addTaskForm = () => {
+    this.setState({
+      cardForm: (
         <Form onSubmit={() => this.submitTask("den")}>
           <FormItem label="new task">
             <Input onChange={this.handleTaskChange} />
@@ -49,28 +55,35 @@ export default class TaskManager extends Component {
             </Button>
           </FormItem>
         </Form>
-      </Checkbox>
-    );
-    this.setState({
-      checkForm: tempTask
+      )
     });
   };
 
   render() {
     return (
-      <div>
-        {this.props.groups.map(group => {
-          return (
-            <Collapse className="challenge-collapse">
-              <Panel header={group}>
-                <Checkbox onChange={this.checkChange}>Checkbox</Checkbox>
-                <Button onClick={this.addTaskForm}>Add Task</Button>
-              </Panel>
-            </Collapse>
-          );
+      <Card
+        title="Group name"
+        style={{
+          color: "rgba(155, 242, 233, 1)",
+          marginTop: 25,
+          marginLeft: 25
+        }}
+        className="challenge-collapse"
+      >
+        {this.state.cards.map(card => {
+          return card;
         })}
-        <div>{this.state.checkForm}</div>
-      </div>
+        {/* <Card type="inner" title="task 1">
+          task 1 content, due date, etc.
+        </Card>
+        <Card style={{ marginTop: 16 }} type="inner" title="task 2">
+          task 2 content
+        </Card> */}
+        <Button style={{ marginTop: 16 }} onClick={this.addTaskForm}>
+          Add Task
+        </Button>
+        {this.state.cardForm}
+      </Card>
     );
   }
 }
