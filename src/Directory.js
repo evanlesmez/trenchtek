@@ -35,9 +35,53 @@ export default class Directory extends Component {
       checkAll: e.target.checked
     });
   };
-  searchResult = value => {
+  searchResult = v => {
     var array = this.state.users;
-    array.push(value);
+    let list = firebase.database().ref("/users");
+    list.on("value", snapshot => {
+      let objects = snapshot.val();
+      let array = [];
+      let thing = {};
+      var person;
+      for (let obj in objects) {
+        person = objects[obj];
+        var tag = person.tags.toLowerCase();
+        var name = person.name.toLowerCase();
+
+        if (
+          v.indexOf("#") != -1 &&
+          tag.includes(v.toLowerCase().substring(1))
+        ) {
+          thing = {
+            name: person.name,
+            title: person.title,
+            image: person.image,
+            tags: person.tags,
+            upvotes: person.upvotes
+          };
+          array.push(thing);
+        } else if (v.indexOf("#") == -1 && name.includes(v.toLowerCase())) {
+          thing = {
+            name: person.name,
+            title: person.title,
+            image: person.image,
+            tags: person.tags,
+            upvotes: person.upvotes
+          };
+          array.push(thing);
+        } else if (v == "") {
+          thing = {
+            name: person.name,
+            title: person.title,
+            image: person.image,
+            tags: person.tags,
+            upvotes: person.upvotes
+          };
+          array.push(thing);
+        }
+      }
+      this.setState({ array: array });
+    });
   };
   componentDidMount() {
     let list = firebase.database().ref("/users");
@@ -80,7 +124,7 @@ export default class Directory extends Component {
         </div>
         <center>
           <Search
-            placeholder="Search by name or tag (# at the front)"
+            placeholder="Search by name, tag (# at the front), blank for refresh"
             onSearch={value => {
               this.searchResult(value);
             }}

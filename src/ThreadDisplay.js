@@ -28,11 +28,8 @@ class ThreadDisplay extends Component {
   }
   handleClick() {
     var temp = Math.floor(Math.random() * this.state.array.length);
-    console.log(temp);
     var number = parseInt(this.state.array[temp].upvotes);
-    console.log(number);
     this.state.array[temp].upvotes = number++;
-    console.log("HELLO");
     let list = firebase.database().ref("/posts");
   }
   componentDidMount() {
