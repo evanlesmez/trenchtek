@@ -1,11 +1,9 @@
 import React, { Component } from "react";
-import TopbarUser from "./TopbarUser.js";
-import { List, Button, Collapse, Form, Input, Checkbox } from "antd";
+import { Button, Form, Input, Card } from "antd";
 import firebase from "./Firebase.js";
 import TaskManager from "./TaskManager";
 
 const taskRef = firebase.database().ref("tasks");
-const Panel = Collapse.Panel;
 const FormItem = Form.Item;
 let newGroup = null;
 
@@ -21,11 +19,30 @@ export default class AddGroups extends Component {
   componentDidMount() {
     taskRef.on("value", snapshot => {
       let tasks = snapshot.val();
-      let tempGroup = [];
-      for (let task in tasks) {
-        tempGroup.push(task);
+      let tempGroup = this.state.groups;
+      for (let group in tasks) {
+        tempGroup.push(group);
+        this.setState({ [group + "Tasks"]: tasks[group] });
       }
-      this.setState({ groups: tempGroup });
+      this.setState({ groups: tempGroup }, () => {
+        let tempCard = [];
+        let tasks = [];
+        this.state.groups.map(group => {
+          tasks = this.state[group + "Tasks"];
+          tasks.map(task => {
+            tempCard.push(
+              <Card style={{ marginTop: 16 }} type="inner" title={task}>
+                {task} content
+              </Card>
+            );
+          });
+          this.setState({ [group + "Cards"]: tempCard }, () => {
+            this.forceUpdate();
+            //this.state[group + "Cards"].map(card => {console.log(card); this.forceUpdate();});
+          });
+          //this.forceUpdate();
+        });
+      });
     });
   }
 
@@ -56,11 +73,7 @@ export default class AddGroups extends Component {
       groupForm: (
         <Form onSubmit={this.submitGroup}>
           <FormItem label="new group name">
-            <Input
-              onChange={e => {
-                this.handleGroupChange(e, "name");
-              }}
-            />
+            <Input onChange={this.handleGroupChange} />
           </FormItem>
           <FormItem>
             <Button type="primary" htmlType="submit">

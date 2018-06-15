@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { Button, Collapse, Form, Input, Checkbox, Card } from "antd";
+import { Button, Form, Input, Card, Layout, Row, Col } from "antd";
 import firebase from "./Firebase.js";
 
 const taskRef = firebase.database().ref("tasks");
-const Panel = Collapse.Panel;
 const FormItem = Form.Item;
 let newTask = null;
+const { Content } = Layout;
 
 export default class TaskManager extends Component {
   constructor(props) {
@@ -16,6 +16,10 @@ export default class TaskManager extends Component {
       cardForm: null,
       cards: []
     };
+  }
+
+  componentDidMount() {
+    this.forceUpdate();
   }
 
   handleTaskChange = e => {
@@ -60,30 +64,29 @@ export default class TaskManager extends Component {
   };
 
   render() {
-    return (
-      <Card
-        title="Group name"
-        style={{
-          color: "rgba(155, 242, 233, 1)",
-          marginTop: 25,
-          marginLeft: 25
-        }}
-        className="challenge-collapse"
-      >
-        {this.state.cards.map(card => {
-          return card;
-        })}
-        {/* <Card type="inner" title="task 1">
-          task 1 content, due date, etc.
-        </Card>
-        <Card style={{ marginTop: 16 }} type="inner" title="task 2">
-          task 2 content
-        </Card> */}
-        <Button style={{ marginTop: 16 }} onClick={this.addTaskForm}>
-          Add Task
-        </Button>
-        {this.state.cardForm}
-      </Card>
-    );
+    if (this.props["personalCards"] !== undefined) {
+      return this.props.groups.map(group => {
+        return (
+          <Card
+            title={group}
+            style={{
+              marginTop: 25,
+              marginLeft: 25
+            }}
+            className="challenge-collapse"
+          >
+            {this.props[group + "Cards"].map(card => {
+              return card;
+            })}
+
+            <Button style={{ marginTop: 16 }} onClick={this.addTaskForm}>
+              Add Task
+            </Button>
+            {this.state.cardForm}
+          </Card>
+        );
+      });
+    }
+    return <Card title="test">more words</Card>;
   }
 }
