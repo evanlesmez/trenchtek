@@ -57,6 +57,7 @@ export default class Profile extends Component {
     let button; // Conditional rendering
     let skillSpan;
     let newSkill;
+    let linksPart;
     if (this.state.editing == false) {
       button = <button type= "edit" onClick={e=>this.editPress(e)}>Edit</button>
       skillSpan = this.state.skills.map((skill) => {
@@ -64,6 +65,15 @@ export default class Profile extends Component {
          <span> #{skill} </span>
         )
       });
+      linksPart = <div>
+              <p>
+                Contact: <a href= {this.state.links.email}> {this.state.links.email}</a>
+              </p> 
+              <span>
+             <a href={this.state.links.github}> github,</a>
+             <a href={this.state.links.LinkedIn}> LinkedIn</a>
+             </span>
+             </div>
     } else {
       button = <button type= "save" onClick={e => this.saveClick(e)}>Save</button> 
       skillSpan = this.state.skills.map((skill) => {
@@ -80,6 +90,15 @@ export default class Profile extends Component {
          onChange= {e => this.handleChange(e)} value ={this.state.newSkill} ></input>
          <Icon id="smallicon" type="plus-circle"/>
       </div>
+      linksPart = <div>
+      <p>
+        Contact: <a href= {this.state.links.email}> {this.state.links.email}</a>
+      </p> 
+      <span>
+     <input type = "url" placeholder="github" value={this.state.links.github} ></input>  {/*Need to handleChange*/}
+     <input type= "url" placeholder="LinkedIn" value={this.state.links.LinkedIn}></input>
+     </span>
+     </div>
     }
     
     return (
@@ -120,13 +139,7 @@ export default class Profile extends Component {
                Skills: {skillSpan}
                {newSkill}
               </div>
-             <p>
-                Contact: <a href= {this.state.links.email}> {this.state.links.email}</a>
-              </p> 
-              <span>
-             <a href={this.state.links.github}> github,</a>
-             <a href={this.state.links.LinkedIn}> LinkedIn</a>
-             </span>
+              {linksPart}
             </div>
             </Col>
           </Row>
