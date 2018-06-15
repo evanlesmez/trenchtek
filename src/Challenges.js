@@ -35,6 +35,12 @@ export default class Challenges extends Component {
           id: key
         });
       });
+      console.log(challengest);
+      /*chalRef.on("value", snapshot => {
+        let objects = snapshot.val();
+        let array = [];
+        let thing = {};
+      });*/
       this.setState({ challenges: challengest });
     });
   }
@@ -53,7 +59,7 @@ export default class Challenges extends Component {
     this.setState({ isAdd: false });
   };
   submitChal = e => {
-    console.log(this.state);
+    //console.log(this.state);
     e.preventDefault();
     let obj = {
       name: this.state.name,
@@ -69,12 +75,12 @@ export default class Challenges extends Component {
 
   handleChange = (e, label) => {
     this.setState({ [label]: e.target.value });
-    console.log(this.state);
+    //console.log(this.state);
   };
 
   deletechal = item => {
-    console.log(item);
-    console.log(chalRef.child(item.id));
+    //console.log(item);
+    //console.log(chalRef.child(item.id));
     chalRef.child(item.id).remove();
   };
 
@@ -160,8 +166,9 @@ export default class Challenges extends Component {
                         header={
                           <div className="panelheader">
                             {" "}
-                            {item.name}{" "}
+                            {item.name}
                             <div className="chaldelete">
+                              Due: {item.duedate}
                               <Button
                                 size="small"
                                 onClick={() => this.deletechal(item)}
