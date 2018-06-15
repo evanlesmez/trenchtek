@@ -38,3 +38,13 @@ span{
     color: white;
 }
 
+.edit{
+    top:100%;
+    font-size:10px;
+    color: blue;
+}
+
+.buttonText{
+    margin:auto;
+
+}
