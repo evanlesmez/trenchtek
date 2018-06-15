@@ -47,14 +47,19 @@ export default class Resources extends Component {
     });
   }
 
+  handleCancelClick = () => {
+    this.setState({
+      addingResource: false
+    });
+  };
+
   render() {
     if (this.state.addingResource) {
       return (
         <div>
           <center>
             <br />
-            <br />
-            <Card title="Add Resource" style={{ width: 450 }}>
+            <Card title="Add Resource" style={{ width: 600 }}>
               <Form layout="vertical" className="login-form">
                 <Form.Item>
                   <Input
@@ -83,7 +88,14 @@ export default class Resources extends Component {
                   />
                 </Form.Item>
                 <Form.Item>
-                  <Button onClick={this.handleSubmitClick}>Submit</Button>
+                  <Button
+                    onClick={this.handleSubmitClick}
+                    type="primary"
+                    className="resource-submit-button"
+                  >
+                    Submit
+                  </Button>
+                  <Button onClick={this.handleCancelClick}>Cancel</Button>
                 </Form.Item>
               </Form>
             </Card>

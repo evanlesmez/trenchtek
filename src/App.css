@@ -47,6 +47,10 @@
   font-family: "Arvo", sans-serif;
 }
 
+.resource-submit-button {
+  margin-right: 15px;
+}
+
 body {
   background-color: white;
 }
