@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Input, Checkbox, Card, Tag } from "antd";
+import { Input, Checkbox, Card, Tag, Icon } from "antd";
+import firebase from "./Firebase";
 import "./Post.css";
 
 const CheckboxGroup = Checkbox.Group;
@@ -15,7 +16,8 @@ export default class Directory extends Component {
       checkedList: [],
       indeterminate: true,
       checkAll: false,
-      users: ["Sung Joon Park", "Sonali Luthar"]
+      users: ["Sung Joon Park", "Sonali Luthar"],
+      array: []
     };
   }
   onChange = checkedList => {
@@ -36,16 +38,49 @@ export default class Directory extends Component {
   searchResult = value => {
     var array = this.state.users;
     array.push(value);
-    this.setState({ users: array });
   };
-
+  componentDidMount() {
+    let list = firebase.database().ref("/users");
+    list.on("value", snapshot => {
+      let objects = snapshot.val();
+      let array = [];
+      let thing = {};
+      var person;
+      for (let obj in objects) {
+        person = objects[obj];
+        if (person.image == "") {
+          thing = {
+            name: person.name,
+            title: person.title,
+            image: "https://i.stack.imgur.com/34AD2.jpg",
+            tags: person.tags,
+            upvotes: person.upvotes
+          };
+        } else {
+          thing = {
+            name: person.name,
+            title: person.title,
+            image: person.image,
+            tags: person.tags,
+            upvotes: person.upvotes
+          };
+        }
+        array.push(thing);
+      }
+      this.setState({ array: array });
+    });
+  }
   render() {
     return (
       <div>
-        <div>The Directory</div>
+        <div class="flexhorizontal2">
+          <h1 class="directoryfont">The Directory</h1>
+          <span />
+          <Icon type="book" style={{ fontSize: 40, color: "black" }} />
+        </div>
         <center>
           <Search
-            placeholder="input search text"
+            placeholder="Search by name or tag (# at the front)"
             onSearch={value => {
               this.searchResult(value);
             }}
@@ -71,27 +106,21 @@ export default class Directory extends Component {
           <br />
           <br />
 
-          {this.state.users.map(user => (
+          {this.state.array.map(user => (
             <div>
               <div class="border">
-                <div class="username">User: {user}</div>
+                <div class="username">User: {user.name}</div>
                 <Card hoverable style={{ width: 500, maxHeight: 1000 }}>
                   <div class="flexhorizontal">
-                    <img
-                      class="directory-image"
-                      src="https://scontent-iad3-1.xx.fbcdn.net/v/t1.0-9/13528934_10201921374752485_3807518045680855002_n.jpg?_nc_cat=0&oh=263d3cc7d69c85b725714515c3effe41&oe=5BC3F9F9"
-                    />
+                    <img class="directory-image" src={user.image} />
                     <div>
-                      <Meta title="Role: ">{user}</Meta>
-                      <Meta title="Rating: ">{user}</Meta>
+                      <Meta title="Title: ">{user.title}</Meta>
+                      <Meta title="Upvotes: ">{user.upvotes}</Meta>
                     </div>
                   </div>
                 </Card>
                 <div class="tags">
-                  <Tag color="blue">"ReactJS"</Tag>
-                  <Tag color="blue">"NodeJS"</Tag>
-                  <Tag color="blue">"Java"</Tag>
-                  <Tag color="blue">"Python"</Tag>
+                  <Tag color="blue">{user.tags}</Tag>
                 </div>
               </div>
               <br />
