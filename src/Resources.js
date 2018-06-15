@@ -5,7 +5,7 @@ import "./App.css";
 
 const resourcesRef = firebase.database().ref("resources");
 
-export default class Resources extends Component {
+class Resources extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,6 +31,16 @@ export default class Resources extends Component {
     this.setState({ url: "", description: "", addingResource: false });
   };
 
+  handleCancelClick = () => {
+    this.setState({
+      addingResource: false
+    });
+  };
+
+  hasErrors(fieldsError) {
+    return Object.keys(fieldsError).some(field => fieldsError[field]);
+  }
+
   componentDidMount() {
     resourcesRef.on("value", snapshot => {
       let resources = snapshot.val();
@@ -47,13 +57,9 @@ export default class Resources extends Component {
     });
   }
 
-  handleCancelClick = () => {
-    this.setState({
-      addingResource: false
-    });
-  };
-
   render() {
+    const { getFieldDecorator, getFieldsError } = this.props.form;
+
     if (this.state.addingResource) {
       return (
         <div>
@@ -76,22 +82,40 @@ export default class Resources extends Component {
                   />
                 </Form.Item>
                 <Form.Item>
-                  <Input
-                    placeholder="URL"
-                    prefix={
-                      <Icon
-                        type="compass"
-                        style={{ color: "rgba(0,0,0,.25)" }}
+                  {getFieldDecorator("url", {
+                    rules: [
+                      {
+                        type: "url",
+                        message: "The input is not valid URL"
+                      },
+                      {
+                        required: true,
+                        message: "Please input a URL"
+                      }
+                    ]
+                  })(
+                    <div>
+                      <Input
+                        placeholder="URL"
+                        prefix={
+                          <Icon
+                            type="compass"
+                            style={{ color: "rgba(0,0,0,.25)" }}
+                          />
+                        }
+                        onChange={e => this.setState({ url: e.target.value })}
                       />
-                    }
-                    onChange={e => this.setState({ url: e.target.value })}
-                  />
+                    </div>
+                  )}
                 </Form.Item>
                 <Form.Item>
                   <Button
                     onClick={this.handleSubmitClick}
                     type="primary"
                     className="resource-submit-button"
+                    disabled={
+                      this.hasErrors(getFieldsError()) || this.state.url === ""
+                    }
                   >
                     Submit
                   </Button>
@@ -125,3 +149,5 @@ export default class Resources extends Component {
     );
   }
 }
+
+export default Form.create()(Resources);
