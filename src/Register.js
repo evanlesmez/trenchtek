@@ -12,7 +12,7 @@ import {
   Row,
   WrapperCol
 } from "antd";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { auth, logout } from "./Auth";
 import firebase from "./Firebase";
 import TopbarCompany from "./TopbarCompany";
@@ -28,7 +28,8 @@ class Register extends Component {
       title: "",
       name: "",
       confirmDirty: false,
-      disablebut: true
+      disablebut: true,
+      go: false
     };
   }
 
@@ -88,7 +89,8 @@ class Register extends Component {
             password2: "",
             title: "",
             name: "",
-            confirmDirty: false
+            confirmDirty: false,
+            go: true
           });
           alert("Registration successful. Please login.");
           logout();
@@ -102,6 +104,9 @@ class Register extends Component {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
   }
   render() {
+    if (this.state.go) {
+      return <Redirect to="/login" />;
+    }
     const {
       getFieldDecorator,
       getFieldsError,

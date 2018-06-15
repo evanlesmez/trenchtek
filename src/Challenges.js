@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import firebase from "./Firebase.js";
-import { Collapse, Button, Form, Input } from "antd";
+import { Collapse, Button, Form, Input, DatePicker, Icon } from "antd";
 
+const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 const chalRef = firebase.database().ref("challenges");
 const Panel = Collapse.Panel;
 const FormItem = Form.Item;
@@ -20,34 +21,56 @@ export default class Challenges extends Component {
 
   componentDidMount() {
     chalRef.on("value", snapshot => {
-      let challenges = snapshot.val();
-      let newState = [];
-      for (let chal in challenges) {
-        newState.push({
-          name: chal,
-          details: challenges[chal].details,
-          duedate: challenges[chal].duedate
+      let challengest = [];
+      snapshot.forEach(child => {
+        let namet = child.val().name;
+        let detailst = child.val().details;
+        let duedatet = child.val().duedate;
+        let key = child.key;
+        challengest.push({
+          name: namet,
+          details: detailst,
+          duedate: duedatet,
+          id: key
         });
-      }
-      this.setState({ challenges: newState });
+      });
+      this.setState({ challenges: challengest });
     });
   }
-
+  addDate = (date, dateString) => {
+    this.setState({
+      duedate: dateString
+    });
+  };
   addChal = e => {
     e.preventDefault;
     this.setState({ isAdd: true });
   };
 
   submitChal = e => {
+    console.log(this.state);
     e.preventDefault();
-    chalRef
-      .child(this.state.name)
-      .set({ details: this.state.details, duedate: this.state.duedate });
+    let obj = {
+      name: this.state.name,
+      details: this.state.details,
+      duedate: this.state.duedate
+    };
+    let newPostKey = chalRef.child(this.state.name).push().key;
+    let updates = {};
+    updates[newPostKey] = obj;
     this.setState({ name: "", details: "", duedate: "", isAdd: false });
+    return chalRef.update(updates);
   };
 
   handleChange = (e, label) => {
     this.setState({ [label]: e.target.value });
+    console.log(this.state);
+  };
+
+  deletechal = item => {
+    console.log(item);
+    console.log(chalRef.child(item.id));
+    chalRef.child(item.id).remove();
   };
 
   render() {
@@ -84,10 +107,8 @@ export default class Challenges extends Component {
               />
             </FormItem>
             <FormItem label="duedate">
-              <Input
-                onChange={e => {
-                  this.handleChange(e, "duedate");
-                }}
+              <DatePicker
+                onChange={(date, dateString) => this.addDate(date, dateString)}
               />
             </FormItem>
             <FormItem>
@@ -106,7 +127,17 @@ export default class Challenges extends Component {
           {this.state.challenges.map(item => {
             return (
               <Collapse>
-                <Panel header={item.name}>
+                <Panel
+                  header={
+                    <div>
+                      {" "}
+                      {item.name}{" "}
+                      <Button onClick={() => this.deletechal(item)}>
+                        <Icon type="delete" />
+                      </Button>
+                    </div>
+                  }
+                >
                   details: {item.details}
                   duedate: {item.duedate}
                 </Panel>
