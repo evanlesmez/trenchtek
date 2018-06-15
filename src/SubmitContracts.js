@@ -44,7 +44,6 @@ export default class SubmitContracts extends Component {
   render() {
     return (
       <div>
-        <TopbarCompany />
         <center>
           <br />
           <br />

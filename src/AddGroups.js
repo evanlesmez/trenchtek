@@ -28,6 +28,7 @@ export default class AddGroups extends Component {
         let tempCard = [];
         let tasks = [];
         this.state.groups.map(group => {
+          tempCard = [];
           tasks = this.state[group + "Tasks"];
           tasks.map(task => {
             tempCard.push(
@@ -36,15 +37,18 @@ export default class AddGroups extends Component {
               </Card>
             );
           });
-          this.setState({ [group + "Cards"]: tempCard }, () => {
-            this.forceUpdate();
-            //this.state[group + "Cards"].map(card => {console.log(card); this.forceUpdate();});
-          });
-          //this.forceUpdate();
+          this.setState({ [group + "Cards"]: tempCard });
         });
       });
     });
   }
+
+  setTasks = (group, update) => {
+    this.setState({ [group + "Tasks"]: update }, () => {
+      taskRef.child(group).set(this.props[group + "Tasks"]);
+    });
+    console.log(group);
+  };
 
   submitGroup = () => {
     let tempGroup = this.state.groups;
@@ -88,7 +92,7 @@ export default class AddGroups extends Component {
   render() {
     return (
       <div>
-        <TaskManager {...this.state} />
+        <TaskManager {...this.state} setTasks={this.setTasks} />
         <Button
           onClick={this.addGroupForm}
           style={{ marginLeft: 25, marginTop: 10 }}

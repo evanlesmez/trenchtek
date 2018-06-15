@@ -27,8 +27,11 @@ export default class TopbarUser extends Component {
             <Menu.Item key="profile">
               <Link to="/profile">profile</Link>
             </Menu.Item>
-            <Menu.Item key="tasks">
-              <Link to="/tasks">tasks</Link>
+            <Menu.Item key="challenges">
+              <Link to="/challenges">challenges</Link>
+            </Menu.Item>
+            <Menu.Item key="task-manager">
+              <Link to="/task-manager">task manager</Link>
             </Menu.Item>
             <Menu.Item key="browse-contracts">
               <Link to="/browse-contracts">contracts</Link>

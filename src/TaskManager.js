@@ -13,8 +13,7 @@ export default class TaskManager extends Component {
     this.state = {
       isClicked: false,
       tasks: [],
-      cardForm: null,
-      cards: []
+      cardForm: null
     };
   }
 
@@ -30,26 +29,32 @@ export default class TaskManager extends Component {
     taskRef.child(group).set(this.state.tasks);
   };
 
-  submitTask = group => {
-    let tempTask = this.state.tasks;
+  submitTask = (e, group) => {
+    e.preventDefault();
+    let tempTask = this.props[group + "Task"];
     tempTask.push(newTask);
-    let tempCard = this.state.cards;
-    tempCard.push(
-      <Card style={{ marginTop: 16 }} type="inner" title={newTask}>
-        {newTask} content
-      </Card>
-    );
-    this.setState(
-      { cards: tempCard, cardForm: null },
-      this.setTasksToFirebase(group)
-    );
+    this.props.setTask(group, tempTask);
+    taskRef.child(group).set(this.props[group + "Tasks"]);
     newTask = null;
+    // let tempTask = this.state.tasks;
+    // tempTask.push(newTask);
+    // let tempCard = this.state.cards;
+    // tempCard.push(
+    //   <Card style={{ marginTop: 16 }} type="inner" title={newTask}>
+    //     {newTask} content
+    //   </Card>
+    // );
+    // this.setState(
+    //   { cards: tempCard, cardForm: null },
+    //   this.setTasksToFirebase(group)
+    // );
+    // newTask = null;
   };
 
   addTaskForm = () => {
     this.setState({
       cardForm: (
-        <Form onSubmit={() => this.submitTask("den")}>
+        <Form onSubmit={e => this.submitTask(e, "den")}>
           <FormItem label="new task">
             <Input onChange={this.handleTaskChange} />
           </FormItem>
@@ -78,7 +83,6 @@ export default class TaskManager extends Component {
             {this.props[group + "Cards"].map(card => {
               return card;
             })}
-
             <Button style={{ marginTop: 16 }} onClick={this.addTaskForm}>
               Add Task
             </Button>
