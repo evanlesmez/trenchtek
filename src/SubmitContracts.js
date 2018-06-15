@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { Form, Input, Button, Icon, Card } from "antd";
 import "./App.css";
-import TopbarCompany from "./TopbarCompany";
 import firebase from "./Firebase.js";
 
 export default class SubmitContracts extends Component {
@@ -44,7 +43,6 @@ export default class SubmitContracts extends Component {
   render() {
     return (
       <div>
-        <TopbarCompany />
         <center>
           <br />
           <br />
@@ -116,6 +114,5 @@ export default class SubmitContracts extends Component {
         </center>
       </div>
     );
-    return <div>Submit Contracts Page</div>;
   }
 }

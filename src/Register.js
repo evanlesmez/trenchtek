@@ -266,6 +266,7 @@ class Register extends Component {
                       htmlType="submit"
                       disabled={this.hasErrors(getFieldsError()) || disablebut}
                       onClick={() => this.handleSubmit()}
+                      ghost
                     >
                       Register
                     </Button>

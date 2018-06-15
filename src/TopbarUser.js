@@ -20,7 +20,7 @@ const menu = (
 );
 export default class TopbarUser extends Component {
   render() {
-    if (true) {
+    if (false) {
       return (
         <div>
           <Menu mode="horizontal">
