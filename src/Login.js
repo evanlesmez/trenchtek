@@ -10,7 +10,7 @@ class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      loginSuccessful: false
+      loginSuccessful: true
     };
   }
 
