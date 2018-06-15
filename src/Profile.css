@@ -3,6 +3,7 @@ body{
 }
 
 .header {
+    text-align: center;
     font-size: 50px;
     margin-bottom: -1px;
 }
@@ -17,12 +18,14 @@ body{
     margin: 75px auto;
     vertical-align: middle;
     text-align: center;
-    height: 600px;
+    height: 100%;
     background-color: white;
     width: 1200px;
     padding-bottom: 30px;
 }
-
+#smallicon{
+    padding: 2px;
+}
 #userfo{
     text-align: center;
 }
@@ -48,7 +51,7 @@ body{
 .underpic{
     padding-top: 40px;
     color: black;
-    font-size: 3.2em;
+    font-size: 2.2em;
     text-align: center;
     padding-left: 100px;
 }
@@ -60,5 +63,16 @@ body{
     border-color: silver;
     background-color: #F8F8F8;
     width: 60%;
-    height: 250px;
+    height: 300px;
+}
+#inputfield{
+    display: inline-block;
+    text-shadow: 0 0 0 gray;
+    outline: none;
+    border: none;
+    background-color:transparent;
+}
+#inputbox{
+    outline: 1px;
+    text-shadow: 0 1 0 gray;
 }

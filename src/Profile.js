@@ -1,16 +1,87 @@
 import React, { Component } from "react";
 import TopbarUser from "./TopbarUser.js";
 import "./Profile.css";
-import { Row, Col } from 'antd';
+import { Row, Col, Icon } from 'antd';
+import firebase from "./Firebase";
+// import Modal from 'react-modal'; 
 
 // Banner from https://www.google.com/search?q=codding+banner&rlz=1C1CHBF_enUS765US765&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjm7KW7sNPbAhVJ3VMKHWUZBioQ_AUICigB&biw=1536&bih=734&dpr=1.25#imgrc=vAFXqrj7GeFLsM:}
 export default class Profile extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      editing: false,
+      name: props.userData.name,
+      title: props.userData.title,
+      aboutMe: props.userData.aboutMe,
+      position: props.userData.position,
+      skills: props.userData.skills,
+      links: props.userData.links,
+      readmode: true,
+      newSkill: "",
+      inputclass: "inputfield"
+    }
+  }
+  
+  handleChange = (e) => { // handles changes in text entries
+    this.setState({
+          [e.target.name]: e.target.value //Need those brackets 
+    })
+  }
+  editPress = (e) =>{ // Passed as prop to switch editing mode on click
+    this.setState({
+      editing: !this.state.editing,
+      readmode: !this.state.readmode,
+      inputclass: "inputbox"
+    })
+  }
+  saveClick = (e) =>{ //Firebasewrite
+    this.setState({
+      editing: !this.state.editing,
+      readmode: !this.state.readmode,
+      inputclass:"inputfield"});
+  }
+  
+  deleteClick = (e) =>{ // Deleting tags
+    let skillDelete = e.target.name;
+    console.log(this.state.skills);
+    let index = this.state.skills.indexOf(skillDelete);
+    let copySkills = this.state.skills;
+    copySkills.splice(index,1);
+    this.setState({
+      links: copySkills
+    })
+  }
+
   render() {
-    const skillSpan = this.props.userData.skills.map((skill) => {
-      return(
-      <span> #{skill} </span>
-      )
-    });
+    let button; // Conditional rendering
+    let skillSpan;
+    let newSkill;
+    if (this.state.editing == false) {
+      button = <button type= "edit" onClick={e=>this.editPress(e)}>Edit</button>
+      skillSpan = this.state.skills.map((skill) => {
+        return(
+         <span> #{skill} </span>
+        )
+      });
+    } else {
+      button = <button type= "save" onClick={e => this.saveClick(e)}>Save</button> 
+      skillSpan = this.state.skills.map((skill) => {
+        return(
+         <span> 
+           #{skill} 
+           <Icon id="smallicon" type="close-circle" name = {skill} onClick ={e=>this.deleteClick(e)}/>
+         </span>
+        )});
+      newSkill = 
+      <div>
+      <input name= "newSkill" type = "text" pattern ="[A-Za-z]{0-9}{15}" 
+        placeholder="#New skill" size= "10"
+         onChange= {e => this.handleChange(e)} value ={this.state.newSkill} ></input>
+         <Icon id="smallicon" type="plus-circle"/>
+      </div>
+    }
+    
     return (
       <div >
         <div className="center">
@@ -20,32 +91,41 @@ export default class Profile extends Component {
             <Col span= {4}>
             <img className="profpic" src= "http://static.tvtropes.org/pmwiki/pub/images/reg_anime.jpg" alt = "Prof pic"/> 
             <div className ="underpic">
-            {this.props.userData.title} 
+            <input id = "inputfield" type="text" name = "title" value={this.state.title} size= "10" /*Size is useful*/ />
             </div>
             </Col>
+
             <Col span ={14}>
             <div id= "userfo" >
-            <h1 className="header"> {this.props.userData.name} </h1> 
-            <p> {this.props.userData.position} </p>
+            <input id = {this.state.inputclass} type="text" className="header" name = "name" 
+            value={this.state.name} onChange= {e => this.handleChange(e)} readOnly={this.state.readmode} maxLength='35'/> 
+
+            <input id = {this.state.inputclass} type="text" name = "position" style={{'text-align':"center"}} //Inline styling
+            value={this.state.position} onChange= {e => this.handleChange(e)} readOnly={this.state.readmode} maxLength='35'/>
+
             <h3> About me! </h3>
+
             <div id="aboutme">
-            <p> {this.props.userData.aboutMe}</p>
+            <textarea id = {this.state.inputclass} type="text" name = "aboutMe" value={this.state.aboutMe} 
+            style={{"width": "100%", "height":"100%"}}
+            onChange= {e => this.handleChange(e)} readOnly={this.state.readmode} maxLength="200"/>
             </div>
             
             </div>
             </Col>
             <Col span = {6}>
-            <button type= "edit" onClick={e=>this.props.editPress(e)}> Edit Page </button>
+            {button}
             <div id= "sidefo">
               <div>
                Skills: {skillSpan}
+               {newSkill}
               </div>
              <p>
-                Contact: <a href= {this.props.userData.links.email}> {this.props.userData.links.email}</a>
+                Contact: <a href= {this.state.links.email}> {this.state.links.email}</a>
               </p> 
               <span>
-             <a href={this.props.userData.links.github}> {this.props.userData.links.github},</a>
-             <a href={this.props.userData.links.linkedIn}> {this.props.userData.links.linkedIn}</a>
+             <a href={this.state.links.github}> github,</a>
+             <a href={this.state.links.LinkedIn}> LinkedIn</a>
              </span>
             </div>
             </Col>
