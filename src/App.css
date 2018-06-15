@@ -77,7 +77,19 @@ body {
 .welcome-text {
   position: absolute;
   text-align: center;
-  top: 50%;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Arvo", sans-serif;
+  font-style: italic;
+  font-size: 4.3vw;
+  color: white;
+}
+
+.welcome-text2 {
+  position: absolute;
+  text-align: center;
+  top: 62%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: "Arvo", sans-serif;
