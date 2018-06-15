@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import firebase from "./Firebase.js";
-import { Collapse, Button, Form, Input, DatePicker, Icon } from "antd";
-
+import { Collapse, Button, Form, Input, DatePicker, Icon, Card } from "antd";
+import "./App.css";
 const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 const chalRef = firebase.database().ref("challenges");
 const Panel = Collapse.Panel;
 const FormItem = Form.Item;
+const { TextArea } = Input;
 
 export default class Challenges extends Component {
   constructor(props) {
@@ -47,6 +48,10 @@ export default class Challenges extends Component {
     this.setState({ isAdd: true });
   };
 
+  cancelbut = e => {
+    e.preventDefault;
+    this.setState({ isAdd: false });
+  };
   submitChal = e => {
     console.log(this.state);
     e.preventDefault();
@@ -74,78 +79,124 @@ export default class Challenges extends Component {
   };
 
   render() {
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 20 },
+        sm: { span: 6 }
+      },
+      WrapperCol: {
+        xs: { span: 1 },
+        sm: { span: 1 }
+      }
+    };
     if (this.state.isAdd) {
       return (
         <div>
-          <div>
-            All challenges:
-            {this.state.challenges.map(item => {
-              return (
-                <Collapse>
-                  <Panel header={item.name}>
-                    details: {item.details}
-                    duedate: {item.duedate}
-                  </Panel>
-                </Collapse>
-              );
-            })}
-          </div>
-          <Button onClick={this.addChal}>Add Challenge</Button>
-          <Form onSubmit={this.submitChal}>
-            <FormItem label="name">
-              <Input
-                onChange={e => {
-                  this.handleChange(e, "name");
-                }}
-              />
-            </FormItem>
-            <FormItem label="details">
-              <Input
-                onChange={e => {
-                  this.handleChange(e, "details");
-                }}
-              />
-            </FormItem>
-            <FormItem label="duedate">
-              <DatePicker
-                onChange={(date, dateString) => this.addDate(date, dateString)}
-              />
-            </FormItem>
-            <FormItem>
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
-            </FormItem>
-          </Form>
+          <br />
+          <br />
+          <center>
+            <Card title="Add Challenge" style={{ width: 600 }}>
+              <Form onSubmit={this.submitChal}>
+                <center>
+                  <FormItem {...formItemLayout} label="Name">
+                    <div className="input">
+                      <Input
+                        onChange={e => {
+                          this.handleChange(e, "name");
+                        }}
+                      />
+                    </div>
+                  </FormItem>
+                  <FormItem {...formItemLayout} label="Details">
+                    <div className="input">
+                      <TextArea
+                        rows={8}
+                        onChange={e => {
+                          this.handleChange(e, "details");
+                        }}
+                      />
+                    </div>
+                  </FormItem>
+                  <FormItem {...formItemLayout} label="Due Date">
+                    <div className="input">
+                      <DatePicker
+                        onChange={(date, dateString) =>
+                          this.addDate(date, dateString)
+                        }
+                      />
+                    </div>
+                  </FormItem>
+                  <FormItem>
+                    <div>
+                      <Button type="primary" htmlType="submit">
+                        Submit
+                      </Button>
+                      {"              "}
+                      <Button type="primary" onClick={this.cancelbut}>
+                        Cancel
+                      </Button>
+                    </div>
+                  </FormItem>
+                </center>
+              </Form>
+            </Card>
+          </center>
         </div>
       );
     }
     return (
       <div>
-        <div>
-          All challenges:
-          {this.state.challenges.map(item => {
-            return (
-              <Collapse>
-                <Panel
-                  header={
-                    <div>
-                      {" "}
-                      {item.name}{" "}
-                      <Button onClick={() => this.deletechal(item)}>
-                        <Icon type="delete" />
-                      </Button>
-                    </div>
-                  }
-                >
-                  details: {item.details}
-                  duedate: {item.duedate}
-                </Panel>
-              </Collapse>
-            );
-          })}
-        </div>
-        <Button onClick={this.addChal}>Add Challenge</Button>
+        <br />
+        <br />
+        <center>
+          <Card title="Challenges" style={{ width: "85%" }}>
+            <div>
+              {this.state.challenges.map(item => {
+                return (
+                  <div>
+                    <br />
+                    <Collapse>
+                      <Panel
+                        header={
+                          <div className="panelheader">
+                            {" "}
+                            {item.name}{" "}
+                            <div className="chaldelete">
+                              <Button
+                                size="small"
+                                onClick={() => this.deletechal(item)}
+                              >
+                                <Icon type="delete" />
+                              </Button>
+                            </div>
+                          </div>
+                        }
+                      >
+                        <div className="chalinfo">
+                          <p id="chalbold">Details: </p>
+                          {item.details}
+                        </div>
+                        <br />
+                        <div className="chalinfo">
+                          <p id="chalbold">Due date: </p>
+                          {item.duedate}
+                        </div>
+                      </Panel>
+                    </Collapse>
+                  </div>
+                );
+              })}
+            </div>
+            <br />
+            <Button
+              size="large"
+              type="primary"
+              shape="circle"
+              icon="plus"
+              onClick={this.addChal}
+            />
+          </Card>
+        </center>
       </div>
     );
   }

@@ -40,3 +40,20 @@
   margin-left: 0%;
   display: inline-block;
 }
+
+.chaldelete {
+  margin-right: 2%;
+  margin-left: auto;
+}
+
+.panelheader {
+  display: flex;
+}
+
+.chalinfo {
+  text-align: left;
+}
+
+#chalbold {
+  font-weight: bold;
+}
