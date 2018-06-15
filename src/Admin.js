@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import TopbarUser from "./TopbarUser.js";
-import firebase from "./Firebase.js";
+import firebase from "./Firebase.js"
 
-export default class BrowseContracts extends Component {
-
+export default class Admin extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -11,9 +10,8 @@ export default class BrowseContracts extends Component {
     }
   }
 
-
   componentDidMount() {
-    let database = firebase.database().ref("approvedCompanyContracts");
+    let database = firebase.database().ref("unapprovedCompanyContracts");
     database.on("value" , (snapshot) => {
       let newStateFromDB = [];
       snapshot.forEach(function(snap) {
@@ -28,8 +26,27 @@ export default class BrowseContracts extends Component {
 
   }
 
-  bidOnContract(e) {
-    console.log("Successfully bade on a contract");
+  //called from admin Page
+  // removes a contract permanately from the DB
+  removeContract(e){
+    let database = firebase.database();
+    database.ref("unapprovedCompanyContracts").child(e.target.className).remove();
+  }
+
+  //takes the contract from "unapprovedCompanyContracts" and moves it to
+  // approved contracts
+  approveContract(e){
+    let database = firebase.database();
+    let key = e.target.className;
+    //console.log(e.target.className);
+    let eventContract = database.ref("unapprovedCompanyContracts").child(e.target.className);//(e.target.className) //.arrayData;
+    console.log(eventContract);
+    eventContract.on("value", snapshot => {
+      database.ref("approvedCompanyContracts").push(snapshot.val());
+    })
+    //database.ref("approvedCompanyContracts").child("1").set(eventContract) //push(eventContract);
+
+    //database.ref("unapprovedCompanyContracts").child(e.target.className).remove();
   }
 
   render() {
@@ -43,7 +60,8 @@ export default class BrowseContracts extends Component {
           Contract Details : {item.arrayData.jobTimeframe} for {item.arrayData.jobType}  <br/>
           Skills Requested : {item.arrayData.specialSkills}  <br/>
           Additional Details : {item.arrayData.additionalDetails}  <br/>  <br/>
-          <button className={item.id} onClick={(e) => this.bidOnContract(e)}>Bid on Contract</button>
+          <button className={item.id} onClick={(e) => this.approveContract(e)}>Approve Contract</button>
+          <button className={item.id} onClick={(e) => this.removeContract(e)}>Reject Contract</button>
         </div>
       )
     }
@@ -59,7 +77,7 @@ export default class BrowseContracts extends Component {
       {display}
       </div>
     );
-
-
   }
+
+
 }
