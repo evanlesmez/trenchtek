@@ -36,11 +36,12 @@ export default class Challenges extends Component {
         });
       });
       console.log(challengest);
-      /*chalRef.on("value", snapshot => {
-        let objects = snapshot.val();
-        let array = [];
-        let thing = {};
-      });*/
+      challengest.sort(function(b, a) {
+        return (
+          parseInt(b.duedate.split(/-/i).join("")) -
+          parseInt(a.duedate.split(/-/i).join(""))
+        );
+      });
       this.setState({ challenges: challengest });
     });
   }
@@ -168,7 +169,7 @@ export default class Challenges extends Component {
                             {" "}
                             {item.name}
                             <div className="chaldelete">
-                              Due: {item.duedate}
+                              Due: {item.duedate} {"     "}
                               <Button
                                 size="small"
                                 onClick={() => this.deletechal(item)}
