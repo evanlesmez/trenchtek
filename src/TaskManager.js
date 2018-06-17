@@ -17,10 +17,6 @@ export default class TaskManager extends Component {
     };
   }
 
-  componentDidMount() {
-    this.forceUpdate();
-  }
-
   handleTaskChange = e => {
     newTask = e.target.value;
   };
@@ -31,30 +27,18 @@ export default class TaskManager extends Component {
 
   submitTask = (e, group) => {
     e.preventDefault();
-    let tempTask = this.props[group + "Task"];
+    let tempTask = this.props[group + "Tasks"];
     tempTask.push(newTask);
-    this.props.setTask(group, tempTask);
+    this.props.setTasks(group, tempTask);
     taskRef.child(group).set(this.props[group + "Tasks"]);
     newTask = null;
-    // let tempTask = this.state.tasks;
-    // tempTask.push(newTask);
-    // let tempCard = this.state.cards;
-    // tempCard.push(
-    //   <Card style={{ marginTop: 16 }} type="inner" title={newTask}>
-    //     {newTask} content
-    //   </Card>
-    // );
-    // this.setState(
-    //   { cards: tempCard, cardForm: null },
-    //   this.setTasksToFirebase(group)
-    // );
-    // newTask = null;
+    this.setState({ cardForm: null });
   };
 
-  addTaskForm = () => {
+  addTaskForm = group => {
     this.setState({
-      cardForm: (
-        <Form onSubmit={e => this.submitTask(e, "den")}>
+      [group + "cardForm"]: (
+        <Form onSubmit={e => this.submitTask(e, group)}>
           <FormItem label="new task">
             <Input onChange={this.handleTaskChange} />
           </FormItem>
@@ -83,14 +67,17 @@ export default class TaskManager extends Component {
             {this.props[group + "Cards"].map(card => {
               return card;
             })}
-            <Button style={{ marginTop: 16 }} onClick={this.addTaskForm}>
+            <Button
+              style={{ marginTop: 16 }}
+              onClick={() => this.addTaskForm(group)}
+            >
               Add Task
             </Button>
-            {this.state.cardForm}
+            {this.state[group + "cardForm"]}
           </Card>
         );
       });
     }
-    return <Card title="test">more words</Card>;
+    return null;
   }
 }

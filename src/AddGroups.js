@@ -19,7 +19,7 @@ export default class AddGroups extends Component {
   componentDidMount() {
     taskRef.on("value", snapshot => {
       let tasks = snapshot.val();
-      let tempGroup = this.state.groups;
+      let tempGroup = [];
       for (let group in tasks) {
         tempGroup.push(group);
         this.setState({ [group + "Tasks"]: tasks[group] });
@@ -37,7 +37,9 @@ export default class AddGroups extends Component {
               </Card>
             );
           });
-          this.setState({ [group + "Cards"]: tempCard });
+          this.setState(
+            { [group + "Cards"]: tempCard } //, () => {this.forceUpdate();}
+          );
         });
       });
     });
@@ -45,7 +47,7 @@ export default class AddGroups extends Component {
 
   setTasks = (group, update) => {
     this.setState({ [group + "Tasks"]: update }, () => {
-      taskRef.child(group).set(this.props[group + "Tasks"]);
+      taskRef.child(group).set(this.state[group + "Tasks"]);
     });
     console.log(group);
   };
@@ -57,7 +59,8 @@ export default class AddGroups extends Component {
       {
         groups: tempGroup,
         groupForm: null,
-        [newGroup + "Tasks"]: ["none"]
+        [newGroup + "Tasks"]: ["none"],
+        [newGroup + "Cards"]: [null]
       },
       () => {
         this.state.groups.map(group => {
