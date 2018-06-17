@@ -16,16 +16,17 @@ export default class Profile extends Component {
       aboutMe: props.userData.aboutMe,
       position: props.userData.position,
       skills: props.userData.skills,
-      links: props.userData.links,
       readmode: true,
       newSkill: "",
-      inputclass: "inputfield"
+      inputclass: "inputfield",
+      email: props.userData.links.email,
+      github: props.userData.links.github,
+      LinkedIn: props.userData.links.LinkedIn
     }
   }
-  
   handleChange = (e) => { // handles changes in text entries
     this.setState({
-          [e.target.name]: e.target.value //Need those brackets 
+          [e.target.name]: e.target.value, //Need those brackets 
     })
   }
   editPress = (e) =>{ // Passed as prop to switch editing mode on click
@@ -41,7 +42,12 @@ export default class Profile extends Component {
       readmode: !this.state.readmode,
       inputclass:"inputfield"});
   }
-  
+  addClick = (e) =>{
+    this.setState({
+      skills: [...this.state.skills, this.state.newSkill],
+      newSkill: ""
+    });
+  }
   deleteClick = (e) =>{ // Deleting tags
     let skillDelete = e.target.name;
     console.log(this.state.skills);
@@ -67,11 +73,11 @@ export default class Profile extends Component {
       });
       linksPart = <div>
               <p>
-                Contact: <a href= {this.state.links.email}> {this.state.links.email}</a>
+                Contact: <a href= {this.state.email}> {this.state.email}</a>
               </p> 
               <span>
-             <a href={this.state.links.github}> github,</a>
-             <a href={this.state.links.LinkedIn}> LinkedIn</a>
+             <a href={this.state.github}> github,</a>
+             <a href={this.state.LinkedIn}> LinkedIn</a>
              </span>
              </div>
     } else {
@@ -88,15 +94,18 @@ export default class Profile extends Component {
       <input name= "newSkill" type = "text" pattern ="[A-Za-z]{0-9}{15}" 
         placeholder="#New skill" size= "10"
          onChange= {e => this.handleChange(e)} value ={this.state.newSkill} ></input>
-         <Icon id="smallicon" type="plus-circle"/>
+         <Icon id="smallicon" type="plus-circle" onClick = {e=> this.addClick(e)}/>
       </div>
       linksPart = <div>
       <p>
-        Contact: <a href= {this.state.links.email}> {this.state.links.email}</a>
+        Contact: <input type= "url" placeholder = "your@email.com" name= "email" 
+        value={this.state.email} onChange= {e=> this.handleChange(e)}/>
       </p> 
       <span>
-     <input type = "url" placeholder="github" value={this.state.links.github} ></input>  {/*Need to handleChange*/}
-     <input type= "url" placeholder="LinkedIn" value={this.state.links.LinkedIn}></input>
+     <input name = "github" type = "url" placeholder="github" 
+     value={this.state.github} onChange = {e=> this.handleChange(e)}/> {/*Need to handleChange*/}
+     <input type= "url" placeholder="LinkedIn" name= "LinkedIn"
+     value={this.state.LinkedIn} onChange= {e=> this.handleChange(e)}/>
      </span>
      </div>
     }
