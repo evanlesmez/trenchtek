@@ -6,7 +6,7 @@ body{
     text-align: center;
     font-size: 50px;
     margin-bottom: -1px;
-}
+   }
 #sidefo {
     margin: 70px auto;
     padding-top: 20px;
@@ -28,6 +28,7 @@ body{
 }
 #userfo{
     text-align: center;
+    margin-left: 30px;
 }
 .rower{
     padding-top: 30px;
@@ -35,11 +36,12 @@ body{
 .profpic {
     /* border: 1px groove; */
     display: block;
-    max-width:300px;
-    max-height:300px;
+    min-width: 100%;
+    max-width:100%;
+    max-height:100%;
     width: auto;
     height: auto;
-    margin-left: 70px;
+    margin-left: 30px;
 }
 
 .banner {
