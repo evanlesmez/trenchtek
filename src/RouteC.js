@@ -44,14 +44,6 @@ export default class RouteC extends Component {
 
   componentDidMount() {
     this.checkUser();
-    firebase
-      .auth()
-      .signInWithEmailAndPassword("email@email.com", "password")
-      .catch(error => {
-        alert(
-          "The email address and/or password you entered was incorrect. Please try again."
-        );
-      });
 
     firebase.auth().onAuthStateChanged(user => {
       if (user) {

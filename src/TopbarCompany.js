@@ -4,6 +4,12 @@ import { Menu, Button } from "antd";
 import "./App.css";
 
 export default class TopbarCompany extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentPage: ""
+    };
+  }
   render() {
     return (
       <div>
