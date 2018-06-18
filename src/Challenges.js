@@ -79,10 +79,14 @@ export default class Challenges extends Component {
     //console.log(this.state);
   };
 
-  deletechal = item => {
-    //console.log(item);
-    //console.log(chalRef.child(item.id));
-    chalRef.child(item.id).remove();
+  deletechal = (e, id, name) => {
+    e.preventDefault();
+    const challengeToDelete = firebase.database().ref(`/challenges/${id}`);
+    if (
+      window.confirm(`Are you sure you want to delete the challenge: ${name}?`)
+    ) {
+      challengeToDelete.remove();
+    }
   };
 
   render() {
@@ -99,7 +103,6 @@ export default class Challenges extends Component {
     if (this.state.isAdd) {
       return (
         <div>
-          <br />
           <br />
           <center>
             <Card title="Add Challenge" style={{ width: 600 }}>
@@ -139,9 +142,7 @@ export default class Challenges extends Component {
                         Submit
                       </Button>
                       {"              "}
-                      <Button type="primary" onClick={this.cancelbut}>
-                        Cancel
-                      </Button>
+                      <Button onClick={this.cancelbut}>Cancel</Button>
                     </div>
                   </FormItem>
                 </center>
@@ -153,7 +154,6 @@ export default class Challenges extends Component {
     }
     return (
       <div>
-        <br />
         <br />
         <center>
           <Card title="Challenges" style={{ width: "85%" }}>
@@ -172,7 +172,9 @@ export default class Challenges extends Component {
                               Due: {item.duedate} {"     "}
                               <Button
                                 size="small"
-                                onClick={() => this.deletechal(item)}
+                                onClick={e =>
+                                  this.deletechal(e, item.id, item.name)
+                                }
                               >
                                 <Icon type="delete" />
                               </Button>

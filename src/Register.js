@@ -144,8 +144,9 @@ class Register extends Component {
     return (
       <div>
         <center>
-          <br />
-          <br />
+          <Link to="/welcome" className="redirect-to-home-logo-button">
+            RevTek
+          </Link>
           <Card
             justify="start"
             layout="vertical"
