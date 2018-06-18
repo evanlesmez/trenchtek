@@ -9,6 +9,7 @@ import Profilehandler from "./Profilehandler.js";
 import Challenges from "./Challenges.js";
 import BrowseContracts from "./BrowseContracts.js";
 import Connect from "./Connect.js";
+import Connect2 from "./Connect2.js";
 import Resources from "./Resources.js";
 import Logout from "./Logout.js";
 import TaskManager from "./TaskManager.js";
@@ -72,9 +73,9 @@ export default class RouteC extends Component {
 
       <BrowserRouter>
         <div>
-          <Redirect to="/welcome" />
           <Route path={CompanyRegex} component={TopbarCompany} />
           <Route path={UserRegex} render={()=><TopbarUser userTitle={this.state.userTitle}/>} />
+          <Redirect to="/welcome" />
           <div>
             <Route path="/welcome" component={Welcome} />
             <Route path="/about" component={About} />
@@ -87,6 +88,7 @@ export default class RouteC extends Component {
             <Route path="/task-manager" render={()=><TaskManager userTitle={this.state.userTitle}/>}/>
             <Route path="/browse-contracts" render={()=><BrowseContracts userTitle={this.state.userTitle}/>} />
             <Route path="/connect" render={()=><Connect userTitle={this.state.userTitle}/>} />
+            <Route path="/connect2" component={Connect2} />
             <Route path="/resources" render={()=><Resources userTitle={this.state.userTitle}/>} />
             <Route path="/logout" component={Logout} />
             <Route path="/register" component={Register} />

@@ -1,9 +1,24 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Menu, Button } from "antd";
+import { Menu, Button, Dropdown, Icon } from "antd";
 import firebase from "./Firebase.js";
 import "./App.css";
 
+const SubMenu = Menu.SubMenu;
+const menu = (
+  <Menu>
+    <Menu.Item>
+      <Link to="/connect">
+        <div className="topbar-tab">Q&A</div>
+      </Link>
+    </Menu.Item>
+    <Menu.Item>
+      <Link to="/connect2">
+        <div className="topbar-tab">Directory</div>
+      </Link>
+    </Menu.Item>
+  </Menu>
+);
 export default class TopbarUser extends Component {
   constructor(props){
     super(props);
@@ -23,8 +38,12 @@ export default class TopbarUser extends Component {
           <Menu.Item key="browse-contracts">
             <Link to="/browse-contracts">contracts</Link>
           </Menu.Item>
-          <Menu.Item key="connect">
-            <Link to="/connect">connect</Link>
+          <Menu.Item>
+            <Dropdown overlay={menu}>
+              <a className="ant-dropdown-link" href="#">
+                connect <Icon type="down" />
+              </a>
+            </Dropdown>
           </Menu.Item>
           <Menu.Item key="resources">
             <Link to="/resources">resources</Link>
@@ -68,26 +87,21 @@ export default class TopbarUser extends Component {
               <div className="topbar-tab">contracts</div>
             </Link>
           </Menu.Item>
-          <Menu.Item key="connect">
-            <Link to="/connect">
-              <div className="topbar-tab">connect</div>
-            </Link>
+          <Menu.Item>
+            <Dropdown overlay={menu}>
+              <a className="ant-dropdown-link" href="#">
+                connect <Icon type="down" />
+              </a>
+            </Dropdown>
           </Menu.Item>
           <Menu.Item key="resources">
             <Link to="/resources">
               <div className="topbar-tab">resources</div>
             </Link>
           </Menu.Item>
-
-          <Button className="login-logout-button" type="danger" ghost>
-            <Link to="/logout">
-              <div className="topbar-tab">logout</div>
-            </Link>
-          </Button>
-        </Menu>
-      </div>
-    );
-
-  }
+          </Menu>
+        </div>
+      );
+    }
   }
 }
