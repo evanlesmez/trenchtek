@@ -113,3 +113,9 @@ body {
 .container {
   position: relative;
 }
+
+.redirect-to-home-logo-button {
+  font-family: "Arvo", sans-serif;
+  font-weight: bold;
+  font-size: 70px;
+}
