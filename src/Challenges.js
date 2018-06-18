@@ -79,10 +79,14 @@ export default class Challenges extends Component {
     //console.log(this.state);
   };
 
-  deletechal = item => {
-    //console.log(item);
-    //console.log(chalRef.child(item.id));
-    chalRef.child(item.id).remove();
+  deletechal = (e, id, name) => {
+    e.preventDefault();
+    const challengeToDelete = firebase.database().ref(`/challenges/${id}`);
+    if (
+      window.confirm(`Are you sure you want to delete the challenge: ${name}?`)
+    ) {
+      challengeToDelete.remove();
+    }
   };
 
   render() {
@@ -170,7 +174,9 @@ export default class Challenges extends Component {
                               Due: {item.duedate} {"     "}
                               <Button
                                 size="small"
-                                onClick={() => this.deletechal(item)}
+                                onClick={e =>
+                                  this.deletechal(e, item.id, item.name)
+                                }
                               >
                                 <Icon type="delete" />
                               </Button>
