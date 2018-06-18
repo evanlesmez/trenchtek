@@ -23,20 +23,27 @@ export default class RouteC extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPage: "welcome",
-      userTitle: ""
+      userTitle: "",
+      loginSuccessful: false
     };
   }
 
+  checkUser = () => {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user !== null) {
+        this.setState({
+          loginSuccessful: true
+        });
+      } else {
+        this.setState({
+          loginSuccessful: false
+        });
+      }
+    });
+  };
+
   componentDidMount() {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword("email@email.com", "password")
-      .catch(error => {
-        alert(
-          "The email address and/or password you entered was incorrect. Please try again."
-        );
-      });
+    this.checkUser();
 
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
@@ -63,11 +70,12 @@ export default class RouteC extends Component {
   render() {
     //<Route path="/submit-contracts" component={SubmitContracts} />
     const CompanyRegex = new RegExp(
-      "/welcome|/about|/meet-the-team|/submit-contracts"
+      "^/$|/about|/meet-the-team|/submit-contracts"
     );
     const UserRegex = new RegExp(
       "/challenges|/task-manager|/browse-contracts|/connect|/resources|/profile|/admin"
     );
+
     return (
       <BrowserRouter>
         <div>
@@ -76,14 +84,14 @@ export default class RouteC extends Component {
             path={UserRegex}
             render={() => <TopbarUser userTitle={this.state.userTitle} />}
           />
-          <Redirect to="/welcome" />
           <div>
-            <Route path="/welcome" component={Welcome} />
+            <Route exact path="/" component={Welcome} />
             <Route path="/about" component={About} />
             <Route path="/meet-the-team" component={Meet} />
             <Route path="/submit-contracts" component={SubmitContracts} />
 
             <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
             <Route
               path="/profile"
               render={() => <Profilehandler userTitle={this.state.userTitle} />}
@@ -112,7 +120,7 @@ export default class RouteC extends Component {
               render={() => <Resources userTitle={this.state.userTitle} />}
             />
             <Route path="/logout" component={Logout} />
-            <Route path="/register" component={Register} />
+
             <Route
               path="/admin"
               render={() => <Admin userTitle={this.state.userTitle} />}
