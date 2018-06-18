@@ -64,9 +64,10 @@ export default class Profile extends Component {
     let skillSpan;
     let newSkill;
     let linksPart;
+    let profypic;
     if (this.state.editing == false) {
-      button = <button type= "edit" onClick={e=>this.editPress(e)}>Edit</button>
-      skillSpan = this.state.skills.map((skill) => {
+      button = <button type= "edit" onClick={e=>this.editPress(e)}>Edit</button> //Editbutton
+      skillSpan = this.state.skills.map((skill) => {  //FOr displaying skills (also removable)
         return(
          <span> #{skill} </span>
         )
@@ -80,7 +81,8 @@ export default class Profile extends Component {
              <a href={this.state.LinkedIn}> LinkedIn</a>
              </span>
              </div>
-    } else {
+    
+      } else {  // All of the input fields
       button = <button type= "save" onClick={e => this.saveClick(e)}>Save</button> 
       skillSpan = this.state.skills.map((skill) => {
         return(
@@ -108,6 +110,7 @@ export default class Profile extends Component {
      value={this.state.LinkedIn} onChange= {e=> this.handleChange(e)}/>
      </span>
      </div>
+     profypic = <input type = "file" name = "profpic" accept = "image/"> </input>
     }
     
     return (
