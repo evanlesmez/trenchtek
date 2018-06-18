@@ -67,7 +67,7 @@ export default class Challenges extends Component {
       details: this.state.details,
       duedate: this.state.duedate
     };
-    let newPostKey = chalRef.child(this.state.name).push().key;
+    let newPostKey = chalRef.push().key;
     let updates = {};
     updates[newPostKey] = obj;
     this.setState({ name: "", details: "", duedate: "", isAdd: false });
