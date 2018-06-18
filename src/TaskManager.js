@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button, Form, Input, Card, Layout, Row, Col } from "antd";
 import firebase from "./Firebase.js";
 
-const taskRef = firebase.database().ref("tasks");
+const groupRef = firebase.database().ref("groups");
 const FormItem = Form.Item;
 let newTask = null;
 const { Content } = Layout;
@@ -17,20 +17,30 @@ export default class TaskManager extends Component {
     };
   }
 
+  componentDidMount() {
+    firebase.auth().currentUser;
+    if (user) {
+      let userid = user.uid;
+    }
+  }
+
   handleTaskChange = e => {
     newTask = e.target.value;
   };
 
-  setTasksToFirebase = group => {
-    taskRef.child(group).set(this.state.tasks);
-  };
+  // setTasksToFirebase = group => {
+  //   groupRef.child(group).child('tasks').set(this.state.tasks);
+  // };
 
   submitTask = (e, group) => {
     e.preventDefault();
     let tempTask = this.props[group + "Tasks"];
     tempTask.push(newTask);
     this.props.setTasks(group, tempTask);
-    taskRef.child(group).set(this.props[group + "Tasks"]);
+    groupRef
+      .child(group)
+      .child("tasks")
+      .set(this.props[group + "Tasks"]);
     newTask = null;
     this.setState({ cardForm: null });
   };
@@ -72,6 +82,12 @@ export default class TaskManager extends Component {
               onClick={() => this.addTaskForm(group)}
             >
               Add Task
+            </Button>
+            <Button
+              style={{ marginTop: 16 }}
+              onClick={() => this.props.deleteGroup(group)}
+            >
+              Delete Group
             </Button>
             {this.state[group + "cardForm"]}
           </Card>

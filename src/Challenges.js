@@ -69,12 +69,9 @@ export default class Challenges extends Component {
 
   handleChange = (e, label) => {
     this.setState({ [label]: e.target.value });
-    console.log(this.state);
   };
 
   deletechal = item => {
-    console.log(item);
-    console.log(chalRef.child(item.id));
     chalRef.child(item.id).remove();
   };
 
