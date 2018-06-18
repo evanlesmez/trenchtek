@@ -18,12 +18,43 @@ import TopbarUser from "./TopbarUser.js";
 import Register from "./Register.js";
 import Admin from "./Admin.js";
 import User from "./User.js";
+import firebase from "./Firebase.js";
 
 export default class RouteC extends Component {
-  state = {
-    currentPage: "welcome"
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentPage: "welcome",
+      userTitle: ""
+    };
+  }
+
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        console.log(user);
+        let userKey = user.uid;
+        let userIDString = "/users/" + userKey;
+        let database = firebase.database().ref(userIDString);
+        database.on("value", snapshot => {
+          console.log(snapshot.val());
+          let newTitleState = snapshot.val().title;
+          console.log(newTitleState);
+          this.setState({
+            userTitle: newTitleState
+          });
+          console.log(this.state);
+        });
+        // User is signed in.
+      } else {
+        console.log("no user found");
+        // No user is signed in.
+      }
+    });
+  }
+
   render() {
+    //<Route path="/submit-contracts" component={SubmitContracts} />
     const CompanyRegex = new RegExp(
       "/welcome|/about|/meet-the-team|/submit-contracts"
     );
@@ -35,25 +66,55 @@ export default class RouteC extends Component {
         <div>
           <Route path={CompanyRegex} component={TopbarCompany} />
           <Route path={UserRegex} component={TopbarUser} />
-          <Redirect to="/users" />
           <div>
-            <Redirect to="/users" />
-            <Route path="/welcome" component={Welcome} />
-            <Route path="/about" component={About} />
-            <Route path="/meet-the-team" component={Meet} />
-            <Route path="/submit-contracts" component={SubmitContracts} />
-            <Route path="/login" component={Login} />
-            <Route path="/profile" component={Profilehandler} />
-            <Route path="/challenges" component={Challenges} />
-            <Route path="/task-manager" component={TaskManager} />
-            <Route path="/browse-contracts" component={BrowseContracts} />
-            <Route path="/connect" component={Connect} />
-            <Route path="/connect2" component={Connect2} />
-            <Route path="/resources" component={Resources} />
-            <Route path="/logout" component={Logout} />
-            <Route path="/register" component={Register} />
-            <Route path="/admin" component={Admin} />
-            <Route path="/users" component={User} />
+            <Route
+              path={UserRegex}
+              render={() => <TopbarUser userTitle={this.state.userTitle} />}
+            />
+            <div>
+              <Route path="/welcome" component={Welcome} />
+              <Route path="/about" component={About} />
+              <Route path="/meet-the-team" component={Meet} />
+              <Route path="/submit-contracts" component={SubmitContracts} />
+
+              <Route path="/login" component={Login} />
+              <Route
+                path="/profile"
+                render={() => (
+                  <Profilehandler userTitle={this.state.userTitle} />
+                )}
+              />
+              <Route
+                path="/challenges"
+                render={() => <Challenges userTitle={this.state.userTitle} />}
+              />
+              <Route
+                path="/task-manager"
+                render={() => <TaskManager userTitle={this.state.userTitle} />}
+              />
+              <Route
+                path="/browse-contracts"
+                render={() => (
+                  <BrowseContracts userTitle={this.state.userTitle} />
+                )}
+              />
+              <Route
+                path="/connect"
+                render={() => <Connect userTitle={this.state.userTitle} />}
+              />
+              <Route path="/connect2" component={Connect2} />
+              <Route
+                path="/resources"
+                render={() => <Resources userTitle={this.state.userTitle} />}
+              />
+              <Route path="/logout" component={Logout} />
+              <Route path="/register" component={Register} />
+              <Route path="/users" component={User} />
+              <Route
+                path="/admin"
+                render={() => <Admin userTitle={this.state.userTitle} />}
+              />
+            </div>
           </div>
         </div>
       </BrowserRouter>
