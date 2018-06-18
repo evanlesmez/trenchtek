@@ -139,6 +139,7 @@ class Resources extends Component {
                       this.state.url === "" ||
                       this.state.description === ""
                     }
+                    className="resource-submit-button"
                   >
                     Submit
                   </Button>
@@ -154,44 +155,46 @@ class Resources extends Component {
       <div>
         <center>
           <br />
-          {this.state.resources.map(resource => {
-            return (
-              <div>
-                <Card
-                  title={resource.description}
-                  extra={
-                    <div className="chaldelete">
-                      <Button
-                        size="small"
-                        onClick={e =>
-                          this.removeResource(
-                            e,
-                            resource.id,
-                            resource.description
-                          )
-                        }
-                      >
-                        <Icon type="delete" />
-                      </Button>
-                    </div>
-                  }
-                  style={{ width: 700 }}
-                >
-                  <a href={resource.url} target="_blank">
-                    {resource.url}
-                  </a>
-                </Card>
-                <br />
-              </div>
-            );
-          })}
-          <Button
-            size="large"
-            type="primary"
-            shape="circle"
-            icon="plus"
-            onClick={this.handleAddResourceClick}
-          />
+          <Card title="Resources" style={{ width: "85%" }}>
+            {this.state.resources.map(resource => {
+              return (
+                <div>
+                  <Card
+                    title={resource.description}
+                    extra={
+                      <div className="chaldelete">
+                        <Button
+                          size="small"
+                          onClick={e =>
+                            this.removeResource(
+                              e,
+                              resource.id,
+                              resource.description
+                            )
+                          }
+                        >
+                          <Icon type="delete" />
+                        </Button>
+                      </div>
+                    }
+                    style={{ width: "95%" }}
+                  >
+                    <a href={resource.url} target="_blank">
+                      {resource.url}
+                    </a>
+                  </Card>
+                  <br />
+                </div>
+              );
+            })}
+            <Button
+              size="large"
+              type="primary"
+              shape="circle"
+              icon="plus"
+              onClick={this.handleAddResourceClick}
+            />
+          </Card>
         </center>
       </div>
     );
