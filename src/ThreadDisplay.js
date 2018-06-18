@@ -11,68 +11,71 @@ class ThreadDisplay extends Component {
   constructor(props) {
     super(props);
     this.addPost = this.addPost.bind(this);
+    this.handleClick = this.handleClick.bind(this);
     this.state = {
-      posts: []
+      posts: "",
+      upvotes: "",
+      array: []
     };
   }
-  /*
-  handleClick() {
-    var object = this.state.posts.upvotes;
-    const list = firebase.database().ref("/posts");
-    list.push(object);
-    this.setState({
-      newUpvotes: ""
-    });
-    let newState = this.state.newUpvotes;
-    for (let obj in newState) {
-      if (newState[obj] == null) newState[obj] = 1;
-      else newState[obj] += 1;
-    }
-    this.setState({ newUpvotes: newState });
-  }*/
-  addPost(newPostBody) {
+  addPost(newPostBody, newUpvotes) {
     const newState = Object.assign({}, this.state);
-    newState.posts.push(newPostBody);
-    //newState.array.upvotes.push(newPostBody);
-    this.setState(newState);
+    var object = {
+      posts: newPostBody,
+      upvotes: newUpvotes
+    };
+    this.state.array.push(object);
+  }
+  handleClick() {
+    var temp = Math.floor(Math.random() * this.state.array.length);
+    var number = parseInt(this.state.array[temp].upvotes);
+    this.state.array[temp].upvotes = number++;
+    let list = firebase.database().ref("/posts");
   }
   componentDidMount() {
-    const list = firebase.database().ref("/posts");
+    let list = firebase.database().ref("/posts");
     list.on("value", snapshot => {
       let objects = snapshot.val();
-      let posts = [];
+      let all = [];
+      let thing = {};
       for (let obj in objects) {
-        if (objects[obj] != "") posts.push(objects[obj]);
-        //console.log(objects[obj]);
+        if (objects[obj].posts != "") {
+          thing = {
+            posts: objects[obj].posts,
+            upvotes: objects[obj].upvotes
+          };
+          all.push(thing);
+        }
       }
-      this.setState({ posts: posts });
+      this.setState({ array: all });
     });
   }
 
   render() {
     return (
       <div>
-        {this.state.posts.map(postBody => {
-          console.log(postBody);
+        {this.state.array.map(data => {
           return (
             <div className="post-body">
               <div class="flexhorizontal">
                 <div class="flexvertical">
                   <img
                     class="cover image-cropper"
-                    src="http://1.bp.blogspot.com/-In9KukHrJGI/Tl7HT6i5kTI/AAAAAAAAADQ/-0JxyuulMME/s1600/poptropican2.jpg"
+                    src="https://i.stack.imgur.com/34AD2.jpg"
                   />
                   <div class="space" />
                   <center>
-                    <Icon type="up-circle-o">1</Icon>
+                    <Icon type="up-circle-o" onClick={this.handleClick}>
+                      {data.upvotes}
+                    </Icon>
                   </center>
                 </div>
                 <div class="flexhorizontal">
                   <div class="space" />
-                  <Card hoverable style={{ width: 500 }}>
+                  <Card hoverable style={{ width: 500, maxHeight: 1000 }}>
                     <div>
                       <h2>User: Andy Page</h2>
-                      <Meta title="Role: Admin" description={postBody} />
+                      <Meta title="Role: Admin" description={data.posts} />
                     </div>
                   </Card>
                 </div>
