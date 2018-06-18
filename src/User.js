@@ -39,9 +39,10 @@ export default class User extends Component {
     const userRef = firebase
       .database()
       .ref("/users/" + user.key)
-      .child("upvotes")
-      .set("90");
+      .child("approved")
+      .set(true);
   };
+
   render() {
     console.log(this.state.users);
     return (
