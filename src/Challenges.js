@@ -104,7 +104,6 @@ export default class Challenges extends Component {
       return (
         <div>
           <br />
-          <br />
           <center>
             <Card title="Add Challenge" style={{ width: 600 }}>
               <Form onSubmit={this.submitChal}>
@@ -155,7 +154,6 @@ export default class Challenges extends Component {
     }
     return (
       <div>
-        <br />
         <br />
         <center>
           <Card title="Challenges" style={{ width: "85%" }}>

@@ -78,7 +78,6 @@ class Resources extends Component {
         <div>
           <center>
             <br />
-            <br />
             <Card title="Add Resource" style={{ width: 600 }}>
               <Form layout="vertical" className="login-form">
                 <Form.Item>
@@ -155,7 +154,6 @@ class Resources extends Component {
     return (
       <div>
         <center>
-          <br />
           <br />
           <Card title="Resources" style={{ width: "85%" }}>
             {this.state.resources.map(resource => {
