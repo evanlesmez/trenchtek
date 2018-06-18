@@ -7,6 +7,7 @@ const groupRef = firebase.database().ref("groups");
 const FormItem = Form.Item;
 let newGroup = null;
 let newUsers = null;
+let started = false;
 
 export default class AddGroups extends Component {
   constructor(props) {
@@ -30,7 +31,7 @@ export default class AddGroups extends Component {
             let tasks = snapshot.val();
             let tempTask = [];
             for (let task in tasks) {
-              tempTask.push(task);
+              tempTask.push(tasks[task]);
             }
             this.setState({ [group + "Tasks"]: tempTask });
           });
@@ -41,7 +42,7 @@ export default class AddGroups extends Component {
             let users = snapshot.val();
             let tempUser = [];
             for (let user in users) {
-              tempUser.push(user);
+              tempUser.push(users[user]);
             }
             this.setState({ [group + "Users"]: tempUser });
           });
@@ -66,7 +67,10 @@ export default class AddGroups extends Component {
             );
           });
           this.setState(
-            { [group + "Cards"]: tempCard } //, () => {this.forceUpdate();}
+            { [group + "Cards"]: tempCard },
+            () => {
+              started = true;
+            } //, () => {this.forceUpdate(); }
           );
         });
       });
@@ -96,13 +100,19 @@ export default class AddGroups extends Component {
   submitGroup = () => {
     let tempGroup = this.state.groups;
     tempGroup.push(newGroup);
-    this.setState({
-      groups: tempGroup,
-      groupForm: null,
-      [newGroup + "Tasks"]: ["none"],
-      [newGroup + "Cards"]: [null],
-      [newGroup + "Users"]: newUsers
-    });
+    this.setState(
+      {
+        groups: tempGroup,
+        groupForm: null,
+        [newGroup + "Tasks"]: ["none"],
+        [newGroup + "Cards"]: [null],
+        [newGroup + "Users"]: newUsers
+      }
+      // () => {
+      //   console.log(this.state[newGroup + "Users"]);
+      //   console.log(this.state);
+      // }
+    );
     groupRef
       .child(newGroup)
       .child("tasks")
@@ -139,7 +149,8 @@ export default class AddGroups extends Component {
   };
 
   handleUserChange = e => {
-    newUsers = e.target.value;
+    let temp = e.target.value;
+    newUsers = temp.split(", ");
   };
 
   addGroupForm = () => {
@@ -169,6 +180,7 @@ export default class AddGroups extends Component {
           {...this.state}
           setTasks={this.setTasks}
           deleteGroup={this.deleteGroup}
+          started={started}
         />
         <Button
           onClick={this.addGroupForm}

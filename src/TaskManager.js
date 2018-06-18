@@ -3,8 +3,11 @@ import { Button, Form, Input, Card, Layout, Row, Col } from "antd";
 import firebase from "./Firebase.js";
 
 const groupRef = firebase.database().ref("groups");
+const userRef = firebase.database().ref("users");
 const FormItem = Form.Item;
 let newTask = null;
+let userid = null;
+
 const { Content } = Layout;
 
 export default class TaskManager extends Component {
@@ -18,19 +21,16 @@ export default class TaskManager extends Component {
   }
 
   componentDidMount() {
-    firebase.auth().currentUser;
-    if (user) {
-      let userid = user.uid;
-    }
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        userid = user.uid;
+      }
+    });
   }
 
   handleTaskChange = e => {
     newTask = e.target.value;
   };
-
-  // setTasksToFirebase = group => {
-  //   groupRef.child(group).child('tasks').set(this.state.tasks);
-  // };
 
   submitTask = (e, group) => {
     e.preventDefault();
@@ -63,35 +63,47 @@ export default class TaskManager extends Component {
   };
 
   render() {
-    if (this.props["personalCards"] !== undefined) {
+    let currentEmail = "";
+    if (this.props.started === true) {
+      // (this.props.groups.length !== 0) {
       return this.props.groups.map(group => {
-        return (
-          <Card
-            title={group}
-            style={{
-              marginTop: 25,
-              marginLeft: 25
-            }}
-            className="challenge-collapse"
-          >
-            {this.props[group + "Cards"].map(card => {
-              return card;
-            })}
-            <Button
-              style={{ marginTop: 16 }}
-              onClick={() => this.addTaskForm(group)}
+        userRef.child(userid).on("value", snapshot => {
+          let info = snapshot.val();
+          for (let cri in info) {
+            if (cri === "email") {
+              currentEmail = info[cri];
+            }
+          }
+        });
+        if (this.props[group + "Users"].includes(currentEmail)) {
+          return (
+            <Card
+              title={group}
+              style={{
+                marginTop: 25,
+                marginLeft: 25
+              }}
+              className="challenge-collapse"
             >
-              Add Task
-            </Button>
-            <Button
-              style={{ marginTop: 16 }}
-              onClick={() => this.props.deleteGroup(group)}
-            >
-              Delete Group
-            </Button>
-            {this.state[group + "cardForm"]}
-          </Card>
-        );
+              {this.props[group + "Cards"].map(card => {
+                return card;
+              })}
+              <Button
+                style={{ marginTop: 16 }}
+                onClick={() => this.addTaskForm(group)}
+              >
+                Add Task
+              </Button>
+              <Button
+                style={{ marginTop: 16 }}
+                onClick={() => this.props.deleteGroup(group)}
+              >
+                Delete Group
+              </Button>
+              {this.state[group + "cardForm"]}
+            </Card>
+          );
+        }
       });
     }
     return null;

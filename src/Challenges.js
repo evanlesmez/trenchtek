@@ -52,8 +52,8 @@ export default class Challenges extends Component {
     e.preventDefault;
     this.setState({ isAdd: false });
   };
+
   submitChal = e => {
-    console.log(this.state);
     e.preventDefault();
     let obj = {
       name: this.state.name,
