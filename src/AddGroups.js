@@ -47,34 +47,36 @@ export default class AddGroups extends Component {
             this.setState({ [group + "Users"]: tempUser });
           });
       }
-      this.setState({ groups: tempGroup }, () => {
-        let tempCard = [];
-        let tasks = [];
-        this.state.groups.map(group => {
-          tempCard = [];
-          tasks = this.state[group + "Tasks"];
-          tasks.map((task, index) => {
-            tempCard.push(
-              <Card style={{ marginTop: 16 }} type="inner" title={task}>
-                {task} content
-                <Button
-                  style={{ marginTop: 16 }}
-                  onClick={() => this.deleteTask(group, index)}
-                >
-                  Delete Task
-                </Button>
-              </Card>
-            );
-          });
-          this.setState(
-            { [group + "Cards"]: tempCard },
-            () => {
-              started = true;
-            } //, () => {this.forceUpdate(); }
-          );
-        });
-      });
+      this.setState(
+        { groups: tempGroup }
+        // , () => {
+        // let tempCard = [];
+        // let tasks = [];
+        // this.state.groups.map(group => {
+        //   tempCard = [];
+        //   tasks = this.state[group + "Tasks"];
+        //   tasks.map((task, index) => {
+        //     tempCard.push(
+        //       <Card style={{ marginTop: 16 }} type="inner" title={task}>
+        //         {task} content
+        //         <Button
+        //           style={{ marginTop: 16 }}
+        //           onClick={() => this.deleteTask(group, index)}
+        //         >
+        //           Delete Task
+        //         </Button>
+        //       </Card>
+        //     );
+        //   });
+        //   this.setState(
+        //     { [group + "Cards"]: tempCard },
+        //     () => {
+        //       started = true;
+        //     } //, () => {this.forceUpdate(); }
+        //   );}
+      );
     });
+    //});
   }
 
   setTasks = (group, update) => {
@@ -181,6 +183,7 @@ export default class AddGroups extends Component {
           setTasks={this.setTasks}
           deleteGroup={this.deleteGroup}
           started={started}
+          deleteTask={this.deleteTask}
         />
         <Button
           onClick={this.addGroupForm}

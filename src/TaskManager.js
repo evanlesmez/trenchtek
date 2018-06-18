@@ -75,8 +75,9 @@ export default class TaskManager extends Component {
             }
           }
         });
-        if (this.props[group + "Users"].includes(currentEmail)) {
-          return (
+
+        {
+          this.props[group + "Users"].includes(currentEmail) ? (
             <Card
               title={group}
               style={{
@@ -85,8 +86,16 @@ export default class TaskManager extends Component {
               }}
               className="challenge-collapse"
             >
-              {this.props[group + "Cards"].map(card => {
-                return card;
+              {this.props[group + "Tasks"].map((task, index) => {
+                <Card style={{ marginTop: 16 }} type="inner" title={task}>
+                  {task} content
+                  <Button
+                    style={{ marginTop: 16 }}
+                    onClick={() => this.props.deleteTask(group, index)}
+                  >
+                    Delete Task
+                  </Button>
+                </Card>;
               })}
               <Button
                 style={{ marginTop: 16 }}
@@ -102,7 +111,7 @@ export default class TaskManager extends Component {
               </Button>
               {this.state[group + "cardForm"]}
             </Card>
-          );
+          ) : null;
         }
       });
     }
