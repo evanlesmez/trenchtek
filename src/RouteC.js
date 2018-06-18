@@ -27,7 +27,7 @@ export default class RouteC extends Component {
       "/welcome|/about|/meet-the-team|/submit-contracts"
     );
     const UserRegex = new RegExp(
-      "/challenges|/task-manager|/browse-contracts|/connect|/resources|/profile"
+      "/challenges|/task-manager|/browse-contracts|/connect|/resources|/profile|/q&a|/directory"
     );
     return (
       <BrowserRouter>
@@ -46,8 +46,8 @@ export default class RouteC extends Component {
             <Route path="/challenges" component={Challenges} />
             <Route path="/task-manager" component={TaskManager} />
             <Route path="/browse-contracts" component={BrowseContracts} />
-            <Route path="/connect" component={Connect} />
-            <Route path="/connect2" component={Connect2} />
+            <Route path="/q&a" component={Connect} />
+            <Route path="/directory" component={Connect2} />
             <Route path="/resources" component={Resources} />
             <Route path="/logout" component={Logout} />
             <Route path="/register" component={Register} />

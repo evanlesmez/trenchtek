@@ -7,12 +7,12 @@ const SubMenu = Menu.SubMenu;
 const menu = (
   <Menu>
     <Menu.Item>
-      <Link to="/connect">
+      <Link to="/q&a">
         <div className="topbar-tab">Q&A</div>
       </Link>
     </Menu.Item>
     <Menu.Item>
-      <Link to="/connect2">
+      <Link to="/directory">
         <div className="topbar-tab">Directory</div>
       </Link>
     </Menu.Item>
