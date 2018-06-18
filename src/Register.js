@@ -18,6 +18,8 @@ import firebase from "./Firebase";
 import "./App.css";
 
 class Register extends Component {
+
+
   constructor(props) {
     super(props);
     this.state = {

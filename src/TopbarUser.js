@@ -1,16 +1,24 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Menu, Button } from "antd";
+import firebase from "./Firebase.js";
 import "./App.css";
 
 export default class TopbarUser extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      userTitle: props.userTitle
+    }
+  }
+
   render() {
-  if(true){
+  if(this.state.userTitle == "admin"){
     return (
       <div>
         <Menu mode="horizontal">
-          <Menu.Item key="tasks">
-            <Link to="/tasks">tasks</Link>
+          <Menu.Item key="task-manager">
+            <Link to="/task-manager">tasks</Link>
           </Menu.Item>
           <Menu.Item key="browse-contracts">
             <Link to="/browse-contracts">contracts</Link>
@@ -27,6 +35,12 @@ export default class TopbarUser extends Component {
           <Menu.Item key="admin">
             <Link to="/admin">admin</Link>
           </Menu.Item>
+
+          <Button className="login-logout-button" type="danger" ghost>
+            <Link to="/logout">
+              <div className="topbar-tab">logout</div>
+            </Link>
+          </Button>
         </Menu>
       </div>
     );

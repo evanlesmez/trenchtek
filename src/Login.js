@@ -10,7 +10,7 @@ class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      loginSuccessful: true
+      loginSuccessful: false
     };
   }
 
@@ -43,8 +43,6 @@ class Login extends Component {
       }
     });
   };
-
-  checkUser;
 
   render() {
     if (this.state.loginSuccessful) {
