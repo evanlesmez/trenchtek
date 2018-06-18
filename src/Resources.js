@@ -12,7 +12,8 @@ class Resources extends Component {
       resources: [],
       description: "",
       url: "",
-      addingResource: false
+      addingResource: false,
+      userTitle: props.userTitle
     };
   }
 
@@ -155,27 +156,29 @@ class Resources extends Component {
       <div>
         <center>
           <br />
-          <Card title="Resources" style={{ width: "85%" }}>
+          <Card title="Resources" style={{ width: 720 }}>
             {this.state.resources.map(resource => {
               return (
                 <div>
                   <Card
                     title={resource.description}
                     extra={
-                      <div className="chaldelete">
-                        <Button
-                          size="small"
-                          onClick={e =>
-                            this.removeResource(
-                              e,
-                              resource.id,
-                              resource.description
-                            )
-                          }
-                        >
-                          <Icon type="delete" />
-                        </Button>
-                      </div>
+                      this.state.userTitle === "admin" ? (
+                        <div className="chaldelete">
+                          <Button
+                            size="small"
+                            onClick={e =>
+                              this.removeResource(
+                                e,
+                                resource.id,
+                                resource.description
+                              )
+                            }
+                          >
+                            <Icon type="delete" />
+                          </Button>
+                        </div>
+                      ) : null
                     }
                     style={{ width: "95%" }}
                   >
@@ -187,13 +190,15 @@ class Resources extends Component {
                 </div>
               );
             })}
-            <Button
-              size="large"
-              type="primary"
-              shape="circle"
-              icon="plus"
-              onClick={this.handleAddResourceClick}
-            />
+            {this.state.userTitle === "admin" ? (
+              <Button
+                size="large"
+                type="primary"
+                shape="circle"
+                icon="plus"
+                onClick={this.handleAddResourceClick}
+              />
+            ) : null}
           </Card>
         </center>
       </div>
