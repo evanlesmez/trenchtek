@@ -27,12 +27,6 @@
   font-weight: bold;
 }
 
-.logo-main {
-  font-family: "Arvo", sans-serif;
-  font-weight: bold;
-  font-size: 900%;
-}
-
 .input {
   width: 55%;
   height: 25x;
@@ -70,9 +64,62 @@
 
 .resource-submit-button {
   margin-right: 15px;
-  margin-bottom: 30px;
 }
 
 body {
   background-color: rgb(252, 252, 252);
+}
+
+.welcome-pic {
+  max-width: 100%;
+  height: auto;
+  -webkit-filter: brightness(40%);
+  filter: brightness(40%);
+}
+
+.welcome-text {
+  position: absolute;
+  text-align: center;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Arvo", sans-serif;
+  font-style: italic;
+  font-size: 4.3vw;
+  color: white;
+}
+
+.welcome-text2 {
+  position: absolute;
+  text-align: center;
+  top: 62%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Arvo", sans-serif;
+  font-style: italic;
+  font-size: 4.3vw;
+  color: white;
+}
+
+.logo-text {
+  margin-top: 0;
+  padding-top: 0;
+  position: absolute;
+  top: 17%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: "Arvo", sans-serif;
+  font-weight: bold;
+  font-size: 16vw;
+  color: white;
+}
+
+.container {
+  position: relative;
+}
+
+.redirect-to-home-logo-button {
+  font-family: "Arvo", sans-serif;
+  font-weight: bold;
+  font-size: 70px;
 }

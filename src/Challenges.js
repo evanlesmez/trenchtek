@@ -16,7 +16,8 @@ export default class Challenges extends Component {
       name: "",
       details: "",
       duedate: "",
-      isAdd: false
+      isAdd: false,
+      userTitle: props.userTitle
     };
   }
 
@@ -34,6 +35,12 @@ export default class Challenges extends Component {
           duedate: duedatet,
           id: key
         });
+      });
+      challengest.sort(function(b, a) {
+        return (
+          parseInt(b.duedate.split(/-/i).join("")) -
+          parseInt(a.duedate.split(/-/i).join(""))
+        );
       });
       this.setState({ challenges: challengest });
     });
@@ -60,7 +67,7 @@ export default class Challenges extends Component {
       details: this.state.details,
       duedate: this.state.duedate
     };
-    let newPostKey = chalRef.child(this.state.name).push().key;
+    let newPostKey = chalRef.push().key;
     let updates = {};
     updates[newPostKey] = obj;
     this.setState({ name: "", details: "", duedate: "", isAdd: false });
@@ -71,8 +78,14 @@ export default class Challenges extends Component {
     this.setState({ [label]: e.target.value });
   };
 
-  deletechal = item => {
-    chalRef.child(item.id).remove();
+  deletechal = (e, id, name) => {
+    e.preventDefault();
+    const challengeToDelete = firebase.database().ref(`/challenges/${id}`);
+    if (
+      window.confirm(`Are you sure you want to delete the challenge: ${name}?`)
+    ) {
+      challengeToDelete.remove();
+    }
   };
 
   render() {
@@ -89,7 +102,6 @@ export default class Challenges extends Component {
     if (this.state.isAdd) {
       return (
         <div>
-          <br />
           <br />
           <center>
             <Card title="Add Challenge" style={{ width: 600 }}>
@@ -129,9 +141,7 @@ export default class Challenges extends Component {
                         Submit
                       </Button>
                       {"              "}
-                      <Button type="primary" onClick={this.cancelbut}>
-                        Cancel
-                      </Button>
+                      <Button onClick={this.cancelbut}>Cancel</Button>
                     </div>
                   </FormItem>
                 </center>
@@ -143,7 +153,6 @@ export default class Challenges extends Component {
     }
     return (
       <div>
-        <br />
         <br />
         <center>
           <Card title="Challenges" style={{ width: "85%" }}>
@@ -157,15 +166,20 @@ export default class Challenges extends Component {
                         header={
                           <div className="panelheader">
                             {" "}
-                            {item.name}{" "}
-                            <div className="chaldelete">
-                              <Button
-                                size="small"
-                                onClick={() => this.deletechal(item)}
-                              >
-                                <Icon type="delete" />
-                              </Button>
-                            </div>
+                            {item.name}
+                            {this.state.userTitle === "admin" ? (
+                              <div className="chaldelete">
+                                Due: {item.duedate} {"     "}
+                                <Button
+                                  size="small"
+                                  onClick={e =>
+                                    this.deletechal(e, item.id, item.name)
+                                  }
+                                >
+                                  <Icon type="delete" />
+                                </Button>
+                              </div>
+                            ) : null}
                           </div>
                         }
                       >
@@ -185,13 +199,15 @@ export default class Challenges extends Component {
               })}
             </div>
             <br />
-            <Button
-              size="large"
-              type="primary"
-              shape="circle"
-              icon="plus"
-              onClick={this.addChal}
-            />
+            {this.state.userTitle === "admin" ? (
+              <Button
+                size="large"
+                type="primary"
+                shape="circle"
+                icon="plus"
+                onClick={this.addChal}
+              />
+            ) : null}
           </Card>
         </center>
       </div>

@@ -117,4 +117,8 @@ export default class TaskManager extends Component {
     }
     return null;
   }
+
+  render() {
+    return <div>{this.state.userTitle}</div>;
+  }
 }
