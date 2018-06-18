@@ -28,15 +28,12 @@ class ThreadDisplay extends Component {
   }
   handleClick() {
     var temp = Math.floor(Math.random() * this.state.array.length);
-    console.log(temp);
     var number = parseInt(this.state.array[temp].upvotes);
-    console.log(number);
     this.state.array[temp].upvotes = number++;
-    console.log("HELLO");
-    let list = firebase.database().ref("/array");
+    let list = firebase.database().ref("/posts");
   }
   componentDidMount() {
-    let list = firebase.database().ref("/array");
+    let list = firebase.database().ref("/posts");
     list.on("value", snapshot => {
       let objects = snapshot.val();
       let all = [];
@@ -64,7 +61,7 @@ class ThreadDisplay extends Component {
                 <div class="flexvertical">
                   <img
                     class="cover image-cropper"
-                    src="http://1.bp.blogspot.com/-In9KukHrJGI/Tl7HT6i5kTI/AAAAAAAAADQ/-0JxyuulMME/s1600/poptropican2.jpg"
+                    src="https://i.stack.imgur.com/34AD2.jpg"
                   />
                   <div class="space" />
                   <center>
