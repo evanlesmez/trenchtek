@@ -17,6 +17,7 @@ import TopbarCompany from "./TopbarCompany.js";
 import TopbarUser from "./TopbarUser.js";
 import Register from "./Register.js";
 import Admin from "./Admin.js";
+import User from "./User.js";
 
 export default class RouteC extends Component {
   state = {
@@ -34,9 +35,9 @@ export default class RouteC extends Component {
         <div>
           <Route path={CompanyRegex} component={TopbarCompany} />
           <Route path={UserRegex} component={TopbarUser} />
-          <Redirect to="/welcome" />
+          <Redirect to="/users" />
           <div>
-            <Redirect to="/welcome" />
+            <Redirect to="/users" />
             <Route path="/welcome" component={Welcome} />
             <Route path="/about" component={About} />
             <Route path="/meet-the-team" component={Meet} />
@@ -52,6 +53,7 @@ export default class RouteC extends Component {
             <Route path="/logout" component={Logout} />
             <Route path="/register" component={Register} />
             <Route path="/admin" component={Admin} />
+            <Route path="/users" component={User} />
           </div>
         </div>
       </BrowserRouter>
