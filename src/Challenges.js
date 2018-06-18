@@ -139,9 +139,7 @@ export default class Challenges extends Component {
                         Submit
                       </Button>
                       {"              "}
-                      <Button type="primary" onClick={this.cancelbut}>
-                        Cancel
-                      </Button>
+                      <Button onClick={this.cancelbut}>Cancel</Button>
                     </div>
                   </FormItem>
                 </center>
