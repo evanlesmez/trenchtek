@@ -44,8 +44,6 @@ class Login extends Component {
     });
   };
 
-  checkUser;
-
   render() {
     if (this.state.loginSuccessful) {
       return <Redirect to="/profile" />;
