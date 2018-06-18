@@ -16,7 +16,8 @@ export default class Challenges extends Component {
       name: "",
       details: "",
       duedate: "",
-      isAdd: false
+      isAdd: false,
+      userTitle: props.userTitle
     };
   }
 
@@ -168,17 +169,19 @@ export default class Challenges extends Component {
                           <div className="panelheader">
                             {" "}
                             {item.name}
-                            <div className="chaldelete">
-                              Due: {item.duedate} {"     "}
-                              <Button
-                                size="small"
-                                onClick={e =>
-                                  this.deletechal(e, item.id, item.name)
-                                }
-                              >
-                                <Icon type="delete" />
-                              </Button>
-                            </div>
+                            {this.state.userTitle === "admin" ? (
+                              <div className="chaldelete">
+                                Due: {item.duedate} {"     "}
+                                <Button
+                                  size="small"
+                                  onClick={e =>
+                                    this.deletechal(e, item.id, item.name)
+                                  }
+                                >
+                                  <Icon type="delete" />
+                                </Button>
+                              </div>
+                            ) : null}
                           </div>
                         }
                       >
@@ -198,13 +201,15 @@ export default class Challenges extends Component {
               })}
             </div>
             <br />
-            <Button
-              size="large"
-              type="primary"
-              shape="circle"
-              icon="plus"
-              onClick={this.addChal}
-            />
+            {this.state.userTitle === "admin" ? (
+              <Button
+                size="large"
+                type="primary"
+                shape="circle"
+                icon="plus"
+                onClick={this.addChal}
+              />
+            ) : null}
           </Card>
         </center>
       </div>

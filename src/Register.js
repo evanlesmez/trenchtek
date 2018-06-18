@@ -18,8 +18,6 @@ import firebase from "./Firebase";
 import "./App.css";
 
 class Register extends Component {
-
-
   constructor(props) {
     super(props);
     this.state = {
@@ -277,7 +275,6 @@ class Register extends Component {
                     >
                       Register
                     </Button>
-                    <br />
                     <br />
                     Or <Link to="/login">login now!</Link>
                   </Form.Item>

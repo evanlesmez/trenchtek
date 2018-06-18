@@ -100,7 +100,7 @@ body {
 .logo-text {
   margin-top: 0;
   padding-top: 0;
-  position: absolute;
+  position: absol ute;
   top: 17%;
   left: 50%;
   transform: translate(-50%, -50%);
