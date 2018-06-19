@@ -41,6 +41,7 @@ export default class Profilehandler extends Component {
               position: userData.position,
               aboutMe: userData.about,
               tite: userData.title,
+              uidString: userData.uidString
             });
     });
     }

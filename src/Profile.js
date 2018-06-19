@@ -28,7 +28,8 @@ export default class Profile extends Component {
       LinkedIn: props.links.LinkedIn,
       banner: "",
       profFile: "",
-      profURL: props.profURL
+      profURL: props.profURL,
+      uidString: props.uidString
     }
   }
   componentWillReceiveProps(nextProps){
@@ -40,6 +41,7 @@ export default class Profile extends Component {
       position: nextProps.position,
       aboutMe: nextProps.about,
       tite: nextProps.title,
+      uidString: nextProps.uidString
     })
   }
 
@@ -62,7 +64,10 @@ export default class Profile extends Component {
       editing: !this.state.editing,
       readmode: !this.state.readmode,
       inputclass:"inputfield"});
-    
+    // dBase.ref(this.state.uidString)
+    //   .set({
+        
+    //   })
   }
 
   addClick = (e) =>{ //First array ever

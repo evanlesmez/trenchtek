@@ -50,7 +50,7 @@ export default class RouteC extends Component {
 
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        //console.log(user);
+        console.log(user);
         let userKey = user.uid;
         let userIDString = "/users/" + userKey;
         let database = firebase.database().ref(userIDString);
@@ -103,7 +103,7 @@ export default class RouteC extends Component {
                   <Route
                     path="/profile"
                     render={() => (
-                      <Profilehandler userTitle={this.state.userTitle} />
+                      <Profilehandler {...this.state} /> // Need this for sending uid
                     )}
                   />
                   <Route
