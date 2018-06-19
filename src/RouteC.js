@@ -19,30 +19,16 @@ import Admin from "./Admin.js";
 import User from "./User.js";
 import firebase from "./Firebase.js";
 import AddGroups from "./AddGroups";
-//import TaskManager from "./TaskManager";
 
 export default class RouteC extends Component {
   constructor(props) {
     super(props);
     this.state = {
       userTitle: "",
-      loginSuccessful: false
+      loginSuccessful: false,
+      uidString: "",
     };
   }
-
-  checkUser = () => {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user !== null) {
-        this.setState({
-          loginSuccessful: true
-        });
-      } else {
-        this.setState({
-          loginSuccessful: false
-        });
-      }
-    });
-  };
 
   updateField = (field, value) => {
     this.setState({
@@ -51,25 +37,22 @@ export default class RouteC extends Component {
     });
   };
   componentDidMount() {
-    this.checkUser();
-
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        //console.log(user);
         let userKey = user.uid;
         let userIDString = "/users/" + userKey;
         let database = firebase.database().ref(userIDString);
         database.on("value", snapshot => {
           let newTitleState = snapshot.val().title;
-          //console.log(newTitleState);
           this.setState({
-            userTitle: newTitleState
+            userTitle: newTitleState,
+            uidString: userIDString,
           });
-          //console.log(this.state);
         });
+        this.setState({ loginSuccessful: true });
         // User is signed in.
       } else {
-        //console.log("no user found");
+        this.setState({ loginSuccessful: false });
         // No user is signed in.
       }
     });
@@ -107,7 +90,7 @@ export default class RouteC extends Component {
                   <Route
                     path="/profile"
                     render={() => (
-                      <Profilehandler userTitle={this.state.userTitle} />
+                      <Profilehandler {...this.state} /> // Need this for sending uid
                     )}
                   />
                   <Route
@@ -140,14 +123,20 @@ export default class RouteC extends Component {
                     )}
                   />
                   <Route path="/logout" component={Logout} />
-                  <Route
-                    path="/admin"
-                    render={() => <Admin userTitle={this.state.userTitle} />}
-                  />
-                  <Route
-                    path="/users"
-                    render={() => <User userTitle={this.state.userTitle} />}
-                  />
+                  {this.state.userTitle === "Admin" ? (
+                    <div>
+                      <Route
+                        path="/admin"
+                        render={() => (
+                          <Admin userTitle={this.state.userTitle} />
+                        )}
+                      />
+                      <Route
+                        path="/users"
+                        render={() => <User userTitle={this.state.userTitle} />}
+                      />
+                    </div>
+                  ) : null}
                 </div>
               ) : null}
             </div>
