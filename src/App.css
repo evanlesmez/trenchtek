@@ -21,6 +21,11 @@
   width: 30%;
 }
 
+.make-them-inline {
+  display: inline-block;
+  vertical-align: top;
+}
+
 .logo-button {
   font-size: 175%;
   font-family: "Arvo", sans-serif;

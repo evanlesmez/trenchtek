@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, Form, Input, Card, Layout, Row, Col } from "antd";
 import firebase from "./Firebase.js";
+import "./App.css";
 
 const groupRef = firebase.database().ref("groups");
 const userRef = firebase.database().ref("users");
@@ -57,41 +58,44 @@ export default class TaskManager extends Component {
     return this.props.started
       ? this.props.groups.map(group => {
           return (
-            <Card
-              title={group}
-              style={{
-                marginTop: 25,
-                marginLeft: 25
-              }}
-              className="challenge-collapse"
-            >
-              {this.props[group + "Tasks"].map((task, index) => {
-                return (
-                  <Card style={{ marginTop: 16 }} type="inner" title={task}>
-                    {task} content
-                    <Button
-                      style={{ marginTop: 16 }}
-                      onClick={() => this.props.deleteTask(group, index)}
-                    >
-                      Delete Task
-                    </Button>
-                  </Card>
-                );
-              })}
-              <Button
-                style={{ marginTop: 16 }}
-                onClick={() => this.addTaskForm(group)}
+            <span className="make-them-inline">
+              <Card
+                title={group}
+                style={{
+                  marginTop: 25,
+                  marginLeft: 25
+                }}
+                //className="challenge-collapse"
               >
-                Add Task
-              </Button>
-              <Button
-                style={{ marginTop: 16 }}
-                onClick={() => this.props.deleteGroup(group)}
-              >
-                Delete Group
-              </Button>
-              {this.state[group + "cardForm"]}
-            </Card>
+                {this.props[group + "Tasks"].map((task, index) => {
+                  return task !== "default" ? (
+                    <Card style={{ marginTop: 16 }} type="inner" title={task}>
+                      {task} content
+                      <Button
+                        style={{ marginTop: 16 }}
+                        onClick={() => this.props.deleteTask(group, index)}
+                        size="small"
+                      >
+                        Delete Task
+                      </Button>
+                    </Card>
+                  ) : null;
+                })}
+                <Button
+                  style={{ marginTop: 16 }}
+                  onClick={() => this.addTaskForm(group)}
+                >
+                  Add Task
+                </Button>
+                <Button
+                  style={{ marginTop: 16 }}
+                  onClick={() => this.props.deleteGroup(group)}
+                >
+                  Delete Group
+                </Button>
+                {this.state[group + "cardForm"]}
+              </Card>
+            </span>
           );
         })
       : null;

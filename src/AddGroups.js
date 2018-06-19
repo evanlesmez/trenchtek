@@ -101,14 +101,14 @@ export default class AddGroups extends Component {
       {
         groups: tempGroup,
         groupForm: null,
-        [newGroup + "Tasks"]: ["none"],
+        [newGroup + "Tasks"]: ["default"],
         [newGroup + "Users"]: newUsers
       },
       () => {
         groupRef
           .child(newGroup)
           .child("tasks")
-          .set(["none"]);
+          .set(["default"]);
         groupRef
           .child(newGroup)
           .child("users")
@@ -124,13 +124,13 @@ export default class AddGroups extends Component {
     tempGroup.push("Personal");
     this.setState({
       groups: tempGroup,
-      ["Personal" + userid + "Tasks"]: ["none"],
+      ["Personal" + userid + "Tasks"]: ["default"],
       ["Personal" + userid + "Users"]: [this.state.currentEmail]
     });
     groupRef
       .child("Personal" + userid)
       .child("tasks")
-      .set(["none"]);
+      .set(["default"]);
     groupRef
       .child("Personal" + userid)
       .child("users")
