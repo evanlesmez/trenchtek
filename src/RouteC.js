@@ -121,7 +121,7 @@ export default class RouteC extends Component {
                     )}
                   />
                   <Route path="/logout" component={Logout} />
-                  {this.state.userTitle === "admin" ? (
+                  {this.state.userTitle === "Admin" ? (
                     <div>
                       <Route
                         path="/admin"

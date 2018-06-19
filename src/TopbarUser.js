@@ -69,7 +69,7 @@ class TopbarUser extends Component {
           <Menu.Item key="/resources">
             <Link to="/resources">resources</Link>
           </Menu.Item>
-          {this.state.userTitle === "admin" ? (
+          {this.state.userTitle === "Admin" ? (
             <Menu.Item key="/admin">
               <Link to="/admin">admin</Link>
             </Menu.Item>
