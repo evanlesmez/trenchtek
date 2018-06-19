@@ -38,7 +38,9 @@ class Login extends Component {
           .ref("/users")
           .child(user.uid)
           .once("value", snapshot => {
-            exists = snapshot.val().title !== "removed";
+            exists =
+              snapshot.val().title !== "removed" &&
+              snapshot.val().approved === true;
           })
           .then(() => {
             if (exists === false) {
@@ -62,18 +64,30 @@ class Login extends Component {
   };
   checkUser2 = () => {
     firebase.auth().onAuthStateChanged(user => {
-      let exists = true;
+      let removed = false;
+      let accepted = false;
       if (user !== null) {
         firebase
           .database()
           .ref("/users")
           .child(user.uid)
           .once("value", snapshot => {
-            exists = snapshot.val().title !== "removed";
+            console.log(snapshot.val().approved);
+            removed =
+              snapshot.val().title === "removed" &&
+              snapshot.val().approved === "removed";
+            accepted = snapshot.val().approved === true;
           })
           .then(() => {
-            if (exists === false) {
+            if (removed === true) {
               alert("The user may have been removed.");
+              firebase.auth().signOut();
+              this.setState({
+                email: "",
+                password: ""
+              });
+            } else if (!accepted) {
+              alert("Please wait for your registration to be approved.");
               firebase.auth().signOut();
               this.setState({
                 email: "",

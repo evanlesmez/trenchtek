@@ -89,7 +89,9 @@ class Register extends Component {
             confirmDirty: false,
             go: true
           });
-          alert("Registration successful. Please login.");
+          alert(
+            "Registration successful. Please wait for your registration to be approved."
+          );
           logout();
         }
       })
