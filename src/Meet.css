@@ -1,126 +1,118 @@
- @import "~antd/dist/antd.css";
- 
-.searchInfo{
-    clear:both;
-    text-align: center;
-    margin-top: 60px;
-    font-size: 20px;
+@import "~antd/dist/antd.css";
+
+.searchInfo {
+  clear: both;
+  text-align: center;
+  margin-top: 60px;
+  font-size: 20px;
 }
 
-.search{
-    clear:both;
-    max-width:40%
+.search {
+  clear: both;
+  max-width: 40%;
 }
 
-.searchComponent{
-    clear:both;
-    margin-left: 37%;
-    margin-top: 3%;
-   
+.searchComponent {
+  clear: both;
+  margin-left: 37%;
+  margin-top: 3%;
 }
 /* //1400 */
-@media (max-width: 1400px){
-    body{
-        
-        align-items: center;
-        position: inherit
-    }
-    .instuctors{
-        margin: auto;
-        width: 50%;
-        padding: 10px;
-    }
-      .texty,.InstructorCard{
-        margin: auto;
-        width: 50%;
-        padding: 10px;
-    }
-    /* .individualCards{
+@media (max-width: 1400px) {
+  body {
+    align-items: center;
+    position: inherit;
+  }
+  .instuctors {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+  }
+  .texty,
+  .InstructorCard {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+  }
+  /* .individualCards{
         margin: auto;
         width: 50%;
         padding: 10px;
     } */
-    .instuctors{
-        background-color: sandybrown;
-        float: right;
-         width: 62%; 
-        height: 7px;
-        display: block;
-        padding: 0px;
-        margin-right: 20px;
-        margin-bottom: 70px
-    }
+  .instuctors {
+    background-color: sandybrown;
+    float: right;
+    width: 62%;
+    height: 7px;
+    display: block;
+    padding: 0px;
+    margin-right: 20px;
+    margin-bottom: 70px;
+  }
 
-    /* p,.InstructorCard{
+  /* p,.InstructorCard{
         align-items: center;
 
         margin-left:20%
     } */
 
-    .seniorDevs{
-        float: right;
-         width: 69%; 
-        height: 7px;
-        display: block;
-        padding: 0px;
-        margin-right: 20px;
-        margin-bottom: 70px
-    }
-    h1{
-        
-        float: right;
-        width: 97%;
-        height: 7px;
-        display: block;
-        padding: 0px;
-        margin-right: 20px
-    }
-    
-    p,.InstructorCard{
-       
-        width: 250px;
-        clear:both;
-        /* margin-right:100px; */
-       /* // display:-webkit-inline-box; */
-         float: right; 
-         margin-top: 20px;
-        
-    }
-  .individualCards{
-      left:50%;
+  .seniorDevs {
+    float: right;
+    width: 69%;
+    height: 7px;
+    display: block;
+    padding: 0px;
+    margin-right: 20px;
+    margin-bottom: 70px;
+  }
+  h1 {
+    float: right;
+    width: 97%;
+    height: 7px;
+    display: block;
+    padding: 0px;
+    margin-right: 20px;
   }
 
-  h5{
-    
+  #meet,
+  .InstructorCard {
     width: 250px;
-    clear:both;
+    clear: both;
     /* margin-right:100px; */
-   /* // display:-webkit-inline-box; */
-     float: right; 
-      
+    /* // display:-webkit-inline-box; */
+    float: right;
+    margin-top: 20px;
   }
-   
+  .individualCards {
+    left: 50%;
+  }
+
+  h5 {
+    width: 250px;
+    clear: both;
+    /* margin-right:100px; */
+    /* // display:-webkit-inline-box; */
+    float: right;
+  }
 }
 
-h1{
-    clear:both;
-   font-size: 25px;
-    margin-top:5%;
-    font-family: "Verdana";
+h1 {
+  clear: both;
+  font-size: 25px;
+  margin-top: 5%;
+  font-family: "Verdana";
 }
 
-.seniorDevs{
-    clear:both;
-    margin-left: 40%;
-    color: red;
-
+.seniorDevs {
+  clear: both;
+  margin-left: 40%;
+  color: red;
 }
 
-.instuctors{
-    clear:both;
-    margin-left: 45%;
-    color: red;
-
+.instuctors {
+  clear: both;
+  margin-left: 45%;
+  color: red;
 }
 /* .seniorDevs{
  
@@ -132,11 +124,10 @@ h1{
     white-space: nowrap;
 } */
 
-.textOfCard{
-    clear:both;
-    text-align: center;
+.textOfCard {
+  clear: both;
+  text-align: center;
 }
-
 
 /* .InstructorCard{
     margin-left:20%;
@@ -144,42 +135,35 @@ h1{
    
 } */
 
-
-.InstructorCard{
-    clear:both;
-    float:left;
-   
+.InstructorCard {
+  clear: both;
+  float: left;
 }
 
-
-
-.infocard{
-    clear:both;
-    margin-left:30%;
-    margin-top: 10%;
-    margin-bottom:5%;
-   
+.infocard {
+  clear: both;
+  margin-left: 30%;
+  margin-top: 10%;
+  margin-bottom: 5%;
 }
-.texty{
-    margin-left: 25%;
-    max-width: 35%;
-   
+.texty {
+  margin-left: 25%;
+  max-width: 35%;
 }
 
-.individualCards{
-    clear:both;
-    margin-top:10%;
-    margin-bottom:10%;
+.individualCards {
+  clear: both;
+  margin-top: 10%;
+  margin-bottom: 10%;
 }
 
-.editInfo{
-    clear:both;
-    margin-left: 60%;
-    font-size:10px;
-    color: blue;
-    cursor: pointer;
-    text-decoration: underline
-    
+.editInfo {
+  clear: both;
+  margin-left: 60%;
+  font-size: 10px;
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
 }
 /*
 .eliza,.infocard
