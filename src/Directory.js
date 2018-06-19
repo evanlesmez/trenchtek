@@ -116,74 +116,74 @@ export default class Directory extends Component {
       }
       for (let obj in array2) {
         person = array2[obj];
-        var tag = "React";
-        console.log(person.tags);
+        var tag = person.tags;
+        for (var i = 0; i < tag.length; i++) {
+          if (tag[i] != "") tag[i] = tag[i].toLowerCase();
+          else {
+            delete tag[i];
+          }
+        }
+
         var name = person.name.toLowerCase();
         if (
           v.indexOf("#") != -1 &&
-          tag.includes(v.toLowerCase().substring(1) && person.image === "")
+          tag.includes(v.toLowerCase().substring(1))
         ) {
-          thing = {
-            name: person.name,
-            title: person.title,
-            image: "https://i.stack.imgur.com/34AD2.jpg",
-            tags: person.tags,
-            upvotes: person.upvotes
-          };
+          if (person.image === "") {
+            thing = {
+              name: person.name,
+              title: person.title,
+              image: "https://i.stack.imgur.com/34AD2.jpg",
+              tags: person.tags,
+              upvotes: person.upvotes
+            };
+          } else {
+            thing = {
+              name: person.name,
+              title: person.title,
+              image: person.image,
+              tags: person.tags,
+              upvotes: person.upvotes
+            };
+          }
           array.push(thing);
-        } else if (
-          v.indexOf("#") != -1 &&
-          tag.includes(v.toLowerCase().substring(1)) &&
-          person.image === ""
-        ) {
-          thing = {
-            name: person.name,
-            title: person.title,
-            image: person.image,
-            tags: person.tags,
-            upvotes: person.upvotes
-          };
-        } else if (
-          v.indexOf("#") == -1 &&
-          name.includes(v.toLowerCase()) &&
-          person.image === ""
-        ) {
-          v.indexOf("#") !== -1 && tag.includes(v.toLowerCase().substring(1));
-
-          thing = {
-            name: person.name,
-            title: person.title,
-            image: "https://i.stack.imgur.com/34AD2.jpg",
-            tags: person.tags,
-            upvotes: person.upvotes
-          };
+        } else if (v.indexOf("#") == -1 && name.includes(v.toLowerCase())) {
+          if (person.image === "")
+            thing = {
+              name: person.name,
+              title: person.title,
+              image: "https://i.stack.imgur.com/34AD2.jpg",
+              tags: person.tags,
+              upvotes: person.upvotes
+            };
+          else {
+            thing = {
+              name: person.name,
+              title: person.title,
+              image: person.image,
+              tags: person.tags,
+              upvotes: person.upvotes
+            };
+          }
           array.push(thing);
-        } else if (v.indexOf("#") === -1 && name.includes(v.toLowerCase())) {
-          thing = {
-            name: person.name,
-            title: person.title,
-            image: person.image,
-            tags: person.tags,
-            upvotes: person.upvotes
-          };
-          array.push(thing);
-        } else if (v == "" && person.image === "") {
-          thing = {
-            name: person.name,
-            title: person.title,
-            image: "https://i.stack.imgur.com/34AD2.jpg",
-            tags: person.tags,
-            upvotes: person.upvotes
-          };
-          array.push(thing);
-        } else if (v === "") {
-          thing = {
-            name: person.name,
-            title: person.title,
-            image: person.image,
-            tags: person.tags,
-            upvotes: person.upvotes
-          };
+        } else if (v == "") {
+          if (person.image == "") {
+            thing = {
+              name: person.name,
+              title: person.title,
+              image: "https://i.stack.imgur.com/34AD2.jpg",
+              tags: person.tags,
+              upvotes: person.upvotes
+            };
+          } else {
+            thing = {
+              name: person.name,
+              title: person.title,
+              image: person.image,
+              tags: person.tags,
+              upvotes: person.upvotes
+            };
+          }
           array.push(thing);
         }
       }
@@ -201,7 +201,6 @@ export default class Directory extends Component {
         });
       } else if (this.state.sortByName) {
         array.sort(function(a, b) {
-          console.log(b.name.valueOf());
           return (
             a.name.toUpperCase().charCodeAt(0) -
             b.name.toUpperCase().charCodeAt(0)
@@ -290,8 +289,8 @@ export default class Directory extends Component {
       return (
         <div>
           <div class="flexhorizontal2">
-            <h1 class="directoryfont">
-              The Directory{" "}
+            <h1>
+              The Directory
               <Icon type="book" style={{ fontSize: 40, color: "black" }} />
             </h1>
           </div>
@@ -348,7 +347,7 @@ export default class Directory extends Component {
                     </div>
                   </Card>
                   <div class="tags">
-                    <Tag color="blue">{user.tags}</Tag>
+                    {user.tags.map(t => <Tag color="blue">{t}</Tag>)}
                   </div>
                 </div>
                 <br />
@@ -361,7 +360,7 @@ export default class Directory extends Component {
       return (
         <div>
           <div class="flexhorizontal2">
-            <h1 class="directoryfont">
+            <h1>
               The Directory<Icon
                 type="book"
                 style={{ fontSize: 40, color: "black" }}
@@ -377,6 +376,7 @@ export default class Directory extends Component {
               style={{ width: 400 }}
               enterButton
             />
+
             <Dropdown overlay={this.menu2()} trigger={["click"]}>
               <a className="ant-dropdown-link" href="#">
                 Sort by <Icon type="down" />
