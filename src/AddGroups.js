@@ -42,6 +42,7 @@ export default class AddGroups extends Component {
                     .child("users")
                     .on("value", snapshot => {
                       let users = snapshot.val();
+                      console.log(users);
                       if (users.includes(this.state.currentEmail)) {
                         tempGroup.push(group);
                         let tempUser = [];
