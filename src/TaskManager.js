@@ -7,6 +7,8 @@ const userRef = firebase.database().ref("users");
 const FormItem = Form.Item;
 let newTask = null;
 let userid = null;
+let currentEmail = "";
+let email = false;
 
 const { Content } = Layout;
 
@@ -20,13 +22,27 @@ export default class TaskManager extends Component {
     };
   }
 
-  componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        userid = user.uid;
-      }
-    });
-  }
+  // componentDidMount() {
+  //   firebase.auth().onAuthStateChanged(user => {
+  //     if (user) {
+  //       userid = user.uid;
+  //     }
+  //     userRef.child(userid).on("value", snapshot => {
+  //       let info = snapshot.val();
+  //       for (let cri in info) {
+  //         if (cri === "email") {
+  //           currentEmail = info[cri];
+  //         }
+  //       }
+  //     });
+  //   });
+  //   console.log(this.currentEmail);
+  //   console.log(currentEmail);
+  //   this.props.giveCurrentEmail(currentEmail);
+  //   console.log("current Email given");
+  // }
+
+  // getCurrentEmail
 
   handleTaskChange = e => {
     newTask = e.target.value;
@@ -40,9 +56,9 @@ export default class TaskManager extends Component {
     groupRef
       .child(group)
       .child("tasks")
-      .set(this.props[group + "Tasks"]);
+      .set(tempTask); //this.props[group + "Tasks"]);
     newTask = null;
-    this.setState({ cardForm: null });
+    this.setState({ [group + "cardForm"]: null });
   };
 
   addTaskForm = group => {
@@ -63,21 +79,11 @@ export default class TaskManager extends Component {
   };
 
   render() {
-    let currentEmail = "";
-    if (this.props.started === true) {
-      // (this.props.groups.length !== 0) {
-      return this.props.groups.map(group => {
-        userRef.child(userid).on("value", snapshot => {
-          let info = snapshot.val();
-          for (let cri in info) {
-            if (cri === "email") {
-              currentEmail = info[cri];
-            }
-          }
-        });
-
-        {
-          this.props[group + "Users"].includes(currentEmail) ? (
+    console.log("task manager is rendering");
+    console.log("checking started");
+    return this.props.started
+      ? this.props.groups.map(group => {
+          return (
             <Card
               title={group}
               style={{
@@ -111,14 +117,8 @@ export default class TaskManager extends Component {
               </Button>
               {this.state[group + "cardForm"]}
             </Card>
-          ) : null;
-        }
-      });
-    }
-    return null;
-  }
-
-  render() {
-    return <div>{this.state.userTitle}</div>;
+          );
+        })
+      : null;
   }
 }

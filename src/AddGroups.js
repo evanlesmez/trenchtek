@@ -4,80 +4,102 @@ import firebase from "./Firebase.js";
 import TaskManager from "./TaskManager";
 
 const groupRef = firebase.database().ref("groups");
+const userRef = firebase.database().ref("users");
 const FormItem = Form.Item;
 let newGroup = null;
 let newUsers = null;
 let started = false;
+let userid = null;
+// let currentEmail = "";
+// let email = false;
 
 export default class AddGroups extends Component {
   constructor(props) {
     super(props);
     this.state = {
       groups: [],
-      groupForm: null
+      groupForm: null,
+      currentEmail: ""
     };
   }
 
   componentDidMount() {
-    groupRef.on("value", snapshot => {
-      let groups = snapshot.val();
-      let tempGroup = [];
-      for (let group in groups) {
-        tempGroup.push(group);
-        groupRef
-          .child(group)
-          .child("tasks")
-          .on("value", snapshot => {
-            let tasks = snapshot.val();
-            let tempTask = [];
-            for (let task in tasks) {
-              tempTask.push(tasks[task]);
-            }
-            this.setState({ [group + "Tasks"]: tempTask });
-          });
-        groupRef
-          .child(group)
-          .child("users")
-          .on("value", snapshot => {
-            let users = snapshot.val();
-            let tempUser = [];
-            for (let user in users) {
-              tempUser.push(users[user]);
-            }
-            this.setState({ [group + "Users"]: tempUser });
-          });
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        userid = user.uid;
       }
-      this.setState(
-        { groups: tempGroup }
-        // , () => {
-        // let tempCard = [];
-        // let tasks = [];
-        // this.state.groups.map(group => {
-        //   tempCard = [];
-        //   tasks = this.state[group + "Tasks"];
-        //   tasks.map((task, index) => {
-        //     tempCard.push(
-        //       <Card style={{ marginTop: 16 }} type="inner" title={task}>
-        //         {task} content
-        //         <Button
-        //           style={{ marginTop: 16 }}
-        //           onClick={() => this.deleteTask(group, index)}
-        //         >
-        //           Delete Task
-        //         </Button>
-        //       </Card>
-        //     );
-        //   });
-        //   this.setState(
-        //     { [group + "Cards"]: tempCard },
-        //     () => {
-        //       started = true;
-        //     } //, () => {this.forceUpdate(); }
-        //   );}
-      );
+      userRef.child(userid).on("value", snapshot => {
+        let info = snapshot.val();
+        for (let cri in info) {
+          if (cri === "email") {
+            this.setState({ currentEmail: info[cri] }, () => {
+              groupRef.on("value", snapshot => {
+                let groups = snapshot.val();
+                let tempGroup = [];
+                for (let group in groups) {
+                  groupRef
+                    .child(group)
+                    .child("users")
+                    .on("value", snapshot => {
+                      let users = snapshot.val();
+                      if (users.includes(this.state.currentEmail)) {
+                        tempGroup.push(group);
+                        let tempUser = [];
+                        for (let user in users) {
+                          tempUser.push(users[user]);
+                        }
+                        this.setState({ [group + "Users"]: tempUser });
+                        groupRef
+                          .child(group)
+                          .child("tasks")
+                          .on("value", snapshot => {
+                            let tasks = snapshot.val();
+                            let tempTask = [];
+                            for (let task in tasks) {
+                              tempTask.push(tasks[task]);
+                            }
+                            this.setState({ [group + "Tasks"]: tempTask });
+                          });
+                      }
+                    });
+                }
+                started = true;
+                console.log("started made true");
+                this.setState({ groups: tempGroup });
+              });
+            });
+          }
+        }
+      });
     });
-    //});
   }
+
+  // , () => {
+  // let tempCard = [];
+  // let tasks = [];
+  // this.state.groups.map(group => {
+  //   tempCard = [];
+  //   tasks = this.state[group + "Tasks"];
+  //   tasks.map((task, index) => {
+  //     tempCard.push(
+  //       <Card style={{ marginTop: 16 }} type="inner" title={task}>
+  //         {task} content
+  //         <Button
+  //           style={{ marginTop: 16 }}
+  //           onClick={() => this.deleteTask(group, index)}
+  //         >
+  //           Delete Task
+  //         </Button>
+  //       </Card>
+  //     );
+  //   });
+  //   this.setState(
+  //     { [group + "Cards"]: tempCard },
+  //     () => {
+  //       started = true;
+  //     } //, () => {this.forceUpdate(); }
+  //   );}
+  //});
 
   setTasks = (group, update) => {
     groupRef
@@ -102,19 +124,13 @@ export default class AddGroups extends Component {
   submitGroup = () => {
     let tempGroup = this.state.groups;
     tempGroup.push(newGroup);
-    this.setState(
-      {
-        groups: tempGroup,
-        groupForm: null,
-        [newGroup + "Tasks"]: ["none"],
-        [newGroup + "Cards"]: [null],
-        [newGroup + "Users"]: newUsers
-      }
-      // () => {
-      //   console.log(this.state[newGroup + "Users"]);
-      //   console.log(this.state);
-      // }
-    );
+    this.setState({
+      groups: tempGroup,
+      groupForm: null,
+      [newGroup + "Tasks"]: ["none"],
+      //[newGroup + "Cards"]: [null],
+      [newGroup + "Users"]: newUsers
+    });
     groupRef
       .child(newGroup)
       .child("tasks")
@@ -133,7 +149,7 @@ export default class AddGroups extends Component {
     this.setState({
       groups: tempGroup,
       ["PersonalTasks"]: ["none"],
-      ["PersonalCards"]: [null],
+      //["PersonalCards"]: [null],
       ["PersonalUsers"]: ["none"]
     });
     groupRef
@@ -176,6 +192,7 @@ export default class AddGroups extends Component {
   };
 
   render() {
+    console.log("add groups is rendering");
     return (
       <div>
         <TaskManager
@@ -184,6 +201,7 @@ export default class AddGroups extends Component {
           deleteGroup={this.deleteGroup}
           started={started}
           deleteTask={this.deleteTask}
+          giveCurrentEmail={this.giveCurrentEmail}
         />
         <Button
           onClick={this.addGroupForm}
