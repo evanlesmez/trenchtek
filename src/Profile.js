@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import TopbarUser from "./TopbarUser.js";
 import "./Profile.css";
 import { Row, Col, Icon } from 'antd';
 import firebase from "./Firebase.js";
@@ -7,30 +6,43 @@ import firebase from "./Firebase.js";
 //Reg: "http://static.tvtropes.org/pmwiki/pub/images/reg_anime.jpg"
 // Banner from https://www.google.com/search?q=codding+banner&rlz=1C1CHBF_enUS765US765&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjm7KW7sNPbAhVJ3VMKHWUZBioQ_AUICigB&biw=1536&bih=734&dpr=1.25#imgrc=vAFXqrj7GeFLsM:}
 
+
 let storageRef = firebase.storage().ref('images');
 let profRead = firebase.storage().ref('images/');
-let userRef = firebase.database().ref();
+let dBase = firebase.database().ref();
 export default class Profile extends Component {
   constructor(props){
     super(props)
     this.state = {
       editing: false,
-      name: props.userData.name,
-      title: props.userData.title,
-      aboutMe: props.userData.aboutMe,
-      position: props.userData.position,
-      skills: props.userData.skills,
+      name: props.name,
+      title: props.title,
+      aboutMe: props.aboutMe,
+      position: props.position,
+      skills: props.skills,
       readmode: true,
       newSkill: "",
       inputclass: "inputfield",
-      email: props.userData.links.email,
-      github: props.userData.links.github,
-      LinkedIn: props.userData.links.LinkedIn,
+      email: props.links.email,
+      github: props.links.github,
+      LinkedIn: props.links.LinkedIn,
       banner: "",
       profFile: "",
-      profURL: props.userData.profURL
+      profURL: props.profURL
     }
   }
+  componentWillReceiveProps(nextProps){
+    console.log(nextProps);
+    this.setState({
+      links: nextProps.links,
+      skills: nextProps.skills,
+      name: nextProps.name,
+      position: nextProps.position,
+      aboutMe: nextProps.about,
+      tite: nextProps.title,
+    })
+  }
+
   handleChange = (e) => { // handles changes in text entries
     this.setState({
           [e.target.name]: e.target.value, //Need those brackets 
@@ -48,6 +60,7 @@ export default class Profile extends Component {
       editing: !this.state.editing,
       readmode: !this.state.readmode,
       inputclass:"inputfield"});
+    
   }
   addClick = (e) =>{
     this.setState({
@@ -81,7 +94,6 @@ export default class Profile extends Component {
     // Get the download URL
       profRead.child('DanielSmiley.jpg')
         .getDownloadURL().then( url => {
-          console.log(url);
           this.setState({profURL:url});
       }).catch(function(error) {
       });
@@ -95,11 +107,12 @@ export default class Profile extends Component {
     if (this.state.editing == false) {    // FOR NOMRAL PAGE
       button = <button type= "edit" onClick={e=>this.editPress(e)}>Edit</button> //Editbutton
       
-      skillSpan = this.state.skills.map((skill) => {  //FOr displaying skills (also removable)
+      this.state.skills !== undefined ?(skillSpan = this.state.skills.map((skill) => {  //For displaying skills (also removable)
         return(
          <span> #{skill} </span>
         )
-      });
+      })
+    ): null;  // Dank conditional rendering from Noah
       
       linksPart = <div>
               <p>
@@ -116,13 +129,13 @@ export default class Profile extends Component {
     } else {  // All of the input fields
       button = <button type= "save" onClick={e => this.saveClick(e)}>Save</button> 
       
-      skillSpan = this.state.skills.map((skill) => {
+      this.state.skills !== undefined ? (skillSpan = this.state.skills.map((skill) => { // Same dank conditional rendering
         return(
          <span> 
            #{skill} 
            <Icon id="smallicon" type="close-circle" name = {skill} onClick ={e=>this.deleteClick(e)}/>
          </span>
-        )});
+        )})):null;
 
       newSkill = <div>
       <input name= "newSkill" type = "text" pattern ="[A-Za-z]{0-9}{15}" 
