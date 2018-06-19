@@ -29,6 +29,26 @@ export default class RouteC extends Component {
     };
   }
 
+  checkUser = () => {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user !== null) {
+        this.setState({
+          loginSuccessful: true
+        });
+      } else {
+        this.setState({
+          loginSuccessful: false
+        });
+      }
+    });
+  };
+
+  updateField = (field, value) => {
+    this.setState({
+      ...this.state,
+      field: value
+    });
+  };
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
