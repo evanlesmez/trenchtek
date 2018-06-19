@@ -7,33 +7,80 @@ import { Card } from "antd";
 import { Button, Menu, Dropdown, Icon } from "antd";
 
 const { Meta } = Card;
+let useremail = null;
+let userinfo = null;
 class ThreadDisplay extends Component {
   constructor(props) {
     super(props);
     this.addPost = this.addPost.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    //this.handleClick = this.handleClick.bind(this);
     this.state = {
       posts: "",
-      upvotes: "",
-      array: []
+      array: [],
+      currentUser: ""
     };
   }
+
   addPost(newPostBody, newUpvotes) {
     const newState = Object.assign({}, this.state);
+    let list = firebase.database().ref("/users");
+    let thing = {};
+    list.on("value", snapshot => {
+      let objects = snapshot.val();
+      for (let obj in objects) {
+        if (objects[obj].email == useremail) thing = objects[obj];
+      }
+    });
+    var randomid = Math.floor(Math.random() * 200000000);
     var object = {
       posts: newPostBody,
-      upvotes: newUpvotes
+      upvotes: newUpvotes,
+      currentUser: thing,
+      id: randomid
     };
     this.state.array.push(object);
+    let adder = firebase.database().ref("/posts");
+    adder.push(object);
   }
-  handleClick() {
-    var temp = Math.floor(Math.random() * this.state.array.length);
-    var number = parseInt(this.state.array[temp].upvotes);
-    this.state.array[temp].upvotes = number++;
-    let list = firebase.database().ref("/posts");
+
+  handleClick(data) {
+    let list = firebase
+      .database()
+      .ref("/posts")
+      .set();
+
+    /*list.on("value", snapshot => {
+      let objects = snapshot.val();
+      let thing = {};
+      for (let obj in objects) {
+        if (objects[obj].id == data.id) {
+
+        }
+      }
+    });*/
   }
+
   componentDidMount() {
-    let list = firebase.database().ref("/posts");
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        useremail = user.email;
+      }
+    });
+
+    let list = firebase.database().ref("/users");
+    list.on("value", snapshot => {
+      let objects = snapshot.val();
+      let thing = {};
+      for (let obj in objects) {
+        if (objects[obj].email == useremail) {
+          thing = objects[obj];
+          userinfo = thing;
+        }
+      }
+      this.setState({ currentUser: thing });
+    });
+
+    list = firebase.database().ref("/posts");
     list.on("value", snapshot => {
       let objects = snapshot.val();
       let all = [];
@@ -42,7 +89,9 @@ class ThreadDisplay extends Component {
         if (objects[obj].posts != "") {
           thing = {
             posts: objects[obj].posts,
-            upvotes: objects[obj].upvotes
+            upvotes: objects[obj].upvotes,
+            currentUser: objects[obj].currentUser,
+            id: objects[obj].id
           };
           all.push(thing);
         }
@@ -65,7 +114,10 @@ class ThreadDisplay extends Component {
                   />
                   <div class="space" />
                   <center>
-                    <Icon type="up-circle-o" onClick={this.handleClick}>
+                    <Icon
+                      type="up-circle-o"
+                      onClick={() => this.handleClick(data)}
+                    >
                       {data.upvotes}
                     </Icon>
                   </center>
@@ -74,8 +126,10 @@ class ThreadDisplay extends Component {
                   <div class="space" />
                   <Card hoverable style={{ width: 500, maxHeight: 1000 }}>
                     <div>
-                      <h2>User: Andy Page</h2>
-                      <Meta title="Role: Admin" description={data.posts} />
+                      <h3>
+                        {data.currentUser.title}: {data.currentUser.name}
+                      </h3>
+                      <div>{data.posts}</div>
                     </div>
                   </Card>
                 </div>

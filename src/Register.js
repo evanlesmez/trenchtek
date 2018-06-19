@@ -76,8 +76,12 @@ class Register extends Component {
             image: "",
             tags: "",
             about: "",
+<<<<<<< HEAD
+            upvotes: 0
+=======
             upvotes: "",
             approved: false
+>>>>>>> develop
           };
           let newPostKey = firebase
             .database()
@@ -258,9 +262,9 @@ class Register extends Component {
                         }
                         value={this.state.title}
                       >
-                        <Radio value="intern">Intern</Radio>
-                        <Radio value="alumni">Alumni</Radio>
-                        <Radio value="admin">Admin</Radio>
+                        <Radio value="Intern">Intern</Radio>
+                        <Radio value="Alumni">Alumni</Radio>
+                        <Radio value="Admin">Admin</Radio>
                       </Radio.Group>
                     </div>
                   )}
