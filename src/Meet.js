@@ -99,9 +99,9 @@ export default class Meet extends Component {
 
     }
     return (
-      <div>
+      <div className="all">
         <article>
-          <div>
+          <div className="searchDiv">
             <h4 className="searchInfo"> Search keywords for detailed information about out large network of interns and alumni</h4>
             <form className="searchComponent">
               <Input className="search" placeholder="input search text" type="text" size="default" />
@@ -126,10 +126,7 @@ export default class Meet extends Component {
               {this.state.instructors.map((instructor, index) => {
                 return (
                   <div className="individualCards" >
-                    <div
-                      className="editInfo"
-                      onClick={() => this.handleInEdit(index)}
-                    >Edit</div>
+
                     <Card className="InstructorCard" style={{ width: 240 }} bodyStyle={{ padding: 0 }}>
                       <div className="custom-image">
                         <img alt="example" width="100%" src="https://www.shrs.pitt.edu/sites/default/files/default_images/default-person.jpg" />
@@ -141,8 +138,13 @@ export default class Meet extends Component {
                         </div>
                       </div>
                     </Card>
-                    <div className="texty"><p>{array[index]}</p> <h5>Tags: {instructor.tags}</h5></div>
-
+                    <div className="nextToImg">
+                      <div
+                        className="editInfo"
+                        onClick={() => this.handleInEdit(index)}
+                      >Edit</div>
+                      <div className="texty"><p>{array[index]}</p> <h5>Tags: {instructor.tags}</h5></div>
+                    </div>
                   </div>
                 );
               })}
@@ -153,7 +155,7 @@ export default class Meet extends Component {
 
 
         <article>
-          <div>
+          <div className="allSenior">
             <div className="seniorDevs">
               <h1><nobr > Our Senior Developers</nobr></h1>
 
@@ -166,9 +168,7 @@ export default class Meet extends Component {
                 return (
 
                   <div className="individualCards" >
-                    <div
-                      onClick={() => this.handleDevEdit(index)}
-                      className="editInfo">Edit</div>
+
                     <Card className="InstructorCard" style={{ width: 240 }} bodyStyle={{ padding: 0 }}>
                       <div className="custom-image">
                         <img alt="example" width="100%" src="https://www.shrs.pitt.edu/sites/default/files/default_images/default-person.jpg" />
@@ -180,7 +180,12 @@ export default class Meet extends Component {
                         </div>
                       </div>
                     </Card>
-                    <div className="texty"> <div><p>{arrayDev[index]}</p> <h5>Tags: {senior.tags}</h5></div> </div>
+                    <div className="nextToImg">
+                      <div
+                        onClick={() => this.handleDevEdit(index)}
+                        className="editInfo">Edit</div>
+                      <div className="texty"> <div><p>{arrayDev[index]}</p> <h5>Tags: {senior.tags}</h5></div> </div>
+                    </div>
                   </div>
                 );
               })}

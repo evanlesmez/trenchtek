@@ -8,7 +8,7 @@ export default class About extends Component {
 
 
   state = {
-    history: "RevTek was founded by Mik Jagger in 1998. The mission of our company initially was to teach students living in empoverished areas the importance of computer science. Now, 20 years later, our mission of education remains, but is extended to anyone around the world. Our first company burn down in 2002, but thanks to the support of the community, we were able to gain our space once more and continue educating people of all ages.",
+    history: "RevTek was founded by Mik Jagger in 1998. The mission of our company initially was to teach students living in empoverished areas the importance of computer science. Now, 20 years later, our mission of education remains, but is extended to anyone around the world. Our first company burnt down in 2002, but thanks to the support of the community, we were able to gain our space once more and continue educating people of all ages.",
     interns: "Our interns join our community in order to learn a skill of their interest. Of course, they are not merely given the information that they need to learn, but instead are given the necessary resources to search for the answers themselves. Then, in order for them to grasp the material, they are assigned individual and group projects. Our teaching process has been proved to be the most successful process, especially for software engineers",
     companies: "Companies can visit this website and explore our Senior Developers and Instructors in full detail. Apart from that, companies can search fro skills they require for their contract and see how many people in our community posess such skill. Then, they may submit a contract through our website, which we were either approve or deny, depending on the skills it requires",
     historyEdit: false,
@@ -115,7 +115,7 @@ export default class About extends Component {
           </div>
 
           <div id="companies">
-            <h1 className="historyTitle">Our <span>Companies</span></h1>
+            <h1 className="historyTitle2">Our <span className="word">Companies</span></h1>
             <div className="eliza">{companiesText}
             </div>
             <p className="edit"

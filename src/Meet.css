@@ -3,7 +3,7 @@
 .searchInfo{
     clear:both;
     text-align: center;
-    margin-top: 60px;
+    margin-top: 5%;
     font-size: 20px;
 }
 
@@ -18,9 +18,45 @@
     margin-top: 3%;
    
 }
+
+.editInfo{
+    clear:both;
+    font-size:10px;
+    color: blue;
+    cursor: pointer;
+    text-decoration: underline
+    
+}
+
+.textOfCard{
+    clear:both;
+    text-align: center;
+}
+
+
+h1{
+    clear:both;
+   font-size: 25px;
+    margin-top:5%;
+    font-family: "Verdana";
+}
+
 /* //1400 */
-@media (max-width: 1400px){
-    body{
+ @media (max-width: 1400px){ 
+     .texty{
+         width:40%;
+     }
+   .all{
+    position:absolute;
+    width:660px;
+    left: 35%;
+   }
+
+   .searchDiv{
+       position: relative;
+       right:35%
+   }
+    /* body{
         
         align-items: center;
         position: inherit
@@ -34,13 +70,13 @@
         margin: auto;
         width: 50%;
         padding: 10px;
-    }
+    } */
     /* .individualCards{
         margin: auto;
         width: 50%;
         padding: 10px;
     } */
-    .instuctors{
+    /* .instuctors{
         background-color: sandybrown;
         float: right;
          width: 62%; 
@@ -49,7 +85,7 @@
         padding: 0px;
         margin-right: 20px;
         margin-bottom: 70px
-    }
+    } */
 
     /* p,.InstructorCard{
         align-items: center;
@@ -57,7 +93,7 @@
         margin-left:20%
     } */
 
-    .seniorDevs{
+    /* .seniorDevs{
         float: right;
          width: 69%; 
         height: 7px;
@@ -79,10 +115,10 @@
     p,.InstructorCard{
        
         width: 250px;
-        clear:both;
+        clear:both; */
         /* margin-right:100px; */
        /* // display:-webkit-inline-box; */
-         float: right; 
+         /* float: right; 
          margin-top: 20px;
         
     }
@@ -93,35 +129,31 @@
   h5{
     
     width: 250px;
-    clear:both;
+    clear:both; */
     /* margin-right:100px; */
    /* // display:-webkit-inline-box; */
-     float: right; 
+     /* float: right; 
       
   }
-   
+ */
 }
+@media(min-width:1400px){
 
-h1{
+/* h1{
     clear:both;
    font-size: 25px;
     margin-top:5%;
     font-family: "Verdana";
-}
+} */
 
-.seniorDevs{
-    clear:both;
-    margin-left: 40%;
-    color: red;
-
-}
-
-.instuctors{
+.seniorDevs,.instuctors{
     clear:both;
     margin-left: 45%;
-    color: red;
+    
 
 }
+
+
 /* .seniorDevs{
  
     color: blue;
@@ -132,10 +164,6 @@ h1{
     white-space: nowrap;
 } */
 
-.textOfCard{
-    clear:both;
-    text-align: center;
-}
 
 
 /* .InstructorCard{
@@ -143,7 +171,10 @@ h1{
     margin-top:10%;
    
 } */
-
+.allSenior{
+position: relative;
+top:-100px;
+}
 
 .InstructorCard{
     clear:both;
@@ -157,7 +188,7 @@ h1{
     clear:both;
     margin-left:30%;
     margin-top: 10%;
-    margin-bottom:5%;
+    margin-bottom:0%;
    
 }
 .texty{
@@ -168,18 +199,21 @@ h1{
 
 .individualCards{
     clear:both;
-    margin-top:10%;
-    margin-bottom:10%;
+    margin-top:0%;
+    margin-bottom:0%;
 }
 
 .editInfo{
-    clear:both;
-    margin-left: 60%;
-    font-size:10px;
-    color: blue;
-    cursor: pointer;
-    text-decoration: underline
+     margin-left: 60%; 
     
+    
+}
+.nextToImg{
+    position:relative;
+
+    top:-220px;
+  
+}
 }
 /*
 .eliza,.infocard
