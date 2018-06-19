@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 
+
 export default class Welcome extends Component {
   render() {
     return (
@@ -18,7 +19,7 @@ export default class Welcome extends Component {
             Empowering students to change the world.
           </div>
         </div>
-      </div>
+      </div >
     );
   }
 }

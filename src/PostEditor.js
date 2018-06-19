@@ -26,7 +26,7 @@ class PostEditor extends Component {
   }
 
   createPost() {
-    firebase.auth().onAuthStateChanged(function(user) {
+    firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
         useremail = user.email;
       }
