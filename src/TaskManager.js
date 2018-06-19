@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 export default class TaskManager extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       userTitle: props.userTitle
@@ -10,9 +10,9 @@ export default class TaskManager extends Component {
 
 
   render() {
-    return(<div>
-    {this.state.userTitle}
+    return (<div>
+      {this.state.userTitle}
     </div>
-  );
-}
+    );
+  }
 }
