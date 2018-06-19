@@ -30,9 +30,6 @@ export default class RouteC extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-      loginSuccessful: false
-    });
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         let userKey = user.uid;

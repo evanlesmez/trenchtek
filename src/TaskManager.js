@@ -5,14 +5,10 @@ export default class TaskManager extends Component {
     super(props);
     this.state = {
       userTitle: props.userTitle
-    }
+    };
   }
 
-
   render() {
-    return (<div>
-      {this.state.userTitle}
-    </div>
-    );
+    return <div>{this.state.userTitle}</div>;
   }
 }
