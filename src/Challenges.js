@@ -169,7 +169,7 @@ export default class Challenges extends Component {
                             {item.name}
                             <div className="chaldelete">
                               Due: {item.duedate} {"     "}
-                              {this.state.userTitle === "admin" ? (
+                              {this.state.userTitle === "Admin" ? (
                                 <Button
                                   size="small"
                                   onClick={e =>
@@ -199,7 +199,7 @@ export default class Challenges extends Component {
               })}
             </div>
             <br />
-            {this.state.userTitle === "admin" ? (
+            {this.state.userTitle === "Admin" ? (
               <Button
                 size="large"
                 type="primary"
