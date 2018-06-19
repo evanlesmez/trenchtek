@@ -20,42 +20,59 @@ export default class Directory extends Component {
       default: false,
       array: [],
       sortByUpvote: false,
-      sortByName: false
+      sortByName: false,
+      sortByTag: false
     };
   }
   menu2 = () => {
     return (
       <div>
-        <Menu key="None" onClick={e => this.allowNoneSort(e)}>
+        <Menu
+          key="None"
+          onClick={e => this.allowNoneSort(e)}
+          selectable={false}
+        >
           <Menu.Item>None</Menu.Item>
         </Menu>
-        <Menu key="Upvotes" onClick={e => this.allowUpvoteSort(e)}>
+        <Menu
+          key="Upvotes"
+          onClick={e => this.allowUpvoteSort(e)}
+          selectable={false}
+        >
           <Menu.Item>Upvotes</Menu.Item>
         </Menu>
-        <Menu key="Name" onClick={e => this.allowNameSort(e)}>
+        <Menu
+          key="Name"
+          onClick={e => this.allowNameSort(e)}
+          selectable={false}
+        >
           <Menu.Item>Name</Menu.Item>
+        </Menu>
+        <Menu key="Tags" onClick={e => this.allowTagSort(e)} selectable={false}>
+          <Menu.Item>#ofTags</Menu.Item>
         </Menu>
       </div>
     );
   };
   allowUpvoteSort = e => {
-    alert("afdkjasd");
     this.setState({ sortByUpvote: true });
     this.setState({ sortByName: false });
-    console.log("hello");
-    console.log(this.state.sortByUpvote);
+    this.setState({ sortByTag: false });
   };
   allowNameSort = e => {
     this.setState({ sortByUpvote: false });
     this.setState({ sortByName: true });
-    console.log("hello");
-    console.log(this.state.sortByUpvote);
+    this.setState({ sortByTag: false });
   };
-  allowNoSort = e => {
+  allowNoneSort = e => {
     this.setState({ sortByUpvote: false });
     this.setState({ sortByName: false });
-    console.log("hello");
-    console.log(this.state.sortByUpvote);
+    this.setState({ sortByTag: false });
+  };
+  allowTagSort = e => {
+    this.setState({ sortByUpvote: false });
+    this.setState({ sortByName: false });
+    this.setState({ sortByTag: true });
   };
   onChange = checkedList => {
     this.setState({
@@ -173,18 +190,18 @@ export default class Directory extends Component {
       ///////////////////////////
       /////////SORTING///////////
       ///////////////////////////
-      console.log(this.state.sortByUpvote);
-      console.log(this.state.sortByName);
 
       if (this.state.sortByUpvote) {
         array.sort(function(a, b) {
-          console.log(a);
-          console.log(a.upvotes);
-          return parseInt(a.upvotes) - parseInt(b.upvotes);
+          return parseInt(b.upvotes) - parseInt(a.upvotes);
+        });
+      } else if (this.state.sortByTag) {
+        array.sort(function(a, b) {
+          return b.tags.length - a.tags.length;
         });
       } else if (this.state.sortByName) {
         array.sort(function(a, b) {
-          return a.name - b.name;
+          return b.name.valueOf() - a.name.valueOf();
         });
       }
 
