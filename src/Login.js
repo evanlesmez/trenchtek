@@ -27,15 +27,64 @@ class Login extends Component {
           "The email address and/or password you entered was incorrect. Please try again."
         );
       });
-    this.checkUser();
+    this.checkUser2();
   };
-
   checkUser = () => {
     firebase.auth().onAuthStateChanged(user => {
+      let exists = true;
       if (user !== null) {
+        firebase
+          .database()
+          .ref("/users")
+          .child(user.uid)
+          .once("value", snapshot => {
+            exists = snapshot.val().title !== "removed";
+          })
+          .then(() => {
+            if (exists === false) {
+              firebase.auth().signOut();
+              this.setState({
+                email: "",
+                password: ""
+              });
+            } else {
+              this.setState({
+                loginSuccessful: true
+              });
+            }
+          });
+      } else {
         this.setState({
-          loginSuccessful: true
+          loginSuccessful: false
         });
+      }
+    });
+  };
+  checkUser2 = () => {
+    firebase.auth().onAuthStateChanged(user => {
+      let exists = true;
+      if (user !== null) {
+        firebase
+          .database()
+          .ref("/users")
+          .child(user.uid)
+          .once("value", snapshot => {
+            exists = snapshot.val().title !== "removed";
+          })
+          .then(() => {
+            if (exists === false) {
+              alert("The user may have been removed.");
+              firebase.auth().signOut();
+              this.setState({
+                email: "",
+                password: ""
+              });
+            } else {
+              this.setState({
+                loginSuccessful: true
+              });
+            }
+          });
       } else {
         this.setState({
           loginSuccessful: false
@@ -58,6 +107,7 @@ class Login extends Component {
             <Form layout="vertical" className="login-form">
               <Form.Item>
                 <Input
+                  value={this.state.email}
                   prefix={
                     <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
                   }
@@ -67,6 +117,7 @@ class Login extends Component {
               </Form.Item>
               <Form.Item>
                 <Input
+                  value={this.state.password}
                   prefix={
                     <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
                   }
