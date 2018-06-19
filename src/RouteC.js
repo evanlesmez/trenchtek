@@ -44,6 +44,12 @@ export default class RouteC extends Component {
     });
   };
 
+  updateField = (field, value) => {
+    this.setState({
+      ...this.state,
+      field: value
+    });
+  };
   componentDidMount() {
     this.checkUser();
 
