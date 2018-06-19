@@ -74,7 +74,7 @@ export default class RouteC extends Component {
       "^/$|/about|/meet-the-team|/submit-contracts"
     );
     const UserRegex = new RegExp(
-      "/challenges|/task-manager|/browse-contracts|/connect|/resources|/profile|/admin"
+      "/challenges|/task-manager|/browse-contracts|/connect|/resources|/profile|/q&a|/directory|/admin"
     );
     return (
       <BrowserRouter>
@@ -89,8 +89,14 @@ export default class RouteC extends Component {
             <Route path="/about" component={About} />
             <Route path="/meet-the-team" component={Meet} />
             <Route path="/submit-contracts" component={SubmitContracts} />
-
             <Route path="/login" component={Login} />
+            <Route path="/profile" component={Profilehandler} />
+            <Route path="/challenges" component={Challenges} />
+            <Route path="/task-manager" component={TaskManager} />
+            <Route path="/browse-contracts" component={BrowseContracts} />
+            <Route path="/q&a" component={Connect} />
+            <Route path="/directory" component={Connect2} />
+            <Route path="/resources" component={Resources} />
             <Route path="/register" component={Register} />
             <Route
               path="/profile"
@@ -120,10 +126,13 @@ export default class RouteC extends Component {
               render={() => <Resources userTitle={this.state.userTitle} />}
             />
             <Route path="/logout" component={Logout} />
-
             <Route
               path="/admin"
               render={() => <Admin userTitle={this.state.userTitle} />}
+            />
+            <Route
+              path="/users"
+              render={() => <User userTitle={this.state.userTitle} />}
             />
           </div>
         </div>
