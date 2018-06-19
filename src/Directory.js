@@ -9,21 +9,7 @@ const Search = Input.Search;
 const plainOptions = ["Intern", "Alumni", "Senior Developers", "Admin"];
 const { Meta } = Card;
 const { CheckableTag } = Tag;
-let menu = (
-  <div>
-    <Menu onClick={this.allowUpvoteSort}>
-      <Menu key="None" onClick={this.allowNoneSort}>
-        <Menu.Item>None</Menu.Item>
-      </Menu>
-      <Menu key="Upvotes" onClick={this.allowUpvoteSort}>
-        <Menu.Item>Upvotes</Menu.Item>
-      </Menu>
-      <Menu key="Name" onClick={this.allowNameSort}>
-        <Menu.Item>Name</Menu.Item>
-      </Menu>
-    </Menu>
-  </div>
-);
+
 export default class Directory extends Component {
   constructor(props) {
     super(props);
@@ -37,6 +23,21 @@ export default class Directory extends Component {
       sortByName: false
     };
   }
+  menu2 = () => {
+    return (
+      <div>
+        <Menu key="None" onClick={e => this.allowNoneSort(e)}>
+          <Menu.Item>None</Menu.Item>
+        </Menu>
+        <Menu key="Upvotes" onClick={e => this.allowUpvoteSort(e)}>
+          <Menu.Item>Upvotes</Menu.Item>
+        </Menu>
+        <Menu key="Name" onClick={e => this.allowNameSort(e)}>
+          <Menu.Item>Name</Menu.Item>
+        </Menu>
+      </div>
+    );
+  };
   allowUpvoteSort = e => {
     alert("afdkjasd");
     this.setState({ sortByUpvote: true });
@@ -268,11 +269,12 @@ export default class Directory extends Component {
       return (
         <div>
           <div class="flexhorizontal2">
-            <h1 class="directoryfont">The Directory</h1>
-            <span />
-            <Icon type="book" style={{ fontSize: 40, color: "black" }} />
+            <h1 class="directoryfont">
+              The Directory{" "}
+              <Icon type="book" style={{ fontSize: 40, color: "black" }} />
+            </h1>
           </div>
-          <center>
+          <div class="margin2">
             <Search
               placeholder="Search by name, tag (# at the front), blank for refresh"
               onSearch={value => {
@@ -281,12 +283,13 @@ export default class Directory extends Component {
               style={{ width: 400 }}
               enterButton
             />
-
-            <Dropdown overlay={menu} trigger={["click"]}>
+            <Dropdown overlay={this.menu2()} trigger={["click"]}>
               <a className="ant-dropdown-link" href="#">
                 Sort by <Icon type="down" />
               </a>
             </Dropdown>
+          </div>
+          <center>
             <div>
               <Checkbox
                 indeterminate={this.state.indeterminate}
@@ -337,11 +340,14 @@ export default class Directory extends Component {
       return (
         <div>
           <div class="flexhorizontal2">
-            <h1 class="directoryfont">The Directory</h1>
-            <span />
-            <Icon type="book" style={{ fontSize: 40, color: "black" }} />
+            <h1 class="directoryfont">
+              The Directory<Icon
+                type="book"
+                style={{ fontSize: 40, color: "black" }}
+              />
+            </h1>
           </div>
-          <center>
+          <div class="margin2">
             <Search
               placeholder="Search by name, tag (# at the front), blank for refresh"
               onSearch={value => {
@@ -350,11 +356,13 @@ export default class Directory extends Component {
               style={{ width: 400 }}
               enterButton
             />
-            <Dropdown overlay={menu} trigger={["click"]}>
+            <Dropdown overlay={this.menu2()} trigger={["click"]}>
               <a className="ant-dropdown-link" href="#">
                 Sort by <Icon type="down" />
               </a>
             </Dropdown>
+          </div>
+          <center>
             <div>
               <Checkbox
                 indeterminate={this.state.indeterminate}
