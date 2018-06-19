@@ -139,6 +139,10 @@ export default class RouteC extends Component {
               path="/admin"
               render={() => <Admin userTitle={this.state.userTitle} />}
             />
+            <Route
+              path="/users"
+              render={() => <User userTitle={this.state.userTitle} />}
+            />
           </div>
         </div>
       </BrowserRouter>
