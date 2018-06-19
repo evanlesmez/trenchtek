@@ -18,8 +18,30 @@
     margin-top: 3%;
    
 }
-@media (max-width: 1000px){
+/* //1400 */
+@media (max-width: 1400px){
+    body{
+        
+        align-items: center;
+        position: inherit
+    }
     .instuctors{
+        margin: auto;
+        width: 50%;
+        padding: 10px;
+    }
+      .texty,.InstructorCard{
+        margin: auto;
+        width: 50%;
+        padding: 10px;
+    }
+    /* .individualCards{
+        margin: auto;
+        width: 50%;
+        padding: 10px;
+    } */
+    .instuctors{
+        background-color: sandybrown;
         float: right;
          width: 62%; 
         height: 7px;
@@ -28,6 +50,12 @@
         margin-right: 20px;
         margin-bottom: 70px
     }
+
+    /* p,.InstructorCard{
+        align-items: center;
+
+        margin-left:20%
+    } */
 
     .seniorDevs{
         float: right;
@@ -48,7 +76,7 @@
         margin-right: 20px
     }
     
-    p{
+    p,.InstructorCard{
        
         width: 250px;
         clear:both;
