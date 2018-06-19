@@ -40,6 +40,7 @@ export default class Profilehandler extends Component {
         let changeURL = this.state.userData;
         changeURL.profURL = url;
         // this.setState({userData:changeURL});
+        console.log(this.state.userData);
         // Insert url into an <img> tag to "download"
       })
       .catch(function(error) {});

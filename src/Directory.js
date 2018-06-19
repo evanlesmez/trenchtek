@@ -42,9 +42,18 @@ export default class Directory extends Component {
       let objects = snapshot.val();
       let array = [];
       let thing = {};
+      let array2 = [];
       var person;
       for (let obj in objects) {
         person = objects[obj];
+        if (this.state.checkedList.includes(person.title)) {
+          array2.push(person);
+        }
+      }
+      console.log(array2);
+      for (let obj in array2) {
+        person = array2[obj];
+        console.log(person);
         var tag = person.tags.toLowerCase();
         var name = person.name.toLowerCase();
         if (
@@ -54,7 +63,7 @@ export default class Directory extends Component {
           thing = {
             name: person.name,
             title: person.title,
-            image: person.image,
+            image: "https://i.stack.imgur.com/34AD2.jpg",
             tags: person.tags,
             upvotes: person.upvotes
           };
@@ -63,7 +72,7 @@ export default class Directory extends Component {
           thing = {
             name: person.name,
             title: person.title,
-            image: person.image,
+            image: "https://i.stack.imgur.com/34AD2.jpg",
             tags: person.tags,
             upvotes: person.upvotes
           };
@@ -72,7 +81,7 @@ export default class Directory extends Component {
           thing = {
             name: person.name,
             title: person.title,
-            image: person.image,
+            image: "https://i.stack.imgur.com/34AD2.jpg",
             tags: person.tags,
             upvotes: person.upvotes
           };
@@ -156,9 +165,9 @@ export default class Directory extends Component {
                 <Card hoverable style={{ width: 500, maxHeight: 1000 }}>
                   <div class="flexhorizontal">
                     <img class="directory-image" src={user.image} />
-                    <div>
-                      <Meta title="Title: ">{user.title}</Meta>
-                      <Meta title="Upvotes: ">{user.upvotes}</Meta>
+                    <div class="indent">
+                      <h3>Title: {user.title}</h3>
+                      <h3>Upvotes: {user.upvotes}</h3>
                     </div>
                   </div>
                 </Card>

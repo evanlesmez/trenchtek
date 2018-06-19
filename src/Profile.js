@@ -89,6 +89,7 @@ export default class Profile extends Component {
       .child("DanielSmiley.jpg")
       .getDownloadURL()
       .then(url => {
+        console.log(url);
         this.setState({ profURL: url });
       })
       .catch(function(error) {});
