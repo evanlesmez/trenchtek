@@ -89,13 +89,7 @@ export default class RouteC extends Component {
             <Route path="/meet-the-team" component={Meet} />
             <Route path="/submit-contracts" component={SubmitContracts} />
             <Route path="/login" component={Login} />
-            <Route path="/profile" component={Profilehandler} />
-            <Route path="/challenges" component={Challenges} />
-            <Route path="/task-manager" component={TaskManager} />
-            <Route path="/browse-contracts" component={BrowseContracts} />
-            <Route path="/q&a" component={Connect} />
-            <Route path="/directory" component={Connect2} />
-            <Route path="/resources" component={Resources} />
+
             <Route path="/register" component={Register} />
             <Route
               path="/profile"
@@ -116,10 +110,10 @@ export default class RouteC extends Component {
               )}
             />
             <Route
-              path="/connect"
+              path="/q&a"
               render={() => <Connect userTitle={this.state.userTitle} />}
             />
-            <Route path="/connect2" component={Connect2} />
+            <Route path="/directory" component={Connect2} />
             <Route
               path="/resources"
               render={() => <Resources userTitle={this.state.userTitle} />}

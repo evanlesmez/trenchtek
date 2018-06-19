@@ -169,9 +169,9 @@ export default class Challenges extends Component {
                           <div className="panelheader">
                             {" "}
                             {item.name}
-                            {this.state.userTitle === "admin" ? (
-                              <div className="chaldelete">
-                                Due: {item.duedate} {"     "}
+                            <div className="chaldelete">
+                              Due: {item.duedate} {"     "}
+                              {this.state.userTitle === "admin" ? (
                                 <Button
                                   size="small"
                                   onClick={e =>
@@ -180,8 +180,8 @@ export default class Challenges extends Component {
                                 >
                                   <Icon type="delete" />
                                 </Button>
-                              </div>
-                            ) : null}
+                              ) : null}
+                            </div>
                           </div>
                         }
                       >
