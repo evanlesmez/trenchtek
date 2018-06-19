@@ -43,6 +43,12 @@ export default class RouteC extends Component {
     });
   };
 
+  updateField = (field, value) => {
+    this.setState({
+      ...this.state,
+      field: value
+    });
+  };
   componentDidMount() {
     this.checkUser();
 
@@ -58,7 +64,6 @@ export default class RouteC extends Component {
           this.setState({
             userTitle: newTitleState
           });
-          console.log(this.state);
         });
         // User is signed in.
       } else {
@@ -89,8 +94,6 @@ export default class RouteC extends Component {
             <Route path="/about" component={About} />
             <Route path="/meet-the-team" component={Meet} />
             <Route path="/submit-contracts" component={SubmitContracts} />
-
-            <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
             <Route
               path="/profile"
@@ -114,6 +117,16 @@ export default class RouteC extends Component {
               path="/connect"
               render={() => <Connect userTitle={this.state.userTitle} />}
             />
+            <Route
+              path="/login"
+              render={() => (
+                <Login
+                  updateRoute={(field, newValue) =>
+                    this.updateField(field, newValue)
+                  }
+                />
+              )}
+            />
             <Route path="/connect2" component={Connect2} />
             <Route
               path="/resources"
@@ -124,6 +137,10 @@ export default class RouteC extends Component {
             <Route
               path="/admin"
               render={() => <Admin userTitle={this.state.userTitle} />}
+            />
+            <Route
+              path="/users"
+              render={() => <User userTitle={this.state.userTitle} />}
             />
           </div>
         </div>
