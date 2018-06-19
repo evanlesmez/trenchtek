@@ -63,7 +63,7 @@ export default class RouteC extends Component {
       "^/$|/about|/meet-the-team|/submit-contracts"
     );
     const UserRegex = new RegExp(
-      "/challenges|/task-manager|/browse-contracts|/connect|/resources|/profile|/q&a|/directory|/admin"
+      "/challenges|/task-manager|/browse-contracts|/connect|/resources|/profile|/q&a|/directory|/manage-contracts|/manage-users"
     );
     return (
       <div>
@@ -126,13 +126,13 @@ export default class RouteC extends Component {
                   {this.state.userTitle === "Admin" ? (
                     <div>
                       <Route
-                        path="/admin"
+                        path="/manage-contracts"
                         render={() => (
                           <Admin userTitle={this.state.userTitle} />
                         )}
                       />
                       <Route
-                        path="/users"
+                        path="/manage-users"
                         render={() => <User userTitle={this.state.userTitle} />}
                       />
                     </div>
