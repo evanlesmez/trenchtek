@@ -68,7 +68,7 @@ export default class Profile extends Component {
       inputclass:"inputfield"});
       if(this.state.uidString !== ""){
         console.log("we pushing")
-        dBase.ref("/users/"+"GOOqUrI1wfM5GYlPvUfkSWcvwpC3")  // UPDATING FIREBASE HERE
+        dBase.ref(this.state.uidString)  // UPDATING FIREBASE HERE
           .update({
             name:this.state.name,
             tags:this.state.skills,
