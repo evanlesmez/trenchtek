@@ -53,31 +53,27 @@ class ThreadDisplay extends Component {
           ":" +
           (String(n.getMinutes()).length == 1
             ? "0" + n.getMinutes() + "PM"
-            : n.getMinutes()) +
-          "PM";
+            : n.getMinutes() + "PM");
       } else if (parseInt(n.getHours()) >= 1 && parseInt(n.getHours()) <= 11) {
         var time =
           n.getHours() +
           ":" +
           (String(n.getMinutes()).length == 1
             ? "0" + n.getMinutes() + "AM"
-            : n.getMinutes()) +
-          "AM";
+            : n.getMinutes() + "AM");
       } else if (parseInt(n.getHours()) == 12) {
         var time =
           n.getHours() +
           ":" +
           (String(n.getMinutes()).length == 1
             ? "0" + n.getMinutes() + "PM"
-            : n.getMinutes()) +
-          "PM";
+            : n.getMinutes() + "PM");
       } else if (parseInt(n.getHours()) == 0) {
         var time =
           "12:" +
           (String(n.getMinutes()).length == 1
             ? "0" + n.getMinutes() + "AM"
-            : n.getMinutes()) +
-          "AM";
+            : n.getMinutes() + "AM");
       }
       var date =
         months[n.getMonth()] +
@@ -131,7 +127,7 @@ class ThreadDisplay extends Component {
   }
 
   componentDidMount() {
-    firebase.auth().onAuthStateChanged(function (user) {
+    firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         useremail = user.email;
       }
