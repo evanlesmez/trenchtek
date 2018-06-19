@@ -161,7 +161,21 @@ export default class User extends Component {
           this.state.removedUsers.map(user => {
             return (
               <center>
-                <Card title={user.name} style={{ width: 450 }}>
+                <Card
+                  title={
+                    <div className="panelheader">
+                      <center>
+                        <div className="headertitle">{user.name}</div>
+                      </center>
+                      <div className="chaldelete">
+                        <Button size="small">
+                          <Icon type="edit" />
+                        </Button>
+                      </div>
+                    </div>
+                  }
+                  style={{ width: 450 }}
+                >
                   <p>Email: {user.email} </p>
                   <p>Title: {user.title} </p>
                   <Button onClick={() => this.acceptUser(user)}>Accept</Button>
@@ -179,10 +193,21 @@ export default class User extends Component {
               <center>
                 <Card
                   title={
-                    user.name +
-                    " - " +
-                    user.title.charAt(0).toUpperCase() +
-                    user.title.slice(1)
+                    <div className="panelheader">
+                      <center>
+                        <div className="headertitle">
+                          {user.name +
+                            " - " +
+                            user.title.charAt(0).toUpperCase() +
+                            user.title.slice(1)}
+                        </div>
+                      </center>
+                      <div className="chaldelete">
+                        <Button size="small">
+                          <Icon type="edit" />
+                        </Button>
+                      </div>
+                    </div>
                   }
                   style={{ width: 450 }}
                 >
@@ -207,10 +232,21 @@ export default class User extends Component {
               <center>
                 <Card
                   title={
-                    user.name +
-                    " - " +
-                    user.title.charAt(0).toUpperCase() +
-                    user.title.slice(1)
+                    <div className="panelheader">
+                      <center>
+                        <div className="headertitle">
+                          {user.name +
+                            " - " +
+                            user.title.charAt(0).toUpperCase() +
+                            user.title.slice(1)}
+                        </div>
+                      </center>
+                      <div className="chaldelete">
+                        <Button size="small">
+                          <Icon type="edit" />
+                        </Button>
+                      </div>
+                    </div>
                   }
                   style={{ width: 450 }}
                 >
