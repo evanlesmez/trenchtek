@@ -113,7 +113,7 @@ export default class RouteC extends Component {
                   <Route
                     path="/task-manager"
                     render={() => (
-                      <TaskManager userTitle={this.state.userTitle} />
+                      <AddGroups userTitle={this.state.userTitle} />
                     )}
                   />
                   <Route

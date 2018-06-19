@@ -10,8 +10,6 @@ let newGroup = null;
 let newUsers = null;
 let started = false;
 let userid = null;
-// let currentEmail = "";
-// let email = false;
 
 export default class AddGroups extends Component {
   constructor(props) {
@@ -42,8 +40,10 @@ export default class AddGroups extends Component {
                     .child("users")
                     .on("value", snapshot => {
                       let users = snapshot.val();
-                      console.log(users);
-                      if (users.includes(this.state.currentEmail)) {
+                      if (
+                        users !== null &&
+                        users.includes(this.state.currentEmail)
+                      ) {
                         tempGroup.push(group);
                         let tempUser = [];
                         for (let user in users) {
@@ -65,7 +65,6 @@ export default class AddGroups extends Component {
                     });
                 }
                 started = true;
-                console.log("started made true");
                 this.setState({ groups: tempGroup });
               });
             });
@@ -74,33 +73,6 @@ export default class AddGroups extends Component {
       });
     });
   }
-
-  // , () => {
-  // let tempCard = [];
-  // let tasks = [];
-  // this.state.groups.map(group => {
-  //   tempCard = [];
-  //   tasks = this.state[group + "Tasks"];
-  //   tasks.map((task, index) => {
-  //     tempCard.push(
-  //       <Card style={{ marginTop: 16 }} type="inner" title={task}>
-  //         {task} content
-  //         <Button
-  //           style={{ marginTop: 16 }}
-  //           onClick={() => this.deleteTask(group, index)}
-  //         >
-  //           Delete Task
-  //         </Button>
-  //       </Card>
-  //     );
-  //   });
-  //   this.setState(
-  //     { [group + "Cards"]: tempCard },
-  //     () => {
-  //       started = true;
-  //     } //, () => {this.forceUpdate(); }
-  //   );}
-  //});
 
   setTasks = (group, update) => {
     groupRef
@@ -125,23 +97,26 @@ export default class AddGroups extends Component {
   submitGroup = () => {
     let tempGroup = this.state.groups;
     tempGroup.push(newGroup);
-    this.setState({
-      groups: tempGroup,
-      groupForm: null,
-      [newGroup + "Tasks"]: ["none"],
-      //[newGroup + "Cards"]: [null],
-      [newGroup + "Users"]: newUsers
-    });
-    groupRef
-      .child(newGroup)
-      .child("tasks")
-      .set(["none"]);
-    groupRef
-      .child(newGroup)
-      .child("users")
-      .set(newUsers);
-    newGroup = null;
-    newUsers = null;
+    this.setState(
+      {
+        groups: tempGroup,
+        groupForm: null,
+        [newGroup + "Tasks"]: ["none"],
+        [newGroup + "Users"]: newUsers
+      },
+      () => {
+        groupRef
+          .child(newGroup)
+          .child("tasks")
+          .set(["none"]);
+        groupRef
+          .child(newGroup)
+          .child("users")
+          .set(newUsers);
+        newGroup = null;
+        newUsers = null;
+      }
+    );
   };
 
   submitPersonal = () => {
@@ -149,18 +124,17 @@ export default class AddGroups extends Component {
     tempGroup.push("Personal");
     this.setState({
       groups: tempGroup,
-      ["PersonalTasks"]: ["none"],
-      //["PersonalCards"]: [null],
-      ["PersonalUsers"]: ["none"]
+      ["Personal" + userid + "Tasks"]: ["none"],
+      ["Personal" + userid + "Users"]: [this.state.currentEmail]
     });
     groupRef
-      .child("Personal")
+      .child("Personal" + userid)
       .child("tasks")
       .set(["none"]);
     groupRef
-      .child("Personal")
+      .child("Personal" + userid)
       .child("users")
-      .set(["none"]);
+      .set([this.state.currentEmail]);
   };
 
   handleGroupChange = e => {
@@ -193,7 +167,6 @@ export default class AddGroups extends Component {
   };
 
   render() {
-    console.log("add groups is rendering");
     return (
       <div>
         <TaskManager

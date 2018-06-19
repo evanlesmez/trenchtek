@@ -6,9 +6,6 @@ const groupRef = firebase.database().ref("groups");
 const userRef = firebase.database().ref("users");
 const FormItem = Form.Item;
 let newTask = null;
-let userid = null;
-let currentEmail = "";
-let email = false;
 
 const { Content } = Layout;
 
@@ -22,28 +19,6 @@ export default class TaskManager extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   firebase.auth().onAuthStateChanged(user => {
-  //     if (user) {
-  //       userid = user.uid;
-  //     }
-  //     userRef.child(userid).on("value", snapshot => {
-  //       let info = snapshot.val();
-  //       for (let cri in info) {
-  //         if (cri === "email") {
-  //           currentEmail = info[cri];
-  //         }
-  //       }
-  //     });
-  //   });
-  //   console.log(this.currentEmail);
-  //   console.log(currentEmail);
-  //   this.props.giveCurrentEmail(currentEmail);
-  //   console.log("current Email given");
-  // }
-
-  // getCurrentEmail
-
   handleTaskChange = e => {
     newTask = e.target.value;
   };
@@ -56,7 +31,7 @@ export default class TaskManager extends Component {
     groupRef
       .child(group)
       .child("tasks")
-      .set(tempTask); //this.props[group + "Tasks"]);
+      .set(tempTask);
     newTask = null;
     this.setState({ [group + "cardForm"]: null });
   };
@@ -79,8 +54,6 @@ export default class TaskManager extends Component {
   };
 
   render() {
-    console.log("task manager is rendering");
-    console.log("checking started");
     return this.props.started
       ? this.props.groups.map(group => {
           return (
@@ -93,15 +66,17 @@ export default class TaskManager extends Component {
               className="challenge-collapse"
             >
               {this.props[group + "Tasks"].map((task, index) => {
-                <Card style={{ marginTop: 16 }} type="inner" title={task}>
-                  {task} content
-                  <Button
-                    style={{ marginTop: 16 }}
-                    onClick={() => this.props.deleteTask(group, index)}
-                  >
-                    Delete Task
-                  </Button>
-                </Card>;
+                return (
+                  <Card style={{ marginTop: 16 }} type="inner" title={task}>
+                    {task} content
+                    <Button
+                      style={{ marginTop: 16 }}
+                      onClick={() => this.props.deleteTask(group, index)}
+                    >
+                      Delete Task
+                    </Button>
+                  </Card>
+                );
               })}
               <Button
                 style={{ marginTop: 16 }}
