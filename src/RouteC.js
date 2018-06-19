@@ -69,7 +69,6 @@ export default class RouteC extends Component {
   }
 
   render() {
-    //<Route path="/submit-contracts" component={SubmitContracts} />
     const CompanyRegex = new RegExp(
       "^/$|/about|/meet-the-team|/submit-contracts"
     );
