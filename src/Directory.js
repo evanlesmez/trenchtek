@@ -201,7 +201,11 @@ export default class Directory extends Component {
         });
       } else if (this.state.sortByName) {
         array.sort(function(a, b) {
-          return b.name.valueOf() - a.name.valueOf();
+          console.log(b.name.valueOf());
+          return (
+            a.name.toUpperCase().charCodeAt(0) -
+            b.name.toUpperCase().charCodeAt(0)
+          );
         });
       }
 
