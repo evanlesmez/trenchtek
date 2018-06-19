@@ -50,6 +50,11 @@
   display: flex;
 }
 
+.headertitle {
+  display: block;
+  margin: 0 auto;
+}
+
 .chalinfo {
   text-align: left;
 }
