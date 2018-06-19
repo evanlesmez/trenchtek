@@ -12,13 +12,13 @@ import Connect from "./Connect.js";
 import Connect2 from "./Connect2.js";
 import Resources from "./Resources.js";
 import Logout from "./Logout.js";
-import TaskManager from "./TaskManager.js";
 import TopbarCompany from "./TopbarCompany.js";
 import TopbarUser from "./TopbarUser.js";
 import Register from "./Register.js";
 import Admin from "./Admin.js";
 import User from "./User.js";
 import firebase from "./Firebase.js";
+import AddGroups from "./AddGroups";
 
 export default class RouteC extends Component {
   constructor(props) {
@@ -94,7 +94,7 @@ export default class RouteC extends Component {
                   <Route
                     path="/task-manager"
                     render={() => (
-                      <TaskManager userTitle={this.state.userTitle} />
+                      <AddGroups userTitle={this.state.userTitle} />
                     )}
                   />
                   <Route
