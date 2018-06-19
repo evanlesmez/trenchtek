@@ -61,7 +61,7 @@ class ThreadDisplay extends Component {
   }
 
   componentDidMount() {
-    firebase.auth().onAuthStateChanged(function(user) {
+    firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
         useremail = user.email;
       }
