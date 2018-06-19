@@ -44,8 +44,6 @@ class Login extends Component {
     });
   };
 
-  checkUser;
-
   render() {
     if (this.state.loginSuccessful) {
       return <Redirect to="/profile" />;
@@ -53,8 +51,9 @@ class Login extends Component {
     return (
       <div>
         <center>
-          <br />
-          <br />
+          <Link to="/" className="redirect-to-home-logo-button">
+            RevTek
+          </Link>
           <Card title="Sign in" style={{ width: 450 }}>
             <Form layout="vertical" className="login-form">
               <Form.Item>

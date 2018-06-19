@@ -4,6 +4,12 @@ import { Menu, Button } from "antd";
 import "./App.css";
 
 export default class TopbarCompany extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentPage: ""
+    };
+  }
   render() {
     return (
       <div>
@@ -13,7 +19,7 @@ export default class TopbarCompany extends Component {
           defaultSelectedKeys="welcome"
         >
           <Menu.Item key="welcome">
-            <Link to="/welcome">
+            <Link to="/">
               <div className="logo-button">RevTek</div>
             </Link>
           </Menu.Item>

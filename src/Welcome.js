@@ -12,8 +12,10 @@ export default class Welcome extends Component {
           />
           <div className="logo-text">RevTek</div>
           <div className="welcome-text">
-            Providing companies with exceptional talent. <br />Empowering
-            students to change the world.
+            Providing companies with exceptional talent.
+          </div>
+          <div className="welcome-text2">
+            Empowering students to change the world.
           </div>
         </div>
       </div>

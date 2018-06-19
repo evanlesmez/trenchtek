@@ -12,7 +12,8 @@ class Resources extends Component {
       resources: [],
       description: "",
       url: "",
-      addingResource: false
+      addingResource: false,
+      userTitle: props.userTitle
     };
   }
 
@@ -37,6 +38,18 @@ class Resources extends Component {
     });
   };
 
+  removeResource = (e, id, description) => {
+    e.preventDefault();
+    const resourceToDeleteRef = firebase.database().ref(`/resources/${id}`);
+    if (
+      window.confirm(
+        `Are you sure you want to delete the resource: ${description}?`
+      )
+    ) {
+      resourceToDeleteRef.remove();
+    }
+  };
+
   hasErrors(fieldsError) {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
   }
@@ -48,7 +61,8 @@ class Resources extends Component {
       for (let resource in resources) {
         newState.push({
           description: resources[resource].description,
-          url: resources[resource].url
+          url: resources[resource].url,
+          id: resource
         });
       }
       this.setState({
@@ -68,18 +82,27 @@ class Resources extends Component {
             <Card title="Add Resource" style={{ width: 600 }}>
               <Form layout="vertical" className="login-form">
                 <Form.Item>
-                  <Input
-                    placeholder="Description"
-                    prefix={
-                      <Icon
-                        type="info-circle-o"
-                        style={{ color: "rgba(0,0,0,.25)" }}
-                      />
-                    }
-                    onChange={e =>
-                      this.setState({ description: e.target.value })
-                    }
-                  />
+                  {getFieldDecorator("description", {
+                    rules: [
+                      {
+                        required: true,
+                        message: "Please input a description"
+                      }
+                    ]
+                  })(
+                    <Input
+                      placeholder="Description"
+                      prefix={
+                        <Icon
+                          type="info-circle-o"
+                          style={{ color: "rgba(0,0,0,.25)" }}
+                        />
+                      }
+                      onChange={e =>
+                        this.setState({ description: e.target.value })
+                      }
+                    />
+                  )}
                 </Form.Item>
                 <Form.Item>
                   {getFieldDecorator("url", {
@@ -112,10 +135,12 @@ class Resources extends Component {
                   <Button
                     onClick={this.handleSubmitClick}
                     type="primary"
-                    className="resource-submit-button"
                     disabled={
-                      this.hasErrors(getFieldsError()) || this.state.url === ""
+                      this.hasErrors(getFieldsError()) ||
+                      this.state.url === "" ||
+                      this.state.description === ""
                     }
+                    className="resource-submit-button"
                   >
                     Submit
                   </Button>
@@ -131,19 +156,50 @@ class Resources extends Component {
       <div>
         <center>
           <br />
-          {this.state.resources.map(resource => {
-            return (
-              <div>
-                <Card title={resource.description} style={{ width: 700 }}>
-                  <a href={resource.url} target="_blank">
-                    {resource.url}
-                  </a>
-                </Card>
-                <br />
-              </div>
-            );
-          })}
-          <Button onClick={this.handleAddResourceClick}>Add Resource</Button>
+          <Card title="Resources" style={{ width: 720 }}>
+            {this.state.resources.map(resource => {
+              return (
+                <div>
+                  <Card
+                    title={resource.description}
+                    extra={
+                      this.state.userTitle === "admin" ? (
+                        <div className="chaldelete">
+                          <Button
+                            size="small"
+                            onClick={e =>
+                              this.removeResource(
+                                e,
+                                resource.id,
+                                resource.description
+                              )
+                            }
+                          >
+                            <Icon type="delete" />
+                          </Button>
+                        </div>
+                      ) : null
+                    }
+                    style={{ width: "95%" }}
+                  >
+                    <a href={resource.url} target="_blank">
+                      {resource.url}
+                    </a>
+                  </Card>
+                  <br />
+                </div>
+              );
+            })}
+            {this.state.userTitle === "admin" ? (
+              <Button
+                size="large"
+                type="primary"
+                shape="circle"
+                icon="plus"
+                onClick={this.handleAddResourceClick}
+              />
+            ) : null}
+          </Card>
         </center>
       </div>
     );

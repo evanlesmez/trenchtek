@@ -76,7 +76,12 @@ class Register extends Component {
             image: "",
             tags: "",
             about: "",
+<<<<<<< HEAD
             upvotes: 0
+=======
+            upvotes: "",
+            approved: false
+>>>>>>> develop
           };
           let newPostKey = firebase
             .database()
@@ -142,8 +147,9 @@ class Register extends Component {
     return (
       <div>
         <center>
-          <br />
-          <br />
+          <Link to="/" className="redirect-to-home-logo-button">
+            RevTek
+          </Link>
           <Card
             justify="start"
             layout="vertical"
@@ -274,7 +280,6 @@ class Register extends Component {
                     >
                       Register
                     </Button>
-                    <br />
                     <br />
                     Or <Link to="/login">login now!</Link>
                   </Form.Item>
