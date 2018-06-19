@@ -1,0 +1,52 @@
+@import "~antd/dist/antd.css";
+
+
+
+/*
+p{
+    background: black;
+  /*background: linear-gradient(bottom, rgba(0,0,0,1), rgba(0,0,0,.4));
+  background: -webkit-linear-gradient(bottom, rgba(0,0,0,1), rgba(0,0,0,.4));
+  background: -moz-linear-gradient(bottom, rgba(0,0,0,1), rgba(0,0,0,.4));
+  
+}
+*/
+
+/*
+.contents{
+   position: relative;
+   right:100%;
+}
+*/
+
+.contents{
+    margin-top:70px;
+    margin-left:455px;
+
+}
+
+
+#history, #interns, #companies{font-family:"Verdana";display:inline-flex; width:75% ;margin-bottom: 70px;} 
+.historyTitle,.word{width:35%;height:1px;padding:0px;}
+
+.eliza{
+width: 40%;
+}
+
+.word{
+    background-color: black;
+    color: white;
+}
+
+.edit{
+    top:100%;
+    font-size:10px;
+    color: blue;
+    cursor: pointer;
+    text-decoration: underline
+}
+
+.buttonText{
+    margin:auto;
+
+}

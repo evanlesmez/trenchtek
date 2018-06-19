@@ -6,6 +6,7 @@
     "antd": "^3.6.2",
     "env2": "^2.2.2",
     "firebase": "^5.0.4",
+    "firebase-admin": "^5.12.1",
     "path-to-regexp": "^2.2.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",

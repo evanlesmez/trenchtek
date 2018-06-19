@@ -17,6 +17,10 @@
   margin-top: 7px;
 }
 
+.challenge-collapse {
+  width: 30%;
+}
+
 .logo-button {
   font-size: 175%;
   font-family: "Arvo", sans-serif;
@@ -118,4 +122,12 @@ body {
   font-family: "Arvo", sans-serif;
   font-weight: bold;
   font-size: 70px;
+}
+
+.center-text {
+  text-align: center;
+}
+
+#contracts-bold {
+  font-weight: bold;
 }
