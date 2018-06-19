@@ -29,40 +29,25 @@ export default class RouteC extends Component {
     };
   }
 
-  checkUser = () => {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user !== null) {
-        this.setState({
-          loginSuccessful: true
-        });
-      } else {
-        this.setState({
-          loginSuccessful: false
-        });
-      }
-    });
-  };
-
   componentDidMount() {
-    this.checkUser();
-
+    this.setState({
+      loginSuccessful: false
+    });
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        console.log(user);
         let userKey = user.uid;
         let userIDString = "/users/" + userKey;
         let database = firebase.database().ref(userIDString);
         database.on("value", snapshot => {
           let newTitleState = snapshot.val().title;
-          console.log(newTitleState);
           this.setState({
             userTitle: newTitleState
           });
-          console.log(this.state);
         });
+        this.setState({ loginSuccessful: true });
         // User is signed in.
       } else {
-        console.log("no user found");
+        this.setState({ loginSuccessful: false });
         // No user is signed in.
       }
     });

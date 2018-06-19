@@ -17,12 +17,19 @@ const menu = (
     </Menu.Item>
   </Menu>
 );
+
 class TopbarUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
       userTitle: props.userTitle
     };
+  }
+
+  componentDidMount() {
+    this.setState({
+      userTitle: this.props.userTitle
+    });
   }
 
   render() {
@@ -62,7 +69,8 @@ class TopbarUser extends Component {
           <Menu.Item key="/resources">
             <Link to="/resources">resources</Link>
           </Menu.Item>
-          {this.state.userTitle === "admin" ? (
+          {this.state.userTitle === "admin" ||
+          this.state.userTitle === "Admin" ? (
             <Menu.Item key="/admin">
               <Link to="/admin">admin</Link>
             </Menu.Item>
