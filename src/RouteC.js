@@ -76,72 +76,77 @@ export default class RouteC extends Component {
       "/challenges|/task-manager|/browse-contracts|/connect|/resources|/profile|/q&a|/directory|/admin"
     );
     return (
-      <BrowserRouter>
-        <div>
-          <Route path={CompanyRegex} component={TopbarCompany} />
-          <Route
-            path={UserRegex}
-            render={() =>
-              this.state.loginSuccessful ? (
-                <TopbarUser userTitle={this.state.userTitle} />
-              ) : null
-            }
-          />
-
+      <div>
+        <BrowserRouter>
           <div>
-            <Route exact path="/" component={Welcome} />
-            <Route path="/about" component={About} />
-            <Route path="/meet-the-team" component={Meet} />
-            <Route path="/submit-contracts" component={SubmitContracts} />
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
-            {this.state.loginSuccessful ? (
-              <div>
-                <Route
-                  path="/profile"
-                  render={() => (
-                    <Profilehandler userTitle={this.state.userTitle} />
-                  )}
-                />
-                <Route
-                  path="/challenges"
-                  render={() => <Challenges userTitle={this.state.userTitle} />}
-                />
-                <Route
-                  path="/task-manager"
-                  render={() => (
-                    <TaskManager userTitle={this.state.userTitle} />
-                  )}
-                />
-                <Route
-                  path="/browse-contracts"
-                  render={() => (
-                    <BrowseContracts userTitle={this.state.userTitle} />
-                  )}
-                />
-                <Route
-                  path="/q&a"
-                  render={() => <Connect userTitle={this.state.userTitle} />}
-                />
-                <Route path="/directory" component={Connect2} />
-                <Route
-                  path="/resources"
-                  render={() => <Resources userTitle={this.state.userTitle} />}
-                />
-                <Route path="/logout" component={Logout} />
-                <Route
-                  path="/admin"
-                  render={() => <Admin userTitle={this.state.userTitle} />}
-                />
-                <Route
-                  path="/users"
-                  render={() => <User userTitle={this.state.userTitle} />}
-                />
-              </div>
-            ) : null}
+            <Route path={CompanyRegex} component={TopbarCompany} />
+            <Route
+              path={UserRegex}
+              render={() =>
+                this.state.loginSuccessful ? (
+                  <TopbarUser userTitle={this.state.userTitle} />
+                ) : null
+              }
+            />
+            <div>
+              <Route exact path="/" component={Welcome} />
+              <Route path="/about" component={About} />
+              <Route path="/meet-the-team" component={Meet} />
+              <Route path="/submit-contracts" component={SubmitContracts} />
+              <Route path="/login" component={Login} />
+              <Route path="/register" component={Register} />
+              {this.state.loginSuccessful ? (
+                <div>
+                  <Route
+                    path="/profile"
+                    render={() => (
+                      <Profilehandler userTitle={this.state.userTitle} />
+                    )}
+                  />
+                  <Route
+                    path="/challenges"
+                    render={() => (
+                      <Challenges userTitle={this.state.userTitle} />
+                    )}
+                  />
+                  <Route
+                    path="/task-manager"
+                    render={() => (
+                      <TaskManager userTitle={this.state.userTitle} />
+                    )}
+                  />
+                  <Route
+                    path="/browse-contracts"
+                    render={() => (
+                      <BrowseContracts userTitle={this.state.userTitle} />
+                    )}
+                  />
+                  <Route
+                    path="/q&a"
+                    render={() => <Connect userTitle={this.state.userTitle} />}
+                  />
+                  <Route path="/directory" component={Connect2} />
+                  <Route
+                    path="/resources"
+                    render={() => (
+                      <Resources userTitle={this.state.userTitle} />
+                    )}
+                  />
+                  <Route path="/logout" component={Logout} />
+                  <Route
+                    path="/admin"
+                    render={() => <Admin userTitle={this.state.userTitle} />}
+                  />
+                  <Route
+                    path="/users"
+                    render={() => <User userTitle={this.state.userTitle} />}
+                  />
+                </div>
+              ) : null}
+            </div>
           </div>
-        </div>
-      </BrowserRouter>
+        </BrowserRouter>
+      </div>
     );
   }
 }
