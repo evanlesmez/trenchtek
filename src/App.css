@@ -17,6 +17,10 @@
   margin-top: 7px;
 }
 
+.challenge-collapse {
+  width: 30%;
+}
+
 .logo-button {
   font-size: 175%;
   font-family: "Arvo", sans-serif;

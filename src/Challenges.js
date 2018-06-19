@@ -36,7 +36,6 @@ export default class Challenges extends Component {
           id: key
         });
       });
-      console.log(challengest);
       challengest.sort(function(b, a) {
         return (
           parseInt(b.duedate.split(/-/i).join("")) -
@@ -60,8 +59,8 @@ export default class Challenges extends Component {
     e.preventDefault;
     this.setState({ isAdd: false });
   };
+
   submitChal = e => {
-    //console.log(this.state);
     e.preventDefault();
     let obj = {
       name: this.state.name,
@@ -77,7 +76,6 @@ export default class Challenges extends Component {
 
   handleChange = (e, label) => {
     this.setState({ [label]: e.target.value });
-    //console.log(this.state);
   };
 
   deletechal = (e, id, name) => {

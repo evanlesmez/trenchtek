@@ -12,13 +12,14 @@ import Connect from "./Connect.js";
 import Connect2 from "./Connect2.js";
 import Resources from "./Resources.js";
 import Logout from "./Logout.js";
-import TaskManager from "./TaskManager.js";
 import TopbarCompany from "./TopbarCompany.js";
 import TopbarUser from "./TopbarUser.js";
 import Register from "./Register.js";
 import Admin from "./Admin.js";
 import User from "./User.js";
 import firebase from "./Firebase.js";
+import AddGroups from "./AddGroups";
+//import TaskManager from "./TaskManager";
 
 export default class RouteC extends Component {
   constructor(props) {
@@ -48,21 +49,21 @@ export default class RouteC extends Component {
 
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        console.log(user);
+        //console.log(user);
         let userKey = user.uid;
         let userIDString = "/users/" + userKey;
         let database = firebase.database().ref(userIDString);
         database.on("value", snapshot => {
           let newTitleState = snapshot.val().title;
-          console.log(newTitleState);
+          //console.log(newTitleState);
           this.setState({
             userTitle: newTitleState
           });
-          console.log(this.state);
+          //console.log(this.state);
         });
         // User is signed in.
       } else {
-        console.log("no user found");
+        //console.log("no user found");
         // No user is signed in.
       }
     });
@@ -112,7 +113,7 @@ export default class RouteC extends Component {
                   <Route
                     path="/task-manager"
                     render={() => (
-                      <TaskManager userTitle={this.state.userTitle} />
+                      <AddGroups userTitle={this.state.userTitle} />
                     )}
                   />
                   <Route
