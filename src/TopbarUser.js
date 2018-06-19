@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Menu, Button, Dropdown, Icon } from "antd";
-import firebase from "./Firebase.js";
 import "./App.css";
 
-const SubMenu = Menu.SubMenu;
 const menu = (
   <Menu>
     <Menu.Item>
@@ -19,7 +17,7 @@ const menu = (
     </Menu.Item>
   </Menu>
 );
-export default class TopbarUser extends Component {
+class TopbarUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,35 +26,44 @@ export default class TopbarUser extends Component {
   }
 
   render() {
+    let currentPage;
+    if (
+      this.props.history.location.pathname === "/q&a" ||
+      this.props.history.location.pathname === "/directory"
+    ) {
+      currentPage = "/connect";
+    } else {
+      currentPage = this.props.history.location.pathname;
+    }
     return (
       <div>
-        <Menu mode="horizontal" defaultSelectedKeys="profile">
-          <Menu.Item key="profile">
+        <Menu mode="horizontal" defaultSelectedKeys={currentPage}>
+          <Menu.Item key="/profile">
             <Link to="/profile">profile</Link>
           </Menu.Item>
-          <Menu.Item key="challenges">
+          <Menu.Item key="/challenges">
             <Link to="/challenges">
               <div className="topbar-tab">challenges</div>
             </Link>
           </Menu.Item>
-          <Menu.Item key="task-manager">
+          <Menu.Item key="/task-manager">
             <Link to="/task-manager">task manager</Link>
           </Menu.Item>
-          <Menu.Item key="browse-contracts">
+          <Menu.Item key="/browse-contracts">
             <Link to="/browse-contracts">contracts</Link>
           </Menu.Item>
-          <Menu.Item>
+          <Menu.Item key="/connect">
             <Dropdown overlay={menu}>
               <a className="ant-dropdown-link" href="#">
                 connect <Icon type="down" />
               </a>
             </Dropdown>
           </Menu.Item>
-          <Menu.Item key="resources">
+          <Menu.Item key="/resources">
             <Link to="/resources">resources</Link>
           </Menu.Item>
           {this.state.userTitle === "admin" ? (
-            <Menu.Item key="admin">
+            <Menu.Item key="/admin">
               <Link to="/admin">admin</Link>
             </Menu.Item>
           ) : null}
@@ -70,3 +77,5 @@ export default class TopbarUser extends Component {
     );
   }
 }
+
+export default withRouter(TopbarUser);

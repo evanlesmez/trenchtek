@@ -57,7 +57,7 @@ export default class Directory extends Component {
         var tag = person.tags.toLowerCase();
         var name = person.name.toLowerCase();
         if (
-          v.indexOf("#") != -1 &&
+          v.indexOf("#") !== -1 &&
           tag.includes(v.toLowerCase().substring(1))
         ) {
           thing = {
@@ -68,7 +68,7 @@ export default class Directory extends Component {
             upvotes: person.upvotes
           };
           array.push(thing);
-        } else if (v.indexOf("#") == -1 && name.includes(v.toLowerCase())) {
+        } else if (v.indexOf("#") === -1 && name.includes(v.toLowerCase())) {
           thing = {
             name: person.name,
             title: person.title,
@@ -77,7 +77,7 @@ export default class Directory extends Component {
             upvotes: person.upvotes
           };
           array.push(thing);
-        } else if (v == "") {
+        } else if (v === "") {
           thing = {
             name: person.name,
             title: person.title,
@@ -100,7 +100,7 @@ export default class Directory extends Component {
       var person;
       for (let obj in objects) {
         person = objects[obj];
-        if (person.image == "") {
+        if (person.image === "") {
           thing = {
             name: person.name,
             title: person.title,
