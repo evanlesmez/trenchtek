@@ -25,7 +25,8 @@ export default class RouteC extends Component {
     super(props);
     this.state = {
       userTitle: "",
-      loginSuccessful: false
+      loginSuccessful: false,
+      uidString: "",
     };
   }
 
@@ -44,7 +45,8 @@ export default class RouteC extends Component {
         database.on("value", snapshot => {
           let newTitleState = snapshot.val().title;
           this.setState({
-            userTitle: newTitleState
+            userTitle: newTitleState,
+            uidString: userIDString,
           });
         });
         this.setState({ loginSuccessful: true });
@@ -88,7 +90,7 @@ export default class RouteC extends Component {
                   <Route
                     path="/profile"
                     render={() => (
-                      <Profilehandler userTitle={this.state.userTitle} />
+                      <Profilehandler {...this.state} /> // Need this for sending uid
                     )}
                   />
                   <Route
