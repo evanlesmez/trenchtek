@@ -6,10 +6,10 @@ import firebase from "./Firebase.js";
 //Reg: "http://static.tvtropes.org/pmwiki/pub/images/reg_anime.jpg"
 // Banner from https://www.google.com/search?q=codding+banner&rlz=1C1CHBF_enUS765US765&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjm7KW7sNPbAhVJ3VMKHWUZBioQ_AUICigB&biw=1536&bih=734&dpr=1.25#imgrc=vAFXqrj7GeFLsM:}
 
-
 let storageRef = firebase.storage().ref('images');
 let profRead = firebase.storage().ref('images/');
 let dBase = firebase.database()
+
 export default class Profile extends Component {
   constructor(props) {
     super(props);
@@ -35,13 +35,15 @@ export default class Profile extends Component {
   componentWillReceiveProps(nextProps){
     console.log(nextProps);
     this.setState({
-      links: nextProps.links,
+      github: nextProps.links.github,
+      LinkedIn: nextProps.links.LinkedIn,
       skills: nextProps.skills,
       name: nextProps.name,
       position: nextProps.position,
-      aboutMe: nextProps.about,
-      tite: nextProps.title,
-      uidString: nextProps.uidString
+      aboutMe: nextProps.aboutMe,
+      title: nextProps.title,
+      uidString: nextProps.uidString,
+      email: nextProps.email,
     })
   }
 
@@ -64,14 +66,24 @@ export default class Profile extends Component {
       editing: !this.state.editing,
       readmode: !this.state.readmode,
       inputclass:"inputfield"});
-    // dBase.ref(this.state.uidString)
-    //   .set({
-        
-    //   })
+      if(this.state.uidString !== ""){
+        console.log("we pushing")
+        dBase.ref(this.state.uidString)  // UPDATING FIREBASE HERE
+          .update({
+            name:this.state.name,
+            tags:this.state.skills,
+            email:this.state.email,
+            links:{github:this.state.github,LinkedIn:this.state.LinkedIn},
+            about: this.state.aboutMe,
+            position: this.state.position
+          });
+      } else{
+        console.log("Don't push b/c not in user!")
+      }
   }
 
   addClick = (e) =>{ //First array ever
-     if (this.state.skills === undefined) {
+     if ((this.state.skills === undefined) || (this.state.skills === "")) {
       let firstSkills = [];
       firstSkills.push(this.state.newSkill);
       this.setState({skills: firstSkills,newSkil:""});
@@ -125,7 +137,7 @@ export default class Profile extends Component {
     if (this.state.editing == false) {    // FOR NOMRAL PAGE
       button = <button type= "edit" onClick={e=>this.editPress(e)}>Edit</button> //Editbutton
       
-      this.state.skills !== undefined ?(skillSpan = this.state.skills.map((skill) => {  //For displaying skills (also removable)
+      this.state.skills !=="" ?(skillSpan = this.state.skills.map((skill) => {  //For displaying skills (also removable)
         return(
          <span> #{skill} </span>
         )
@@ -147,7 +159,7 @@ export default class Profile extends Component {
     } else {  // All of the input fields
       button = <button type= "save" onClick={e => this.saveClick(e)}>Save</button> 
       
-      this.state.skills !== undefined ? (skillSpan = this.state.skills.map((skill) => { // Same dank conditional rendering
+      this.state.skills !== "" ? (skillSpan = this.state.skills.map((skill) => { // Same dank conditional rendering
         return(
          <span> 
            #{skill} 

@@ -128,3 +128,11 @@ body {
   font-weight: bold;
   font-size: 70px;
 }
+
+.center-text {
+  text-align: center;
+}
+
+#contracts-bold {
+  font-weight: bold;
+}

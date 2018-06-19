@@ -70,7 +70,7 @@ class Register extends Component {
             title: this.state.title,
             name: this.state.name,
             image: "",
-            tags: "",
+            tags: [],
             about: "",
             upvotes: 0,
             upvotes: "",
