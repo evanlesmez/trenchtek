@@ -100,8 +100,6 @@ export default class Meet extends Component {
     }
     return (
       <div>
-        <TopbarCompany />
-
         <article>
           <div>
             <h4 className="searchInfo"> Search keywords for detailed information about out large network of interns and alumni</h4>

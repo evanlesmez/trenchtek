@@ -90,13 +90,10 @@ export default class About extends Component {
     }
     return (
       <div>
-        <div>
-          <TopbarCompany />
 
-        </div>
         <div className="contents">
           <div id="history">
-            <h1 className="historyTitle">Our <span>History</span></h1>
+            <h1 className="historyTitle">Our <span className="word">History</span></h1>
             <div className="eliza"> {historyText}
             </div>
             <p className="edit"
@@ -107,7 +104,7 @@ export default class About extends Component {
 
 
           <div id="interns">
-            <h1 className="historyTitle">Our <span>Interns</span></h1>
+            <h1 className="historyTitle">Our <span className="word">Interns</span></h1>
             <div className="eliza"> {internsText}
             </div>
             <p className="edit"

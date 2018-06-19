@@ -27,13 +27,13 @@ p{
 
 
 #history, #interns, #companies{font-family:"Verdana";display:inline-flex; width:75% ;margin-bottom: 70px;} 
-h1,span{width:35%;height:1px;padding:0px;}
+.historyTitle,.word{width:35%;height:1px;padding:0px;}
 
 .eliza{
 width: 40%;
 }
 
-span{
+.word{
     background-color: black;
     color: white;
 }
