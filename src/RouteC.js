@@ -48,21 +48,21 @@ export default class RouteC extends Component {
 
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        console.log(user);
+        //console.log(user);
         let userKey = user.uid;
         let userIDString = "/users/" + userKey;
         let database = firebase.database().ref(userIDString);
         database.on("value", snapshot => {
           let newTitleState = snapshot.val().title;
-          console.log(newTitleState);
+          //console.log(newTitleState);
           this.setState({
             userTitle: newTitleState
           });
-          console.log(this.state);
+          //console.log(this.state);
         });
         // User is signed in.
       } else {
-        console.log("no user found");
+        //console.log("no user found");
         // No user is signed in.
       }
     });
