@@ -29,20 +29,6 @@ export default class RouteC extends Component {
     };
   }
 
-  checkUser = () => {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user !== null) {
-        this.setState({
-          loginSuccessful: true
-        });
-      } else {
-        this.setState({
-          loginSuccessful: false
-        });
-      }
-    });
-  };
-
   updateField = (field, value) => {
     this.setState({
       ...this.state,
@@ -135,14 +121,20 @@ export default class RouteC extends Component {
                     )}
                   />
                   <Route path="/logout" component={Logout} />
-                  <Route
-                    path="/admin"
-                    render={() => <Admin userTitle={this.state.userTitle} />}
-                  />
-                  <Route
-                    path="/users"
-                    render={() => <User userTitle={this.state.userTitle} />}
-                  />
+                  {this.state.userTitle === "admin" ? (
+                    <div>
+                      <Route
+                        path="/admin"
+                        render={() => (
+                          <Admin userTitle={this.state.userTitle} />
+                        )}
+                      />
+                      <Route
+                        path="/users"
+                        render={() => <User userTitle={this.state.userTitle} />}
+                      />
+                    </div>
+                  ) : null}
                 </div>
               ) : null}
             </div>
