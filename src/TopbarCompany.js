@@ -1,39 +1,43 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Menu, Button } from "antd";
 import "./App.css";
 
-export default class TopbarCompany extends Component {
+class TopbarCompany extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      currentPage: ""
-    };
   }
+
   render() {
+    let currentPage;
+    if (this.props.history.location.pathname === "/") {
+      currentPage = "/welcome";
+    } else {
+      currentPage = this.props.history.location.pathname;
+    }
     return (
       <div>
         <Menu
           mode="horizontal"
           classname="navbar"
-          defaultSelectedKeys="welcome"
+          defaultSelectedKeys={currentPage}
         >
-          <Menu.Item key="welcome">
+          <Menu.Item exact key="/welcome">
             <Link to="/">
               <div className="logo-button">RevTek</div>
             </Link>
           </Menu.Item>
-          <Menu.Item key="about">
+          <Menu.Item key="/about">
             <Link to="/about">
               <div className="topbar-tab">about</div>
             </Link>
           </Menu.Item>
-          <Menu.Item key="meet-the-team">
+          <Menu.Item key="/meet-the-team">
             <Link to="/meet-the-team">
               <div className="topbar-tab">meet the team</div>
             </Link>
           </Menu.Item>
-          <Menu.Item key="submit-contracts">
+          <Menu.Item key="/submit-contracts">
             <Link to="/submit-contracts">
               <div className="topbar-tab">submit contracts</div>
             </Link>
@@ -53,3 +57,5 @@ export default class TopbarCompany extends Component {
     );
   }
 }
+
+export default withRouter(TopbarCompany);

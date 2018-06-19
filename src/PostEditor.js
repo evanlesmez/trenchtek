@@ -5,13 +5,14 @@ import { Input } from "antd";
 import { Button, Menu, Dropdown, Icon } from "antd";
 
 const { TextArea } = Input;
-
+let useremail = null;
 class PostEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
       newPostBody: "",
-      newUpvotes: "0"
+      newUpvotes: "0",
+      user: ""
     };
     this.handlePostEditorInputChange = this.handlePostEditorInputChange.bind(
       this
@@ -25,17 +26,26 @@ class PostEditor extends Component {
   }
 
   createPost() {
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        useremail = user.email;
+      }
+    });
     var object = {
       posts: this.state.newPostBody,
-      upvotes: this.state.newUpvotes
+      upvotes: this.state.newUpvotes,
+      user: this.state.user
     };
-    this.props.addPost(this.state.newPostBody, this.state.newUpvote);
-    let list = firebase.database().ref("/posts");
-    list.push(object);
+    this.props.addPost(
+      this.state.newPostBody,
+      this.state.newUpvotes,
+      this.state.user
+    );
 
     this.setState({
       newPostBody: "",
-      newUpvotes: "0"
+      newUpvotes: "0",
+      user: ""
     });
   }
   render() {
