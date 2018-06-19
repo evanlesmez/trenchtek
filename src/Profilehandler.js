@@ -33,6 +33,13 @@ export default class Profilehandler extends Component {
     if(nextProps.uidString !== ""){
       dBase.ref(nextProps.uidString)
       .on("value", snapshot => {
+        console.log(nextProps.uidString)
+        storageRef.child(nextProps.uidString)
+          .getDownloadURL().then( url => {
+            this.setState({profURL:url});
+        })
+        .catch(function(error) {
+        });
       let userData = snapshot.val()
             this.setState({
               email: userData.email,
@@ -42,13 +49,13 @@ export default class Profilehandler extends Component {
               position: userData.position,
               aboutMe: userData.about,
               title: userData.title,
-              uidString: nextProps.uidString
+              uidString: nextProps.uidString,
+              profURL: nextProps.profURL
             });
     });
     }
   }
   render() {
-    console.log(this.state);
       return (
         <div >
             <Profile {...this.state}/>
