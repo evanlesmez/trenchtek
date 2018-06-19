@@ -55,6 +55,7 @@ export default class User extends Component {
       )
     ) {
       userToDelete.child("title").set("removed");
+      userToDelete.child("approved").set("removed");
     }
   };
   render() {
