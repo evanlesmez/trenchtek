@@ -10,7 +10,7 @@ class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      loginSuccessful: true
+      loginSuccessful: false
     };
   }
 
@@ -27,15 +27,78 @@ class Login extends Component {
           "The email address and/or password you entered was incorrect. Please try again."
         );
       });
-    this.checkUser();
+    this.checkUser2();
   };
-
   checkUser = () => {
     firebase.auth().onAuthStateChanged(user => {
+      let exists = true;
       if (user !== null) {
+        firebase
+          .database()
+          .ref("/users")
+          .child(user.uid)
+          .once("value", snapshot => {
+            exists =
+              snapshot.val().title !== "removed" &&
+              snapshot.val().approved === true;
+          })
+          .then(() => {
+            if (exists === false) {
+              firebase.auth().signOut();
+              this.setState({
+                email: "",
+                password: ""
+              });
+            } else {
+              this.setState({
+                loginSuccessful: true
+              });
+            }
+          });
+      } else {
         this.setState({
-          loginSuccessful: true
+          loginSuccessful: false
         });
+      }
+    });
+  };
+  checkUser2 = () => {
+    firebase.auth().onAuthStateChanged(user => {
+      let removed = false;
+      let accepted = false;
+      if (user !== null) {
+        firebase
+          .database()
+          .ref("/users")
+          .child(user.uid)
+          .once("value", snapshot => {
+            console.log(snapshot.val().approved);
+            removed =
+              snapshot.val().title === "removed" &&
+              snapshot.val().approved === "removed";
+            accepted = snapshot.val().approved === true;
+          })
+          .then(() => {
+            if (removed === true) {
+              alert("The user may have been removed.");
+              firebase.auth().signOut();
+              this.setState({
+                email: "",
+                password: ""
+              });
+            } else if (!accepted) {
+              alert("Please wait for your registration to be approved.");
+              firebase.auth().signOut();
+              this.setState({
+                email: "",
+                password: ""
+              });
+            } else {
+              this.setState({
+                loginSuccessful: true
+              });
+            }
+          });
       } else {
         this.setState({
           loginSuccessful: false
@@ -44,8 +107,6 @@ class Login extends Component {
     });
   };
 
-  checkUser;
-
   render() {
     if (this.state.loginSuccessful) {
       return <Redirect to="/profile" />;
@@ -53,12 +114,14 @@ class Login extends Component {
     return (
       <div>
         <center>
-          <br />
-          <br />
+          <Link to="/" className="redirect-to-home-logo-button">
+            RevTek
+          </Link>
           <Card title="Sign in" style={{ width: 450 }}>
             <Form layout="vertical" className="login-form">
               <Form.Item>
                 <Input
+                  value={this.state.email}
                   prefix={
                     <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
                   }
@@ -68,6 +131,7 @@ class Login extends Component {
               </Form.Item>
               <Form.Item>
                 <Input
+                  value={this.state.password}
                   prefix={
                     <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
                   }
@@ -82,6 +146,7 @@ class Login extends Component {
                   htmlType="submit"
                   className="login-form-button"
                   onClick={this.handleClick}
+                  ghost
                 >
                   Sign in
                 </Button>

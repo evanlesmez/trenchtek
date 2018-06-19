@@ -12,7 +12,7 @@ import {
   Row,
   WrapperCol
 } from "antd";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { auth, logout } from "./Auth";
 import firebase from "./Firebase";
 import "./App.css";
@@ -27,7 +27,8 @@ class Register extends Component {
       title: "",
       name: "",
       confirmDirty: false,
-      disablebut: true
+      disablebut: true,
+      go: false
     };
   }
 
@@ -39,9 +40,6 @@ class Register extends Component {
 
   compareToFirstPassword = (rule, value, callback) => {
     const form = this.props.form;
-    console.log(this.state);
-    console.log(value);
-    console.log(form.getFieldValue("password"));
     if (value !== this.state.password) {
       callback("Two passwords that you enter is inconsistent!");
     } else {
@@ -63,7 +61,6 @@ class Register extends Component {
   };
 
   handleSubmit = () => {
-    console.log("hey");
     auth(this.state.email, this.state.password)
       .then(user => {
         if (user) {
@@ -75,7 +72,9 @@ class Register extends Component {
             image: "",
             tags: "",
             about: "",
-            upvotes: ""
+            upvotes: 0,
+            upvotes: "",
+            approved: false
           };
           let newPostKey = firebase
             .database()
@@ -87,9 +86,12 @@ class Register extends Component {
             password2: "",
             title: "",
             name: "",
-            confirmDirty: false
+            confirmDirty: false,
+            go: true
           });
-          alert("Registration successful. Please login.");
+          alert(
+            "Registration successful. Please wait for your registration to be approved."
+          );
           logout();
         }
       })
@@ -101,11 +103,13 @@ class Register extends Component {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
   }
   render() {
+    if (this.state.go) {
+      return <Redirect to="/login" />;
+    }
     const {
       getFieldDecorator,
       getFieldsError,
-      isFieldTouched,
-      getFieldError
+      isFieldTouched
     } = this.props.form;
     const formItemLayout = {
       labelCol: {
@@ -138,8 +142,9 @@ class Register extends Component {
     return (
       <div>
         <center>
-          <br />
-          <br />
+          <Link to="/" className="redirect-to-home-logo-button">
+            RevTek
+          </Link>
           <Card
             justify="start"
             layout="vertical"
@@ -252,9 +257,9 @@ class Register extends Component {
                         }
                         value={this.state.title}
                       >
-                        <Radio value="intern">Intern</Radio>
-                        <Radio value="alumni">Alumni</Radio>
-                        <Radio value="admin">Admin</Radio>
+                        <Radio value="Intern">Intern</Radio>
+                        <Radio value="Alumni">Alumni</Radio>
+                        <Radio value="Admin">Admin</Radio>
                       </Radio.Group>
                     </div>
                   )}
@@ -266,10 +271,10 @@ class Register extends Component {
                       htmlType="submit"
                       disabled={this.hasErrors(getFieldsError()) || disablebut}
                       onClick={() => this.handleSubmit()}
+                      ghost
                     >
                       Register
                     </Button>
-                    <br />
                     <br />
                     Or <Link to="/login">login now!</Link>
                   </Form.Item>

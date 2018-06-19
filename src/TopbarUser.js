@@ -1,70 +1,84 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Menu, Button } from "antd";
 import "./App.css";
 
-export default class TopbarUser extends Component {
+class TopbarUser extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userTitle: props.userTitle
+    };
+  }
+
+  componentDidMount() {
+    this.setState({
+      userTitle: this.props.userTitle
+    });
+  }
+
   render() {
-  if(true){
     return (
       <div>
-        <Menu mode="horizontal">
-          <Menu.Item key="tasks">
-            <Link to="/tasks">tasks</Link>
-          </Menu.Item>
-          <Menu.Item key="browse-contracts">
-            <Link to="/browse-contracts">contracts</Link>
-          </Menu.Item>
-          <Menu.Item key="connect">
-            <Link to="/connect">connect</Link>
-          </Menu.Item>
-          <Menu.Item key="resources">
-            <Link to="/resources">resources</Link>
-          </Menu.Item>
-          <Menu.Item key="profile">
-            <Link to="/profile">profile</Link>
-          </Menu.Item>
-          <Menu.Item key="admin">
-            <Link to="/admin">admin</Link>
-          </Menu.Item>
-        </Menu>
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        <Menu mode="horizontal" defaultSelectedKeys="profile">
-          <Menu.Item key="profile">
+        <Menu
+          mode="horizontal"
+          defaultSelectedKeys={this.props.history.location.pathname}
+        >
+          <Menu.Item key="/profile">
             <Link to="/profile">
               <div className="topbar-tab">profile</div>
             </Link>
           </Menu.Item>
-          <Menu.Item key="challenges">
+          <Menu.Item key="/challenges">
             <Link to="/challenges">
               <div className="topbar-tab">challenges</div>
             </Link>
           </Menu.Item>
-          <Menu.Item key="task-manager">
+          <Menu.Item key="/task-manager">
             <Link to="/task-manager">
               <div className="topbar-tab">task manager</div>
             </Link>
           </Menu.Item>
-          <Menu.Item key="browse-contracts">
+          <Menu.Item key="/browse-contracts">
             <Link to="/browse-contracts">
               <div className="topbar-tab">contracts</div>
             </Link>
           </Menu.Item>
-          <Menu.Item key="connect">
-            <Link to="/connect">
-              <div className="topbar-tab">connect</div>
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="resources">
+          <Menu.SubMenu
+            title={<div className="topbar-tab">connect</div>}
+            key="/connect"
+          >
+            <Menu.Item key="/q&a">
+              <Link to="/q&a">
+                <div className="topbar-tab">Q&A</div>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="/directory">
+              <Link to="/directory">
+                <div className="topbar-tab">directory</div>
+              </Link>
+            </Menu.Item>
+          </Menu.SubMenu>
+          <Menu.Item key="/resources">
             <Link to="/resources">
               <div className="topbar-tab">resources</div>
             </Link>
           </Menu.Item>
-
+          <Menu.SubMenu
+            title={<div className="topbar-tab">admin</div>}
+            key="/admin"
+          >
+            <Menu.Item key="/manage-contracts">
+              <Link to="/manage-contracts">
+                <div className="topbar-tab">manage contracts</div>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="/manage-users">
+              <Link to="/manage-users">
+                <div className="topbar-tab">manage users</div>
+              </Link>
+            </Menu.Item>
+          </Menu.SubMenu>
           <Button className="login-logout-button" type="danger" ghost>
             <Link to="/logout">
               <div className="topbar-tab">logout</div>
@@ -73,7 +87,7 @@ export default class TopbarUser extends Component {
         </Menu>
       </div>
     );
-
-  }
   }
 }
+
+export default withRouter(TopbarUser);
