@@ -26,11 +26,14 @@ class PostEditor extends Component {
   }
 
   createPost() {
+<<<<<<< HEAD
+=======
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
         useremail = user.email;
       }
     });
+>>>>>>> develop
     var object = {
       posts: this.state.newPostBody,
       upvotes: this.state.newUpvotes,
@@ -48,6 +51,11 @@ class PostEditor extends Component {
       user: ""
     });
   }
+  addMessage = e => {
+    if (e.keyCode == 13 && e.shiftKey == false) {
+      this.createPost();
+    }
+  };
   render() {
     return (
       <div>
@@ -56,6 +64,7 @@ class PostEditor extends Component {
           class="post-editor-input"
           value={this.state.newPostBody}
           onChange={this.handlePostEditorInputChange}
+          onKeyDown={this.addMessage}
         />
         <Button type="primary" onClick={this.createPost}>
           Post

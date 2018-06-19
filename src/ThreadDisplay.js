@@ -30,34 +30,104 @@ class ThreadDisplay extends Component {
       for (let obj in objects) {
         if (objects[obj].email == useremail) thing = objects[obj];
       }
+      var randomid = Math.floor(Math.random() * 20000000000);
+
+      var months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+      ];
+      var n = new Date();
+      if (parseInt(n.getHours()) >= 13) {
+        var time =
+          String(parseInt(n.getHours()) - 12) +
+          ":" +
+          (String(n.getMinutes()).length == 1
+            ? "0" + n.getMinutes() + "PM"
+            : n.getMinutes()) +
+          "PM";
+      } else if (parseInt(n.getHours()) >= 1 && parseInt(n.getHours()) <= 11) {
+        var time =
+          n.getHours() +
+          ":" +
+          (String(n.getMinutes()).length == 1
+            ? "0" + n.getMinutes() + "AM"
+            : n.getMinutes()) +
+          "AM";
+      } else if (parseInt(n.getHours()) == 12) {
+        var time =
+          n.getHours() +
+          ":" +
+          (String(n.getMinutes()).length == 1
+            ? "0" + n.getMinutes() + "PM"
+            : n.getMinutes()) +
+          "PM";
+      } else if (parseInt(n.getHours()) == 0) {
+        var time =
+          "12:" +
+          (String(n.getMinutes()).length == 1
+            ? "0" + n.getMinutes() + "AM"
+            : n.getMinutes()) +
+          "AM";
+      }
+      var date =
+        months[n.getMonth()] +
+        " " +
+        (String(n.getDate()).length == 1 ? "0" + n.getDate() : n.getDate()) +
+        ", " +
+        String(n.getFullYear()) +
+        " " +
+        String(time) +
+        "";
+
+      var object = {
+        posts: newPostBody,
+        upvotes: newUpvotes,
+        currentUser: thing,
+        id: randomid,
+        date: date
+      };
+      this.state.array.push(object);
+      let adder = firebase.database().ref("/posts");
+      adder.push(object);
     });
-    var randomid = Math.floor(Math.random() * 200000000);
-    var object = {
-      posts: newPostBody,
-      upvotes: newUpvotes,
-      currentUser: thing,
-      id: randomid
-    };
-    this.state.array.push(object);
-    let adder = firebase.database().ref("/posts");
-    adder.push(object);
   }
 
   handleClick(data) {
-    let list = firebase
-      .database()
-      .ref("/posts")
-      .set();
-
-    /*list.on("value", snapshot => {
+    let list = firebase.database().ref("/posts");
+    let key;
+    let currentUpvotes;
+    let self = false;
+    list.on("value", snapshot => {
       let objects = snapshot.val();
-      let thing = {};
       for (let obj in objects) {
-        if (objects[obj].id == data.id) {
-
+        console.log(objects[obj]);
+        if (
+          objects[obj].id == data.id &&
+          objects[obj].currentUser.email != useremail
+        ) {
+          key = obj;
+          currentUpvotes = objects[obj].upvotes;
+          self = true;
         }
       }
-    });*/
+    });
+    if (self) {
+      firebase
+        .database()
+        .ref("/posts/" + key)
+        .child("/upvotes")
+        .set(parseInt(currentUpvotes) + 1);
+    }
   }
 
   componentDidMount() {
@@ -66,7 +136,6 @@ class ThreadDisplay extends Component {
         useremail = user.email;
       }
     });
-
     let list = firebase.database().ref("/users");
     list.on("value", snapshot => {
       let objects = snapshot.val();
@@ -79,7 +148,6 @@ class ThreadDisplay extends Component {
       }
       this.setState({ currentUser: thing });
     });
-
     list = firebase.database().ref("/posts");
     list.on("value", snapshot => {
       let objects = snapshot.val();
@@ -91,7 +159,8 @@ class ThreadDisplay extends Component {
             posts: objects[obj].posts,
             upvotes: objects[obj].upvotes,
             currentUser: objects[obj].currentUser,
-            id: objects[obj].id
+            id: objects[obj].id,
+            date: objects[obj].date
           };
           all.push(thing);
         }
@@ -103,42 +172,57 @@ class ThreadDisplay extends Component {
   render() {
     return (
       <div>
-        {this.state.array.map(data => {
-          return (
-            <div className="post-body">
-              <div class="flexhorizontal">
-                <div class="flexvertical">
-                  <img
-                    class="cover image-cropper"
-                    src="https://i.stack.imgur.com/34AD2.jpg"
-                  />
-                  <div class="space" />
-                  <center>
-                    <Icon
-                      type="up-circle-o"
-                      onClick={() => this.handleClick(data)}
-                    >
-                      {data.upvotes}
-                    </Icon>
-                  </center>
-                </div>
+        <div>
+          {this.state.array.map(data => {
+            return (
+              <div className="post-body">
                 <div class="flexhorizontal">
-                  <div class="space" />
-                  <Card hoverable style={{ width: 500, maxHeight: 1000 }}>
-                    <div>
-                      <h3>
-                        {data.currentUser.title}: {data.currentUser.name}
-                      </h3>
-                      <div>{data.posts}</div>
+                  <div class="flexvertical">
+                    <img
+                      class="image-cropper"
+                      src="https://i.stack.imgur.com/34AD2.jpg"
+                    />
+                    <center>
+                      <div class="nametitle">
+                        {data.currentUser.name}
+                        <br />
+                        <small>
+                          (
+                          {data.currentUser.title}
+                          )
+                        </small>
+                      </div>
+                      <div class="space" />
+                    </center>
+                  </div>
+                  <center class="margin">
+                    <div class="flexvertical">
+                      <Icon
+                        type="up-circle-o"
+                        style={{ fontSize: 18 }}
+                        onClick={() => this.handleClick(data)}
+                      />
+                      <div>{data.upvotes}</div>
                     </div>
-                  </Card>
+                  </center>
+
+                  <div class="flexhorizontal">
+                    <div class="space" />
+                    <Card hoverable style={{ width: 500 }}>
+                      <div class="date"> {data.date}</div>
+                      <div class="escape">{data.posts}</div>
+                    </Card>
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
-        <div className="post-body">
-          <PostEditor addPost={this.addPost} />
+            );
+          })}
+        </div>
+
+        <div class="post-body">
+          <div class="post-body2">
+            <PostEditor addPost={this.addPost} />
+          </div>
         </div>
       </div>
     );
