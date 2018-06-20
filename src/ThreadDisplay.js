@@ -31,9 +31,7 @@ class ThreadDisplay extends Component {
         if (objects[obj].email == useremail) {
           thing = objects[obj];
         }
-        console.log(objects[obj].email);
       }
-      console.log(thing);
 
       var randomid = Math.floor(Math.random() * 20000000000);
 
@@ -95,7 +93,8 @@ class ThreadDisplay extends Component {
         upvotes: newUpvotes,
         currentUser: thing,
         id: randomid,
-        date: date
+        date: date,
+        usersLiked: [""]
       };
       this.state.array.push(object);
       let adder = firebase.database().ref("/posts");
@@ -107,7 +106,8 @@ class ThreadDisplay extends Component {
     let list = firebase.database().ref("/posts");
     let key;
     let currentUpvotes;
-    let self = true;
+    let self = false;
+    let usersLiked;
     list.on("value", snapshot => {
       let objects = snapshot.val();
       for (let obj in objects) {
@@ -117,21 +117,26 @@ class ThreadDisplay extends Component {
         ) {
           key = obj;
           currentUpvotes = objects[obj].upvotes;
-          self = false;
+          self = true;
+          usersLiked = objects[obj].usersLiked;
         }
       }
     });
-    if (!self) {
+
+    if (self && !usersLiked.includes(useremail)) {
+      console.log(usersLiked);
+      usersLiked.push(useremail);
+      console.log(usersLiked);
       firebase
         .database()
         .ref("/posts/" + key)
         .child("/upvotes")
-        .set(parseInt() + 1);
-      /*firebase
+        .set(parseInt(currentUpvotes) + 1);
+      firebase
         .database()
         .ref("/posts/" + key)
-        .child("/hello")
-        .set({ hello: 96 });*/
+        .child("usersLiked")
+        .set(usersLiked);
     }
   }
 
@@ -169,7 +174,8 @@ class ThreadDisplay extends Component {
             upvotes: objects[obj].upvotes,
             currentUser: objects[obj].currentUser,
             id: objects[obj].id,
-            date: objects[obj].date
+            date: objects[obj].date,
+            usersLiked: objects[obj].usersLiked
           };
           all.push(thing);
         }

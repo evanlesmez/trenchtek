@@ -16,7 +16,7 @@ import "./Post.css";
 
 const CheckboxGroup = Checkbox.Group;
 const Search = Input.Search;
-const plainOptions = ["Intern", "Alumni", "Senior Developers", "Admin"];
+const plainOptions = ["Intern", "Alumni", "Admin"];
 const { Meta } = Card;
 const { CheckableTag } = Tag;
 
@@ -274,49 +274,42 @@ export default class Directory extends Component {
   render() {
     return (
       <div>
-        <div class="flexhorizontal2">
-          <h1>
-            The Directory
-            <Icon type="book" style={{ fontSize: 40, color: "black" }} />
-          </h1>
-        </div>
-        <div class="margin2">
-          <Search
-            placeholder="Type in name, (#)tag , or blank for all users"
-            onSearch={value => {
-              this.searchResult(value);
-            }}
-            style={{ width: 400 }}
-            enterButton
-          />
-
-          <Select defaultValue="Sort by.." style={{ width: 100 }}>
-            <Select.Option value="None" onClick={e => this.allowNoneSort(e)}>
-              None
-            </Select.Option>
-            <Select.Option
-              value="Upvotes"
-              onClick={e => this.allowUpvoteSort(e)}
-            >
-              Upvotes
-            </Select.Option>
-            <Select.Option value="Name" onClick={e => this.allowNameSort(e)}>
-              Name
-            </Select.Option>
-            <Select.Option value="#ofTags" onClick={e => this.allowTagSort(e)}>
-              #ofTags
-            </Select.Option>
-          </Select>
-        </div>
         <center>
+          <div class="directory-title">Directory</div>
           <div>
-            <Checkbox
-              indeterminate={this.state.indeterminate}
-              onChange={this.onCheckAllChange}
-              checked={this.state.checkAll}
+            <Search
+              placeholder="Enter name or #tag"
+              onSearch={value => {
+                this.searchResult(value);
+              }}
+              style={{ width: 400 }}
+              enterButton
+            />
+
+            <Select
+              defaultValue="Sort By"
+              style={{ width: 100 }}
+              className="sort-button"
             >
-              Check all
-            </Checkbox>
+              <Select.Option value="None" onClick={e => this.allowNoneSort(e)}>
+                None
+              </Select.Option>
+              <Select.Option
+                value="Upvotes"
+                onClick={e => this.allowUpvoteSort(e)}
+              >
+                Upvotes
+              </Select.Option>
+              <Select.Option value="Name" onClick={e => this.allowNameSort(e)}>
+                Name
+              </Select.Option>
+              <Select.Option
+                value="#ofTags"
+                onClick={e => this.allowTagSort(e)}
+              >
+                #ofTags
+              </Select.Option>
+            </Select>
           </div>
           <br />
           <CheckboxGroup
@@ -324,36 +317,41 @@ export default class Directory extends Component {
             value={this.state.checkedList}
             onChange={this.onChange}
           />
+          <Checkbox
+            onChange={this.onCheckAllChange}
+            checked={this.state.checkAll}
+          >
+            Check All
+          </Checkbox>
           <br />
           <br />
           <br />
-
           {this.state.array.map(user => (
             <div>
-              <div class="border">
-                <div class="username">User: {user.name}</div>
-                <Card hoverable style={{ width: 500, maxHeight: 1000 }}>
+              <div>
+                <Card
+                  style={{ width: 500, maxHeight: 1000 }}
+                  title={<div className="name-text">{user.name}</div>}
+                >
                   <div class="flexhorizontal">
                     <img class="directory-image" src={user.image} />
                     <div class="indent">
-                      <h3>
-                        Title:{" "}
-                        {user.title.substring(0, 1).toUpperCase() +
-                          user.title.substring(1)}
-                      </h3>
-                      <h3>Upvotes: {user.upvotes}</h3>
+                      <div>
+                        <div className="bigger-text">{"  "}Title: </div>
+                        <div className="big-text">
+                          {user.title.substring(0, 1).toUpperCase() +
+                            user.title.substring(1)}
+                        </div>
+                      </div>
+                      <div>
+                        <div className="bigger-text">Upvotes: </div>
+                        <div className="big-text">{user.upvotes}</div>
+                      </div>
                     </div>
                   </div>
                 </Card>
                 <div class="tags">
-                  {user.tags.map(t => (
-                    <Tag
-                      color="blue"
-                      afterClose={() => this.handleClose(t, user)}
-                    >
-                      {t}
-                    </Tag>
-                  ))}
+                  {user.tags.map(t => <Tag color="blue">{t}</Tag>)}
                 </div>
               </div>
               <br />
