@@ -41,7 +41,7 @@ class TopbarUser extends Component {
       }
     });
   }
-
+  
   render() {
     return (
       <div>

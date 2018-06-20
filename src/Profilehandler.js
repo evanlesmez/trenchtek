@@ -52,9 +52,6 @@ export default class Profilehandler extends Component {
       });
     }
   }
-  componentDidMount(){
-   
-  }
   render() {
     console.log(this.state);
     return (
