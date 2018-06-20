@@ -1,5 +1,15 @@
 import React, { Component } from "react";
-import { Button, Input, Menu, Dropdown, Checkbox, Card, Tag, Icon } from "antd";
+import {
+  Button,
+  Select,
+  Input,
+  Menu,
+  Dropdown,
+  Checkbox,
+  Card,
+  Tag,
+  Icon
+} from "antd";
 
 import firebase from "./Firebase";
 import "./Post.css";
@@ -24,35 +34,9 @@ export default class Directory extends Component {
       sortByTag: false
     };
   }
-  menu2 = () => {
-    return (
-      <div>
-        <Menu
-          key="None"
-          onClick={e => this.allowNoneSort(e)}
-          selectable={false}
-        >
-          <Menu.Item>None</Menu.Item>
-        </Menu>
-        <Menu
-          key="Upvotes"
-          onClick={e => this.allowUpvoteSort(e)}
-          selectable={false}
-        >
-          <Menu.Item>Upvotes</Menu.Item>
-        </Menu>
-        <Menu
-          key="Name"
-          onClick={e => this.allowNameSort(e)}
-          selectable={false}
-        >
-          <Menu.Item>Name</Menu.Item>
-        </Menu>
-        <Menu key="Tags" onClick={e => this.allowTagSort(e)} selectable={false}>
-          <Menu.Item>#ofTags</Menu.Item>
-        </Menu>
-      </div>
-    );
+  handleClose = (removedTag, info) => {
+    console.log(removedTag);
+    console.log(info);
   };
   allowUpvoteSort = e => {
     this.setState({ sortByUpvote: true });
@@ -211,7 +195,6 @@ export default class Directory extends Component {
           );
         });
       }
-
       this.setState({ array: array });
     });
   };
@@ -307,11 +290,27 @@ export default class Directory extends Component {
               style={{ width: 400 }}
               enterButton
             />
-            <Dropdown overlay={this.menu2()} trigger={["click"]}>
-              <a className="ant-dropdown-link" href="#">
-                Sort by <Icon type="down" />
-              </a>
-            </Dropdown>
+
+            <Select defaultValue="Sort by.." style={{ width: 100 }}>
+              <Select.Option value="None" onClick={e => this.allowNoneSort(e)}>
+                None
+              </Select.Option>
+              <Select.Option
+                value="Upvotes"
+                onClick={e => this.allowUpvoteSort(e)}
+              >
+                Upvotes
+              </Select.Option>
+              <Select.Option value="Name" onClick={e => this.allowNameSort(e)}>
+                Name
+              </Select.Option>
+              <Select.Option
+                value="#ofTags"
+                onClick={e => this.allowTagSort(e)}
+              >
+                #ofTags
+              </Select.Option>
+            </Select>
           </div>
           <center>
             <div>
@@ -351,7 +350,15 @@ export default class Directory extends Component {
                     </div>
                   </Card>
                   <div class="tags">
-                    {user.tags.map(t => <Tag color="blue">{t}</Tag>)}
+                    {user.tags.map(t => (
+                      <Tag
+                        color="blue"
+                        closable={true}
+                        afterClose={() => this.handleClose(t, user)}
+                      >
+                        {t}
+                      </Tag>
+                    ))}
                   </div>
                 </div>
                 <br />
@@ -381,11 +388,26 @@ export default class Directory extends Component {
               enterButton
             />
 
-            <Dropdown overlay={this.menu2()} trigger={["click"]}>
-              <a className="ant-dropdown-link" href="#">
-                Sort by <Icon type="down" />
-              </a>
-            </Dropdown>
+            <Select defaultValue="Sort by.." style={{ width: 100 }}>
+              <Select.Option value="None" onClick={e => this.allowNoneSort(e)}>
+                None
+              </Select.Option>
+              <Select.Option
+                value="Upvotes"
+                onClick={e => this.allowUpvoteSort(e)}
+              >
+                Upvotes
+              </Select.Option>
+              <Select.Option value="Name" onClick={e => this.allowNameSort(e)}>
+                Name
+              </Select.Option>
+              <Select.Option
+                value="#ofTags"
+                onClick={e => this.allowTagSort(e)}
+              >
+                #ofTags
+              </Select.Option>
+            </Select>
           </div>
           <center>
             <div>
