@@ -5,7 +5,7 @@ import "./App.css";
 const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 const chalRef = firebase.database().ref("challenges");
 const activeRef = firebase.database().ref("challenges/ative");
-const pastRef = firebase.database().ref("challenges/completed")
+const pastRef = firebase.database().ref("challenges/completed");
 const Panel = Collapse.Panel;
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -20,7 +20,9 @@ export default class Challenges extends Component {
       duedate: "",
       isAdd: false,
       userTitle: props.userTitle,
-      gitRepo: ""
+      gitRepo: "",
+      submitchal: false,
+      itemToSubmit: ""
     };
   }
 
@@ -68,7 +70,8 @@ export default class Challenges extends Component {
     let obj = {
       name: this.state.name,
       details: this.state.details,
-      duedate: this.state.duedate
+      duedate: this.state.duedate,
+      submissions: []
     };
     let newPostKey = chalRef.push().key;
     let updates = {};
@@ -90,7 +93,13 @@ export default class Challenges extends Component {
       challengeToDelete.remove();
     }
   };
-
+  addSubmit = item => {
+    this.setState({
+      ...this.state,
+      submitchal: true,
+      itemToSubmit: item
+    });
+  };
   render() {
     const formItemLayout = {
       labelCol: {
@@ -102,6 +111,9 @@ export default class Challenges extends Component {
         sm: { span: 1 }
       }
     };
+    if (this.state.submitchal) {
+      return <div>hi</div>;
+    }
     if (this.state.isAdd) {
       return (
         <div>
@@ -195,6 +207,9 @@ export default class Challenges extends Component {
                           <p id="chalbold">Due date: </p>
                           {item.duedate}
                         </div>
+                        <Button onClick={() => this.addSubmit(item)}>
+                          Add Submission
+                        </Button>
                       </Panel>
                     </Collapse>
                   </div>
