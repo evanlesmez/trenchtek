@@ -208,13 +208,13 @@ export default class AddGroups extends Component {
         />
         <Button
           onClick={this.addGroupForm}
-          style={{ marginLeft: 25, marginTop: 10 }}
+          style={{ marginLeft: 25, marginTop: 10, marginBottom: 10 }}
         >
           Add Group
         </Button>
         <Button
           onClick={this.submitPersonal}
-          style={{ marginLeft: 25, marginTop: 10 }}
+          style={{ marginLeft: 25, marginTop: 10, marginBottom: 10 }}
         >
           Add Personal
         </Button>

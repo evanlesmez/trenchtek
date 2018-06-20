@@ -107,121 +107,145 @@ export default class TaskManager extends Component {
   render() {
     console.log("task manager is rendering");
     let title = "";
-    return this.props.started
-      ? this.props.groups.map(group => {
+    return this.props.started ? (
+      <Row>
+        {this.props.groups.map(group => {
           group.substring(0, 8) === "Personal"
             ? (title = "Personal")
             : (title = group);
-
           return (
-            <span className="make-them-inline">
-              <Card
-                className="make-gray"
-                title={title}
-                style={{
-                  marginTop: 25,
-                  marginLeft: 25
-                }}
-                extra={
-                  <div className="chaldelete">
-                    <Button
-                      size="small"
-                      onClick={() => this.props.deleteGroup(group)}
-                    >
-                      <Icon type="delete" />
-                    </Button>
+            <span>
+              {/* <span>  //className="make-them-inline"> */}
+              <Col span={8}>
+                <Card
+                  className="make-gray"
+                  title={title}
+                  style={{
+                    marginTop: 25,
+                    marginLeft: 20,
+                    marginRight: 20,
+                    backgroundColor: "pink"
+                  }}
+                  extra={
+                    <div className="chaldelete">
+                      <Button
+                        size="small"
+                        onClick={() => this.props.deleteGroup(group)}
+                      >
+                        <Icon type="delete" />
+                      </Button>
+                    </div>
+                  }
+                >
+                  <div>
+                    <em>Uncompleted tasks:</em>
                   </div>
-                }
-              >
-                <div>Uncompleted tasks:</div>
-                {this.props[group + "Tasks"].map(task => {
-                  return (
-                    <div>
-                      {task.name !== "default" &&
-                      task.type === "uncompleted" ? (
-                        <Card
-                          style={{ marginTop: 16 }}
-                          type="inner"
-                          className="rounded-corners"
-                        >
-                          <div>{task.name}</div>
-                          <div className="chaldelete">
-                            <Button
-                              size="small"
-                              onClick={() =>
-                                this.props.deleteTask(group, task.key)
-                              }
-                            >
-                              <Icon type="delete" />
-                            </Button>
-                            <Button
-                              size="small"
-                              onClick={() =>
-                                this.mark(group, task.key, "completed")
-                              }
-                              className="float-left"
-                            >
-                              <Icon type="check" />
-                            </Button>
-                          </div>
-                        </Card>
-                      ) : null}{" "}
-                    </div>
-                  );
-                })}
+                  {this.props[group + "Tasks"].map(task => {
+                    return (
+                      <div>
+                        {task.name !== "default" &&
+                        task.type === "uncompleted" ? (
+                          <Card
+                            style={{ marginTop: 16 }}
+                            type="inner"
+                            className="rounded-corners"
+                          >
+                            <Col span={12}>
+                              <div>{task.name}</div>
+                            </Col>
+                            <Col span={12}>
+                              <div className="chaldelete">
+                                <Button
+                                  size="small"
+                                  onClick={() =>
+                                    this.props.deleteTask(group, task.key)
+                                  }
+                                  className="float-right"
+                                >
+                                  <Icon type="delete" />
+                                </Button>
 
-                <div>Completed tasks:</div>
-                {this.props[group + "Tasks"].map(task => {
-                  return (
-                    <div>
-                      {task.name !== "default" && task.type === "completed" ? (
-                        <Card
-                          style={{ marginTop: 16 }}
-                          type="inner"
-                          className="rounded-corners"
-                        >
-                          <div>{task.name}</div>
-                          <div className="chaldelete">
-                            <Button
-                              size="small"
-                              onClick={() =>
-                                this.props.deleteTask(group, task.key)
-                              }
-                            >
-                              <Icon type="delete" />
-                            </Button>
-                            <Button
-                              size="small"
-                              onClick={() =>
-                                this.mark(group, task.key, "completed")
-                              }
-                            >
-                              <Icon type="check" />
-                            </Button>
-                          </div>
-                        </Card>
-                      ) : null}
-                    </div>
-                  );
-                })}
+                                <Button
+                                  size="small"
+                                  onClick={() =>
+                                    this.mark(group, task.key, "completed")
+                                  }
+                                  className="float-right"
+                                >
+                                  <Icon type="check" />
+                                </Button>
+                              </div>
+                            </Col>
+                          </Card>
+                        ) : null}{" "}
+                      </div>
+                    );
+                  })}
 
-                <Button
-                  style={{ marginTop: 16 }}
-                  onClick={() => this.addTaskForm(group)}
-                >
-                  Add Task
-                </Button>
-                <Button
-                  style={{ marginTop: 16 }}
-                  onClick={() => this.addUserForm(group)}
-                >
-                  Add User
-                </Button>
-                {this.state[group + "cardForm"]}
-              </Card>
+                  <div className="top-margin">
+                    <em>Completed tasks:</em>
+                  </div>
+                  {this.props[group + "Tasks"].map(task => {
+                    return (
+                      <div>
+                        {task.name !== "default" &&
+                        task.type === "completed" ? (
+                          <Card
+                            style={{ marginTop: 16 }}
+                            type="inner"
+                            className="rounded-corners"
+                          >
+                            <Col span={12}>
+                              <div>{task.name}</div>
+                            </Col>
+                            <Col span={12}>
+                              <div className="chaldelete">
+                                <Button
+                                  size="small"
+                                  onClick={() =>
+                                    this.props.deleteTask(group, task.key)
+                                  }
+                                  className="float-right"
+                                >
+                                  <Icon type="delete" />
+                                </Button>
+
+                                <Button
+                                  size="small"
+                                  onClick={() =>
+                                    this.mark(group, task.key, "uncompleted")
+                                  }
+                                  className="float-right"
+                                >
+                                  <Icon type="sync" />
+                                </Button>
+                              </div>
+                            </Col>
+                          </Card>
+                        ) : null}
+                      </div>
+                    );
+                  })}
+
+                  <Button
+                    style={{ marginTop: 16 }}
+                    onClick={() => this.addTaskForm(group)}
+                  >
+                    Add Task
+                  </Button>
+                  <Button
+                    style={{ marginTop: 16 }}
+                    onClick={() => this.addUserForm(group)}
+                  >
+                    Add User
+                  </Button>
+                  {this.state[group + "cardForm"]}
+                </Card>
+              </Col>
             </span>
           );
-        })
-      : null;
+        })}
+      </Row>
+    ) : null;
   }
 }
