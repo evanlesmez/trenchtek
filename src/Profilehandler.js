@@ -22,14 +22,10 @@ export default class Profilehandler extends Component {
     if(nextProps.uidString !== ""){
       dBase.ref(nextProps.uidString)
       .on("value", snapshot => {
+        let userData = snapshot.val()
         storageRef.child(nextProps.uidString)
           .getDownloadURL().then( url => {
-            this.setState({profURL:url});
-        })
-        .catch(function(error) {
-        });
-      let userData = snapshot.val()
-            this.setState({
+            this.setState({profURL:url,
               email: userData.email,
               github: userData.github,
               skills: userData.tags,
@@ -40,6 +36,9 @@ export default class Profilehandler extends Component {
               uidString: nextProps.uidString,
               LinkedIn: userData.LinkedIn
             });
+        })
+        .catch(function(error) {
+        });
     });
     }
   }
