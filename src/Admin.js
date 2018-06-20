@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import firebase from "./Firebase.js";
+import { Collapse, Card, Button } from "antd";
+const Panel = Collapse.Panel;
 
 export default class Admin extends Component {
   constructor(props) {
@@ -57,29 +59,51 @@ export default class Admin extends Component {
     console.log(stateArray);
     let display = stateArray.map(item => {
       return (
-        <div className="AdminDiv">
-          Company : {item.arrayData.companyName} <br />
-          Contract Details : {item.arrayData.jobTimeframe} for{" "}
-          {item.arrayData.jobType} <br />
-          Skills Requested : {item.arrayData.specialSkills} <br />
-          Additional Details : {item.arrayData.additionalDetails} <br /> <br />
-          <button className={item.id} onClick={e => this.approveContract(e)}>
-            Approve Contract
-          </button>
-          <button className={item.id} onClick={e => this.removeContract(e)}>
-            Reject Contract
-          </button>
+        <div>
+          <Collapse>
+            <Panel header={item.arrayData.companyName}>
+              <div id="contracts-bold">Company : </div>
+              {item.arrayData.companyName} <br /> <br />
+              <div id="contracts-bold">Timeframe : </div>
+              {item.arrayData.jobTimeframe} <br /> <br />
+              <div id="contracts-bold">Job Type : </div>
+              {item.arrayData.jobType} <br /> <br />
+              <div id="contracts-bold">Skills Requested :</div>
+              {item.arrayData.specialSkills} <br /> <br />
+              <div id="contracts-bold">Additional Details :</div>
+              {item.arrayData.additionalDetails} <br /> <br />
+              <center>
+                <Button
+                  className="resource-submit-button"
+                  onClick={e => this.approveContract(e)}
+                  type="primary"
+                >
+                  Approve Contract
+                </Button>
+                <Button
+                  className={item.id}
+                  onClick={e => this.removeContract(e)}
+                  type="danger"
+                >
+                  Reject Contract
+                </Button>
+              </center>
+            </Panel>
+          </Collapse>
         </div>
       );
     });
 
     return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Create and manage your contracts here!</h1>
-        </header>
-        <br /> Existing Contracts: <br /> <br />
-        {display}
+      <div>
+        <br />
+        <Card
+          title={<div className="center-text">Manage Contracts</div>}
+          style={{ width: 720, margin: "auto" }}
+        >
+          {display}
+        </Card>
+        <br />
       </div>
     );
   }
