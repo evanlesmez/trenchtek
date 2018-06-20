@@ -66,8 +66,9 @@ export default class Profile extends Component {
       readmode: !this.state.readmode,
       inputclass:"inputfield"});
       if(this.state.uidString !== "" && this.state.uidString !== undefined){
-        if(this.state.position === undefined){
-          this.setState({postion:""});
+        let pos = this.state.position;
+        if(pos == undefined){
+          pos = "";
         }
         dBase.ref(this.state.uidString)  // UPDATING FIREBASE HERE
           .update({
@@ -77,7 +78,7 @@ export default class Profile extends Component {
             github:this.state.github,
             linkedIn:this.state.LinkedIn,
             about: this.state.aboutMe,
-            position: this.state.position
+            position: pos
           });
       } else{
         console.log("Don't push b/c not in user!")
