@@ -353,7 +353,6 @@ export default class Directory extends Component {
                     {user.tags.map(t => (
                       <Tag
                         color="blue"
-                        closable={true}
                         afterClose={() => this.handleClose(t, user)}
                       >
                         {t}
