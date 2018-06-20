@@ -2,18 +2,43 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { Menu, Button } from "antd";
 import "./App.css";
+import firebase from "./Firebase.js";
 
 class TopbarUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userTitle: props.userTitle
+      userTitle: "",
+      uidString: ""
     };
   }
 
   componentDidMount() {
-    this.setState({
-      userTitle: this.props.userTitle
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        let userKey = user.uid;
+        let userIDString = "/users/" + userKey;
+        let database = firebase.database().ref(userIDString);
+        //console.log(userIDString);
+        database.on("value", snapshot => {
+          //console.log(snapshot.val());
+          let newTitleState = snapshot.val().title;
+          //console.log(newTitleState);
+
+          this.setState({
+            userTitle: newTitleState,
+            uidString: userIDString
+          });
+          //console.log(this.state);
+        });
+        this.setState({ loginSuccessful: true });
+        // User is signed in.
+      } else {
+        //console.log("no user found");
+
+        this.setState({ loginSuccessful: false });
+        // No user is signed in.
+      }
     });
   }
 
@@ -27,6 +52,21 @@ class TopbarUser extends Component {
           <Menu.Item key="/profile">
             <Link to="/profile">
               <div className="topbar-tab">profile</div>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="/browse-contracts">
+            <Link to="/browse-contracts">
+              <div className="topbar-tab">contracts</div>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="/q&a">
+            <Link to="/q&a">
+              <div className="topbar-tab">q&a</div>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="/directory">
+            <Link to="/directory">
+              <div className="topbar-tab">directory</div>
             </Link>
           </Menu.Item>
           <Menu.SubMenu
@@ -43,48 +83,29 @@ class TopbarUser extends Component {
                 <div className="topbar-tab">resources</div>
               </Link>
             </Menu.Item>
-          </Menu.SubMenu>
-
-          <Menu.Item key="/task-manager">
-            <Link to="/task-manager">
-              <div className="topbar-tab">task manager</div>
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="/browse-contracts">
-            <Link to="/browse-contracts">
-              <div className="topbar-tab">contracts</div>
-            </Link>
-          </Menu.Item>
-          <Menu.SubMenu
-            title={<div className="topbar-tab">connect</div>}
-            key="/connect"
-          >
-            <Menu.Item key="/q&a">
-              <Link to="/q&a">
-                <div className="topbar-tab">Q&A</div>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="/directory">
-              <Link to="/directory">
-                <div className="topbar-tab">directory</div>
+            <Menu.Item key="/task-manager">
+              <Link to="/task-manager">
+                <div className="topbar-tab">task manager</div>
               </Link>
             </Menu.Item>
           </Menu.SubMenu>
-          <Menu.SubMenu
-            title={<div className="topbar-tab">admin</div>}
-            key="/admin"
-          >
-            <Menu.Item key="/manage-contracts">
-              <Link to="/manage-contracts">
-                <div className="topbar-tab">manage contracts</div>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="/manage-users">
-              <Link to="/manage-users">
-                <div className="topbar-tab">manage users</div>
-              </Link>
-            </Menu.Item>
-          </Menu.SubMenu>
+          {this.state.userTitle === "Admin" ? (
+            <Menu.SubMenu
+              title={<div className="topbar-tab">admin</div>}
+              key="/admin"
+            >
+              <Menu.Item key="/manage-contracts">
+                <Link to="/manage-contracts">
+                  <div className="topbar-tab">manage contracts</div>
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="/manage-users">
+                <Link to="/manage-users">
+                  <div className="topbar-tab">manage users</div>
+                </Link>
+              </Menu.Item>
+            </Menu.SubMenu>
+          ) : null}
           <Button className="login-logout-button" type="danger" ghost>
             <Link to="/logout">
               <div className="topbar-tab">logout</div>
