@@ -54,11 +54,22 @@ class TopbarUser extends Component {
               <div className="topbar-tab">profile</div>
             </Link>
           </Menu.Item>
-          <Menu.Item key="/challenges">
-            <Link to="/challenges">
-              <div className="topbar-tab">challenges</div>
-            </Link>
-          </Menu.Item>
+          <Menu.SubMenu
+            title={<div className="topbar-tab">interns</div>}
+            key="/interns"
+          >
+            <Menu.Item key="/challenges">
+              <Link to="/challenges">
+                <div className="topbar-tab">challenges</div>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="/resources">
+              <Link to="/resources">
+                <div className="topbar-tab">resources</div>
+              </Link>
+            </Menu.Item>
+          </Menu.SubMenu>
+
           <Menu.Item key="/task-manager">
             <Link to="/task-manager">
               <div className="topbar-tab">task manager</div>
