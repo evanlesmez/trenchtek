@@ -24,39 +24,33 @@ export default class Profilehandler extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps){   // Super useful lifeCycle but leagcy
-    if(nextProps.uidString !== ""){
-      dBase.ref(nextProps.uidString)
-      .on("value", snapshot => {
-        let userData = snapshot.val()
-        storageRef.child(nextProps.uidString)
+  componentWillMount(){ // MY HERO
+    if(this.props.uidString != ""){
+    console.log(this.props.uidString);
+    dBase.ref(this.props.uidString)
+    .on("value", snapshot => {
+      storageRef.child(this.props.uidString)
           .getDownloadURL().then( url => {
             this.setState({profURL: url});
             
         })
         .catch(function(error) {
         });
-        
-        this.setState({
-          email: userData.email,
-          github: userData.github,
-          skills: userData.tags,
-          name: userData.name,
-          position: userData.position,
-          aboutMe: userData.about,
-          title: userData.title,
-          uidString: nextProps.uidString,
-          LinkedIn: userData.linkedIn
-        });
-    
+      let userData = snapshot.val()
+      this.setState({
+        email: userData.email,
+        github: userData.github,
+        skills: userData.tags,
+        name: userData.name,
+        position: userData.position,
+        aboutMe: userData.about,
+        title: userData.title,
+        LinkedIn: userData.linkedIn
       });
-    }
+    });
   }
-  componentDidMount(){
-   
   }
   render() {
-    console.log(this.state);
     return (
       <div>
         <Profile {...this.state} />

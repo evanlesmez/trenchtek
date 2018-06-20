@@ -30,18 +30,8 @@ export default class Profile extends Component {
       uidString: props.uidString
     }
   }
-  componentWillReceiveProps(nextProps){
-    console.log(nextProps);
+  componentWillReceiveProps(nextProps){ // Picture takes time to load
     this.setState({
-      github: nextProps.github,
-      LinkedIn: nextProps.LinkedIn,
-      skills: nextProps.skills,
-      name: nextProps.name,
-      position: nextProps.position,
-      aboutMe: nextProps.aboutMe,
-      title: nextProps.title,
-      uidString: nextProps.uidString,
-      email: nextProps.email,
       profURL: nextProps.profURL
     });
   }
