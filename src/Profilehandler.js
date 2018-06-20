@@ -22,30 +22,28 @@ export default class Profilehandler extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    // Super useful lifeCycle but leagcy
-    if (nextProps.uidString !== "") {
-      dBase.ref(nextProps.uidString).on("value", snapshot => {
-        storageRef
-          .child(nextProps.uidString)
-          .getDownloadURL()
-          .then(url => {
-            this.setState({ profURL: url });
-          })
-          .catch(function(error) {});
-        let userData = snapshot.val();
-        this.setState({
-          email: userData.email,
-          github: userData.github,
-          skills: userData.tags,
-          name: userData.name,
-          position: userData.position,
-          aboutMe: userData.about,
-          title: userData.title,
-          uidString: nextProps.uidString,
-          LinkedIn: userData.LinkedIn
+  componentWillReceiveProps(nextProps){   // Super useful lifeCycle but leagcy
+    if(nextProps.uidString !== ""){
+      dBase.ref(nextProps.uidString)
+      .on("value", snapshot => {
+        let userData = snapshot.val()
+        storageRef.child(nextProps.uidString)
+          .getDownloadURL().then( url => {
+            this.setState({profURL:url,
+              email: userData.email,
+              github: userData.github,
+              skills: userData.tags,
+              name: userData.name,
+              position: userData.position,
+              aboutMe: userData.about,
+              title: userData.title,
+              uidString: nextProps.uidString,
+              LinkedIn: userData.LinkedIn
+            });
+        })
+        .catch(function(error) {
         });
-      });
+    });
     }
   }
   render() {
