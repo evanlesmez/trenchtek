@@ -118,10 +118,14 @@ export default class Directory extends Component {
         person = array2[obj];
         var tag = person.tags;
         for (var i = 0; i < tag.length; i++) {
-          if (tag[i] != "") tag[i] = tag[i].toLowerCase();
-          else {
-            delete tag[i];
+          if (tag[i] != "") {
+            console.log(tag[i]);
+            tag[i] = tag[i].toLowerCase();
+            console.log(i);
           }
+          //else {
+          //  delete tag[i];
+          //}
         }
 
         var name = person.name.toLowerCase();
@@ -296,7 +300,7 @@ export default class Directory extends Component {
           </div>
           <div class="margin2">
             <Search
-              placeholder="Search by name, tag (# at the front), blank for refresh"
+              placeholder="Type in name, (#)tag , or blank for all users"
               onSearch={value => {
                 this.searchResult(value);
               }}
@@ -369,7 +373,7 @@ export default class Directory extends Component {
           </div>
           <div class="margin2">
             <Search
-              placeholder="Search by name, tag (# at the front), blank for refresh"
+              placeholder="Type in name, (#)tag , or blank for all users"
               onSearch={value => {
                 this.searchResult(value);
               }}

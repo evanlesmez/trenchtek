@@ -39,12 +39,12 @@ export default class RouteC extends Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        //console.log(user);
-
         let userKey = user.uid;
         let userIDString = "/users/" + userKey;
         let database = firebase.database().ref(userIDString);
+        //console.log(userIDString);
         database.on("value", snapshot => {
+          //console.log(snapshot.val());
           let newTitleState = snapshot.val().title;
           //console.log(newTitleState);
 
