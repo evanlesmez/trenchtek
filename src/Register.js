@@ -65,7 +65,7 @@ class Register extends Component {
     });
   };
   updateTagField = value => {
-    value.push(" ");
+    value.push("999");
     this.state.tags = value;
     console.log(this.state.tags);
   };
