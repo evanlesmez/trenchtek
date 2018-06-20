@@ -17,6 +17,10 @@
   margin-top: 7px;
 }
 
+.challenge-collapse {
+  width: 30%;
+}
+
 .logo-button {
   font-size: 175%;
   font-family: "Arvo", sans-serif;
@@ -31,7 +35,7 @@
 }
 
 .inputtitle {
-  width: 65%;
+  width: 80%;
   height: auto;
   margin-left: 0%;
   display: inline-block;
@@ -46,6 +50,20 @@
   display: flex;
 }
 
+.panelheader2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.panelheader.headertitle {
+  align-self: center;
+}
+
+.editbut {
+  position: absolute;
+  left: 400px;
+}
 .chalinfo {
   text-align: left;
 }
@@ -118,4 +136,12 @@ body {
   font-family: "Arvo", sans-serif;
   font-weight: bold;
   font-size: 70px;
+}
+
+.center-text {
+  text-align: center;
+}
+
+#contracts-bold {
+  font-weight: bold;
 }

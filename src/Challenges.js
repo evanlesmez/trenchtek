@@ -4,6 +4,8 @@ import { Collapse, Button, Form, Input, DatePicker, Icon, Card } from "antd";
 import "./App.css";
 const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 const chalRef = firebase.database().ref("challenges");
+const activeRef = firebase.database().ref("challenges/ative");
+const pastRef = firebase.database().ref("challenges/completed")
 const Panel = Collapse.Panel;
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -17,7 +19,8 @@ export default class Challenges extends Component {
       details: "",
       duedate: "",
       isAdd: false,
-      userTitle: props.userTitle
+      userTitle: props.userTitle,
+      gitRepo: ""
     };
   }
 
@@ -36,7 +39,6 @@ export default class Challenges extends Component {
           id: key
         });
       });
-      console.log(challengest);
       challengest.sort(function(b, a) {
         return (
           parseInt(b.duedate.split(/-/i).join("")) -
@@ -60,8 +62,8 @@ export default class Challenges extends Component {
     e.preventDefault;
     this.setState({ isAdd: false });
   };
+
   submitChal = e => {
-    //console.log(this.state);
     e.preventDefault();
     let obj = {
       name: this.state.name,
@@ -77,7 +79,6 @@ export default class Challenges extends Component {
 
   handleChange = (e, label) => {
     this.setState({ [label]: e.target.value });
-    //console.log(this.state);
   };
 
   deletechal = (e, id, name) => {
@@ -169,9 +170,9 @@ export default class Challenges extends Component {
                           <div className="panelheader">
                             {" "}
                             {item.name}
-                            {this.state.userTitle === "admin" ? (
-                              <div className="chaldelete">
-                                Due: {item.duedate} {"     "}
+                            <div className="chaldelete">
+                              Due: {item.duedate} {"     "}
+                              {this.state.userTitle === "Admin" ? (
                                 <Button
                                   size="small"
                                   onClick={e =>
@@ -180,8 +181,8 @@ export default class Challenges extends Component {
                                 >
                                   <Icon type="delete" />
                                 </Button>
-                              </div>
-                            ) : null}
+                              ) : null}
+                            </div>
                           </div>
                         }
                       >
@@ -201,7 +202,7 @@ export default class Challenges extends Component {
               })}
             </div>
             <br />
-            {this.state.userTitle === "admin" ? (
+            {this.state.userTitle === "Admin" ? (
               <Button
                 size="large"
                 type="primary"

@@ -163,7 +163,7 @@ class Resources extends Component {
                   <Card
                     title={resource.description}
                     extra={
-                      this.state.userTitle === "admin" ? (
+                      this.state.userTitle === "Admin" ? (
                         <div className="chaldelete">
                           <Button
                             size="small"
@@ -190,7 +190,7 @@ class Resources extends Component {
                 </div>
               );
             })}
-            {this.state.userTitle === "admin" ? (
+            {this.state.userTitle === "Admin" ? (
               <Button
                 size="large"
                 type="primary"
