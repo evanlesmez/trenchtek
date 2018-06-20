@@ -2,18 +2,43 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { Menu, Button } from "antd";
 import "./App.css";
+import firebase from "./Firebase.js"
 
 class TopbarUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userTitle: props.userTitle
+      userTitle: "",
+      uidString: ""
     };
   }
 
   componentDidMount() {
-    this.setState({
-      userTitle: this.props.userTitle
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        let userKey = user.uid;
+        let userIDString = "/users/" + userKey;
+        let database = firebase.database().ref(userIDString);
+        //console.log(userIDString);
+        database.on("value", snapshot => {
+          //console.log(snapshot.val());
+          let newTitleState = snapshot.val().title;
+          //console.log(newTitleState);
+
+          this.setState({
+            userTitle: newTitleState,
+            uidString: userIDString
+          });
+          //console.log(this.state);
+        });
+        this.setState({ loginSuccessful: true });
+        // User is signed in.
+      } else {
+        //console.log("no user found");
+
+        this.setState({ loginSuccessful: false });
+        // No user is signed in.
+      }
     });
   }
 
@@ -64,21 +89,25 @@ class TopbarUser extends Component {
               <div className="topbar-tab">resources</div>
             </Link>
           </Menu.Item>
-          <Menu.SubMenu
-            title={<div className="topbar-tab">admin</div>}
-            key="/admin"
-          >
-            <Menu.Item key="/manage-contracts">
-              <Link to="/manage-contracts">
-                <div className="topbar-tab">manage contracts</div>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="/manage-users">
-              <Link to="/manage-users">
-                <div className="topbar-tab">manage users</div>
-              </Link>
-            </Menu.Item>
-          </Menu.SubMenu>
+
+
+          {this.state.userTitle === "Admin" ? (
+              <Menu.SubMenu
+                title={<div className="topbar-tab">admin</div>}
+                key="/admin"
+              >
+              <Menu.Item key="/manage-contracts">
+                <Link to="/manage-contracts">
+                  <div className="topbar-tab">manage contracts</div>
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="/manage-users">
+                <Link to="/manage-users">
+                  <div className="topbar-tab">manage users</div>
+                </Link>
+              </Menu.Item>
+              </Menu.SubMenu>
+            ) : null}
           <Button className="login-logout-button" type="danger" ghost>
             <Link to="/logout">
               <div className="topbar-tab">logout</div>

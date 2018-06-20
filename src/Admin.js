@@ -34,7 +34,7 @@ export default class Admin extends Component {
       .remove();
   }
 
-  //takes the contract from "unapprovedCompanyContracts" and moves it to
+  //takes the contract from "unapprovedCompanyContracts" from firebase and moves it to
   // approved contracts
   approveContract(e) {
     let database = firebase.database();
