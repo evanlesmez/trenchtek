@@ -38,8 +38,11 @@ export default class RouteC extends Component {
     });
   };
   componentDidMount() {
+    console.log("hello");
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
+        console.log("hello2");
+        console.log(user);
         let userKey = user.uid;
         let userIDString = "/users/" + userKey;
         let database = firebase.database().ref(userIDString);
@@ -79,62 +82,9 @@ export default class RouteC extends Component {
       <div>
         <BrowserRouter>
           <div>
-            <Route exact path="/" component={Welcome} />
-            <Route path="/about" component={About} />
-            <Route path="/meet-the-team" component={Meet} />
-            <Route path="/submit-contracts" component={SubmitContracts} />
-            <Route path="/login" component={Login} />
-            <Route path="/profile" component={Profilehandler} />
-            <Route path="/challenges" component={Challenges} />
-            <Route path="/task-manager" component={TaskManager} />
-            <Route path="/browse-contracts" component={BrowseContracts} />
-            <Route path="/q&a" component={Connect} />
-            <Route path="/directory" component={Connect2} />
-            <Route path="/resources" component={Resources} />
-            <Route path="/register" component={Register} />
-            <Route
-              path="/about"
-              render={() => <About userTitle={this.state.userTitle} />}
-            />
-            <Route
-              path="/meet-the-team"
-              render={() => <Meet userTitle={this.state.userTitle} />}
-            />
-            <Route
-              path="/profile"
-              render={() => <Profilehandler userTitle={this.state.userTitle} />}
-            />
-            <Route
-              path="/challenges"
-              render={() => <Challenges userTitle={this.state.userTitle} />}
-            />
-            <Route
-              path="/task-manager"
-              render={() => <TaskManager userTitle={this.state.userTitle} />}
-            />
-            <Route
-              path="/browse-contracts"
-              render={() => (
-                <BrowseContracts userTitle={this.state.userTitle} />
-              )}
-            />
-            <Route
-              path="/connect"
-              render={() => <Connect userTitle={this.state.userTitle} />}
-            />
-            <Route path="/connect2" component={Connect2} />
-            <Route
-              path="/resources"
-              render={() => <Resources userTitle={this.state.userTitle} />}
-            />
-            <Route path="/logout" component={Logout} />
-            <Route
-              path="/admin"
-              render={() => <Admin userTitle={this.state.userTitle} />}
-            />
-=======
+
+
             <Route path={CompanyRegex} component={TopbarCompany} />
->>>>>>> develop
             <Route
               path={UserRegex}
               render={() =>
@@ -161,7 +111,7 @@ export default class RouteC extends Component {
                   <Route
                     path="/challenges"
                     render={() => (
-                      <Challenges userTitle={this.state.userTitle} uidString ={this.state.uidString}/>
+                      <Challenges userTitle={this.state.userTitle} uidString={this.state.uidString} />
                     )}
                   />
                   <Route
