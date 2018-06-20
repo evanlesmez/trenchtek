@@ -26,7 +26,7 @@ export default class RouteC extends Component {
     this.state = {
       userTitle: "",
       loginSuccessful: false,
-      uidString: "",
+      uidString: ""
     };
   }
 
@@ -42,16 +42,23 @@ export default class RouteC extends Component {
         let userKey = user.uid;
         let userIDString = "/users/" + userKey;
         let database = firebase.database().ref(userIDString);
+        //console.log(userIDString);
         database.on("value", snapshot => {
+          //console.log(snapshot.val());
           let newTitleState = snapshot.val().title;
+          //console.log(newTitleState);
+
           this.setState({
             userTitle: newTitleState,
-            uidString: userIDString,
+            uidString: userIDString
           });
+          //console.log(this.state);
         });
         this.setState({ loginSuccessful: true });
         // User is signed in.
       } else {
+        //console.log("no user found");
+
         this.setState({ loginSuccessful: false });
         // No user is signed in.
       }
@@ -63,7 +70,7 @@ export default class RouteC extends Component {
       "^/$|/about|/meet-the-team|/submit-contracts"
     );
     const UserRegex = new RegExp(
-      "/challenges|/task-manager|/browse-contracts|/connect|/resources|/profile|/q&a|/directory|/admin"
+      "/challenges|/task-manager|/browse-contracts|/connect|/resources|/profile|/q&a|/directory|/manage-contracts|/manage-users"
     );
     return (
       <div>
@@ -96,7 +103,7 @@ export default class RouteC extends Component {
                   <Route
                     path="/challenges"
                     render={() => (
-                      <Challenges userTitle={this.state.userTitle} />
+                      <Challenges userTitle={this.state.userTitle} uidString ={this.state.uidString}/>
                     )}
                   />
                   <Route
@@ -126,13 +133,13 @@ export default class RouteC extends Component {
                   {this.state.userTitle === "Admin" ? (
                     <div>
                       <Route
-                        path="/admin"
+                        path="/manage-contracts"
                         render={() => (
                           <Admin userTitle={this.state.userTitle} />
                         )}
                       />
                       <Route
-                        path="/users"
+                        path="/manage-users"
                         render={() => <User userTitle={this.state.userTitle} />}
                       />
                     </div>

@@ -1,12 +1,19 @@
 .post-body {
-  margin: 1em 28%;
+  margin: 1em 27%;
+}
+.post-body2 {
+  margin: 1em 12%;
+}
+.margin2 {
+  margin-left: 33%;
 }
 .flexhorizontal {
   display: flex;
 }
 .flexhorizontal2 {
-  margin-left: 43%;
+  margin-left: 40%;
   display: flex;
+  padding: 40px;
 }
 .directoryfont {
   font-size: 40;
@@ -14,13 +21,25 @@
 .flexvertical {
   flex-direction: column;
 }
-.cover {
-  width: 80px;
-  height: 100px;
+.date {
+  font-size: 12px;
+  color: gray;
+  text-align: right;
+}
+.escape {
+  word-wrap: break-word;
+}
+.margin {
+  margin-top: 40px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.nametitle {
+  font-size: 12px;
 }
 .image-cropper {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   position: relative;
   border-radius: 50%;
   border: 3px solid black;
@@ -65,6 +84,10 @@
 .space {
   width: 10px;
   height: 10px;
+}
+.space {
+  width: 1px;
+  height: 1px;
 }
 @media (max-width: 900px) {
   .post-body {
