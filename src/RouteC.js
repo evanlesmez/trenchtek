@@ -20,6 +20,7 @@ import User from "./User.js";
 import firebase from "./Firebase.js";
 import AddGroups from "./AddGroups";
 import TaskManager from "./TaskManager"
+import ManageSite from "./ManageSite"
 
 export default class RouteC extends Component {
   constructor(props) {
@@ -76,7 +77,7 @@ export default class RouteC extends Component {
       "^/$|/about|/meet-the-team|/submit-contracts"
     );
     const UserRegex = new RegExp(
-      "/challenges|/task-manager|/browse-contracts|/connect|/resources|/profile|/q&a|/directory|/manage-contracts|/manage-users"
+      "/challenges|/task-manager|/browse-contracts|/connect|/resources|/profile|/q&a|/directory|/manage-contracts|/manage-users|/manage-site"
     );
     return (
       <div>
@@ -150,6 +151,12 @@ export default class RouteC extends Component {
                         path="/manage-users"
                         render={() => <User userTitle={this.state.userTitle} />}
                       />
+
+                      <Route
+                        path="/manage-site"
+                        render={() => <ManageSite userTitle={this.state.userTitle} />}
+                      />
+
                     </div>
                   ) : null}
                 </div>

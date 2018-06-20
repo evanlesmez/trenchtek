@@ -1,0 +1,19 @@
+.wrapper{
+    align-content: center;
+    position: relative;
+    right:-100px;
+}
+
+.AboutPage{
+    font-family: Verdana;
+    position: relative;
+    right: -400px;
+}
+
+.MeetTeam{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    float: right;
+    position:relative;
+    left:-700px;
+    top:-200px;
+}
