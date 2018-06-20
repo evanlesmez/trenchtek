@@ -34,12 +34,9 @@ export default class Directory extends Component {
       sortByTag: false
     };
   }
-  handleClose = (removedTag, email) => {
+  handleClose = (removedTag, info) => {
     console.log(removedTag);
-    console.log(email);
-    /*const tags = this.state.tags.filter(tag => tag !== removedTag);
-                   console.log(tags);
-                   this.setState({ tags });*/
+    console.log(info);
   };
   allowUpvoteSort = e => {
     this.setState({ sortByUpvote: true });
@@ -198,7 +195,6 @@ export default class Directory extends Component {
           );
         });
       }
-
       this.setState({ array: array });
     });
   };
@@ -357,7 +353,6 @@ export default class Directory extends Component {
                     {user.tags.map(t => (
                       <Tag
                         color="blue"
-                        closable={true}
                         afterClose={() => this.handleClose(t, user)}
                       >
                         {t}

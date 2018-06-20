@@ -37,8 +37,8 @@ export default class RouteC extends Component {
       field: value
     });
   };
-  componentDidMount() {
-    console.log("hello");
+
+  componentWillMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         console.log("hello2");

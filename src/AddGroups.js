@@ -17,7 +17,8 @@ export default class AddGroups extends Component {
     this.state = {
       groups: [],
       groupForm: null,
-      currentEmail: ""
+      currentEmail: "",
+      personalCreated: false
     };
   }
 
@@ -35,6 +36,9 @@ export default class AddGroups extends Component {
                 let groups = snapshot.val();
                 let tempGroup = [];
                 for (let group in groups) {
+                  if (group.substring(0, 8) === "Personal") {
+                    this.setState({ personalCreated: true });
+                  }
                   groupRef
                     .child(group)
                     .child("users")
@@ -45,9 +49,9 @@ export default class AddGroups extends Component {
                         users.includes(this.state.currentEmail)
                       ) {
                         // if (group.substring(0, 8) === "Personal") {
-                        //   group = "Personal";
-                        //   tempGroup.push(group);
-                        //} else {
+                        //   //group = "Personal";
+                        //   tempGroup.push("Personal");
+                        // } else {
                         tempGroup.push(group);
                         //}
                         let tempUser = [];
@@ -104,6 +108,9 @@ export default class AddGroups extends Component {
   // };
 
   deleteGroup = group => {
+    if (group.substring(0, 8) === "Personal") {
+      this.setState({ personalCreated: false });
+    }
     groupRef.child(group).remove();
   };
 
@@ -121,7 +128,9 @@ export default class AddGroups extends Component {
     this.setState({
       groups: tempGroup,
       groupForm: null,
-      //[newGroup + "Tasks"]: ["default"],
+      [newGroup + "Tasks"]: [
+        { name: "default", des: "default", type: "uncompleted" }
+      ],
       [newGroup + "Users"]: newUsers
     });
     groupRef
@@ -138,11 +147,14 @@ export default class AddGroups extends Component {
 
   submitPersonal = () => {
     let tempGroup = this.state.groups;
-    tempGroup.push("Personal");
+    tempGroup.push("Personal" + userid);
     this.setState({
       groups: tempGroup,
-      //["Personal" + userid + "Tasks"]: ["default"],
-      ["Personal" + userid + "Users"]: [this.state.currentEmail]
+      ["Personal" + userid + "Tasks"]: [
+        { name: "default", des: "default", type: "uncompleted" }
+      ],
+      ["Personal" + userid + "Users"]: [this.state.currentEmail],
+      personalCreated: true
     });
     groupRef
       .child("Personal" + userid)
@@ -194,6 +206,7 @@ export default class AddGroups extends Component {
           started={started}
           deleteTask={this.deleteTask}
           giveCurrentEmail={this.giveCurrentEmail}
+          userid={userid}
         />
         <Button
           onClick={this.addGroupForm}
@@ -201,12 +214,14 @@ export default class AddGroups extends Component {
         >
           Add Group
         </Button>
-        <Button
-          onClick={this.submitPersonal}
-          style={{ marginLeft: 25, marginTop: 10 }}
-        >
-          Add Personal
-        </Button>
+        {!this.state.personalCreated ? (
+          <Button
+            onClick={this.submitPersonal}
+            style={{ marginLeft: 25, marginTop: 10 }}
+          >
+            Add Personal
+          </Button>
+        ) : null}
         <div>{this.state.groupForm}</div>
       </div>
     );
