@@ -71,6 +71,17 @@ export default class Meet extends Component {
     console.log(this.state)
   }
   render() {
+    let edit = <p className="editInfo"
+      onClick={this.handleEditH}
+
+    > </p>;
+
+    if (this.props.userTitle === "admin") {
+      edit = <p className="edit"
+        onClick={this.handleEditH}
+
+      >  Edit</p>
+    }
 
     let array = [];
     for (let i = 0; i < this.state.instructors.length; i++) {
@@ -139,10 +150,10 @@ export default class Meet extends Component {
                       </div>
                     </Card>
                     <div className="nextToImg">
-                      <div
-                        className="editInfo"
+                      <p className="editInfo"
                         onClick={() => this.handleInEdit(index)}
-                      >Edit</div>
+
+                      > Edit</p>
                       <div className="texty"><p>{array[index]}</p> <h5>Tags: {instructor.tags}</h5></div>
                     </div>
                   </div>
@@ -154,8 +165,8 @@ export default class Meet extends Component {
         </article>
 
 
-        <article>
-          <div className="allSenior">
+        <article className="allSenior">
+          <div>
             <div className="seniorDevs">
               <h1><nobr > Our Senior Developers</nobr></h1>
 
@@ -181,9 +192,10 @@ export default class Meet extends Component {
                       </div>
                     </Card>
                     <div className="nextToImg">
-                      <div
+                      <p className="editInfo"
                         onClick={() => this.handleDevEdit(index)}
-                        className="editInfo">Edit</div>
+
+                      > Edit </p>
                       <div className="texty"> <div><p>{arrayDev[index]}</p> <h5>Tags: {senior.tags}</h5></div> </div>
                     </div>
                   </div>

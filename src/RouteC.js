@@ -99,6 +99,14 @@ export default class RouteC extends Component {
             <Route path="/resources" component={Resources} />
             <Route path="/register" component={Register} />
             <Route
+              path="/about"
+              render={() => <About userTitle={this.state.userTitle} />}
+            />
+            <Route
+              path="/meet-the-team"
+              render={() => <Meet userTitle={this.state.userTitle} />}
+            />
+            <Route
               path="/profile"
               render={() => <Profilehandler userTitle={this.state.userTitle} />}
             />

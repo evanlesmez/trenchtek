@@ -139,12 +139,6 @@ h1{
 }
 @media(min-width:1400px){
 
-/* h1{
-    clear:both;
-   font-size: 25px;
-    margin-top:5%;
-    font-family: "Verdana";
-} */
 
 .seniorDevs,.instuctors{
     clear:both;
@@ -153,24 +147,6 @@ h1{
 
 }
 
-
-/* .seniorDevs{
- 
-    color: blue;
-    margin:20%;
-    text-align:right;
-    margin-left:37%;
-    margin-top:0%;
-    white-space: nowrap;
-} */
-
-
-
-/* .InstructorCard{
-    margin-left:20%;
-    margin-top:10%;
-   
-} */
 .allSenior{
 position: relative;
 top:-100px;
@@ -215,8 +191,3 @@ top:-100px;
   
 }
 }
-/*
-.eliza,.infocard
-    {width:35%;height:1px;padding:0px;}
- 
-*/
