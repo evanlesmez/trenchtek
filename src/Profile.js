@@ -41,8 +41,9 @@ export default class Profile extends Component {
       title: nextProps.title,
       uidString: nextProps.uidString,
       email: nextProps.email,
-      profURL: nextProps.url
-    })
+      profURL: nextProps.profURL
+    });
+    console.log(this.state.pro)
   }
 
   handleChange = (e) => { // handles changes in text entries

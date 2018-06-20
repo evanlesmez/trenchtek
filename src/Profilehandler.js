@@ -33,7 +33,6 @@ export default class Profilehandler extends Component {
     if(nextProps.uidString !== ""){
       dBase.ref(nextProps.uidString)
       .on("value", snapshot => {
-        console.log(nextProps.uidString)
         storageRef.child(nextProps.uidString)
           .getDownloadURL().then( url => {
             this.setState({profURL:url});
@@ -50,7 +49,6 @@ export default class Profilehandler extends Component {
               aboutMe: userData.about,
               title: userData.title,
               uidString: nextProps.uidString,
-              profURL: nextProps.profURL
             });
     });
     }
