@@ -276,10 +276,7 @@ export default class Directory extends Component {
       return (
         <div>
           <div class="flexhorizontal2">
-            <h1>
-              The Directory
-              <Icon type="book" style={{ fontSize: 40, color: "black" }} />
-            </h1>
+            <div className="directory-title">Directory</div>
           </div>
           <div class="margin2">
             <Search
@@ -370,12 +367,7 @@ export default class Directory extends Component {
       return (
         <div>
           <div class="flexhorizontal2">
-            <h1>
-              The Directory<Icon
-                type="book"
-                style={{ fontSize: 40, color: "black" }}
-              />
-            </h1>
+            <div className="directory-title">Directory</div>
           </div>
           <div class="margin2">
             <Search

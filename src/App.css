@@ -150,3 +150,7 @@ body {
 #contracts-bold {
   font-weight: bold;
 }
+
+.directory-title {
+  font-size: 150%;
+}
