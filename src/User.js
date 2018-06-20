@@ -433,7 +433,11 @@ export default class User extends Component {
                   <p>Approved: {user.approved.toString()}</p>
                   <p class="escape">About: {user.about} </p>
                   <p class="escape">
-                    Tags: {user.tags.map(t => <Tag color="blue">{t}</Tag>)}
+                    Tags:{" "}
+                    {user.tags.map(
+                      t =>
+                        t !== "999" && t !== " " && <Tag color="blue">{t}</Tag>
+                    )}
                   </p>
 
                   <Button

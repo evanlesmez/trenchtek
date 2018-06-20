@@ -107,7 +107,7 @@ class ThreadDisplay extends Component {
     let list = firebase.database().ref("/posts");
     let key;
     let currentUpvotes;
-    let self = false;
+    let self = true;
     list.on("value", snapshot => {
       let objects = snapshot.val();
       for (let obj in objects) {
@@ -117,16 +117,21 @@ class ThreadDisplay extends Component {
         ) {
           key = obj;
           currentUpvotes = objects[obj].upvotes;
-          self = true;
+          self = false;
         }
       }
     });
-    if (self) {
+    if (!self) {
       firebase
         .database()
         .ref("/posts/" + key)
         .child("/upvotes")
-        .set(parseInt(currentUpvotes) + 1);
+        .set(parseInt() + 1);
+      /*firebase
+        .database()
+        .ref("/posts/" + key)
+        .child("/hello")
+        .set({ hello: 96 });*/
     }
   }
 
