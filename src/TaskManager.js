@@ -123,88 +123,84 @@ export default class TaskManager extends Component {
                 }
               >
                 {this.props[group + "Tasks"].map(task => {
-                  return task.name !== "default" ? (
+                  return (
                     <div>
-                      <div>
-                        Uncompleted tasks:
-                        {task.type === "uncompleted" ? (
-                          <Card
-                            style={{ marginTop: 16 }}
-                            type="inner"
-                            title={task.name}
-                            extra={
-                              <div className="chaldelete">
-                                <Button
-                                  size="small"
-                                  onClick={() =>
-                                    this.props.deleteTask(group, task.key)
-                                  }
-                                >
-                                  <Icon type="delete" />
-                                </Button>
-                                <Button
-                                  size="small"
-                                  onClick={() =>
-                                    this.markComplete(group, task.key)
-                                  }
-                                >
-                                  <Icon type="check" />
-                                </Button>
-                              </div>
-                            }
-                          >
-                            <div onClick={this.editContent}>{task.des}</div>
-                          </Card>
-                        ) : null}
-                      </div>
-                      <div>
-                        Completed tasks:
-                        {task.type === "completed" ? (
-                          <Card
-                            style={{ marginTop: 16 }}
-                            type="inner"
-                            title={task.name}
-                            extra={
-                              <div className="chaldelete">
-                                <Button
-                                  size="small"
-                                  onClick={() =>
-                                    this.props.deleteTask(group, task.key)
-                                  }
-                                >
-                                  <Icon type="delete" />
-                                </Button>
-                                <Button
-                                  size="small"
-                                  onClick={() =>
-                                    this.markComplete(group, task.key)
-                                  }
-                                >
-                                  <Icon type="check" />
-                                </Button>
-                              </div>
-                            }
-                          >
-                            <div onClick={this.editContent}>{task.des}</div>
-                          </Card>
-                        ) : null}
-                      </div>
+                      <div>Uncompleted tasks:</div>
+                      {task.name !== "default" &&
+                      task.type === "uncompleted" ? (
+                        <Card
+                          style={{ marginTop: 16 }}
+                          type="inner"
+                          title={task.name}
+                          extra={
+                            <div className="chaldelete">
+                              <Button
+                                size="small"
+                                onClick={() =>
+                                  this.props.deleteTask(group, task.key)
+                                }
+                              >
+                                <Icon type="delete" />
+                              </Button>
+                              <Button
+                                size="small"
+                                onClick={() =>
+                                  this.markComplete(group, task.key)
+                                }
+                              >
+                                <Icon type="check" />
+                              </Button>
+                            </div>
+                          }
+                        >
+                          <div onClick={this.editContent}>{task.des}</div>
+                        </Card>
+                      ) : null}
+                      {task.nmae !== "default" && task.type === "completed" ? (
+                        <Card
+                          style={{ marginTop: 16 }}
+                          type="inner"
+                          title={task.name}
+                          extra={
+                            <div className="chaldelete">
+                              <Button
+                                size="small"
+                                onClick={() =>
+                                  this.props.deleteTask(group, task.key)
+                                }
+                              >
+                                <Icon type="delete" />
+                              </Button>
+                              <Button
+                                size="small"
+                                onClick={() =>
+                                  this.markComplete(group, task.key)
+                                }
+                              >
+                                <Icon type="check" />
+                              </Button>
+                            </div>
+                          }
+                        >
+                          <div onClick={this.editContent}>{task.des}</div>
+                        </Card>
+                      ) : null}
+                      <Button
+                        style={{ marginTop: 16 }}
+                        onClick={() => this.addTaskForm(group)}
+                      >
+                        Add Task
+                      </Button>
+                      <Button
+                        style={{ marginTop: 16 }}
+                        onClick={() => this.addUserForm(group)}
+                      >
+                        Add User
+                      </Button>
+                      {this.state[group + "cardForm"]}
                     </div>
-                  ) : null;
+                  );
                 })}
-                <Button
-                  style={{ marginTop: 16 }}
-                  onClick={() => this.addTaskForm(group)}
-                >
-                  Add Task
-                </Button>
-                <Button
-                  style={{ marginTop: 16 }}
-                  onClick={() => this.addUserForm(group)}
-                >
-                  Add User
-                </Button>
-                {this.state[group + "cardForm"]}
               </Card>
             </span>
           );
