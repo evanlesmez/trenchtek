@@ -279,6 +279,7 @@ export default class Profile extends Component {
                     name="position"
                     style={{ textAlign: "center" }} //Inline styling
                     value={this.state.position}
+                    placeholder= "RevTekker"
                     onChange={e => this.handleChange(e)}
                     readOnly={this.state.readmode}
                     maxLength="35"
@@ -289,13 +290,14 @@ export default class Profile extends Component {
                   <div id="aboutme">
                     <textarea
                       id={this.state.inputclass}
+                      placeholder= "Write something!"
                       type="text"
                       name="aboutMe"
                       value={this.state.aboutMe}
                       style={{ width: "100%", height: "100%" }}
                       onChange={e => this.handleChange(e)}
                       readOnly={this.state.readmode}
-                      maxLength="200"
+                      maxLength="400"
                     />
                   </div>
                 </div>

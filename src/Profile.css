@@ -58,9 +58,9 @@
   padding: 10px;
   margin: 0 auto;
   border: 1px solid;
-  border-color: silver;
+  border-color: rgb(199, 199, 199);
   background-color: #f8f8f8;
-  width: 60%;
+  width: 80%;
   height: 300px;
 }
 #inputfield {
