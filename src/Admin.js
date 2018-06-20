@@ -60,26 +60,39 @@ export default class Admin extends Component {
   // Add the contract to the list of rejected contracts in the database
   // Then, remove the contracct from the list of pending contracts in the database
   rejectContract(e) {
-    firebase
-      .database()
-      .ref("pendingCompanyContracts")
-      .child(e.target.className)
-      .on("value", snapshot => {
-        firebase
-          .database()
-          .ref("rejectedCompanyContracts")
-          .push(snapshot.val());
-      });
-    firebase
-      .database()
-      .ref("pendingCompanyContracts")
-      .child(e.target.className)
-      .remove();
-    firebase
-      .database()
-      .ref("approvedCompanyContracts")
-      .child(e.target.className)
-      .remove();
+    if (this.state.contractsToView === "pending") {
+      firebase
+        .database()
+        .ref("pendingCompanyContracts")
+        .child(e.target.className)
+        .on("value", snapshot => {
+          firebase
+            .database()
+            .ref("rejectedCompanyContracts")
+            .push(snapshot.val());
+        });
+      firebase
+        .database()
+        .ref("pendingCompanyContracts")
+        .child(e.target.className)
+        .remove();
+    } else if (this.state.contractsToView === "approved") {
+      firebase
+        .database()
+        .ref("approvedCompanyContracts")
+        .child(e.target.className)
+        .on("value", snapshot => {
+          firebase
+            .database()
+            .ref("rejectedCompanyContracts")
+            .push(snapshot.val());
+        });
+      firebase
+        .database()
+        .ref("approvedCompanyContracts")
+        .child(e.target.className)
+        .remove();
+    }
   }
 
   //takes the contract from "unapprovedCompanyContracts" from firebase and moves it to
