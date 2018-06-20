@@ -12,7 +12,7 @@ export default class Profilehandler extends Component {
     super(props);
     this.state = {name:"", position:"", aboutMe:"", 
     skills:[],
-    links:{github: "", email: "", LinkedIn: ""}, 
+    links:{github: "", email: props.email, LinkedIn: ""}, 
     profURL:  "http://www.aminariana.com/assets/placeholders/avatar-39c4f0720c0b9f829e3dc8b644228be492ea900026f4057974840d54b149bb5d.png",
     uidString: this.props.uidString
   }
@@ -31,13 +31,14 @@ export default class Profilehandler extends Component {
       let userData = snapshot.val()
             this.setState({
               email: userData.email,
-              links: userData.links,
+              github: userData.github,
               skills: userData.tags,
               name: userData.name,
               position: userData.position,
               aboutMe: userData.about,
               title: userData.title,
               uidString: nextProps.uidString,
+              LinkedIn: userData.LinkedIn
             });
     });
     }

@@ -4,6 +4,8 @@ import { Collapse, Button, Form, Input, DatePicker, Icon, Card } from "antd";
 import "./App.css";
 const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 const chalRef = firebase.database().ref("challenges");
+const activeRef = firebase.database().ref("challenges/ative");
+const pastRef = firebase.database().ref("challenges/completed")
 const Panel = Collapse.Panel;
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -17,7 +19,8 @@ export default class Challenges extends Component {
       details: "",
       duedate: "",
       isAdd: false,
-      userTitle: props.userTitle
+      userTitle: props.userTitle,
+      gitRepo: ""
     };
   }
 
