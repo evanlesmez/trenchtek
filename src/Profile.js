@@ -22,9 +22,9 @@ export default class Profile extends Component {
       readmode: true,
       newSkill: "",
       inputclass: "inputfield",
-      email: props.links.email,
-      github: props.links.github,
-      LinkedIn: props.links.LinkedIn,
+      email: props.email,
+      github: props.github,
+      LinkedIn: props.LinkedIn,
       banner: "",
       profURL: props.profURL,
       uidString: props.uidString
@@ -32,8 +32,8 @@ export default class Profile extends Component {
   }
   componentWillReceiveProps(nextProps){
     this.setState({
-      github: nextProps.links.github,
-      LinkedIn: nextProps.links.LinkedIn,
+      github: nextProps.github,
+      LinkedIn: nextProps.LinkedIn,
       skills: nextProps.skills,
       name: nextProps.name,
       position: nextProps.position,
@@ -71,7 +71,8 @@ export default class Profile extends Component {
             name:this.state.name,
             tags:this.state.skills,
             email:this.state.email,
-            links:{github:this.state.github,LinkedIn:this.state.LinkedIn},
+            github:this.state.github,
+            LinkedIn:this.state.LinkedIn,
             about: this.state.aboutMe,
             position: this.state.position
           });

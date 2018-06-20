@@ -74,7 +74,9 @@ class Register extends Component {
             about: "",
             upvotes: 0,
             upvotes: "",
-            approved: false
+            approved: false,
+            github: "",
+            linkedIn:""
           };
           let newPostKey = firebase
             .database()
