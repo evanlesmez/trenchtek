@@ -43,11 +43,9 @@ export default class BrowseContracts extends Component {
               {item.arrayData.companyName} <br /> <br />
               <div id="contracts-bold">Timeframe : </div>
               {item.arrayData.jobTimeframe} <br /> <br />
-              <div id="contracts-bold">Job Type : </div>
-              {item.arrayData.jobType} <br /> <br />
               <div id="contracts-bold">Skills Requested :</div>
               {item.arrayData.specialSkills} <br /> <br />
-              <div id="contracts-bold">Additional Details :</div>
+              <div id="contracts-bold">Details :</div>
               {item.arrayData.additionalDetails} <br /> <br />
               <center>
                 <Button

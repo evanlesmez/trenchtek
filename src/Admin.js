@@ -12,14 +12,13 @@ export default class Admin extends Component {
   }
 
   componentDidMount() {
-    let database = firebase.database().ref("unapprovedCompanyContracts");
+    let database = firebase.database().ref("pendingCompanyContracts");
     database.on("value", snapshot => {
       let newStateFromDB = [];
       snapshot.forEach(function(snap) {
         let obj = { id: snap.key, arrayData: snap.val() };
         newStateFromDB.push(obj);
       });
-      console.log(newStateFromDB);
       this.setState({
         dataFromDatabase: newStateFromDB
       });
@@ -27,11 +26,22 @@ export default class Admin extends Component {
   }
 
   //called from admin Page
-  // removes a contract permanately from the DB
-  removeContract(e) {
-    let database = firebase.database();
-    database
-      .ref("unapprovedCompanyContracts")
+  // Add the contract to the list of rejected contracts in the database
+  // Then, remove the contracct from the list of pending contracts in the database
+  rejectContract(e) {
+    firebase
+      .database()
+      .ref("pendingCompanyContracts")
+      .child(e.target.className)
+      .on("value", snapshot => {
+        firebase
+          .database()
+          .ref("rejectedCompanyContracts")
+          .push(snapshot.val());
+      });
+    firebase
+      .database()
+      .ref("pendingCompanyContracts")
       .child(e.target.className)
       .remove();
   }
@@ -39,24 +49,19 @@ export default class Admin extends Component {
   //takes the contract from "unapprovedCompanyContracts" from firebase and moves it to
   // approved contracts
   approveContract(e) {
+    console.log(e.target.className);
     let database = firebase.database();
-    let key = e.target.className;
-    //console.log(e.target.className);
     let eventContract = database
-      .ref("unapprovedCompanyContracts")
-      .child(e.target.className); //(e.target.className) //.arrayData;
+      .ref("pendingCompanyContracts")
+      .child(e.target.className);
     console.log(eventContract);
     eventContract.on("value", snapshot => {
       database.ref("approvedCompanyContracts").push(snapshot.val());
     });
-    //database.ref("approvedCompanyContracts").child("1").set(eventContract) //push(eventContract);
-
-    //database.ref("unapprovedCompanyContracts").child(e.target.className).remove();
   }
 
   render() {
     let stateArray = this.state.dataFromDatabase;
-    console.log(stateArray);
     let display = stateArray.map(item => {
       return (
         <div>
@@ -66,27 +71,29 @@ export default class Admin extends Component {
               {item.arrayData.companyName} <br /> <br />
               <div id="contracts-bold">Timeframe : </div>
               {item.arrayData.jobTimeframe} <br /> <br />
-              <div id="contracts-bold">Job Type : </div>
-              {item.arrayData.jobType} <br /> <br />
               <div id="contracts-bold">Skills Requested :</div>
               {item.arrayData.specialSkills} <br /> <br />
               <div id="contracts-bold">Additional Details :</div>
               {item.arrayData.additionalDetails} <br /> <br />
+              <div id="contracts-bold">Contact Email:</div>
+              {item.arrayData.companyEmail}
+              <br />
+              <br />
               <center>
-                <Button
-                  className="resource-submit-button"
+                <button
+                  className={item.id}
                   onClick={e => this.approveContract(e)}
                   type="primary"
                 >
                   Approve Contract
-                </Button>
-                <Button
+                </button>
+                <button
                   className={item.id}
-                  onClick={e => this.removeContract(e)}
+                  onClick={e => this.rejectContract(e)}
                   type="danger"
                 >
                   Reject Contract
-                </Button>
+                </button>
               </center>
             </Panel>
           </Collapse>
