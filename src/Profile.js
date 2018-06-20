@@ -67,7 +67,7 @@ export default class Profile extends Component {
       inputclass:"inputfield"});
       if(this.state.uidString !== "" && this.state.uidString !== undefined){
         let pos = this.state.position;
-        if(pos == undefined){
+        if(pos === undefined){  //Porblem with .update NEXT TIME DO FUNCTIONALITY FIRST!!!!
           pos = "";
         }
         dBase.ref(this.state.uidString)  // UPDATING FIREBASE HERE
