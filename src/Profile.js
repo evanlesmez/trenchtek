@@ -31,6 +31,7 @@ export default class Profile extends Component {
     }
   }
   componentWillReceiveProps(nextProps){
+    console.log(nextProps);
     this.setState({
       github: nextProps.github,
       LinkedIn: nextProps.LinkedIn,
@@ -64,14 +65,17 @@ export default class Profile extends Component {
       editing: !this.state.editing,
       readmode: !this.state.readmode,
       inputclass:"inputfield"});
-      if(this.props.uidString!== "" || this.props.uidString !== undefined){
+      if(this.state.uidString !== "" && this.state.uidString !== undefined){
+        if(this.state.position === undefined){
+          this.setState({postion:""});
+        }
         dBase.ref(this.state.uidString)  // UPDATING FIREBASE HERE
           .update({
             name:this.state.name,
             tags:this.state.skills,
             email:this.state.email,
             github:this.state.github,
-            LinkedIn:this.state.LinkedIn,
+            linkedIn:this.state.LinkedIn,
             about: this.state.aboutMe,
             position: this.state.position
           });
@@ -81,7 +85,7 @@ export default class Profile extends Component {
   }
 
   addClick = (e) =>{ //First array ever
-     if ((this.state.skills === undefined) || (this.state.skills === "")) {
+     if ((this.state.skills === undefined) && (this.state.skills === "")) {
       let firstSkills = [];
       firstSkills.push(this.state.newSkill);
       this.setState({skills: firstSkills,newSkil:""});
@@ -127,7 +131,7 @@ export default class Profile extends Component {
     if (this.state.editing == false) {    // FOR NOMRAL PAGE
       button = <button type= "edit" onClick={e=>this.editPress(e)}>Edit</button> //Editbutton
       
-      this.props.skills !=="" ?(skillSpan = this.props.skills.map((skill) => {  //For displaying skills (also removable)
+      this.state.skills !=="" ?(skillSpan = this.state.skills.map((skill) => {  //For displaying skills (also removable)
         return(
          <span> #{skill} </span>
         )
@@ -136,15 +140,15 @@ export default class Profile extends Component {
       
       linksPart = <div>
               <p>
-                Contact: <a href= {this.props.email}> {this.props.email}</a>
+                Contact: <a href= {this.state.email}> {this.state.email}</a>
               </p> 
               <span>
-             <a href={this.props.github}> github,</a>
-             <a href={this.props.LinkedIn}> LinkedIn</a>
+             <a href={this.state.github}> github,</a>
+             <a href={this.state.LinkedIn}> LinkedIn</a>
              </span>
              </div>
       
-      profypic = <img className="profpic" src= {this.props.profURL} alt = "Prof pic"/> 
+      profypic = <img className="profpic" src= {this.state.profURL} alt = "Prof pic"/> 
       
     } else {  // All of the input fields
       button = <button type= "save" onClick={e => this.saveClick(e)}>Save</button> 
