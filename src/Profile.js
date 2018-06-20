@@ -43,7 +43,6 @@ export default class Profile extends Component {
       email: nextProps.email,
       profURL: nextProps.profURL
     });
-    console.log(this.state.pro)
   }
 
   handleChange = (e) => { // handles changes in text entries
@@ -65,7 +64,7 @@ export default class Profile extends Component {
       editing: !this.state.editing,
       readmode: !this.state.readmode,
       inputclass:"inputfield"});
-      if(this.state.uidString !== ""){
+      if(this.props.uidString!== "" || this.props.uidString !== undefined){
         dBase.ref(this.state.uidString)  // UPDATING FIREBASE HERE
           .update({
             name:this.state.name,
@@ -112,27 +111,13 @@ export default class Profile extends Component {
       let profPicRef = storageRef.child(this.state.uidString)
       let task = profPicRef.put(file);
       this.setState({profURL: reader.result });
-    //   task.on("state_changed", snapshot => {
-    //     let percentage = (snapshot.bytesTransferred/ snapshot.totalBytes) *100;
-    //     if(percentage==100){
-    //         profPicRef.getDownloadURL().then(url => {
-    //           console.log("yo?")
-    //            // You will get the Url here.
-    //           if(this.state.uidString !== ""){
-    //           dBase.ref(this.state.uidString)
-    //             .update({profURL:url}) };
-    //   });
-    // }});
     };
     reader.onerror = e => {
       console.log("Failed file read: " + e.toString());
     };
     reader.readAsDataURL(file);
   };
-  componentDidMount() {
-    // Updates the picture
-    // Get the download URL
-    }
+  
   render() {
     let button; // Conditional rendering
     let skillSpan;
@@ -142,7 +127,7 @@ export default class Profile extends Component {
     if (this.state.editing == false) {    // FOR NOMRAL PAGE
       button = <button type= "edit" onClick={e=>this.editPress(e)}>Edit</button> //Editbutton
       
-      this.state.skills !=="" ?(skillSpan = this.state.skills.map((skill) => {  //For displaying skills (also removable)
+      this.props.skills !=="" ?(skillSpan = this.props.skills.map((skill) => {  //For displaying skills (also removable)
         return(
          <span> #{skill} </span>
         )
@@ -151,15 +136,15 @@ export default class Profile extends Component {
       
       linksPart = <div>
               <p>
-                Contact: <a href= {this.state.email}> {this.state.email}</a>
+                Contact: <a href= {this.props.email}> {this.props.email}</a>
               </p> 
               <span>
-             <a href={this.state.github}> github,</a>
-             <a href={this.state.LinkedIn}> LinkedIn</a>
+             <a href={this.props.github}> github,</a>
+             <a href={this.props.LinkedIn}> LinkedIn</a>
              </span>
              </div>
       
-      profypic = <img className="profpic" src= {this.state.profURL} alt = "Prof pic"/> 
+      profypic = <img className="profpic" src= {this.props.profURL} alt = "Prof pic"/> 
       
     } else {  // All of the input fields
       button = <button type= "save" onClick={e => this.saveClick(e)}>Save</button> 

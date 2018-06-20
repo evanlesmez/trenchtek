@@ -32,6 +32,9 @@ export default class TaskManager extends Component {
   };
 
   submitTask = (e, group) => {
+    if (group === "Personal") {
+      group = group + this.props.userid;
+    }
     e.preventDefault();
     groupRef
       .child(group)
@@ -101,12 +104,17 @@ export default class TaskManager extends Component {
 
   render() {
     console.log("task manager is rendering");
+    let title = "";
     return this.props.started
       ? this.props.groups.map(group => {
+          group.substring(0, 8) === "Personal"
+            ? (title = "Personal")
+            : (title = group);
+
           return (
             <span className="make-them-inline">
               <Card
-                title={group}
+                title={title}
                 style={{
                   marginTop: 25,
                   marginLeft: 25
@@ -122,10 +130,10 @@ export default class TaskManager extends Component {
                   </div>
                 }
               >
+                <div>Uncompleted tasks:</div>
                 {this.props[group + "Tasks"].map(task => {
                   return (
                     <div>
-                      <div>Uncompleted tasks:</div>
                       {task.name !== "default" &&
                       task.type === "uncompleted" ? (
                         <Card
@@ -155,8 +163,16 @@ export default class TaskManager extends Component {
                         >
                           <div onClick={this.editContent}>{task.des}</div>
                         </Card>
-                      ) : null}
-                      {task.nmae !== "default" && task.type === "completed" ? (
+                      ) : null}{" "}
+                    </div>
+                  );
+                })}
+
+                <div>Completed tasks:</div>
+                {this.props[group + "Tasks"].map(task => {
+                  return (
+                    <div>
+                      {task.name !== "default" && task.type === "completed" ? (
                         <Card
                           style={{ marginTop: 16 }}
                           type="inner"
@@ -185,32 +201,27 @@ export default class TaskManager extends Component {
                           <div onClick={this.editContent}>{task.des}</div>
                         </Card>
                       ) : null}
-                      <Button
-                        style={{ marginTop: 16 }}
-                        onClick={() => this.addTaskForm(group)}
-                      >
-                        Add Task
-                      </Button>
-                      <Button
-                        style={{ marginTop: 16 }}
-                        onClick={() => this.addUserForm(group)}
-                      >
-                        Add User
-                      </Button>
-                      {this.state[group + "cardForm"]}
                     </div>
                   );
                 })}
+
+                <Button
+                  style={{ marginTop: 16 }}
+                  onClick={() => this.addTaskForm(group)}
+                >
+                  Add Task
+                </Button>
+                <Button
+                  style={{ marginTop: 16 }}
+                  onClick={() => this.addUserForm(group)}
+                >
+                  Add User
+                </Button>
+                {this.state[group + "cardForm"]}
               </Card>
             </span>
           );
         })
       : null;
   }
-}
-
-{
-  /* onClick={() =>
-                                      this.props.deleteTask(group, index)
-                                    } */
 }

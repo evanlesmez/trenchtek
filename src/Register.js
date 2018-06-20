@@ -65,6 +65,7 @@ class Register extends Component {
     });
   };
   updateTagField = value => {
+    value.push(" ");
     this.state.tags = value;
     console.log(this.state.tags);
   };
@@ -284,7 +285,7 @@ class Register extends Component {
                   })(
                     <div className="input">
                       <Select
-                        mode="multiple"
+                        mode="tags"
                         style={{ width: "100%" }}
                         placeholder="Please select"
                         defaultValue={["React"]}
