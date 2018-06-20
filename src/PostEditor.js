@@ -62,6 +62,7 @@ class PostEditor extends Component {
           value={this.state.newPostBody}
           onChange={this.handlePostEditorInputChange}
           onKeyDown={this.addMessage}
+          placeholder="Type and press enter."
         />
         <Button type="primary" onClick={this.createPost}>
           Post

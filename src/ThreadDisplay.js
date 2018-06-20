@@ -28,8 +28,13 @@ class ThreadDisplay extends Component {
     list.on("value", snapshot => {
       let objects = snapshot.val();
       for (let obj in objects) {
-        if (objects[obj].email == useremail) thing = objects[obj];
+        if (objects[obj].email == useremail) {
+          thing = objects[obj];
+        }
+        console.log(objects[obj].email);
       }
+      console.log(thing);
+
       var randomid = Math.floor(Math.random() * 20000000000);
 
       var months = [
@@ -106,7 +111,6 @@ class ThreadDisplay extends Component {
     list.on("value", snapshot => {
       let objects = snapshot.val();
       for (let obj in objects) {
-        console.log(objects[obj]);
         if (
           objects[obj].id == data.id &&
           objects[obj].currentUser.email != useremail
@@ -150,7 +154,10 @@ class ThreadDisplay extends Component {
       let all = [];
       let thing = {};
       for (let obj in objects) {
-        if (objects[obj].posts != "") {
+        if (
+          objects[obj].posts != "" &&
+          objects[obj].posts.replace(/(\r\n|\n|\r)/gm, "").length != 0
+        ) {
           thing = {
             posts: objects[obj].posts,
             upvotes: objects[obj].upvotes,
