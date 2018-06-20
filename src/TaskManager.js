@@ -43,19 +43,21 @@ export default class TaskManager extends Component {
     this.setState({ [group + "cardForm"]: null });
   };
 
-  markComplete = (group, key) => {
+  mark = (group, key, place) => {
     groupRef
       .child(group)
       .child("tasks")
       .child(key)
       .child("type")
-      .set("completed");
+      .set(place);
   };
 
   submitUser = (e, group) => {
     e.preventDefault();
     let tempUser = this.props[group + "Users"];
-    tempUser.push(newUser);
+    if (!tempUser.includes(newUser)) {
+      tempUser.push(newUser);
+    }
     //this.props.setUsers(group, tempUser);
     groupRef
       .child(group)
@@ -114,6 +116,7 @@ export default class TaskManager extends Component {
           return (
             <span className="make-them-inline">
               <Card
+                className="make-gray"
                 title={title}
                 style={{
                   marginTop: 25,
@@ -139,29 +142,28 @@ export default class TaskManager extends Component {
                         <Card
                           style={{ marginTop: 16 }}
                           type="inner"
-                          title={task.name}
-                          extra={
-                            <div className="chaldelete">
-                              <Button
-                                size="small"
-                                onClick={() =>
-                                  this.props.deleteTask(group, task.key)
-                                }
-                              >
-                                <Icon type="delete" />
-                              </Button>
-                              <Button
-                                size="small"
-                                onClick={() =>
-                                  this.markComplete(group, task.key)
-                                }
-                              >
-                                <Icon type="check" />
-                              </Button>
-                            </div>
-                          }
+                          className="rounded-corners"
                         >
-                          <div onClick={this.editContent}>{task.des}</div>
+                          <div>{task.name}</div>
+                          <div className="chaldelete">
+                            <Button
+                              size="small"
+                              onClick={() =>
+                                this.props.deleteTask(group, task.key)
+                              }
+                            >
+                              <Icon type="delete" />
+                            </Button>
+                            <Button
+                              size="small"
+                              onClick={() =>
+                                this.mark(group, task.key, "completed")
+                              }
+                              className="float-left"
+                            >
+                              <Icon type="check" />
+                            </Button>
+                          </div>
                         </Card>
                       ) : null}{" "}
                     </div>
@@ -176,29 +178,27 @@ export default class TaskManager extends Component {
                         <Card
                           style={{ marginTop: 16 }}
                           type="inner"
-                          title={task.name}
-                          extra={
-                            <div className="chaldelete">
-                              <Button
-                                size="small"
-                                onClick={() =>
-                                  this.props.deleteTask(group, task.key)
-                                }
-                              >
-                                <Icon type="delete" />
-                              </Button>
-                              <Button
-                                size="small"
-                                onClick={() =>
-                                  this.markComplete(group, task.key)
-                                }
-                              >
-                                <Icon type="check" />
-                              </Button>
-                            </div>
-                          }
+                          className="rounded-corners"
                         >
-                          <div onClick={this.editContent}>{task.des}</div>
+                          <div>{task.name}</div>
+                          <div className="chaldelete">
+                            <Button
+                              size="small"
+                              onClick={() =>
+                                this.props.deleteTask(group, task.key)
+                              }
+                            >
+                              <Icon type="delete" />
+                            </Button>
+                            <Button
+                              size="small"
+                              onClick={() =>
+                                this.mark(group, task.key, "completed")
+                              }
+                            >
+                              <Icon type="check" />
+                            </Button>
+                          </div>
                         </Card>
                       ) : null}
                     </div>

@@ -15,7 +15,9 @@ export default class Profilehandler extends Component {
       position: "",
       aboutMe: "",
       skills: [],
-      links: { github: "", email: props.email, LinkedIn: "" },
+      github: "", 
+      email: "", 
+      LinkedIn: "",
       profURL:
         "http://www.aminariana.com/assets/placeholders/avatar-39c4f0720c0b9f829e3dc8b644228be492ea900026f4057974840d54b149bb5d.png",
       uidString: this.props.uidString
@@ -29,24 +31,32 @@ export default class Profilehandler extends Component {
         let userData = snapshot.val()
         storageRef.child(nextProps.uidString)
           .getDownloadURL().then( url => {
-            this.setState({profURL:url,
-              email: userData.email,
-              github: userData.github,
-              skills: userData.tags,
-              name: userData.name,
-              position: userData.position,
-              aboutMe: userData.about,
-              title: userData.title,
-              uidString: nextProps.uidString,
-              LinkedIn: userData.LinkedIn
-            });
+            this.setState({profURL: url});
+            
         })
         .catch(function(error) {
         });
-    });
+        
+        this.setState({
+          email: userData.email,
+          github: userData.github,
+          skills: userData.tags,
+          name: userData.name,
+          position: userData.position,
+          aboutMe: userData.about,
+          title: userData.title,
+          uidString: nextProps.uidString,
+          LinkedIn: userData.linkedIn
+        });
+    
+      });
     }
   }
+  componentDidMount(){
+   
+  }
   render() {
+    console.log(this.state);
     return (
       <div>
         <Profile {...this.state} />
