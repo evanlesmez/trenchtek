@@ -16,7 +16,8 @@ import {
 } from "antd";
 
 // Allows the administrators to view all the registered users
-
+const Option = Select.Option;
+const children = [];
 export default class User extends Component {
   constructor(props) {
     super(props);
@@ -33,15 +34,39 @@ export default class User extends Component {
       editTitle: "",
       editApproved: "",
       editUpvotes: "",
-      editTags: "",
+      editTags: [],
       editKey: "",
       editAbout: "",
       editImage: ""
     };
+    this.inputData();
   }
   componentDidMount() {
     this.pullingUsers();
   }
+  inputData() {
+    let list = [
+      "Java",
+      "Python",
+      "R",
+      "Javascript",
+      "React",
+      "C++",
+      "Go",
+      "Ruby",
+      "RubyOnRails",
+      "Entrepreneurship",
+      "Arduino",
+      "Raspberry pi"
+    ];
+    for (let i = 0; i < list.length; i++) {
+      children.push(<Option key={list[i]}>{list[i]}</Option>);
+    }
+  }
+  updateTagField = value => {
+    this.state.editTags = value;
+    console.log(value);
+  };
   pullingUsers = () => {
     const userRef = firebase.database().ref("/users");
     userRef.on("value", snapshot => {
@@ -50,7 +75,6 @@ export default class User extends Component {
       let approvedUserstemp = [];
       let removedUserstemp = [];
       snapshot.forEach(value => {
-        //console.log(value.key);
         let obj = {
           name: value.val().name,
           email: value.val().email,
@@ -66,7 +90,6 @@ export default class User extends Component {
         //console.log(value.val());
         if (value.val().approved === false) {
           unapprovedUserstemp.push(obj);
-          //console.log("?");
         }
         if (value.val().approved === true) {
           approvedUserstemp.push(obj);
@@ -85,7 +108,6 @@ export default class User extends Component {
   };
 
   acceptUser = user => {
-    //console.log(user);
     const userRef = firebase
       .database()
       .ref("/users/" + user.key)
@@ -95,7 +117,6 @@ export default class User extends Component {
 
   deleteUser = (e, user) => {
     e.preventDefault();
-    //console.log(user.key);
     const userToDelete = firebase.database().ref(`/users/${user.key}`);
     if (
       window.confirm(
@@ -120,14 +141,11 @@ export default class User extends Component {
     }
   };
   handleDisplay = value => {
-    this.setState({
-      display: value
-    });
+    this.setState({ display: value });
   };
 
   editUnapproved = (e, user) => {
     e.preventDefault();
-    console.log("addEdit");
     this.setState({
       ...this.state,
       edit: true,
@@ -136,7 +154,7 @@ export default class User extends Component {
       editName: user.name,
       editEmail: user.email,
       editTitle: user.title,
-      editApproved: user.approved,
+      Approved: user.approved,
       editUpvotes: user.upvotes,
       editTags: user.tags,
       editKey: user.key,
@@ -145,21 +163,14 @@ export default class User extends Component {
   };
 
   updateEditUser = (field, value) => {
-    console.log("update state");
-    console.log(value);
-    this.setState({
-      [field]: value
-    });
+    this.setState({ [field]: value });
   };
 
   cancel = () => {
-    this.setState({
-      edit: false
-    });
+    this.setState({ edit: false });
   };
 
   submitChanges = () => {
-    console.log(this.state.editUser);
     let edit = {
       about: this.state.editAbout,
       approved: this.state.editApproved,
@@ -180,16 +191,9 @@ export default class User extends Component {
     }
   };
   render() {
-    console.log(this.state);
     const formItemLayout = {
-      labelCol: {
-        xs: { span: 20 },
-        sm: { span: 6 }
-      },
-      WrapperCol: {
-        xs: { span: 1 },
-        sm: { span: 1 }
-      }
+      labelCol: { xs: { span: 20 }, sm: { span: 6 } },
+      WrapperCol: { xs: { span: 1 }, sm: { span: 1 } }
     };
     // edit User Page
     if (this.state.edit) {
@@ -252,6 +256,21 @@ export default class User extends Component {
                       />
                     </div>
                   </Form.Item>
+
+                  <Form.Item {...formItemLayout} label="Tags">
+                    <div className="input">
+                      <Select
+                        mode="tags"
+                        style={{ width: "100%" }}
+                        placeholder="Please select"
+                        defaultValue={["React"]}
+                        onChange={this.updateTagField}
+                      >
+                        {children}
+                      </Select>
+                    </div>
+                  </Form.Item>
+
                   <Form.Item {...formItemLayout} label="Title">
                     <Radio.Group
                       onChange={e =>
@@ -278,7 +297,6 @@ export default class User extends Component {
       );
     }
     // returns list of users
-    //console.log(this.state);
     return (
       <div>
         <br />
