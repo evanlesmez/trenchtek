@@ -21,6 +21,19 @@
   width: 30%;
 }
 
+.make-gray {
+  background-color: rgb(196, 210, 216);
+  border-radius: 10px;
+}
+
+.float-left {
+  float: left;
+}
+
+.rounded-corners {
+  border-radius: 10px;
+}
+
 .make-them-inline {
   display: inline-block;
   vertical-align: top;

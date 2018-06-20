@@ -43,19 +43,21 @@ export default class TaskManager extends Component {
     this.setState({ [group + "cardForm"]: null });
   };
 
-  markComplete = (group, key) => {
+  mark = (group, key, place) => {
     groupRef
       .child(group)
       .child("tasks")
       .child(key)
       .child("type")
-      .set("completed");
+      .set(place);
   };
 
   submitUser = (e, group) => {
     e.preventDefault();
     let tempUser = this.props[group + "Users"];
-    tempUser.push(newUser);
+    if (!tempUser.includes(newUser)) {
+      tempUser.push(newUser);
+    }
     //this.props.setUsers(group, tempUser);
     groupRef
       .child(group)
@@ -114,6 +116,7 @@ export default class TaskManager extends Component {
           return (
             <span className="make-them-inline">
               <Card
+                className="make-gray"
                 title={title}
                 style={{
                   marginTop: 25,
@@ -136,7 +139,11 @@ export default class TaskManager extends Component {
                     <div>
                       {task.name !== "default" &&
                       task.type === "uncompleted" ? (
-                        <Card style={{ marginTop: 16 }} type="inner">
+                        <Card
+                          style={{ marginTop: 16 }}
+                          type="inner"
+                          className="rounded-corners"
+                        >
                           <div>{task.name}</div>
                           <div className="chaldelete">
                             <Button
@@ -149,7 +156,10 @@ export default class TaskManager extends Component {
                             </Button>
                             <Button
                               size="small"
-                              onClick={() => this.markComplete(group, task.key)}
+                              onClick={() =>
+                                this.mark(group, task.key, "completed")
+                              }
+                              className="float-left"
                             >
                               <Icon type="check" />
                             </Button>
@@ -165,7 +175,11 @@ export default class TaskManager extends Component {
                   return (
                     <div>
                       {task.name !== "default" && task.type === "completed" ? (
-                        <Card style={{ marginTop: 16 }} type="inner">
+                        <Card
+                          style={{ marginTop: 16 }}
+                          type="inner"
+                          className="rounded-corners"
+                        >
                           <div>{task.name}</div>
                           <div className="chaldelete">
                             <Button
@@ -178,7 +192,9 @@ export default class TaskManager extends Component {
                             </Button>
                             <Button
                               size="small"
-                              onClick={() => this.markComplete(group, task.key)}
+                              onClick={() =>
+                                this.mark(group, task.key, "completed")
+                              }
                             >
                               <Icon type="check" />
                             </Button>

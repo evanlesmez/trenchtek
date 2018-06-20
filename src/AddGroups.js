@@ -7,7 +7,7 @@ const groupRef = firebase.database().ref("groups");
 const userRef = firebase.database().ref("users");
 const FormItem = Form.Item;
 let newGroup = null;
-let newUsers = null;
+let newUsers = [];
 let started = false;
 let userid = null;
 
@@ -170,6 +170,7 @@ export default class AddGroups extends Component {
   handleUserChange = e => {
     let temp = e.target.value;
     newUsers = temp.split(", ");
+    newUsers.push(this.state.currentEmail);
   };
 
   addGroupForm = () => {
