@@ -9,21 +9,7 @@ const Search = Input.Search;
 const plainOptions = ["Intern", "Alumni", "Senior Developers", "Admin"];
 const { Meta } = Card;
 const { CheckableTag } = Tag;
-let menu = (
-  <div>
-    <Menu onClick={this.allowUpvoteSort}>
-      <Menu key="None" onClick={this.allowNoneSort}>
-        <Menu.Item>None</Menu.Item>
-      </Menu>
-      <Menu key="Upvotes" onClick={this.allowUpvoteSort}>
-        <Menu.Item>Upvotes</Menu.Item>
-      </Menu>
-      <Menu key="Name" onClick={this.allowNameSort}>
-        <Menu.Item>Name</Menu.Item>
-      </Menu>
-    </Menu>
-  </div>
-);
+
 export default class Directory extends Component {
   constructor(props) {
     super(props);
@@ -34,27 +20,59 @@ export default class Directory extends Component {
       default: false,
       array: [],
       sortByUpvote: false,
-      sortByName: false
+      sortByName: false,
+      sortByTag: false
     };
   }
+  menu2 = () => {
+    return (
+      <div>
+        <Menu
+          key="None"
+          onClick={e => this.allowNoneSort(e)}
+          selectable={false}
+        >
+          <Menu.Item>None</Menu.Item>
+        </Menu>
+        <Menu
+          key="Upvotes"
+          onClick={e => this.allowUpvoteSort(e)}
+          selectable={false}
+        >
+          <Menu.Item>Upvotes</Menu.Item>
+        </Menu>
+        <Menu
+          key="Name"
+          onClick={e => this.allowNameSort(e)}
+          selectable={false}
+        >
+          <Menu.Item>Name</Menu.Item>
+        </Menu>
+        <Menu key="Tags" onClick={e => this.allowTagSort(e)} selectable={false}>
+          <Menu.Item>#ofTags</Menu.Item>
+        </Menu>
+      </div>
+    );
+  };
   allowUpvoteSort = e => {
-    alert("afdkjasd");
     this.setState({ sortByUpvote: true });
     this.setState({ sortByName: false });
-    console.log("hello");
-    console.log(this.state.sortByUpvote);
+    this.setState({ sortByTag: false });
   };
   allowNameSort = e => {
     this.setState({ sortByUpvote: false });
     this.setState({ sortByName: true });
-    console.log("hello");
-    console.log(this.state.sortByUpvote);
+    this.setState({ sortByTag: false });
   };
-  allowNoSort = e => {
+  allowNoneSort = e => {
     this.setState({ sortByUpvote: false });
     this.setState({ sortByName: false });
-    console.log("hello");
-    console.log(this.state.sortByUpvote);
+    this.setState({ sortByTag: false });
+  };
+  allowTagSort = e => {
+    this.setState({ sortByUpvote: false });
+    this.setState({ sortByName: false });
+    this.setState({ sortByTag: true });
   };
   onChange = checkedList => {
     this.setState({
@@ -98,92 +116,99 @@ export default class Directory extends Component {
       }
       for (let obj in array2) {
         person = array2[obj];
-        var tag = "React";
-        console.log(person.tags);
+        var tag = person.tags;
+        for (var i = 0; i < tag.length; i++) {
+          if (tag[i] != "") {
+            console.log(tag[i]);
+            tag[i] = tag[i].toLowerCase();
+            console.log(i);
+          }
+          //else {
+          //  delete tag[i];
+          //}
+        }
+
         var name = person.name.toLowerCase();
         if (
           v.indexOf("#") != -1 &&
-          tag.includes(v.toLowerCase().substring(1) && person.image === "")
+          tag.includes(v.toLowerCase().substring(1))
         ) {
-          thing = {
-            name: person.name,
-            title: person.title,
-            image: "https://i.stack.imgur.com/34AD2.jpg",
-            tags: person.tags,
-            upvotes: person.upvotes
-          };
+          if (person.image === "") {
+            thing = {
+              name: person.name,
+              title: person.title,
+              image: "https://i.stack.imgur.com/34AD2.jpg",
+              tags: person.tags,
+              upvotes: person.upvotes
+            };
+          } else {
+            thing = {
+              name: person.name,
+              title: person.title,
+              image: person.image,
+              tags: person.tags,
+              upvotes: person.upvotes
+            };
+          }
           array.push(thing);
-        } else if (
-          v.indexOf("#") != -1 &&
-          tag.includes(v.toLowerCase().substring(1)) &&
-          person.image === ""
-        ) {
-          thing = {
-            name: person.name,
-            title: person.title,
-            image: person.image,
-            tags: person.tags,
-            upvotes: person.upvotes
-          };
-        } else if (
-          v.indexOf("#") == -1 &&
-          name.includes(v.toLowerCase()) &&
-          person.image === ""
-        ) {
-          v.indexOf("#") !== -1 && tag.includes(v.toLowerCase().substring(1));
-
-          thing = {
-            name: person.name,
-            title: person.title,
-            image: "https://i.stack.imgur.com/34AD2.jpg",
-            tags: person.tags,
-            upvotes: person.upvotes
-          };
+        } else if (v.indexOf("#") == -1 && name.includes(v.toLowerCase())) {
+          if (person.image === "")
+            thing = {
+              name: person.name,
+              title: person.title,
+              image: "https://i.stack.imgur.com/34AD2.jpg",
+              tags: person.tags,
+              upvotes: person.upvotes
+            };
+          else {
+            thing = {
+              name: person.name,
+              title: person.title,
+              image: person.image,
+              tags: person.tags,
+              upvotes: person.upvotes
+            };
+          }
           array.push(thing);
-        } else if (v.indexOf("#") === -1 && name.includes(v.toLowerCase())) {
-          thing = {
-            name: person.name,
-            title: person.title,
-            image: person.image,
-            tags: person.tags,
-            upvotes: person.upvotes
-          };
-          array.push(thing);
-        } else if (v == "" && person.image === "") {
-          thing = {
-            name: person.name,
-            title: person.title,
-            image: "https://i.stack.imgur.com/34AD2.jpg",
-            tags: person.tags,
-            upvotes: person.upvotes
-          };
-          array.push(thing);
-        } else if (v === "") {
-          thing = {
-            name: person.name,
-            title: person.title,
-            image: person.image,
-            tags: person.tags,
-            upvotes: person.upvotes
-          };
+        } else if (v == "") {
+          if (person.image == "") {
+            thing = {
+              name: person.name,
+              title: person.title,
+              image: "https://i.stack.imgur.com/34AD2.jpg",
+              tags: person.tags,
+              upvotes: person.upvotes
+            };
+          } else {
+            thing = {
+              name: person.name,
+              title: person.title,
+              image: person.image,
+              tags: person.tags,
+              upvotes: person.upvotes
+            };
+          }
           array.push(thing);
         }
       }
       ///////////////////////////
       /////////SORTING///////////
       ///////////////////////////
-      console.log(this.state.sortByUpvote);
-      console.log(this.state.sortByName);
 
       if (this.state.sortByUpvote) {
         array.sort(function(a, b) {
-          console.log(a);
-          console.log(a.upvotes);
-          return parseInt(a.upvotes) - parseInt(b.upvotes);
+          return parseInt(b.upvotes) - parseInt(a.upvotes);
+        });
+      } else if (this.state.sortByTag) {
+        array.sort(function(a, b) {
+          return b.tags.length - a.tags.length;
         });
       } else if (this.state.sortByName) {
         array.sort(function(a, b) {
-          return a.name - b.name;
+          return (
+            a.name.toUpperCase().charCodeAt(0) -
+            b.name.toUpperCase().charCodeAt(0)
+          );
         });
       }
 
@@ -268,25 +293,27 @@ export default class Directory extends Component {
       return (
         <div>
           <div class="flexhorizontal2">
-            <h1 class="directoryfont">The Directory</h1>
-            <span />
-            <Icon type="book" style={{ fontSize: 40, color: "black" }} />
+            <h1>
+              The Directory
+              <Icon type="book" style={{ fontSize: 40, color: "black" }} />
+            </h1>
           </div>
-          <center>
+          <div class="margin2">
             <Search
-              placeholder="Search by name, tag (# at the front), blank for refresh"
+              placeholder="Type in name, (#)tag , or blank for all users"
               onSearch={value => {
                 this.searchResult(value);
               }}
               style={{ width: 400 }}
               enterButton
             />
-
-            <Dropdown overlay={menu} trigger={["click"]}>
+            <Dropdown overlay={this.menu2()} trigger={["click"]}>
               <a className="ant-dropdown-link" href="#">
                 Sort by <Icon type="down" />
               </a>
             </Dropdown>
+          </div>
+          <center>
             <div>
               <Checkbox
                 indeterminate={this.state.indeterminate}
@@ -324,7 +351,7 @@ export default class Directory extends Component {
                     </div>
                   </Card>
                   <div class="tags">
-                    <Tag color="blue">{user.tags}</Tag>
+                    {user.tags.map(t => <Tag color="blue">{t}</Tag>)}
                   </div>
                 </div>
                 <br />
@@ -337,24 +364,30 @@ export default class Directory extends Component {
       return (
         <div>
           <div class="flexhorizontal2">
-            <h1 class="directoryfont">The Directory</h1>
-            <span />
-            <Icon type="book" style={{ fontSize: 40, color: "black" }} />
+            <h1>
+              The Directory<Icon
+                type="book"
+                style={{ fontSize: 40, color: "black" }}
+              />
+            </h1>
           </div>
-          <center>
+          <div class="margin2">
             <Search
-              placeholder="Search by name, tag (# at the front), blank for refresh"
+              placeholder="Type in name, (#)tag , or blank for all users"
               onSearch={value => {
                 this.searchResult(value);
               }}
               style={{ width: 400 }}
               enterButton
             />
-            <Dropdown overlay={menu} trigger={["click"]}>
+
+            <Dropdown overlay={this.menu2()} trigger={["click"]}>
               <a className="ant-dropdown-link" href="#">
                 Sort by <Icon type="down" />
               </a>
             </Dropdown>
+          </div>
+          <center>
             <div>
               <Checkbox
                 indeterminate={this.state.indeterminate}

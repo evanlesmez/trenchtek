@@ -4,13 +4,16 @@
 .post-body2 {
   margin: 1em 12%;
 }
-
+.margin2 {
+  margin-left: 33%;
+}
 .flexhorizontal {
   display: flex;
 }
 .flexhorizontal2 {
-  margin-left: 43%;
+  margin-left: 40%;
   display: flex;
+  padding: 40px;
 }
 .directoryfont {
   font-size: 40;

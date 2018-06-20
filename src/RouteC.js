@@ -39,12 +39,12 @@ export default class RouteC extends Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        //console.log(user);
-
         let userKey = user.uid;
         let userIDString = "/users/" + userKey;
         let database = firebase.database().ref(userIDString);
+        //console.log(userIDString);
         database.on("value", snapshot => {
+          //console.log(snapshot.val());
           let newTitleState = snapshot.val().title;
           //console.log(newTitleState);
 
@@ -103,7 +103,7 @@ export default class RouteC extends Component {
                   <Route
                     path="/challenges"
                     render={() => (
-                      <Challenges userTitle={this.state.userTitle} />
+                      <Challenges userTitle={this.state.userTitle} uidString ={this.state.uidString}/>
                     )}
                   />
                   <Route

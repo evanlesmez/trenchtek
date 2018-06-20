@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import firebase from "./Firebase";
+import "./Post.css";
 import {
   Collapse,
   Button,
@@ -10,7 +11,8 @@ import {
   Card,
   Select,
   Radio,
-  InputNumber
+  InputNumber,
+  Tag
 } from "antd";
 
 // Allows the administrators to view all the registered users
@@ -48,7 +50,7 @@ export default class User extends Component {
       let approvedUserstemp = [];
       let removedUserstemp = [];
       snapshot.forEach(value => {
-        console.log(value.key);
+        //console.log(value.key);
         let obj = {
           name: value.val().name,
           email: value.val().email,
@@ -61,10 +63,10 @@ export default class User extends Component {
           image: value.val().image
         };
         allUserstemp.push(obj);
-        console.log(value.val());
+        //console.log(value.val());
         if (value.val().approved === false && value.val().title !== "removed") {
           unapprovedUserstemp.push(obj);
-          console.log("?");
+          //console.log("?");
         }
         if (value.val().approved === true && value.val().title !== "removed") {
           approvedUserstemp.push(obj);
@@ -86,7 +88,7 @@ export default class User extends Component {
   };
 
   acceptUser = user => {
-    console.log(user);
+    //console.log(user);
     const userRef = firebase
       .database()
       .ref("/users/" + user.key)
@@ -96,7 +98,7 @@ export default class User extends Component {
 
   deleteUser = (e, user) => {
     e.preventDefault();
-    console.log(user.key);
+    //console.log(user.key);
     const userToDelete = firebase.database().ref(`/users/${user.key}`);
     if (
       window.confirm(
@@ -267,6 +269,7 @@ export default class User extends Component {
       );
     }
     // returns list of users
+    //console.log(this.state);
     return (
       <div>
         <br />
@@ -400,8 +403,10 @@ export default class User extends Component {
                   <p>Email: {user.email} </p>
                   <p>Title: {user.title} </p>
                   <p>Approved: {user.approved.toString()}</p>
-                  <p>About: {user.about} </p>
-                  <p>Tags: {user.tags}</p>
+                  <p class="escape">About: {user.about} </p>
+                  <p class="escape">
+                    Tags: {user.tags.map(t => <Tag color="blue">{t}</Tag>)}
+                  </p>
 
                   <Button
                     type="danger"
@@ -445,8 +450,10 @@ export default class User extends Component {
                   <p>Email: {user.email} </p>
                   <p>Title: {user.title} </p>
                   <p>Approved: {user.approved.toString()}</p>
-                  <p>About: {user.about} </p>
-                  <p>Tags: {user.tags}</p>
+                  <p class="escape">About: {user.about} </p>
+                  <p class="escape">
+                    Tags: {user.tags.map(t => <Tag color="blue">{t}</Tag>)}
+                  </p>
 
                   <Button onClick={() => this.acceptUser(user)}>Accept</Button>
                   <Button onClick={e => this.deleteUser(e, user)}>

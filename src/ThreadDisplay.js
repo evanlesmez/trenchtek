@@ -28,8 +28,13 @@ class ThreadDisplay extends Component {
     list.on("value", snapshot => {
       let objects = snapshot.val();
       for (let obj in objects) {
-        if (objects[obj].email == useremail) thing = objects[obj];
+        if (objects[obj].email == useremail) {
+          thing = objects[obj];
+        }
+        console.log(objects[obj].email);
       }
+      console.log(thing);
+
       var randomid = Math.floor(Math.random() * 20000000000);
 
       var months = [
@@ -53,31 +58,27 @@ class ThreadDisplay extends Component {
           ":" +
           (String(n.getMinutes()).length == 1
             ? "0" + n.getMinutes() + "PM"
-            : n.getMinutes()) +
-          "PM";
+            : n.getMinutes() + "PM");
       } else if (parseInt(n.getHours()) >= 1 && parseInt(n.getHours()) <= 11) {
         var time =
           n.getHours() +
           ":" +
           (String(n.getMinutes()).length == 1
             ? "0" + n.getMinutes() + "AM"
-            : n.getMinutes()) +
-          "AM";
+            : n.getMinutes() + "AM");
       } else if (parseInt(n.getHours()) == 12) {
         var time =
           n.getHours() +
           ":" +
           (String(n.getMinutes()).length == 1
             ? "0" + n.getMinutes() + "PM"
-            : n.getMinutes()) +
-          "PM";
+            : n.getMinutes() + "PM");
       } else if (parseInt(n.getHours()) == 0) {
         var time =
           "12:" +
           (String(n.getMinutes()).length == 1
             ? "0" + n.getMinutes() + "AM"
-            : n.getMinutes()) +
-          "AM";
+            : n.getMinutes() + "AM");
       }
       var date =
         months[n.getMonth()] +
@@ -110,7 +111,6 @@ class ThreadDisplay extends Component {
     list.on("value", snapshot => {
       let objects = snapshot.val();
       for (let obj in objects) {
-        console.log(objects[obj]);
         if (
           objects[obj].id == data.id &&
           objects[obj].currentUser.email != useremail
@@ -131,11 +131,12 @@ class ThreadDisplay extends Component {
   }
 
   componentDidMount() {
-    firebase.auth().onAuthStateChanged(function (user) {
+    firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         useremail = user.email;
       }
     });
+
     let list = firebase.database().ref("/users");
     list.on("value", snapshot => {
       let objects = snapshot.val();
@@ -154,7 +155,10 @@ class ThreadDisplay extends Component {
       let all = [];
       let thing = {};
       for (let obj in objects) {
-        if (objects[obj].posts != "") {
+        if (
+          objects[obj].posts != "" &&
+          objects[obj].posts.replace(/(\r\n|\n|\r)/gm, "").length != 0
+        ) {
           thing = {
             posts: objects[obj].posts,
             upvotes: objects[obj].upvotes,
