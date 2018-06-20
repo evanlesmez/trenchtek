@@ -136,6 +136,7 @@ class ThreadDisplay extends Component {
         useremail = user.email;
       }
     });
+
     let list = firebase.database().ref("/users");
     list.on("value", snapshot => {
       let objects = snapshot.val();
