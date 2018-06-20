@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { Menu, Button } from "antd";
 import "./App.css";
-import firebase from "./Firebase.js"
+import firebase from "./Firebase.js";
 
 class TopbarUser extends Component {
   constructor(props) {
@@ -89,18 +89,11 @@ class TopbarUser extends Component {
               </Link>
             </Menu.Item>
           </Menu.SubMenu>
-          <Menu.Item key="/resources">
-            <Link to="/resources">
-              <div className="topbar-tab">resources</div>
-            </Link>
-          </Menu.Item>
-
-
           {this.state.userTitle === "Admin" ? (
-              <Menu.SubMenu
-                title={<div className="topbar-tab">admin</div>}
-                key="/admin"
-              >
+            <Menu.SubMenu
+              title={<div className="topbar-tab">admin</div>}
+              key="/admin"
+            >
               <Menu.Item key="/manage-contracts">
                 <Link to="/manage-contracts">
                   <div className="topbar-tab">manage contracts</div>
@@ -111,8 +104,8 @@ class TopbarUser extends Component {
                   <div className="topbar-tab">manage users</div>
                 </Link>
               </Menu.Item>
-              </Menu.SubMenu>
-            ) : null}
+            </Menu.SubMenu>
+          ) : null}
           <Button className="login-logout-button" type="danger" ghost>
             <Link to="/logout">
               <div className="topbar-tab">logout</div>
