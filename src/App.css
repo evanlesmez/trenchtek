@@ -50,6 +50,11 @@
   display: flex;
 }
 
+.headertitle {
+  display: block;
+  margin: 0 auto;
+}
+
 .chalinfo {
   text-align: left;
 }
@@ -122,4 +127,12 @@ body {
   font-family: "Arvo", sans-serif;
   font-weight: bold;
   font-size: 70px;
+}
+
+.center-text {
+  text-align: center;
+}
+
+#contracts-bold {
+  font-weight: bold;
 }

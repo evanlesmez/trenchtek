@@ -6,10 +6,9 @@ import firebase from "./Firebase.js";
 //Reg: "http://static.tvtropes.org/pmwiki/pub/images/reg_anime.jpg"
 // Banner from https://www.google.com/search?q=codding+banner&rlz=1C1CHBF_enUS765US765&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjm7KW7sNPbAhVJ3VMKHWUZBioQ_AUICigB&biw=1536&bih=734&dpr=1.25#imgrc=vAFXqrj7GeFLsM:}
 
-
 let storageRef = firebase.storage().ref('images');
-let profRead = firebase.storage().ref('images/');
 let dBase = firebase.database()
+
 export default class Profile extends Component {
   constructor(props) {
     super(props);
@@ -23,26 +22,28 @@ export default class Profile extends Component {
       readmode: true,
       newSkill: "",
       inputclass: "inputfield",
-      email: props.links.email,
-      github: props.links.github,
-      LinkedIn: props.links.LinkedIn,
+      email: props.email,
+      github: props.github,
+      LinkedIn: props.LinkedIn,
       banner: "",
-      profFile: "",
       profURL: props.profURL,
       uidString: props.uidString
     }
   }
   componentWillReceiveProps(nextProps){
-    console.log(nextProps);
     this.setState({
-      links: nextProps.links,
+      github: nextProps.github,
+      LinkedIn: nextProps.LinkedIn,
       skills: nextProps.skills,
       name: nextProps.name,
       position: nextProps.position,
-      aboutMe: nextProps.about,
-      tite: nextProps.title,
-      uidString: nextProps.uidString
-    })
+      aboutMe: nextProps.aboutMe,
+      title: nextProps.title,
+      uidString: nextProps.uidString,
+      email: nextProps.email,
+      profURL: nextProps.profURL
+    });
+    console.log(this.state.pro)
   }
 
   handleChange = (e) => { // handles changes in text entries
@@ -64,14 +65,24 @@ export default class Profile extends Component {
       editing: !this.state.editing,
       readmode: !this.state.readmode,
       inputclass:"inputfield"});
-    // dBase.ref(this.state.uidString)
-    //   .set({
-        
-    //   })
+      if(this.state.uidString !== ""){
+        dBase.ref(this.state.uidString)  // UPDATING FIREBASE HERE
+          .update({
+            name:this.state.name,
+            tags:this.state.skills,
+            email:this.state.email,
+            github:this.state.github,
+            LinkedIn:this.state.LinkedIn,
+            about: this.state.aboutMe,
+            position: this.state.position
+          });
+      } else{
+        console.log("Don't push b/c not in user!")
+      }
   }
 
   addClick = (e) =>{ //First array ever
-     if (this.state.skills === undefined) {
+     if ((this.state.skills === undefined) || (this.state.skills === "")) {
       let firstSkills = [];
       firstSkills.push(this.state.newSkill);
       this.setState({skills: firstSkills,newSkil:""});
@@ -87,7 +98,6 @@ export default class Profile extends Component {
   deleteClick = e => {
     // Deleting tags
     let skillDelete = e.target.name;
-    console.log(this.state.skills);
     let index = this.state.skills.indexOf(skillDelete);
     let copySkills = this.state.skills;
     copySkills.splice(index, 1);
@@ -99,8 +109,20 @@ export default class Profile extends Component {
     let reader = new FileReader(); // API for proccessing files
     let file = e.target.files[0];
     reader.onloadend = () => {
-      storageRef.child(file.name).put(file);
-      this.setState({ profFile: file, profURL: reader.result });
+      let profPicRef = storageRef.child(this.state.uidString)
+      let task = profPicRef.put(file);
+      this.setState({profURL: reader.result });
+    //   task.on("state_changed", snapshot => {
+    //     let percentage = (snapshot.bytesTransferred/ snapshot.totalBytes) *100;
+    //     if(percentage==100){
+    //         profPicRef.getDownloadURL().then(url => {
+    //           console.log("yo?")
+    //            // You will get the Url here.
+    //           if(this.state.uidString !== ""){
+    //           dBase.ref(this.state.uidString)
+    //             .update({profURL:url}) };
+    //   });
+    // }});
     };
     reader.onerror = e => {
       console.log("Failed file read: " + e.toString());
@@ -110,11 +132,6 @@ export default class Profile extends Component {
   componentDidMount() {
     // Updates the picture
     // Get the download URL
-      profRead.child('DanielSmiley.jpg')
-        .getDownloadURL().then( url => {
-          this.setState({profURL:url});
-      }).catch(function(error) {
-      });
     }
   render() {
     let button; // Conditional rendering
@@ -125,7 +142,7 @@ export default class Profile extends Component {
     if (this.state.editing == false) {    // FOR NOMRAL PAGE
       button = <button type= "edit" onClick={e=>this.editPress(e)}>Edit</button> //Editbutton
       
-      this.state.skills !== undefined ?(skillSpan = this.state.skills.map((skill) => {  //For displaying skills (also removable)
+      this.state.skills !=="" ?(skillSpan = this.state.skills.map((skill) => {  //For displaying skills (also removable)
         return(
          <span> #{skill} </span>
         )
@@ -147,7 +164,7 @@ export default class Profile extends Component {
     } else {  // All of the input fields
       button = <button type= "save" onClick={e => this.saveClick(e)}>Save</button> 
       
-      this.state.skills !== undefined ? (skillSpan = this.state.skills.map((skill) => { // Same dank conditional rendering
+      this.state.skills !== "" ? (skillSpan = this.state.skills.map((skill) => { // Same dank conditional rendering
         return(
          <span> 
            #{skill} 
@@ -263,6 +280,7 @@ export default class Profile extends Component {
                     name="position"
                     style={{ textAlign: "center" }} //Inline styling
                     value={this.state.position}
+                    placeholder= "RevTekker"
                     onChange={e => this.handleChange(e)}
                     readOnly={this.state.readmode}
                     maxLength="35"
@@ -273,13 +291,14 @@ export default class Profile extends Component {
                   <div id="aboutme">
                     <textarea
                       id={this.state.inputclass}
+                      placeholder= "Write something!"
                       type="text"
                       name="aboutMe"
                       value={this.state.aboutMe}
                       style={{ width: "100%", height: "100%" }}
                       onChange={e => this.handleChange(e)}
                       readOnly={this.state.readmode}
-                      maxLength="200"
+                      maxLength="400"
                     />
                   </div>
                 </div>

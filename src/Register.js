@@ -70,11 +70,13 @@ class Register extends Component {
             title: this.state.title,
             name: this.state.name,
             image: "",
-            tags: "",
+            tags: [],
             about: "",
             upvotes: 0,
             upvotes: "",
-            approved: false
+            approved: false,
+            github: "",
+            linkedIn:""
           };
           let newPostKey = firebase
             .database()
