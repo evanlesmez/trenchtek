@@ -272,164 +272,95 @@ export default class Directory extends Component {
     });
   }
   render() {
-    if (this.state.default === true) {
-      return (
-        <div>
-          <div class="flexhorizontal2">
-            <h1>
-              The Directory
-              <Icon type="book" style={{ fontSize: 40, color: "black" }} />
-            </h1>
-          </div>
-          <div class="margin2">
-            <Search
-              placeholder="Type in name, (#)tag , or blank for all users"
-              onSearch={value => {
-                this.searchResult(value);
-              }}
-              style={{ width: 400 }}
-              enterButton
-            />
+    return (
+      <div>
+        <div class="flexhorizontal2">
+          <h1>
+            The Directory
+            <Icon type="book" style={{ fontSize: 40, color: "black" }} />
+          </h1>
+        </div>
+        <div class="margin2">
+          <Search
+            placeholder="Type in name, (#)tag , or blank for all users"
+            onSearch={value => {
+              this.searchResult(value);
+            }}
+            style={{ width: 400 }}
+            enterButton
+          />
 
-            <Select defaultValue="Sort by.." style={{ width: 100 }}>
-              <Select.Option value="None" onClick={e => this.allowNoneSort(e)}>
-                None
-              </Select.Option>
-              <Select.Option
-                value="Upvotes"
-                onClick={e => this.allowUpvoteSort(e)}
-              >
-                Upvotes
-              </Select.Option>
-              <Select.Option value="Name" onClick={e => this.allowNameSort(e)}>
-                Name
-              </Select.Option>
-              <Select.Option
-                value="#ofTags"
-                onClick={e => this.allowTagSort(e)}
-              >
-                #ofTags
-              </Select.Option>
-            </Select>
+          <Select defaultValue="Sort by.." style={{ width: 100 }}>
+            <Select.Option value="None" onClick={e => this.allowNoneSort(e)}>
+              None
+            </Select.Option>
+            <Select.Option
+              value="Upvotes"
+              onClick={e => this.allowUpvoteSort(e)}
+            >
+              Upvotes
+            </Select.Option>
+            <Select.Option value="Name" onClick={e => this.allowNameSort(e)}>
+              Name
+            </Select.Option>
+            <Select.Option value="#ofTags" onClick={e => this.allowTagSort(e)}>
+              #ofTags
+            </Select.Option>
+          </Select>
+        </div>
+        <center>
+          <div>
+            <Checkbox
+              indeterminate={this.state.indeterminate}
+              onChange={this.onCheckAllChange}
+              checked={this.state.checkAll}
+            >
+              Check all
+            </Checkbox>
           </div>
-          <center>
+          <br />
+          <CheckboxGroup
+            options={plainOptions}
+            value={this.state.checkedList}
+            onChange={this.onChange}
+          />
+          <br />
+          <br />
+          <br />
+
+          {this.state.array.map(user => (
             <div>
-              <Checkbox
-                indeterminate={this.state.indeterminate}
-                onChange={this.onCheckAllChange}
-                checked={this.state.checkAll}
-              >
-                Check all
-              </Checkbox>
-            </div>
-            <br />
-            <CheckboxGroup
-              options={plainOptions}
-              value={this.state.checkedList}
-              onChange={this.onChange}
-            />
-            <br />
-            <br />
-            <br />
-
-            {this.state.array.map(user => (
-              <div>
-                <div class="border">
-                  <div class="username">User: {user.name}</div>
-                  <Card hoverable style={{ width: 500, maxHeight: 1000 }}>
-                    <div class="flexhorizontal">
-                      <img class="directory-image" src={user.image} />
-                      <div class="indent">
-                        <h3>
-                          Title:{" "}
-                          {user.title.substring(0, 1).toUpperCase() +
-                            user.title.substring(1)}
-                        </h3>
-                        <h3>Upvotes: {user.upvotes}</h3>
-                      </div>
+              <div class="border">
+                <div class="username">User: {user.name}</div>
+                <Card hoverable style={{ width: 500, maxHeight: 1000 }}>
+                  <div class="flexhorizontal">
+                    <img class="directory-image" src={user.image} />
+                    <div class="indent">
+                      <h3>
+                        Title:{" "}
+                        {user.title.substring(0, 1).toUpperCase() +
+                          user.title.substring(1)}
+                      </h3>
+                      <h3>Upvotes: {user.upvotes}</h3>
                     </div>
-                  </Card>
-                  <div class="tags">
-                    {user.tags.map(t => (
-                      <Tag
-                        color="blue"
-                        afterClose={() => this.handleClose(t, user)}
-                      >
-                        {t}
-                      </Tag>
-                    ))}
                   </div>
+                </Card>
+                <div class="tags">
+                  {user.tags.map(t => (
+                    <Tag
+                      color="blue"
+                      afterClose={() => this.handleClose(t, user)}
+                    >
+                      {t}
+                    </Tag>
+                  ))}
                 </div>
-                <br />
               </div>
-            ))}
-          </center>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <div class="flexhorizontal2">
-            <h1>
-              The Directory<Icon
-                type="book"
-                style={{ fontSize: 40, color: "black" }}
-              />
-            </h1>
-          </div>
-          <div class="margin2">
-            <Search
-              placeholder="Type in name, (#)tag , or blank for all users"
-              onSearch={value => {
-                this.searchResult(value);
-              }}
-              style={{ width: 400 }}
-              enterButton
-            />
-
-            <Select defaultValue="Sort by.." style={{ width: 100 }}>
-              <Select.Option value="None" onClick={e => this.allowNoneSort(e)}>
-                None
-              </Select.Option>
-              <Select.Option
-                value="Upvotes"
-                onClick={e => this.allowUpvoteSort(e)}
-              >
-                Upvotes
-              </Select.Option>
-              <Select.Option value="Name" onClick={e => this.allowNameSort(e)}>
-                Name
-              </Select.Option>
-              <Select.Option
-                value="#ofTags"
-                onClick={e => this.allowTagSort(e)}
-              >
-                #ofTags
-              </Select.Option>
-            </Select>
-          </div>
-          <center>
-            <div>
-              <Checkbox
-                indeterminate={this.state.indeterminate}
-                onChange={this.onCheckAllChange}
-                checked={this.state.checkAll}
-              >
-                Check all
-              </Checkbox>
+              <br />
             </div>
-            <br />
-            <CheckboxGroup
-              options={plainOptions}
-              value={this.state.checkedList}
-              onChange={this.onChange}
-            />
-            <br />
-            <br />
-            <br />
-          </center>
-        </div>
-      );
-    }
+          ))}
+        </center>
+      </div>
+    );
   }
 }
