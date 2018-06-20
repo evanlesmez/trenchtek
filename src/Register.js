@@ -284,7 +284,7 @@ class Register extends Component {
                   })(
                     <div className="input">
                       <Select
-                        mode="multiple"
+                        mode="tags"
                         style={{ width: "100%" }}
                         placeholder="Please select"
                         defaultValue={["React"]}
