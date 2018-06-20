@@ -275,41 +275,47 @@ export default class Directory extends Component {
     if (this.state.default === true) {
       return (
         <div>
-          <div class="flexhorizontal2">
-            <div className="directory-title">Directory</div>
-          </div>
-          <div class="margin2">
-            <Search
-              placeholder="Type in name, (#)tag , or blank for all users"
-              onSearch={value => {
-                this.searchResult(value);
-              }}
-              style={{ width: 400 }}
-              enterButton
-            />
-
-            <Select defaultValue="Sort by.." style={{ width: 100 }}>
-              <Select.Option value="None" onClick={e => this.allowNoneSort(e)}>
-                None
-              </Select.Option>
-              <Select.Option
-                value="Upvotes"
-                onClick={e => this.allowUpvoteSort(e)}
-              >
-                Upvotes
-              </Select.Option>
-              <Select.Option value="Name" onClick={e => this.allowNameSort(e)}>
-                Name
-              </Select.Option>
-              <Select.Option
-                value="#ofTags"
-                onClick={e => this.allowTagSort(e)}
-              >
-                #ofTags
-              </Select.Option>
-            </Select>
-          </div>
           <center>
+            <div>
+              <div className="directory-title">Directory</div>
+            </div>
+            <div>
+              <Search
+                placeholder="Enter name or #tag"
+                onSearch={value => {
+                  this.searchResult(value);
+                }}
+                style={{ width: 400 }}
+                enterButton
+              />
+
+              <Select defaultValue="Sort by.." style={{ width: 100 }}>
+                <Select.Option
+                  value="None"
+                  onClick={e => this.allowNoneSort(e)}
+                >
+                  None
+                </Select.Option>
+                <Select.Option
+                  value="Upvotes"
+                  onClick={e => this.allowUpvoteSort(e)}
+                >
+                  Upvotes
+                </Select.Option>
+                <Select.Option
+                  value="Name"
+                  onClick={e => this.allowNameSort(e)}
+                >
+                  Name
+                </Select.Option>
+                <Select.Option
+                  value="#ofTags"
+                  onClick={e => this.allowTagSort(e)}
+                >
+                  #ofTags
+                </Select.Option>
+              </Select>
+            </div>
             <div>
               <Checkbox
                 indeterminate={this.state.indeterminate}
@@ -366,41 +372,47 @@ export default class Directory extends Component {
     } else {
       return (
         <div>
-          <div class="flexhorizontal2">
-            <div className="directory-title">Directory</div>
-          </div>
-          <div class="margin2">
-            <Search
-              placeholder="Type in name, (#)tag , or blank for all users"
-              onSearch={value => {
-                this.searchResult(value);
-              }}
-              style={{ width: 400 }}
-              enterButton
-            />
-
-            <Select defaultValue="Sort by.." style={{ width: 100 }}>
-              <Select.Option value="None" onClick={e => this.allowNoneSort(e)}>
-                None
-              </Select.Option>
-              <Select.Option
-                value="Upvotes"
-                onClick={e => this.allowUpvoteSort(e)}
-              >
-                Upvotes
-              </Select.Option>
-              <Select.Option value="Name" onClick={e => this.allowNameSort(e)}>
-                Name
-              </Select.Option>
-              <Select.Option
-                value="#ofTags"
-                onClick={e => this.allowTagSort(e)}
-              >
-                #ofTags
-              </Select.Option>
-            </Select>
-          </div>
           <center>
+            <div>
+              <div className="directory-title">Directory</div>
+            </div>
+            <div>
+              <Search
+                placeholder="Enter name or #tag"
+                onSearch={value => {
+                  this.searchResult(value);
+                }}
+                style={{ width: 400 }}
+                enterButton
+              />
+
+              <Select defaultValue="Sort by.." style={{ width: 100 }}>
+                <Select.Option
+                  value="None"
+                  onClick={e => this.allowNoneSort(e)}
+                >
+                  None
+                </Select.Option>
+                <Select.Option
+                  value="Upvotes"
+                  onClick={e => this.allowUpvoteSort(e)}
+                >
+                  Upvotes
+                </Select.Option>
+                <Select.Option
+                  value="Name"
+                  onClick={e => this.allowNameSort(e)}
+                >
+                  Name
+                </Select.Option>
+                <Select.Option
+                  value="#ofTags"
+                  onClick={e => this.allowTagSort(e)}
+                >
+                  #ofTags
+                </Select.Option>
+              </Select>
+            </div>
             <div>
               <Checkbox
                 indeterminate={this.state.indeterminate}

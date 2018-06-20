@@ -152,5 +152,8 @@ body {
 }
 
 .directory-title {
-  font-size: 150%;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  font-size: 300%;
+  font-weight: bold;
 }
