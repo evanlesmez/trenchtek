@@ -42,14 +42,11 @@
   height: 60px;
   position: relative;
   border-radius: 50%;
-  border: 3px solid black;
 }
 .directory-image {
   width: 100px;
   height: 100px;
   position: relative;
-  border-radius: 50%;
-  border: 3px solid black;
 }
 .username {
   width: 500px;
@@ -73,12 +70,8 @@
   color: #5a7191;
   padding: 10px;
 }
-.border {
-  width: 510px;
-  border: 5px solid rgb(180, 180, 180);
-}
+
 .card-style {
-  border-radius: 40%;
   width: 100px;
 }
 .space {

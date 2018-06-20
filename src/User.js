@@ -87,16 +87,14 @@ export default class User extends Component {
           image: value.val().image
         };
         allUserstemp.push(obj);
-        if (value.val().approved === false && value.val().title !== "removed") {
+        //console.log(value.val());
+        if (value.val().approved === false) {
           unapprovedUserstemp.push(obj);
         }
-        if (value.val().approved === true && value.val().title !== "removed") {
+        if (value.val().approved === true) {
           approvedUserstemp.push(obj);
         }
-        if (
-          value.val().approved === "removed" &&
-          value.val().title === "removed"
-        ) {
+        if (value.val().approved === "removed") {
           removedUserstemp.push(obj);
         }
       });
@@ -125,11 +123,23 @@ export default class User extends Component {
         `Are you sure you want to reject the registration of: ${user.name}?`
       )
     ) {
-      userToDelete.child("title").set("removed");
       userToDelete.child("approved").set("removed");
     }
   };
 
+  reauth = (e, user) => {
+    e.preventDefault();
+    const userToRegister = firebase.database().ref(`/users/${user.key}`);
+    if (
+      window.confirm(
+        `Are you sure you want to authenticate the registration of the removed user: ${
+          user.name
+        }?`
+      )
+    ) {
+      userToRegister.child("approved").set(true);
+    }
+  };
   handleDisplay = value => {
     this.setState({ display: value });
   };
@@ -381,11 +391,12 @@ export default class User extends Component {
                 >
                   <p>Email: {user.email} </p>
                   <p>Title: {user.title} </p>
-                  <Button type="primary" onClick={() => this.acceptUser(user)}>
-                    Accept
-                  </Button>
-                  <Button type="danger" onClick={e => this.deleteUser(e, user)}>
-                    Reject
+                  <Button
+                    type="primary"
+                    size="small"
+                    onClick={e => this.reauth(e, user)}
+                  >
+                    Authenticate
                   </Button>
                 </Card>
                 <br />
@@ -472,10 +483,24 @@ export default class User extends Component {
                     Tags: {user.tags.map(t => <Tag color="blue">{t}</Tag>)}
                   </p>
 
-                  <Button onClick={() => this.acceptUser(user)}>Accept</Button>
-                  <Button onClick={e => this.deleteUser(e, user)}>
-                    Reject
-                  </Button>
+                  {user.approved !== "removed" && (
+                    <Button
+                      type="danger"
+                      size="small"
+                      onClick={e => this.deleteUser(e, user)}
+                    >
+                      Remove
+                    </Button>
+                  )}
+                  {user.approved === "removed" && (
+                    <Button
+                      type="primary"
+                      size="small"
+                      onClick={e => this.reauth(e, user)}
+                    >
+                      Authenticate
+                    </Button>
+                  )}
                 </Card>
                 <br />
               </center>
