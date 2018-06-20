@@ -103,7 +103,7 @@ export default class RouteC extends Component {
                   <Route
                     path="/challenges"
                     render={() => (
-                      <Challenges userTitle={this.state.userTitle} />
+                      <Challenges userTitle={this.state.userTitle} uidString ={this.state.uidString}/>
                     )}
                   />
                   <Route
