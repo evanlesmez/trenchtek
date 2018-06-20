@@ -72,7 +72,6 @@ export default class AddGroups extends Component {
                             let key = child.key;
                             tasks.push({
                               name: name,
-                              des: des,
                               type: type,
                               key: key
                             });
@@ -128,15 +127,13 @@ export default class AddGroups extends Component {
     this.setState({
       groups: tempGroup,
       groupForm: null,
-      [newGroup + "Tasks"]: [
-        { name: "default", des: "default", type: "uncompleted" }
-      ],
+      [newGroup + "Tasks"]: [{ name: "default", type: "uncompleted" }],
       [newGroup + "Users"]: newUsers
     });
     groupRef
       .child(newGroup)
       .child("tasks")
-      .push({ name: "default", des: "default", type: "uncompleted" });
+      .push({ name: "default", type: "uncompleted" });
     groupRef
       .child(newGroup)
       .child("users")
@@ -151,7 +148,7 @@ export default class AddGroups extends Component {
     this.setState({
       groups: tempGroup,
       ["Personal" + userid + "Tasks"]: [
-        { name: "default", des: "default", type: "uncompleted" }
+        { name: "default", type: "uncompleted" }
       ],
       ["Personal" + userid + "Users"]: [this.state.currentEmail],
       personalCreated: true
@@ -159,7 +156,7 @@ export default class AddGroups extends Component {
     groupRef
       .child("Personal" + userid)
       .child("tasks")
-      .push({ name: "default", des: "default", type: "uncompleted" });
+      .push({ name: "default", type: "uncompleted" });
     groupRef
       .child("Personal" + userid)
       .child("users")
@@ -214,14 +211,20 @@ export default class AddGroups extends Component {
         >
           Add Group
         </Button>
-        {!this.state.personalCreated ? (
+        <Button
+          onClick={this.submitPersonal}
+          style={{ marginLeft: 25, marginTop: 10 }}
+        >
+          Add Personal
+        </Button>
+        {/* {!this.state.personalCreated ? (
           <Button
             onClick={this.submitPersonal}
             style={{ marginLeft: 25, marginTop: 10 }}
           >
             Add Personal
           </Button>
-        ) : null}
+        ) : null} */}
         <div>{this.state.groupForm}</div>
       </div>
     );
