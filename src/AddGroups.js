@@ -44,24 +44,37 @@ export default class AddGroups extends Component {
                         users !== null &&
                         users.includes(this.state.currentEmail)
                       ) {
+                        // if (group.substring(0, 8) === "Personal") {
+                        //   group = "Personal";
+                        //   tempGroup.push(group);
+                        //} else {
                         tempGroup.push(group);
+                        //}
                         let tempUser = [];
                         for (let user in users) {
                           tempUser.push(users[user]);
                         }
                         this.setState({ [group + "Users"]: tempUser });
-                        groupRef
-                          .child(group)
-                          .child("tasks")
-                          .on("value", snapshot => {
-                            let tasks = snapshot.val();
-                            let tempTask = [];
-                            for (let task in tasks) {
-                              tempTask.push(tasks[task]);
-                            }
-                            this.setState({ [group + "Tasks"]: tempTask });
-                          });
                       }
+                      groupRef
+                        .child(group)
+                        .child("tasks")
+                        .on("value", snapshot => {
+                          let tasks = [];
+                          snapshot.forEach(child => {
+                            let name = child.val().name;
+                            let des = child.val().des;
+                            let type = child.val().type;
+                            let key = child.key;
+                            tasks.push({
+                              name: name,
+                              des: des,
+                              type: type,
+                              key: key
+                            });
+                            this.setState({ [group + "Tasks"]: tasks });
+                          });
+                        });
                     });
                 }
                 started = true;
@@ -74,49 +87,53 @@ export default class AddGroups extends Component {
     });
   }
 
-  setTasks = (group, update) => {
-    groupRef
-      .child(group)
-      .child("tasks")
-      .set(update);
-    this.setState({ [group + "Tasks"]: update });
-  };
+  // setTasks = (group, update) => {
+  //   groupRef
+  //     .child(group)
+  //     .child("tasks")
+  //     .set(update);
+  //   this.setState({ [group + "Tasks"]: update });
+  // };
+
+  // setUsers = (group, update) => {
+  //   groupRef
+  //     .child(group)
+  //     .child("users")
+  //     .set(update);
+  //   this.setState({ [group + "Users"]: update });
+  // };
 
   deleteGroup = group => {
     groupRef.child(group).remove();
   };
 
-  deleteTask = (group, index) => {
+  deleteTask = (group, key) => {
     groupRef
       .child(group)
       .child("tasks")
-      .child(index)
+      .child(key)
       .remove();
   };
 
   submitGroup = () => {
     let tempGroup = this.state.groups;
     tempGroup.push(newGroup);
-    this.setState(
-      {
-        groups: tempGroup,
-        groupForm: null,
-        [newGroup + "Tasks"]: ["default"],
-        [newGroup + "Users"]: newUsers
-      },
-      () => {
-        groupRef
-          .child(newGroup)
-          .child("tasks")
-          .set(["default"]);
-        groupRef
-          .child(newGroup)
-          .child("users")
-          .set(newUsers);
-        newGroup = null;
-        newUsers = null;
-      }
-    );
+    this.setState({
+      groups: tempGroup,
+      groupForm: null,
+      //[newGroup + "Tasks"]: ["default"],
+      [newGroup + "Users"]: newUsers
+    });
+    groupRef
+      .child(newGroup)
+      .child("tasks")
+      .push({ name: "default", des: "default", type: "uncompleted" });
+    groupRef
+      .child(newGroup)
+      .child("users")
+      .set(newUsers);
+    newGroup = null;
+    newUsers = null;
   };
 
   submitPersonal = () => {
@@ -124,13 +141,13 @@ export default class AddGroups extends Component {
     tempGroup.push("Personal");
     this.setState({
       groups: tempGroup,
-      ["Personal" + userid + "Tasks"]: ["default"],
+      //["Personal" + userid + "Tasks"]: ["default"],
       ["Personal" + userid + "Users"]: [this.state.currentEmail]
     });
     groupRef
       .child("Personal" + userid)
       .child("tasks")
-      .set(["default"]);
+      .push({ name: "default", des: "default", type: "uncompleted" });
     groupRef
       .child("Personal" + userid)
       .child("users")
@@ -167,6 +184,7 @@ export default class AddGroups extends Component {
   };
 
   render() {
+    console.log("add groups is rendering");
     return (
       <div>
         <TaskManager
