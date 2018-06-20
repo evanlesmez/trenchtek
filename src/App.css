@@ -150,3 +150,10 @@ body {
 #contracts-bold {
   font-weight: bold;
 }
+
+.directory-title {
+  margin-top: 25px;
+  margin-bottom: 25px;
+  font-size: 300%;
+  font-weight: bold;
+}
