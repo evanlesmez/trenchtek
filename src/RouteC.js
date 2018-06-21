@@ -48,13 +48,11 @@ export default class RouteC extends Component {
         let userIDString = "/users/" + userKey;
         let database = firebase.database().ref(userIDString);
         console.log(userIDString);
-
         //console.log(userIDString);
         database.on("value", snapshot => {
           //console.log(snapshot.val());
           let newTitleState = snapshot.val().title;
           //console.log(newTitleState);
-
           this.setState({
             userTitle: newTitleState,
             uidString: userIDString
