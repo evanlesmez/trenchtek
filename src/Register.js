@@ -30,7 +30,7 @@ class Register extends Component {
       password2: "",
       title: "",
       name: "",
-      tags: [],
+      tags: ["999"],
       confirmDirty: false,
       disablebut: true,
       go: false

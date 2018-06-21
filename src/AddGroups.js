@@ -161,32 +161,34 @@ export default class AddGroups extends Component {
   addGroupForm = () => {
     this.setState({
       groupForm: (
-        <Row>
-          <Col span={6}>
-            <Card>
-              <Form>
-                <FormItem label="new group name">
-                  <Input onChange={this.handleGroupChange} />
-                </FormItem>
-                <FormItem label="new users emails">
-                  <Input onChange={this.handleUserChange} />
-                </FormItem>
-                <FormItem>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    onClick={this.submitGroup}
-                  >
-                    Submit
-                  </Button>
-                </FormItem>
-                <FormItem>
-                  <Button onClick={this.handleCancel}>Cancel</Button>
-                </FormItem>
-              </Form>
-            </Card>
-          </Col>
-        </Row>
+        <center>
+          <Row align="middle">
+            <Col span={6} offset={9}>
+              <Card>
+                <Form>
+                  <FormItem label="new group name">
+                    <Input onChange={this.handleGroupChange} />
+                  </FormItem>
+                  <FormItem label="new users emails">
+                    <Input onChange={this.handleUserChange} />
+                  </FormItem>
+                  <FormItem>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      onClick={this.submitGroup}
+                    >
+                      Submit
+                    </Button>
+                  </FormItem>
+                  <FormItem>
+                    <Button onClick={this.handleCancel}>Cancel</Button>
+                  </FormItem>
+                </Form>
+              </Card>
+            </Col>
+          </Row>
+        </center>
       )
     });
   };
@@ -198,7 +200,22 @@ export default class AddGroups extends Component {
   render() {
     console.log("add groups is rendering");
     return (
-      <div>
+      <center>
+        <div class="directory-title">Tasks</div>
+        <div>
+          <Button onClick={this.addGroupForm}>Add Group</Button>
+          {!this.state.personalCreated ? (
+            <Button
+              onClick={this.submitPersonal}
+              style={{ marginLeft: 25, marginTop: 10 }}
+            >
+              Add Personal
+            </Button>
+          ) : null}
+          <center>
+            <div>{this.state.groupForm}</div>
+          </center>
+        </div>
         <TaskManager
           {...this.state}
           setTasks={this.setTasks}
@@ -208,22 +225,9 @@ export default class AddGroups extends Component {
           giveCurrentEmail={this.giveCurrentEmail}
           userid={userid}
         />
-        <Button
-          onClick={this.addGroupForm}
-          style={{ marginLeft: 25, marginTop: 10, marginBottom: 10 }}
-        >
-          Add Group
-        </Button>
-        {!this.state.personalCreated ? (
-          <Button
-            onClick={this.submitPersonal}
-            style={{ marginLeft: 25, marginTop: 10 }}
-          >
-            Add Personal
-          </Button>
-        ) : null}
-        <div>{this.state.groupForm}</div>
-      </div>
+        <br />
+        <br />
+      </center>
     );
   }
 }
