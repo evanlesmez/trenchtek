@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import firebase from "./Firebase.js";
-import { Collapse, Card, Select, Button, Icon } from "antd";
+import { Collapse, Card, Select, Button, Icon, Form, Input } from "antd";
 const Panel = Collapse.Panel;
 
 export default class Admin extends Component {
@@ -161,7 +161,74 @@ export default class Admin extends Component {
       titleWords = "Manage Rejected Contracts";
     }
     if (this.state.editMode) {
-      return <div>edit mode</div>;
+      return (
+        <div>
+          <div>
+            <center>
+              <br />
+              <Card title="Edit Contract: xxx" style={{ width: 600 }}>
+                <Form layout="vertical" className="login-form">
+                  <Form.Item label="Company Name:">
+                    <Input
+                      onChange={e =>
+                        this.setState({ companyName: e.target.value })
+                      }
+                      value={this.state.companyName}
+                    />
+                  </Form.Item>
+                  <Form.Item label="Job Timeframe:">
+                    <Input
+                      onChange={e =>
+                        this.setState({ jobTimeframe: e.target.value })
+                      }
+                      value={this.state.jobTimeframe}
+                    />
+                  </Form.Item>
+                  <Form.Item label="Special Skills Required:">
+                    <Input
+                      onChange={e =>
+                        this.setState({ specialSkills: e.target.value })
+                      }
+                      value={this.state.specialSkills}
+                    />
+                  </Form.Item>
+                  <Form.Item label="Details:">
+                    <Input.TextArea
+                      onChange={e =>
+                        this.setState({ additionalDetails: e.target.value })
+                      }
+                      value={this.state.additionalDetails}
+                      rows={8}
+                    />
+                  </Form.Item>
+                  <Form.Item label="Email Address to Contact:">
+                    <Input
+                      onChange={e =>
+                        this.setState({ companyEmail: e.target.value })
+                      }
+                      value={this.state.companyEmail}
+                    />
+                  </Form.Item>
+                  <Form.Item>
+                    <Button
+                      onClick={e => this.handleSubmitChangesClick(e)}
+                      type="primary"
+                    >
+                      Submit Changes
+                    </Button>
+                    <Button
+                      onClick={e => this.handleCancelClick(e)}
+                      className="sort-button"
+                    >
+                      Cancel
+                    </Button>
+                  </Form.Item>
+                </Form>
+              </Card>
+            </center>
+          </div>
+        </div>
+      );
     } else {
       let display = stateArray.map(item => {
         return (
