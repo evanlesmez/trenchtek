@@ -17,17 +17,24 @@
   margin-top: 7px;
 }
 
-.challenge-collapse {
-  width: 30%;
-}
-
 .make-gray {
   background-color: rgb(196, 210, 216);
   border-radius: 10px;
 }
 
-.float-left {
-  float: left;
+.flex-container {
+  display: flex;
+  /* justify-content: flex-start; */
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.top-margin {
+  margin-top: 15px;
+}
+
+.float-right {
+  float: right;
 }
 
 .rounded-corners {
