@@ -26,7 +26,6 @@ export default class Profile extends Component {
       email: props.email,
       github: props.github,
       LinkedIn: props.LinkedIn,
-      banner: "",
       profURL: props.profURL,
       uidString: props.uidString,
       upvotes: props.upvotes,
@@ -261,7 +260,7 @@ export default class Profile extends Component {
           <div id="imgcontainer">
             <img
               className="banner"
-              src="http://www.twitrcovers.com/wp-content/uploads/2013/02/Programming-Code-l.jpg"
+              src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAARwAAACxCAMAAAAh3/JWAAAAA1BMVEWNpdVrXtv+AAAASElEQVR4nO3BMQEAAADCoPVPbQ0PoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIALA8UNAAFusnLHAAAAAElFTkSuQmCC"
               alt="banner"
             />
             <Row type="flex" gutter={4}>
@@ -276,7 +275,7 @@ export default class Profile extends Component {
 
               <Col span={10}>
                 <div id="userfo">
-                  <TextArea
+                  <input
                     id={this.state.inputclass}
                     type="text"
                     className="header"
@@ -285,7 +284,6 @@ export default class Profile extends Component {
                     onChange={e => this.handleChange(e)}
                     readOnly={this.state.readmode}
                     maxLength="17"
-                    autosize={{maxRows:1}}
                   />
 
                   <TextArea
