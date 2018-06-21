@@ -107,16 +107,14 @@ export default class TaskManager extends Component {
   render() {
     console.log("task manager is rendering");
     let title = "";
-    return this.props.started ? (
-      <Row>
-        {this.props.groups.map(group => {
+    return this.props.started
+      ? this.props.groups.map(group => {
           group.substring(0, 8) === "Personal"
             ? (title = "Personal")
             : (title = group);
           return (
-            <span>
-              {/* <span>  //className="make-them-inline"> */}
-              <Col span={8}>
+            <span className="make-them-inline">
+              <div>
                 <Card
                   className="make-gray"
                   title={title}
@@ -240,11 +238,10 @@ export default class TaskManager extends Component {
                   </Button>
                   {this.state[group + "cardForm"]}
                 </Card>
-              </Col>
+              </div>
             </span>
           );
-        })}
-      </Row>
-    ) : null;
+        })
+      : null;
   }
 }
