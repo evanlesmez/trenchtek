@@ -117,7 +117,7 @@ body {
   transform: translate(-50%, -50%);
   font-family: "Arvo", sans-serif;
   font-style: italic;
-  font-size: 4.3vw;
+  font-size: 4vw;
   color: white;
 }
 
@@ -129,8 +129,9 @@ body {
   transform: translate(-50%, -50%);
   font-family: "Arvo", sans-serif;
   font-style: italic;
-  font-size: 4.3vw;
+  font-size: 4vw;
   color: white;
+  margin-right: 40px;
 }
 
 .logo-text {
@@ -142,7 +143,7 @@ body {
   transform: translate(-50%, -50%);
   font-family: "Arvo", sans-serif;
   font-weight: bold;
-  font-size: 16vw;
+  font-size: 14vw;
   color: white;
 }
 
