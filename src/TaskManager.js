@@ -107,20 +107,22 @@ export default class TaskManager extends Component {
   render() {
     console.log("task manager is rendering");
     let title = "";
-    return this.props.started
-      ? this.props.groups.map(group => {
+    return this.props.started ? (
+      <div className="flex-container">
+        {" "}
+        {this.props.groups.map(group => {
           group.substring(0, 8) === "Personal"
             ? (title = "Personal")
             : (title = group);
-
           return (
-            <span className="make-them-inline">
+            <div>
               <Card
                 className="make-gray"
                 title={title}
                 style={{
                   marginTop: 25,
-                  marginLeft: 25
+                  marginLeft: 20,
+                  marginRight: 20
                 }}
                 extra={
                   <div className="chaldelete">
@@ -133,7 +135,9 @@ export default class TaskManager extends Component {
                   </div>
                 }
               >
-                <div>Uncompleted tasks:</div>
+                <div>
+                  <em>Uncompleted tasks:</em>
+                </div>
                 {this.props[group + "Tasks"].map(task => {
                   return (
                     <div>
@@ -144,33 +148,41 @@ export default class TaskManager extends Component {
                           type="inner"
                           className="rounded-corners"
                         >
-                          <div>{task.name}</div>
-                          <div className="chaldelete">
-                            <Button
-                              size="small"
-                              onClick={() =>
-                                this.props.deleteTask(group, task.key)
-                              }
-                            >
-                              <Icon type="delete" />
-                            </Button>
-                            <Button
-                              size="small"
-                              onClick={() =>
-                                this.mark(group, task.key, "completed")
-                              }
-                              className="float-left"
-                            >
-                              <Icon type="check" />
-                            </Button>
-                          </div>
+                          <Col span={12}>
+                            <div>{task.name}</div>
+                          </Col>
+                          <Col span={12}>
+                            <div className="chaldelete">
+                              <Button
+                                size="small"
+                                onClick={() =>
+                                  this.props.deleteTask(group, task.key)
+                                }
+                                className="float-right"
+                              >
+                                <Icon type="delete" />
+                              </Button>
+
+                              <Button
+                                size="small"
+                                onClick={() =>
+                                  this.mark(group, task.key, "completed")
+                                }
+                                className="float-right"
+                              >
+                                <Icon type="check" />
+                              </Button>
+                            </div>
+                          </Col>
                         </Card>
                       ) : null}{" "}
                     </div>
                   );
                 })}
 
-                <div>Completed tasks:</div>
+                <div className="top-margin">
+                  <em>Completed tasks:</em>
+                </div>
                 {this.props[group + "Tasks"].map(task => {
                   return (
                     <div>
@@ -180,25 +192,32 @@ export default class TaskManager extends Component {
                           type="inner"
                           className="rounded-corners"
                         >
-                          <div>{task.name}</div>
-                          <div className="chaldelete">
-                            <Button
-                              size="small"
-                              onClick={() =>
-                                this.props.deleteTask(group, task.key)
-                              }
-                            >
-                              <Icon type="delete" />
-                            </Button>
-                            <Button
-                              size="small"
-                              onClick={() =>
-                                this.mark(group, task.key, "completed")
-                              }
-                            >
-                              <Icon type="check" />
-                            </Button>
-                          </div>
+                          <Col span={12}>
+                            <div>{task.name}</div>
+                          </Col>
+                          <Col span={12}>
+                            <div className="chaldelete">
+                              <Button
+                                size="small"
+                                onClick={() =>
+                                  this.props.deleteTask(group, task.key)
+                                }
+                                className="float-right"
+                              >
+                                <Icon type="delete" />
+                              </Button>
+
+                              <Button
+                                size="small"
+                                onClick={() =>
+                                  this.mark(group, task.key, "uncompleted")
+                                }
+                                className="float-right"
+                              >
+                                <Icon type="sync" />
+                              </Button>
+                            </div>
+                          </Col>
                         </Card>
                       ) : null}
                     </div>
@@ -219,9 +238,10 @@ export default class TaskManager extends Component {
                 </Button>
                 {this.state[group + "cardForm"]}
               </Card>
-            </span>
+            </div>
           );
-        })
-      : null;
+        })}{" "}
+      </div>
+    ) : null;
   }
 }
