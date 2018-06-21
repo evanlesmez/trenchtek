@@ -163,3 +163,32 @@ body {
 #contracts-bold {
   font-weight: bold;
 }
+
+.directory-title {
+  margin-top: 25px;
+  margin-bottom: 25px;
+  font-size: 300%;
+  font-weight: bold;
+}
+
+.sort-button {
+  margin-left: 10px;
+}
+
+.name-text {
+  font-size: 150%;
+  font-weight: bold;
+  color: rgb(95, 95, 95);
+}
+
+.big-text {
+  font-size: 120%;
+  display: inline;
+  margin-left: 10px;
+}
+
+.bigger-text {
+  font-size: 130%;
+  font-weight: bold;
+  display: inline;
+}

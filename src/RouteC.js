@@ -19,6 +19,7 @@ import Admin from "./Admin.js";
 import User from "./User.js";
 import firebase from "./Firebase.js";
 import AddGroups from "./AddGroups";
+import TaskManager from "./TaskManager"
 
 export default class RouteC extends Component {
   constructor(props) {
@@ -36,18 +37,21 @@ export default class RouteC extends Component {
       field: value
     });
   };
+
   componentWillMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
+        console.log("hello2");
+        console.log(user);
         let userKey = user.uid;
         let userIDString = "/users/" + userKey;
         let database = firebase.database().ref(userIDString);
+        console.log(userIDString);
         //console.log(userIDString);
         database.on("value", snapshot => {
           //console.log(snapshot.val());
           let newTitleState = snapshot.val().title;
           //console.log(newTitleState);
-
           this.setState({
             userTitle: newTitleState,
             uidString: userIDString
@@ -76,6 +80,8 @@ export default class RouteC extends Component {
       <div>
         <BrowserRouter>
           <div>
+
+
             <Route path={CompanyRegex} component={TopbarCompany} />
             <Route
               path={UserRegex}
@@ -103,7 +109,7 @@ export default class RouteC extends Component {
                   <Route
                     path="/challenges"
                     render={() => (
-                      <Challenges userTitle={this.state.userTitle} uidString ={this.state.uidString}/>
+                      <Challenges userTitle={this.state.userTitle} uidString={this.state.uidString} />
                     )}
                   />
                   <Route
