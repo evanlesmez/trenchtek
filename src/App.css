@@ -24,9 +24,9 @@
 
 .flex-container {
   display: flex;
-  justify-content: flex-start;
-  /* flex-wrap: wrap; */
-  /* flex-direction: row; */
+  /* justify-content: flex-start; */
+  flex-wrap: wrap;
+  flex-direction: row;
 }
 
 .top-margin {
