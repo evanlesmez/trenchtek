@@ -199,15 +199,15 @@ export default class Directory extends Component {
       ///////////////////////////
 
       if (this.state.sortByUpvote) {
-        array.sort(function(a, b) {
+        array.sort(function (a, b) {
           return parseInt(b.upvotes) - parseInt(a.upvotes);
         });
       } else if (this.state.sortByTag) {
-        array.sort(function(a, b) {
+        array.sort(function (a, b) {
           return b.tags.length - a.tags.length;
         });
       } else if (this.state.sortByName) {
-        array.sort(function(a, b) {
+        array.sort(function (a, b) {
           return (
             a.name.toUpperCase().charCodeAt(0) -
             b.name.toUpperCase().charCodeAt(0)
