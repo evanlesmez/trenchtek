@@ -99,7 +99,7 @@
 }
 
 body {
-  background-color: rgb(252, 252, 252);
+  background-color: rgb(247, 247, 247);
 }
 
 .welcome-pic {
@@ -192,4 +192,13 @@ body {
   font-size: 130%;
   font-weight: bold;
   display: inline;
+}
+
+.contracts-edit-button {
+  float: right;
+  margin-right: 13px;
+}
+
+.contract-comp-name {
+  display: inline-block;
 }
