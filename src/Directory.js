@@ -38,12 +38,12 @@ export default class Directory extends Component {
       boolean: false
     };
   }
-  setBooleanTrue() {
+  setBooleanTrue = () => {
     this.state.boolean = true;
-  }
-  setBooleanFalse() {
+  };
+  setBooleanFalse = () => {
     this.state.boolean = false;
-  }
+  };
   handleClose = (removedTag, info) => {};
   allowUpvoteSort = e => {
     this.setState({ sortByUpvote: true });
@@ -90,7 +90,7 @@ export default class Directory extends Component {
       });
     }
   };
-  sort(array) {
+  sort = array => {
     if (this.state.sortByUpvote) {
       array.sort(function(a, b) {
         return parseInt(b.upvotes) - parseInt(a.upvotes);
@@ -111,7 +111,7 @@ export default class Directory extends Component {
     this.setState({ array: array }, () => {
       console.log("new state", this.state);
     });
-  }
+  };
   searchResult = v => {
     var array = this.state.users;
     let list = firebase.database().ref("/users");
