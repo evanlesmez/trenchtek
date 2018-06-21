@@ -16,7 +16,8 @@ export default class Admin extends Component {
       jobTimeframe: "",
       specialSkills: "",
       additionalDetails: "",
-      companyEmail: ""
+      companyEmail: "",
+      contractToEdit: ""
     };
   }
 
@@ -30,6 +31,12 @@ export default class Admin extends Component {
     e.preventDefault();
     this.setState({
       editMode: true
+    });
+    this.setState({
+      contractToEdit: firebase
+        .database()
+        .ref(`${this.state.contractsToView}CompanyContracts`)
+        .child(e.target.className)
     });
     firebase
       .database()
@@ -57,11 +64,7 @@ export default class Admin extends Component {
       specialSkills: this.state.specialSkills,
       status: "pending"
     };
-    firebase
-      .database()
-      .ref(`${this.state.contractsToView}CompanyContracts`)
-      .child(e.target.className)
-      .set(updatedContract);
+    this.state.contractToEdit.set(updatedContract);
     this.setState({
       editMode: false
     });
@@ -181,92 +184,94 @@ export default class Admin extends Component {
 
   render() {
     let stateArray;
-    let titleWords;
+    let statusWord;
     if (this.state.contractsToView === "pending") {
       stateArray = this.state.dataFromPending;
-      titleWords = "Manage Pending Contracts";
+      statusWord = "Pending";
     } else if (this.state.contractsToView === "approved") {
       stateArray = this.state.dataFromApproved;
-      titleWords = "Manage Approved Contracts";
+      statusWord = "Approved";
     } else if (this.state.contractsToView === "rejected") {
       stateArray = this.state.dataFromRejected;
-      titleWords = "Manage Rejected Contracts";
+      statusWord = "Rejected";
     }
     if (this.state.editMode) {
       return (
         <div>
-          <div>
-            <center>
-              <br />
-              <Card
-                title={`Edit ${this.state.contractsToView} Contract: ${
-                  this.state.companyName
-                }`}
-                style={{ width: 600 }}
-              >
-                <Form layout="vertical" className="login-form">
-                  <Form.Item label="Company Name:">
-                    <Input
-                      onChange={e =>
-                        this.setState({ companyName: e.target.value })
-                      }
-                      value={this.state.companyName}
-                    />
-                  </Form.Item>
-                  <Form.Item label="Job Timeframe:">
-                    <Input
-                      onChange={e =>
-                        this.setState({ jobTimeframe: e.target.value })
-                      }
-                      value={this.state.jobTimeframe}
-                    />
-                  </Form.Item>
-                  <Form.Item label="Special Skills Required:">
-                    <Input
-                      onChange={e =>
-                        this.setState({ specialSkills: e.target.value })
-                      }
-                      value={this.state.specialSkills}
-                    />
-                  </Form.Item>
-                  <Form.Item label="Details:">
-                    <Input.TextArea
-                      onChange={e =>
-                        this.setState({ additionalDetails: e.target.value })
-                      }
-                      value={this.state.additionalDetails}
-                      rows={8}
-                    />
-                  </Form.Item>
-                  <Form.Item label="Email Address to Contact:">
-                    <Input
-                      onChange={e =>
-                        this.setState({ companyEmail: e.target.value })
-                      }
-                      value={this.state.companyEmail}
-                    />
-                  </Form.Item>
-                  <Form.Item>
-                    <button onClick={e => this.handleSubmitChangesClick(e)}>
-                      Submit Changes
-                    </button>
-                    <button
-                      onClick={e => this.handleCancelClick(e)}
-                      className="sort-button"
-                    >
-                      Cancel
-                    </button>
-                  </Form.Item>
-                </Form>
-              </Card>
-            </center>
-          </div>
+          <center>
+            <div class="directory-title">Manage Contracts</div>
+            <br />
+            <Card
+              title={`Edit ${statusWord} Contract: ${this.state.companyName}`}
+              style={{ width: 600 }}
+            >
+              <Form layout="vertical" className="login-form">
+                <Form.Item label="Company Name:">
+                  <Input
+                    onChange={e =>
+                      this.setState({ companyName: e.target.value })
+                    }
+                    value={this.state.companyName}
+                  />
+                </Form.Item>
+                <Form.Item label="Job Timeframe:">
+                  <Input
+                    onChange={e =>
+                      this.setState({ jobTimeframe: e.target.value })
+                    }
+                    value={this.state.jobTimeframe}
+                  />
+                </Form.Item>
+                <Form.Item label="Special Skills Required:">
+                  <Input
+                    onChange={e =>
+                      this.setState({ specialSkills: e.target.value })
+                    }
+                    value={this.state.specialSkills}
+                  />
+                </Form.Item>
+                <Form.Item label="Details:">
+                  <Input.TextArea
+                    onChange={e =>
+                      this.setState({ additionalDetails: e.target.value })
+                    }
+                    value={this.state.additionalDetails}
+                    rows={8}
+                  />
+                </Form.Item>
+                <Form.Item label="Email Address to Contact:">
+                  <Input
+                    onChange={e =>
+                      this.setState({ companyEmail: e.target.value })
+                    }
+                    value={this.state.companyEmail}
+                  />
+                </Form.Item>
+                <Form.Item>
+                  <Button
+                    onClick={e => this.handleSubmitChangesClick(e)}
+                    type="primary"
+                  >
+                    Submit Changes
+                  </Button>
+                  <Button
+                    onClick={e => this.handleCancelClick(e)}
+                    className="sort-button"
+                  >
+                    Cancel
+                  </Button>
+                </Form.Item>
+              </Form>
+            </Card>
+            <br />
+          </center>
         </div>
       );
     } else {
       let display = stateArray.map(item => {
         return (
           <div>
+            <br />
             <Collapse>
               <Panel
                 header={
@@ -329,23 +334,32 @@ export default class Admin extends Component {
 
       return (
         <div>
-          <br />
           <center>
-            <div style={{ display: "inline" }}>Display: </div>
-            <Select
-              defaultValue={this.state.contractsToView}
-              onChange={value => {
-                this.handleViewChange(value);
-              }}
-            >
-              <Select.Option value="pending">Pending Contracts</Select.Option>
-              <Select.Option value="approved">Approved Contracts</Select.Option>
-              <Select.Option value="rejected">Rejected Contracts</Select.Option>
-            </Select>
+            <div class="directory-title">Manage Contracts</div>
           </center>
           <br />
           <Card
-            title={<div className="center-text">{titleWords}</div>}
+            title={
+              <center>
+                <div style={{ display: "inline" }}>Display: </div>
+                <Select
+                  defaultValue={this.state.contractsToView}
+                  onChange={value => {
+                    this.handleViewChange(value);
+                  }}
+                >
+                  <Select.Option value="pending">
+                    Pending Contracts
+                  </Select.Option>
+                  <Select.Option value="approved">
+                    Approved Contracts
+                  </Select.Option>
+                  <Select.Option value="rejected">
+                    Rejected Contracts
+                  </Select.Option>
+                </Select>
+              </center>
+            }
             style={{ width: 720, margin: "auto" }}
           >
             {display}
