@@ -123,8 +123,7 @@ export default class TaskManager extends Component {
                   style={{
                     marginTop: 25,
                     marginLeft: 20,
-                    marginRight: 20,
-                    backgroundColor: "pink"
+                    marginRight: 20
                   }}
                   extra={
                     <div className="chaldelete">
