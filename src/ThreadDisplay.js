@@ -22,6 +22,11 @@ class ThreadDisplay extends Component {
       array: [],
       currentUser: ""
     };
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        useremail = user.email;
+      }
+    });
   }
   addPost(newPostBody, newUpvotes) {
     const newState = Object.assign({}, this.state);
@@ -166,11 +171,6 @@ class ThreadDisplay extends Component {
   }
 
   componentDidMount() {
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        useremail = user.email;
-      }
-    });
     let list = firebase.database().ref("/users");
     list.on("value", snapshot => {
       let objects = snapshot.val();
@@ -224,7 +224,12 @@ class ThreadDisplay extends Component {
                     <img class="image-cropper" src={data.image} />
                     <center>
                       <div class="nametitle">
-                        {data.currentUser.name}
+                        {(data.currentUser.name.indexOf(" ") != -1 &&
+                          data.currentUser.name.substring(
+                            0,
+                            data.currentUser.name.indexOf(" ")
+                          )) ||
+                          data.currentUser.name}
                         <br />
                         <small>
                           (

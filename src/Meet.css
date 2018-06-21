@@ -1,12 +1,12 @@
- @import "~antd/dist/antd.css";
- 
-.searchInfo{
-    clear:both;
-    text-align: center;
-    margin-top: 5%;
-    font-size: 20px;
+@import "~antd/dist/antd.css";
+
+.searchInfo {
+  clear: both;
+  text-align: center;
+  margin-top: 5%;
+  font-size: 20px;
 }
-    /*
+/*
 @import "~antd/dist/antd.css";
 .searchInfo {
   clear: both;
@@ -26,44 +26,39 @@
   margin-top: 3%;
 }
 
-.editInfo{
-    clear:both;
-    font-size:10px;
-    color: blue;
-    cursor: pointer;
-    text-decoration: underline
-    
+.editInfo {
+  clear: both;
+  font-size: 10px;
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
-.textOfCard{
-    clear:both;
-    text-align: center;
+.textOfCard {
+  clear: both;
+  text-align: center;
 }
 
-
-h1{
-    clear:both;
-   font-size: 25px;
-    margin-top:5%;
-    font-family: "Verdana";
+h1 {
+  clear: both;
+  font-size: 25px;
+  margin-top: 5%;
+  font-family: "Verdana";
 }
-
+.center {
+  font-size: 40px;
+}
 /* //1400 */
- @media (max-width: 1400px){ 
-     .texty{
-         width:40%;
-     }
-   .all{
-    position:absolute;
-    width:660px;
-    left: 35%;
-   }
+@media (max-width: 1400px) {
+  .texty {
+    width: 40%;
+  }
 
-   .searchDiv{
-       position: relative;
-       right:35%
-   }
-    /* body{
+  .searchDiv {
+    position: relative;
+    right: 35%;
+  }
+  /* body{
         
         align-items: center;
         position: inherit
@@ -78,7 +73,7 @@ h1{
         width: 50%;
         padding: 10px;
     } */
-    /* .individualCards{
+  /* .individualCards{
 
 @media (max-width: 1400px) {
   body {
@@ -102,7 +97,7 @@ h1{
         width: 50%;
         padding: 10px;
     } */
-    /* .instuctors{
+  /* .instuctors{
         background-color: sandybrown;
         float: right;
          width: 62%; 
@@ -113,7 +108,7 @@ h1{
         margin-bottom: 70px
     } */
 
-    /* p,.InstructorCard{
+  /* p,.InstructorCard{
 
   .instuctors {
     background-color: sandybrown;
@@ -132,7 +127,7 @@ h1{
         margin-left:20%
     } */
 
-    /* .seniorDevs{
+  /* .seniorDevs{
         float: right;
          width: 69%; 
         height: 7px;
@@ -155,9 +150,9 @@ h1{
        
         width: 250px;
         clear:both; */
-        /* margin-right:100px; */
-       /* // display:-webkit-inline-box; */
-         /* float: right; 
+  /* margin-right:100px; */
+  /* // display:-webkit-inline-box; */
+  /* float: right; 
          margin-top: 20px;
         
     }
@@ -169,67 +164,59 @@ h1{
   .InstructorCard {
     width: 250px;
     clear:both; */
-    /* margin-right:100px; */
-   /* // display:-webkit-inline-box; */
-     /* float: right; 
+  /* margin-right:100px; */
+  /* // display:-webkit-inline-box; */
+  /* float: right; 
       
   }
  */
 }
-@media(min-width:1400px){
-
-
-.seniorDevs,.instuctors{
-    clear:both;
+@media (min-width: 1400px) {
+  .seniorDevs,
+  .instuctors {
+    clear: both;
     margin-left: 45%;
-}
+  }
 
-.instuctors {
-  clear: both;
-  margin-left: 45%;
-  color: red;
-}
+  .instuctors {
+    clear: both;
+    margin-left: 45%;
+    color: red;
+  }
 
-.allSenior{
-position: relative;
-top:-100px;
-}
+  .allSenior {
+    position: relative;
+    top: -100px;
+  }
 
-.InstructorCard{
-    clear:both;
-    float:left;
-   
-}
+  .InstructorCard {
+    clear: both;
+    float: left;
+  }
 
-
-
-.infocard{
-    clear:both;
-    margin-left:30%;
+  .infocard {
+    clear: both;
+    margin-left: 30%;
     margin-top: 10%;
-    margin-bottom:0%;
-   
-}
-.texty {
-  margin-left: 25%;
-  max-width: 35%;
-}
+    margin-bottom: 0%;
+  }
+  .texty {
+    margin-left: 25%;
+    max-width: 35%;
+  }
 
-.individualCards{
-    clear:both;
-    margin-top:0%;
-    margin-bottom:0%;
-}
+  .individualCards {
+    clear: both;
+    margin-top: 0%;
+    margin-bottom: 0%;
+  }
 
-.editInfo{
-     margin-left: 60%; 
-    
-    
-}
-.nextToImg{
-    position:relative;
+  .editInfo {
+    margin-left: 60%;
+  }
+  .nextToImg {
+    position: relative;
 
-    top:-220px;
-  
-}
+    top: -220px;
+  }
 }
