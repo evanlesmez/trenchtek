@@ -34,13 +34,17 @@ export default class Directory extends Component {
       array: [],
       sortByUpvote: false,
       sortByName: false,
-      sortByTag: false
+      sortByTag: false,
+      boolean: false
     };
   }
-  handleClose = (removedTag, info) => {
-    console.log(removedTag);
-    console.log(info);
-  };
+  setBooleanTrue() {
+    this.state.boolean = true;
+  }
+  setBooleanFalse() {
+    this.state.boolean = false;
+  }
+  handleClose = (removedTag, info) => {};
   allowUpvoteSort = e => {
     this.setState({ sortByUpvote: true });
     this.setState({ sortByName: false });
@@ -86,6 +90,28 @@ export default class Directory extends Component {
       });
     }
   };
+  sort(array) {
+    if (this.state.sortByUpvote) {
+      array.sort(function(a, b) {
+        return parseInt(b.upvotes) - parseInt(a.upvotes);
+      });
+    } else if (this.state.sortByTag) {
+      array.sort(function(a, b) {
+        return b.tags.length - a.tags.length;
+      });
+    } else if (this.state.sortByName) {
+      array.sort(function(a, b) {
+        return (
+          a.name.toUpperCase().charCodeAt(0) -
+          b.name.toUpperCase().charCodeAt(0)
+        );
+      });
+    }
+    console.log(array);
+    this.setState({ array: array }, () => {
+      console.log("new state", this.state);
+    });
+  }
   searchResult = v => {
     var array = this.state.users;
     let list = firebase.database().ref("/users");
@@ -93,15 +119,14 @@ export default class Directory extends Component {
       let objects = snapshot.val();
       let array = [];
       let thing = {};
-      let array2 = [];
+      let array2 = {};
       var person;
       let image;
-      let boolean = false;
 
       for (let obj in objects) {
         person = objects[obj];
         if (this.state.checkedList.includes(person.title)) {
-          array2.push(person);
+          array2[obj] = person;
         }
       }
       for (let obj in array2) {
@@ -109,35 +134,108 @@ export default class Directory extends Component {
         var tag = person.tags;
         for (var i = 0; i < tag.length; i++) {
           if (tag[i] != "") {
-            console.log(tag[i]);
             tag[i] = tag[i].toLowerCase();
-            console.log(i);
           }
-          //else {
-          //  delete tag[i];
-          //}
         }
         ///////////////////////
         ///Retrieving Image////
         ///////////////////////
+        /*
         dBase.ref(obj).on("value", snapshot => {
-          let userData;
           storageRef
-            .child(obj)
+            .child("users/" + obj)
             .getDownloadURL()
             .then(url => {
-              image = url;
-              boolean = true;
+              person = array2[obj];
+              var name = person.name.toLowerCase();
+              if (
+                v.indexOf("#") != -1 &&
+                tag.includes(v.toLowerCase().substring(1))
+              ) {
+                thing = {
+                  name: person.name,
+                  title: person.title,
+                  image: url,
+                  tags: person.tags,
+                  upvotes: person.upvotes
+                };
+                array.push(thing);
+                console.log("1");
+              } else if (
+                v.indexOf("#") == -1 &&
+                name.includes(v.toLowerCase())
+              ) {
+                thing = {
+                  name: person.name,
+                  title: person.title,
+                  image: url,
+                  tags: person.tags,
+                  upvotes: person.upvotes
+                };
+                array.push(thing);
+                console.log("2");
+              } else if (v == "") {
+                thing = {
+                  name: person.name,
+                  title: person.title,
+                  image: url,
+                  tags: person.tags,
+                  upvotes: person.upvotes
+                };
+                array.push(thing);
+                console.log("3");
+              }
             })
-            .catch(function(error) {});
-        });
+            .catch(function(error) {
+              person = array2[obj];
 
+              var name = person.name.toLowerCase();
+              if (
+                v.indexOf("#") != -1 &&
+                tag.includes(v.toLowerCase().substring(1))
+              ) {
+                thing = {
+                  name: person.name,
+                  title: person.title,
+                  image: "https://i.stack.imgur.com/34AD2.jpg",
+                  tags: person.tags,
+                  upvotes: person.upvotes
+                };
+                array.push(thing);
+                console.log("1a");
+              } else if (
+                v.indexOf("#") == -1 &&
+                name.includes(v.toLowerCase())
+              ) {
+                thing = {
+                  name: person.name,
+                  title: person.title,
+                  image: "https://i.stack.imgur.com/34AD2.jpg",
+                  tags: person.tags,
+                  upvotes: person.upvotes
+                };
+                array.push(thing);
+                console.log("2a");
+              } else if (v == "") {
+                thing = {
+                  name: person.name,
+                  title: person.title,
+                  image: "https://i.stack.imgur.com/34AD2.jpg",
+                  tags: person.tags,
+                  upvotes: person.upvotes
+                };
+                array.push(thing);
+                console.log("3a");
+              }
+            });
+        });
+      }*/
         var name = person.name.toLowerCase();
         if (
           v.indexOf("#") != -1 &&
           tag.includes(v.toLowerCase().substring(1))
         ) {
-          if (!boolean) {
+          if (!this.state.boolean) {
             thing = {
               name: person.name,
               title: person.title,
@@ -156,7 +254,7 @@ export default class Directory extends Component {
           }
           array.push(thing);
         } else if (v.indexOf("#") == -1 && name.includes(v.toLowerCase())) {
-          if (!boolean)
+          if (!this.state.boolean)
             thing = {
               name: person.name,
               title: person.title,
@@ -175,7 +273,7 @@ export default class Directory extends Component {
           }
           array.push(thing);
         } else if (v == "") {
-          if (!boolean) {
+          if (!this.state.boolean) {
             thing = {
               name: person.name,
               title: person.title,
@@ -198,24 +296,7 @@ export default class Directory extends Component {
       ///////////////////////////
       /////////SORTING///////////
       ///////////////////////////
-
-      if (this.state.sortByUpvote) {
-        array.sort(function (a, b) {
-          return parseInt(b.upvotes) - parseInt(a.upvotes);
-        });
-      } else if (this.state.sortByTag) {
-        array.sort(function (a, b) {
-          return b.tags.length - a.tags.length;
-        });
-      } else if (this.state.sortByName) {
-        array.sort(function (a, b) {
-          return (
-            a.name.toUpperCase().charCodeAt(0) -
-            b.name.toUpperCase().charCodeAt(0)
-          );
-        });
-      }
-      this.setState({ array: array });
+      this.sort(array);
     });
   };
   componentDidMount() {
@@ -269,11 +350,11 @@ export default class Directory extends Component {
       for (let obj in objects) {
         person = objects[obj];
 
-        if (person.image === "") {
+        if (person.image) {
           thing = {
             name: person.name,
             title: person.title,
-            image: "https://i.stack.imgur.com/34AD2.jpg",
+            image: person.image,
             tags: person.tags,
             upvotes: person.upvotes
           };
@@ -281,7 +362,7 @@ export default class Directory extends Component {
           thing = {
             name: person.name,
             title: person.title,
-            image: person.image,
+            image: "https://i.stack.imgur.com/34AD2.jpg",
             tags: person.tags,
             upvotes: person.upvotes
           };
