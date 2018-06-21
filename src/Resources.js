@@ -158,35 +158,41 @@ class Resources extends Component {
           <div class="directory-title">Resources</div>
           {this.state.resources.map(resource => {
             return (
-              <div className="resourcesdiv">
+              <center>
                 <Card
-                  title={resource.description}
-                  extra={
-                    this.state.userTitle === "Admin" ? (
-                      <div className="chaldelete">
-                        <Button
-                          size="small"
-                          onClick={e =>
-                            this.removeResource(
-                              e,
-                              resource.id,
-                              resource.description
-                            )
-                          }
-                        >
-                          <Icon type="delete" />
-                        </Button>
-                      </div>
-                    ) : null
+                  title={
+                    <div className="panelheader2">
+                      <center>
+                        <div className="headertitle">
+                          {resource.description}
+                        </div>
+                      </center>
+                      {this.state.userTitle === "Admin" && (
+                        <div className="editbut">
+                          <Button
+                            size="small"
+                            onClick={e =>
+                              this.removeResource(
+                                e,
+                                resource.id,
+                                resource.description
+                              )
+                            }
+                          >
+                            <Icon type="delete" />
+                          </Button>
+                        </div>
+                      )}
+                    </div>
                   }
-                  style={{ width: "95%" }}
+                  style={{ width: 450 }}
                 >
                   <a href={resource.url} target="_blank">
                     {resource.url}
                   </a>
                 </Card>
                 <br />
-              </div>
+              </center>
             );
           })}
           {this.state.userTitle === "Admin" ? (

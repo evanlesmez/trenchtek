@@ -173,7 +173,7 @@ export default class User extends Component {
   submitChanges = () => {
     let edit = {
       about: this.state.editAbout,
-      approved: this.state.editApproved,
+      approved: this.state.editUser.approved,
       email: this.state.editEmail,
       image: this.state.editImage,
       name: this.state.editName,
@@ -263,7 +263,6 @@ export default class User extends Component {
                         mode="tags"
                         style={{ width: "100%" }}
                         placeholder="Please select"
-                        defaultValue={["React"]}
                         onChange={this.updateTagField}
                       >
                         {children}

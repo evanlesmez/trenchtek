@@ -116,25 +116,31 @@ export default class TaskManager extends Component {
             : (title = group);
           return (
             <center>
-              <div className="tasks">
+              <div>
                 <Card
                   className="make-gray"
-                  title={title}
+                  title={
+                    <div className="panelheader2">
+                      {" "}
+                      <center>
+                        <div className="headertitle">{title}</div>
+                      </center>
+                      <div className="editbut">
+                        <Button
+                          size="small"
+                          onClick={() => this.props.deleteGroup(group)}
+                        >
+                          <Icon type="delete" />
+                        </Button>
+                      </div>
+                    </div>
+                  }
                   style={{
                     marginTop: 25,
                     marginLeft: 20,
-                    marginRight: 20
+                    marginRight: 20,
+                    width: 450
                   }}
-                  extra={
-                    <div className="chaldelete">
-                      <Button
-                        size="small"
-                        onClick={() => this.props.deleteGroup(group)}
-                      >
-                        <Icon type="delete" />
-                      </Button>
-                    </div>
-                  }
                 >
                   <div>
                     <em>Uncompleted tasks:</em>
@@ -144,11 +150,7 @@ export default class TaskManager extends Component {
                       <div>
                         {task.name !== "default" &&
                         task.type === "uncompleted" ? (
-                          <Card
-                            style={{ marginTop: 16 }}
-                            type="inner"
-                            className="rounded-corners"
-                          >
+                          <Card style={{ marginTop: 16 }} type="inner">
                             <Col span={12}>
                               <div>{task.name}</div>
                             </Col>
