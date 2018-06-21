@@ -70,21 +70,29 @@ export default class Profile extends Component {
       inputclass:"inputfield"});
       if(this.state.uidString !== "" && this.state.uidString !== undefined){
         let pos = this.state.position;
+        let linked = this.state.LinkedIn;
+        let git = this.state.github;
         if(pos === undefined){  //Porblem with .update NEXT TIME DO FUNCTIONALITY FIRST!!!!
           pos = "";
+        }
+        if(linked === undefined){
+          linked = "";
+        }
+        if(git === undefined){
+          git = "";
         }
         dBase.ref(this.state.uidString)  // UPDATING FIREBASE HERE
           .update({
             name:this.state.name,
             tags:this.state.skills,
             email:this.state.email,
-            github:this.state.github,
-            linkedIn:this.state.LinkedIn,
+            github: git,
+            linkedIn: linked,
             about: this.state.aboutMe,
             position: pos
           });
       } else{
-        console.log("Don't push b/c not in user!")
+        console.log("UserID did not pass down!");
       }
   }
 
@@ -95,12 +103,16 @@ export default class Profile extends Component {
       this.setState({skills: firstSkills,newSkil:""});
       }
       else {  // Existing array
+        if(this.state.newSkill != ""){
       this.setState({
       skills: [...this.state.skills, this.state.newSkill],
       newSkill: ""
     });
   }
-
+    else{
+      console.log("Put some text in the shiz")
+    }
+  }
   };
   deleteClick = e => {
     // Deleting tags
@@ -303,7 +315,7 @@ export default class Profile extends Component {
                 {button}
                 <div id="sidefo">
                   <div>
-                    <textLabel > Skills:</textLabel> {skillSpan}
+                    <strong> Skills:</strong> {skillSpan}
                     {newSkill}
                   </div>
                   {linksPart}

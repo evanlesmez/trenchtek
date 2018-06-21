@@ -45,6 +45,7 @@ export default class Profilehandler extends Component {
     aboutMe: userData.about,
     title: userData.title,
     LinkedIn: userData.linkedIn,
+    uidString: userID,
     upvotes: userData.upvotes,
     }));
   });
