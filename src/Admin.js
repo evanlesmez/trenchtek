@@ -49,6 +49,19 @@ export default class Admin extends Component {
 
   handleSubmitChangesClick = e => {
     e.preventDefault();
+    let updatedContract = {
+      additionalDetails: this.state.additionalDetails,
+      companyEmail: this.state.companyEmail,
+      companyName: this.state.companyName,
+      jobTimeframe: this.state.jobTimeframe,
+      specialSkills: this.state.specialSkills,
+      status: "pending"
+    };
+    firebase
+      .database()
+      .ref(`${this.state.contractsToView}CompanyContracts`)
+      .child(e.target.className)
+      .set(updatedContract);
     this.setState({
       editMode: false
     });
@@ -234,18 +247,15 @@ export default class Admin extends Component {
                     />
                   </Form.Item>
                   <Form.Item>
-                    <Button
-                      onClick={e => this.handleSubmitChangesClick(e)}
-                      type="primary"
-                    >
+                    <button onClick={e => this.handleSubmitChangesClick(e)}>
                       Submit Changes
-                    </Button>
-                    <Button
+                    </button>
+                    <button
                       onClick={e => this.handleCancelClick(e)}
                       className="sort-button"
                     >
                       Cancel
-                    </Button>
+                    </button>
                   </Form.Item>
                 </Form>
               </Card>
