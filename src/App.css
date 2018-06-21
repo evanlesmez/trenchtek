@@ -18,17 +18,12 @@
 }
 
 .make-gray {
-  background-color: rgb(196, 210, 216);
   border-radius: 10px;
 }
 
-.flex-container {
-  display: flex;
-  /* justify-content: flex-start; */
-  flex-wrap: wrap;
-  flex-direction: row;
+.tasks {
+  width: 60%;
 }
-
 .top-margin {
   margin-top: 15px;
 }
@@ -110,7 +105,7 @@ body {
 }
 
 .welcome-pic {
-  max-width: 100%;
+  max-width: 110%;
   height: auto;
   -webkit-filter: brightness(40%);
   filter: brightness(40%);
@@ -119,42 +114,46 @@ body {
 .welcome-text {
   position: absolute;
   text-align: center;
-  top: 40%;
+  top: 51%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: "Arvo", sans-serif;
   font-style: italic;
-  font-size: 4.3vw;
+  font-size: 3.9vw;
   color: white;
 }
 
 .welcome-text2 {
   position: absolute;
   text-align: center;
-  top: 62%;
+  top: 74%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: "Arvo", sans-serif;
   font-style: italic;
-  font-size: 4.3vw;
+  font-size: 3.9vw;
   color: white;
+  margin-right: 40px;
 }
 
 .logo-text {
   margin-top: 0;
   padding-top: 0;
   position: absolute;
-  top: 17%;
+  top: 25%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: "Arvo", sans-serif;
   font-weight: bold;
-  font-size: 16vw;
+  font-size: 14vw;
   color: white;
 }
 
 .container {
-  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
 .redirect-to-home-logo-button {
