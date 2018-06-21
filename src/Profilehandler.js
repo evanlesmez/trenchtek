@@ -15,53 +15,56 @@ export default class Profilehandler extends Component {
       position: "",
       aboutMe: "",
       skills: [],
-      github: "", 
-      email: "", 
+      github: "",
+      email: "",
       LinkedIn: "",
       profURL:
         "http://www.aminariana.com/assets/placeholders/avatar-39c4f0720c0b9f829e3dc8b644228be492ea900026f4057974840d54b149bb5d.png",
       uidString: this.props.uidString
     };
   }
-  
-  fireReadProfile = userID => {
-   dBase.ref(userID)
-    .on("value", snapshot => {
-      let userData;
-      storageRef.child(userID)
-      .getDownloadURL().then( url => {
-        this.setState({profURL: url});
-    })
-    .catch(function(error) {
-    }).then(
-  userData = snapshot.val(),
-  this.setState({
-    email: userData.email,
-    github: userData.github,
-    skills: userData.tags,
-    name: userData.name,
-    position: userData.position,
-    aboutMe: userData.about,
-    title: userData.title,
-    LinkedIn: userData.linkedIn,
-    }));
-  });
-    }
 
-  componentWillMount(){ // MY HERO
-    if(this.props.uidString != ""){
-    this.fireReadProfile(this.props.uidString);
-  }else{
-    firebase.auth().onAuthStateChanged((user) => {
-      if(user) {
-        let userKey = user.uid;
-        let userIDString = "users/" + userKey;
+  fireReadProfile = userID => {
+    dBase.ref(userID).on("value", snapshot => {
+      let userData;
+      storageRef
+        .child(userID)
+        .getDownloadURL()
+        .then(url => {
+          this.setState({ profURL: url });
+        })
+        .catch(function(error) {})
+        .then(
+          (userData = snapshot.val()),
+          this.setState({
+            email: userData.email,
+            github: userData.github,
+            skills: userData.tags,
+            name: userData.name,
+            position: userData.position,
+            aboutMe: userData.about,
+            title: userData.title,
+            LinkedIn: userData.linkedIn
+          })
+        );
+    });
+  };
+
+  componentWillMount() {
+    // MY HERO
+    if (this.props.uidString != "") {
+      this.fireReadProfile(this.props.uidString);
+    } else {
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          let userKey = user.uid;
+          let userIDString = "users/" + userKey;
           this.fireReadProfile(userIDString);
-      }else{
-        console.log("You don't belong here")
-      };
-  });
-};
+        } else {
+          console.log("You don't belong here");
+        }
+      });
+    }
   }
   render() {
     console.log(this.state);

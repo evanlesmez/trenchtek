@@ -14,6 +14,8 @@ import {
 import firebase from "./Firebase";
 import "./Post.css";
 
+let storageRef = firebase.storage().ref("images/");
+let dBase = firebase.database();
 const CheckboxGroup = Checkbox.Group;
 const Search = Input.Search;
 const plainOptions = ["Intern", "Alumni", "Admin"];
@@ -92,6 +94,9 @@ export default class Directory extends Component {
       let thing = {};
       let array2 = [];
       var person;
+      let image;
+      let boolean = false;
+
       for (let obj in objects) {
         person = objects[obj];
         if (this.state.checkedList.includes(person.title)) {
@@ -111,13 +116,27 @@ export default class Directory extends Component {
           //  delete tag[i];
           //}
         }
+        ///////////////////////
+        ///Retrieving Image////
+        ///////////////////////
+        dBase.ref(obj).on("value", snapshot => {
+          let userData;
+          storageRef
+            .child(obj)
+            .getDownloadURL()
+            .then(url => {
+              image = url;
+              boolean = true;
+            })
+            .catch(function(error) {});
+        });
 
         var name = person.name.toLowerCase();
         if (
           v.indexOf("#") != -1 &&
           tag.includes(v.toLowerCase().substring(1))
         ) {
-          if (person.image === "") {
+          if (!boolean) {
             thing = {
               name: person.name,
               title: person.title,
@@ -129,14 +148,14 @@ export default class Directory extends Component {
             thing = {
               name: person.name,
               title: person.title,
-              image: person.image,
+              image: image,
               tags: person.tags,
               upvotes: person.upvotes
             };
           }
           array.push(thing);
         } else if (v.indexOf("#") == -1 && name.includes(v.toLowerCase())) {
-          if (person.image === "")
+          if (!boolean)
             thing = {
               name: person.name,
               title: person.title,
@@ -148,14 +167,14 @@ export default class Directory extends Component {
             thing = {
               name: person.name,
               title: person.title,
-              image: person.image,
+              image: image,
               tags: person.tags,
               upvotes: person.upvotes
             };
           }
           array.push(thing);
         } else if (v == "") {
-          if (person.image == "") {
+          if (!boolean) {
             thing = {
               name: person.name,
               title: person.title,
@@ -167,7 +186,7 @@ export default class Directory extends Component {
             thing = {
               name: person.name,
               title: person.title,
-              image: person.image,
+              image: image,
               tags: person.tags,
               upvotes: person.upvotes
             };
