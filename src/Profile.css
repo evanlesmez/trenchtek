@@ -3,7 +3,8 @@
 .header {
   text-align: center;
   font-size: 50px;
-  margin-bottom: -1px;
+  width: 90%;
+  /* margin-bottom: -1px; */
 }
 #sidefo {
   margin-top: 30%;
