@@ -214,7 +214,7 @@ class ThreadDisplay extends Component {
       <div>
         <div>
           <center>
-            <div class="directory-title">Chatroom</div>
+            <div class="directory-title">Forum</div>
           </center>
           {this.state.array.map(data => {
             return (
