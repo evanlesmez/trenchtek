@@ -316,66 +316,65 @@ export default class Challenges extends Component {
       <div>
         <center>
           <div class="directory-title">Challenges</div>
-          <Card style={{ width: "85%" }}>
-            <div>
-              {this.state.challenges.map((item, index) => {
-                return (
-                  <div>
-                    <br />
-                    <Collapse>
-                      <Panel
-                        header={
-                          <div className="panelheader">
-                            {" "}
-                            {item.name}
-                            <div className="chaldelete">
-                              Due: {item.duedate} {"     "}
-                              {this.state.userTitle === "Admin" ? (
-                                <Button
-                                  size="small"
-                                  onClick={e =>
-                                    this.deletechal(e, item.id, item.name)
-                                  }
-                                >
-                                  <Icon type="delete" />
-                                </Button>
-                              ) : null}
-                            </div>
+
+          <div>
+            {this.state.challenges.map((item, index) => {
+              return (
+                <div>
+                  <br />
+                  <Collapse style={{ width: "85%" }}>
+                    <Panel
+                      header={
+                        <div className="panelheader">
+                          {" "}
+                          {item.name}
+                          <div className="chaldelete">
+                            Due: {item.duedate} {"     "}
+                            {this.state.userTitle === "Admin" ? (
+                              <Button
+                                size="small"
+                                onClick={e =>
+                                  this.deletechal(e, item.id, item.name)
+                                }
+                              >
+                                <Icon type="delete" />
+                              </Button>
+                            ) : null}
                           </div>
-                        }
-                      >
-                        <div className="chalinfo">
-                          <p id="chalbold">Details: </p>
-                          {item.details}
                         </div>
-                        <br />
-                        <div className="chalinfo">
-                          <p id="chalbold">Due date: </p>
-                          {item.duedate}
-                        </div>
-                        <Button onClick={() => this.addSubmit(item)}>
-                          Add Submission
-                        </Button>
-                        <Button onClick={() => this.viewSubmit(item, index)}>
-                          View Submissions
-                        </Button>
-                      </Panel>
-                    </Collapse>
-                  </div>
-                );
-              })}
-            </div>
-            <br />
-            {this.state.userTitle === "Admin" ? (
-              <Button
-                size="large"
-                type="primary"
-                shape="circle"
-                icon="plus"
-                onClick={this.addChal}
-              />
-            ) : null}
-          </Card>
+                      }
+                    >
+                      <div className="chalinfo">
+                        <p id="chalbold">Details: </p>
+                        {item.details}
+                      </div>
+                      <br />
+                      <div className="chalinfo">
+                        <p id="chalbold">Due date: </p>
+                        {item.duedate}
+                      </div>
+                      <Button onClick={() => this.addSubmit(item)}>
+                        Add Submission
+                      </Button>
+                      <Button onClick={() => this.viewSubmit(item, index)}>
+                        View Submissions
+                      </Button>
+                    </Panel>
+                  </Collapse>
+                </div>
+              );
+            })}
+          </div>
+          <br />
+          {this.state.userTitle === "Admin" ? (
+            <Button
+              size="large"
+              type="primary"
+              shape="circle"
+              icon="plus"
+              onClick={this.addChal}
+            />
+          ) : null}
         </center>
       </div>
     );
