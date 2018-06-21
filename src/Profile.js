@@ -156,7 +156,7 @@ export default class Profile extends Component {
       
       linksPart = <div>
               <p>
-                Contact: <a href= {this.state.email}> {this.state.email}</a>
+                <strong> Contact: </strong><a href= {this.state.email}> {this.state.email}</a>
               </p> 
               <span>
              <a href={this.state.github}> <Icon type= "github"/></a>
@@ -181,15 +181,16 @@ export default class Profile extends Component {
 
       newSkill = (
         <div>
-          <TextArea
-            name="newSkill"
+          <Input
+            name= "newSkill"
             type="text"
-            pattern="[A-Za-z]{0-9}{15}"
+            pattern="[A-Za-z]{0-9}"
+            maxLength="10"
             placeholder="#New skill"
             onChange={e => this.handleChange(e)}
             value={this.state.newSkill}
-            autosize
-          />
+            width= "10"
+          /> 
           <Icon
             id="smallicon"
             type="plus-circle"
@@ -218,6 +219,8 @@ export default class Profile extends Component {
               placeholder="github"
               value={this.state.github}
               onChange={e => this.handleChange(e)}
+              pattern="https?://.+"
+              title="Include http://"
               autosize
             />{" "}
             <Icon type="linkedin" />
@@ -227,6 +230,9 @@ export default class Profile extends Component {
               name="LinkedIn"
               value={this.state.LinkedIn}
               onChange={e => this.handleChange(e)}
+              pattern="https?://.+"
+              title="Include http://"
+              required
               autosize
             />
           </span>
@@ -319,7 +325,11 @@ export default class Profile extends Component {
                     {newSkill}
                   </div>
                   {linksPart}
+                  <div style={{"margin-top": "30px"}}>
+                  <strong> You have </strong> {this.state.upvotes} <Icon type="like" />
+                  </div>
                 </div>
+                
               </Col>
             </Row>
           </div>
