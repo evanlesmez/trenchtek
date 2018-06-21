@@ -9,6 +9,9 @@ import { Button, Menu, Dropdown, Icon } from "antd";
 const { Meta } = Card;
 let useremail = null;
 let userinfo = null;
+let storageRef = firebase.storage().ref("images/");
+let dBase = firebase.database();
+
 class ThreadDisplay extends Component {
   constructor(props) {
     super(props);
@@ -20,85 +23,107 @@ class ThreadDisplay extends Component {
       currentUser: ""
     };
   }
-
   addPost(newPostBody, newUpvotes) {
     const newState = Object.assign({}, this.state);
     let list = firebase.database().ref("/users");
     let thing = {};
+    let count = 0;
+    let image = "testing";
+    var randomid = Math.floor(Math.random() * 20000000000);
+    var months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ];
+    var n = new Date();
+    if (parseInt(n.getHours()) >= 13) {
+      var time =
+        String(parseInt(n.getHours()) - 12) +
+        ":" +
+        (String(n.getMinutes()).length == 1
+          ? "0" + n.getMinutes() + "PM"
+          : n.getMinutes() + "PM");
+    } else if (parseInt(n.getHours()) >= 1 && parseInt(n.getHours()) <= 11) {
+      var time =
+        n.getHours() +
+        ":" +
+        (String(n.getMinutes()).length == 1
+          ? "0" + n.getMinutes() + "AM"
+          : n.getMinutes() + "AM");
+    } else if (parseInt(n.getHours()) == 12) {
+      var time =
+        n.getHours() +
+        ":" +
+        (String(n.getMinutes()).length == 1
+          ? "0" + n.getMinutes() + "PM"
+          : n.getMinutes() + "PM");
+    } else if (parseInt(n.getHours()) == 0) {
+      var time =
+        "12:" +
+        (String(n.getMinutes()).length == 1
+          ? "0" + n.getMinutes() + "AM"
+          : n.getMinutes() + "AM");
+    }
+    var date =
+      months[n.getMonth()] +
+      " " +
+      (String(n.getDate()).length == 1 ? "0" + n.getDate() : n.getDate()) +
+      ", " +
+      String(n.getFullYear()) +
+      " " +
+      String(time) +
+      "";
+
     list.on("value", snapshot => {
       let objects = snapshot.val();
       for (let obj in objects) {
         if (objects[obj].email == useremail) {
           thing = objects[obj];
+          dBase.ref(obj).on("value", snapshot => {
+            storageRef
+              .child("users/" + obj)
+              .getDownloadURL()
+              .then(url => {
+                var object = {
+                  posts: newPostBody,
+                  upvotes: newUpvotes,
+                  currentUser: thing,
+                  id: randomid,
+                  date: date,
+                  usersLiked: [""],
+                  image: url
+                };
+                this.state.array.push(object);
+                let adder = firebase.database().ref("/posts");
+                adder.push(object);
+              })
+              .catch(function(error) {
+                var object = {
+                  posts: newPostBody,
+                  upvotes: newUpvotes,
+                  currentUser: thing,
+                  id: randomid,
+                  date: date,
+                  usersLiked: [""],
+                  image: "https://i.stack.imgur.com/34AD2.jpg"
+                };
+                this.state.array.push(object);
+                let adder = firebase.database().ref("/posts");
+                adder.push(object);
+              });
+          });
+          break;
         }
       }
-
-      var randomid = Math.floor(Math.random() * 20000000000);
-
-      var months = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec"
-      ];
-      var n = new Date();
-      if (parseInt(n.getHours()) >= 13) {
-        var time =
-          String(parseInt(n.getHours()) - 12) +
-          ":" +
-          (String(n.getMinutes()).length == 1
-            ? "0" + n.getMinutes() + "PM"
-            : n.getMinutes() + "PM");
-      } else if (parseInt(n.getHours()) >= 1 && parseInt(n.getHours()) <= 11) {
-        var time =
-          n.getHours() +
-          ":" +
-          (String(n.getMinutes()).length == 1
-            ? "0" + n.getMinutes() + "AM"
-            : n.getMinutes() + "AM");
-      } else if (parseInt(n.getHours()) == 12) {
-        var time =
-          n.getHours() +
-          ":" +
-          (String(n.getMinutes()).length == 1
-            ? "0" + n.getMinutes() + "PM"
-            : n.getMinutes() + "PM");
-      } else if (parseInt(n.getHours()) == 0) {
-        var time =
-          "12:" +
-          (String(n.getMinutes()).length == 1
-            ? "0" + n.getMinutes() + "AM"
-            : n.getMinutes() + "AM");
-      }
-      var date =
-        months[n.getMonth()] +
-        " " +
-        (String(n.getDate()).length == 1 ? "0" + n.getDate() : n.getDate()) +
-        ", " +
-        String(n.getFullYear()) +
-        " " +
-        String(time) +
-        "";
-
-      var object = {
-        posts: newPostBody,
-        upvotes: newUpvotes,
-        currentUser: thing,
-        id: randomid,
-        date: date,
-        usersLiked: [""]
-      };
-      this.state.array.push(object);
-      let adder = firebase.database().ref("/posts");
-      adder.push(object);
     });
   }
 
@@ -124,19 +149,19 @@ class ThreadDisplay extends Component {
     });
 
     if (self && !usersLiked.includes(useremail)) {
-      console.log(usersLiked);
+      //console.log(usersLiked);
       usersLiked.push(useremail);
-      console.log(usersLiked);
-      firebase
-        .database()
-        .ref("/posts/" + key)
-        .child("/upvotes")
-        .set(parseInt(currentUpvotes) + 1);
+      //console.log(usersLiked);
       firebase
         .database()
         .ref("/posts/" + key)
         .child("usersLiked")
-        .set(usersLiked);
+        .set(usersLiked); // && console.log(usersLiked);
+      firebase
+        .database()
+        .ref("/posts/" + key)
+        .child("/upvotes")
+        .set(parseInt(currentUpvotes) + 1); // && console.log(usersLiked);
     }
   }
 
@@ -146,7 +171,6 @@ class ThreadDisplay extends Component {
         useremail = user.email;
       }
     });
-
     let list = firebase.database().ref("/users");
     list.on("value", snapshot => {
       let objects = snapshot.val();
@@ -175,7 +199,8 @@ class ThreadDisplay extends Component {
             currentUser: objects[obj].currentUser,
             id: objects[obj].id,
             date: objects[obj].date,
-            usersLiked: objects[obj].usersLiked
+            usersLiked: objects[obj].usersLiked,
+            image: objects[obj].image
           };
           all.push(thing);
         }
@@ -188,15 +213,15 @@ class ThreadDisplay extends Component {
     return (
       <div>
         <div>
+          <center>
+            <div class="directory-title">Chatroom</div>
+          </center>
           {this.state.array.map(data => {
             return (
               <div className="post-body">
                 <div class="flexhorizontal">
                   <div class="flexvertical">
-                    <img
-                      class="image-cropper"
-                      src="https://i.stack.imgur.com/34AD2.jpg"
-                    />
+                    <img class="image-cropper" src={data.image} />
                     <center>
                       <div class="nametitle">
                         {data.currentUser.name}
@@ -229,6 +254,7 @@ class ThreadDisplay extends Component {
                     </Card>
                   </div>
                 </div>
+                <br />
               </div>
             );
           })}

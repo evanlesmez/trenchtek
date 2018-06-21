@@ -104,13 +104,14 @@ class TopbarUser extends Component {
                   <div className="topbar-tab">manage users</div>
                 </Link>
               </Menu.Item>
+
+              <Menu.Item key="/manage-site">
+                <Link to="/manage-site">
+                  <div className="topbar-tab">manage site</div>
+                </Link>
+              </Menu.Item>
             </Menu.SubMenu>
           ) : null}
-          <Menu.Item>
-            <Link to= "/searchprofiles">
-              <div className = "topbar-tab"> search profiles </div>
-              </Link>
-            </Menu.Item>
           <Button className="login-logout-button" type="danger" ghost>
             <Link to="/logout">
               <div className="topbar-tab">logout</div>

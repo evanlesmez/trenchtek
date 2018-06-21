@@ -15,8 +15,8 @@ export default class Profilehandler extends Component {
       position: "",
       aboutMe: "",
       skills: [],
-      github: "", 
-      email: "", 
+      github: "",
+      email: "",
       LinkedIn: "",
       profURL:
         "http://www.aminariana.com/assets/placeholders/avatar-39c4f0720c0b9f829e3dc8b644228be492ea900026f4057974840d54b149bb5d.png",
@@ -24,10 +24,9 @@ export default class Profilehandler extends Component {
       upvotes: "",
     };
   }
-  
+
   fireReadProfile = userID => {
-   dBase.ref(userID)
-    .on("value", snapshot => {
+    dBase.ref(userID).on("value", snapshot => {
       let userData;
       storageRef.child(userID)
       .getDownloadURL().then( url => {
@@ -51,20 +50,21 @@ export default class Profilehandler extends Component {
   });
     }
 
-  componentWillMount(){ // MY HERO
-    if(this.props.uidString != ""){
-    this.fireReadProfile(this.props.uidString);
-  }else{
-    firebase.auth().onAuthStateChanged((user) => {
-      if(user) {
-        let userKey = user.uid;
-        let userIDString = "users/" + userKey;
+  componentWillMount() {
+    // MY HERO
+    if (this.props.uidString != "") {
+      this.fireReadProfile(this.props.uidString);
+    } else {
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          let userKey = user.uid;
+          let userIDString = "users/" + userKey;
           this.fireReadProfile(userIDString);
-      }else{
-        console.log("You don't belong here")
-      };
-  });
-};
+        } else {
+          console.log("You don't belong here");
+        }
+      });
+    }
   }
   render() {
     console.log(this.state);
