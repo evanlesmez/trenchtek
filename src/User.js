@@ -299,8 +299,8 @@ export default class User extends Component {
     // returns list of users
     return (
       <div>
-        <br />
         <center>
+          <div class="directory-title">Manage Users</div>
           <div className="selectusers">
             Display:{" "}
             <Select

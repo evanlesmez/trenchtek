@@ -314,9 +314,9 @@ export default class Challenges extends Component {
     }
     return (
       <div>
-        <br />
         <center>
-          <Card title="Challenges" style={{ width: "85%" }}>
+          <div class="directory-title">Challenges</div>
+          <Card style={{ width: "85%" }}>
             <div>
               {this.state.challenges.map((item, index) => {
                 return (

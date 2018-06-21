@@ -160,6 +160,9 @@ body {
   text-align: center;
 }
 
+.resourcesdiv {
+  width: 80%;
+}
 #contracts-bold {
   font-weight: bold;
 }
@@ -167,8 +170,8 @@ body {
 .directory-title {
   margin-top: 25px;
   margin-bottom: 25px;
-  font-size: 300%;
-  font-weight: bold;
+  font-size: 270%;
+  font-family: "PT Sans", sans-serif;
 }
 
 .sort-button {
@@ -177,18 +180,22 @@ body {
 
 .name-text {
   font-size: 150%;
-  font-weight: bold;
+  font-family: "PT Sans", sans-serif;
   color: rgb(95, 95, 95);
 }
-
+.ant-input-search-button.ant-btn-primary {
+  background-color: #9ebed6;
+  border-color: #9ebed6;
+}
 .big-text {
   font-size: 120%;
+  font-family: "PT Sans", sans-serif;
   display: inline;
   margin-left: 10px;
 }
 
 .bigger-text {
   font-size: 130%;
-  font-weight: bold;
+  font-family: "PT Sans", sans-serif;
   display: inline;
 }

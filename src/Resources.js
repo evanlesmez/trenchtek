@@ -155,51 +155,49 @@ class Resources extends Component {
     return (
       <div>
         <center>
-          <br />
-          <Card title="Resources" style={{ width: 720 }}>
-            {this.state.resources.map(resource => {
-              return (
-                <div>
-                  <Card
-                    title={resource.description}
-                    extra={
-                      this.state.userTitle === "Admin" ? (
-                        <div className="chaldelete">
-                          <Button
-                            size="small"
-                            onClick={e =>
-                              this.removeResource(
-                                e,
-                                resource.id,
-                                resource.description
-                              )
-                            }
-                          >
-                            <Icon type="delete" />
-                          </Button>
-                        </div>
-                      ) : null
-                    }
-                    style={{ width: "95%" }}
-                  >
-                    <a href={resource.url} target="_blank">
-                      {resource.url}
-                    </a>
-                  </Card>
-                  <br />
-                </div>
-              );
-            })}
-            {this.state.userTitle === "Admin" ? (
-              <Button
-                size="large"
-                type="primary"
-                shape="circle"
-                icon="plus"
-                onClick={this.handleAddResourceClick}
-              />
-            ) : null}
-          </Card>
+          <div class="directory-title">Resources</div>
+          {this.state.resources.map(resource => {
+            return (
+              <div className="resourcesdiv">
+                <Card
+                  title={resource.description}
+                  extra={
+                    this.state.userTitle === "Admin" ? (
+                      <div className="chaldelete">
+                        <Button
+                          size="small"
+                          onClick={e =>
+                            this.removeResource(
+                              e,
+                              resource.id,
+                              resource.description
+                            )
+                          }
+                        >
+                          <Icon type="delete" />
+                        </Button>
+                      </div>
+                    ) : null
+                  }
+                  style={{ width: "95%" }}
+                >
+                  <a href={resource.url} target="_blank">
+                    {resource.url}
+                  </a>
+                </Card>
+                <br />
+              </div>
+            );
+          })}
+          {this.state.userTitle === "Admin" ? (
+            <Button
+              size="large"
+              type="primary"
+              shape="circle"
+              icon="plus"
+              onClick={this.handleAddResourceClick}
+            />
+          ) : null}
         </center>
       </div>
     );
