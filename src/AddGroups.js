@@ -101,24 +101,30 @@ export default class AddGroups extends Component {
   };
 
   submitGroup = () => {
-    let tempGroup = this.state.groups;
-    tempGroup.push(newGroup);
-    this.setState({
-      groups: tempGroup,
-      groupForm: null,
-      [newGroup + "Tasks"]: [{ name: "default", type: "uncompleted" }],
-      [newGroup + "Users"]: newUsers
-    });
-    groupRef
-      .child(newGroup)
-      .child("tasks")
-      .push({ name: "default", type: "uncompleted" });
-    groupRef
-      .child(newGroup)
-      .child("users")
-      .set(newUsers);
-    newGroup = null;
-    newUsers = null;
+    if (newGroup === null || newUsers.length === 0) {
+      alert("Please enter a group name and users!");
+      return false;
+    } else {
+      let tempGroup = this.state.groups;
+      tempGroup.push(newGroup);
+      this.setState({
+        groups: tempGroup,
+        groupForm: null,
+        [newGroup + "Tasks"]: [{ name: "default", type: "uncompleted" }],
+        [newGroup + "Users"]: newUsers
+      });
+      groupRef
+        .child(newGroup)
+        .child("tasks")
+        .push({ name: "default", type: "uncompleted" });
+      groupRef
+        .child(newGroup)
+        .child("users")
+        .set(newUsers);
+      newGroup = null;
+      newUsers = null;
+      return true;
+    }
   };
 
   submitPersonal = () => {
@@ -158,7 +164,7 @@ export default class AddGroups extends Component {
         <Row>
           <Col span={6}>
             <Card>
-              <Form onSubmit={this.submitGroup}>
+              <Form>
                 <FormItem label="new group name">
                   <Input onChange={this.handleGroupChange} />
                 </FormItem>
@@ -166,9 +172,16 @@ export default class AddGroups extends Component {
                   <Input onChange={this.handleUserChange} />
                 </FormItem>
                 <FormItem>
-                  <Button type="primary" htmlType="submit">
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    onClick={this.submitGroup}
+                  >
                     Submit
                   </Button>
+                </FormItem>
+                <FormItem>
+                  <Button onClick={this.handleCancel}>Cancel</Button>
                 </FormItem>
               </Form>
             </Card>
@@ -176,6 +189,10 @@ export default class AddGroups extends Component {
         </Row>
       )
     });
+  };
+
+  handleCancel = () => {
+    this.setState({ groupForm: null });
   };
 
   render() {
