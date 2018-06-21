@@ -23,34 +23,48 @@ export default class Profilehandler extends Component {
       uidString: this.props.uidString
     };
   }
+  
+  fireReadProfile = userID => {
+   dBase.ref(userID)
+    .on("value", snapshot => {
+      let userData;
+      storageRef.child(userID)
+      .getDownloadURL().then( url => {
+        this.setState({profURL: url});
+    })
+    .catch(function(error) {
+    }).then(
+  userData = snapshot.val(),
+  this.setState({
+    email: userData.email,
+    github: userData.github,
+    skills: userData.tags,
+    name: userData.name,
+    position: userData.position,
+    aboutMe: userData.about,
+    title: userData.title,
+    LinkedIn: userData.linkedIn,
+    }));
+  });
+    }
 
   componentWillMount(){ // MY HERO
     if(this.props.uidString != ""){
-    console.log(this.props.uidString);
-    dBase.ref(this.props.uidString)
-    .on("value", snapshot => {
-      storageRef.child(this.props.uidString)
-          .getDownloadURL().then( url => {
-            this.setState({profURL: url});
-            
-        })
-        .catch(function(error) {
-        });
-      let userData = snapshot.val()
-      this.setState({
-        email: userData.email,
-        github: userData.github,
-        skills: userData.tags,
-        name: userData.name,
-        position: userData.position,
-        aboutMe: userData.about,
-        title: userData.title,
-        LinkedIn: userData.linkedIn
-      });
-    });
-  }
+    this.fireReadProfile(this.props.uidString);
+  }else{
+    firebase.auth().onAuthStateChanged((user) => {
+      if(user) {
+        let userKey = user.uid;
+        let userIDString = "users/" + userKey;
+          this.fireReadProfile(userIDString);
+      }else{
+        console.log("You don't belong here")
+      };
+  });
+};
   }
   render() {
+    console.log(this.state);
     return (
       <div>
         <Profile {...this.state} />
