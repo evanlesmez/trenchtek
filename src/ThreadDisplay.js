@@ -149,19 +149,19 @@ class ThreadDisplay extends Component {
     });
 
     if (self && !usersLiked.includes(useremail)) {
-      console.log(usersLiked);
+      //console.log(usersLiked);
       usersLiked.push(useremail);
-      console.log(usersLiked);
-      firebase
-        .database()
-        .ref("/posts/" + key)
-        .child("/upvotes")
-        .set(parseInt(currentUpvotes) + 1);
+      //console.log(usersLiked);
       firebase
         .database()
         .ref("/posts/" + key)
         .child("usersLiked")
-        .set(usersLiked);
+        .set(usersLiked); // && console.log(usersLiked);
+      firebase
+        .database()
+        .ref("/posts/" + key)
+        .child("/upvotes")
+        .set(parseInt(currentUpvotes) + 1); // && console.log(usersLiked);
     }
   }
 
