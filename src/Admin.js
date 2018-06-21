@@ -11,7 +11,12 @@ export default class Admin extends Component {
       dataFromApproved: [],
       dataFromRejected: [],
       contractsToView: "pending",
-      editMode: false
+      editMode: false,
+      companyName: "",
+      jobTimeframe: "",
+      specialSkills: "",
+      additionalDetails: "",
+      companyEmail: ""
     };
   }
 
@@ -26,6 +31,20 @@ export default class Admin extends Component {
     this.setState({
       editMode: true
     });
+    firebase
+      .database()
+      .ref(`${this.state.contractsToView}CompanyContracts`)
+      .child(e.target.className)
+      .on("value", snapshot => {
+        console.log(snapshot.val());
+        this.setState({
+          companyName: snapshot.val().companyName,
+          jobTimeframe: snapshot.val().jobTimeframe,
+          specialSkills: snapshot.val().specialSkills,
+          additionalDetails: snapshot.val().additionalDetails,
+          companyEmail: snapshot.val().companyEmail
+        });
+      });
   };
 
   handleSubmitChangesClick = e => {
@@ -166,7 +185,12 @@ export default class Admin extends Component {
           <div>
             <center>
               <br />
-              <Card title="Edit Contract: xxx" style={{ width: 600 }}>
+              <Card
+                title={`Edit ${this.state.contractsToView} Contract: ${
+                  this.state.companyName
+                }`}
+                style={{ width: 600 }}
+              >
                 <Form layout="vertical" className="login-form">
                   <Form.Item label="Company Name:">
                     <Input
@@ -241,12 +265,13 @@ export default class Admin extends Component {
                       {item.arrayData.companyName}
                     </div>
                     <div className="contracts-edit-button">
-                      <Button
+                      <button
                         size="small"
+                        className={item.id}
                         onClick={e => this.handleEditClick(e)}
                       >
-                        <Icon type="edit" />
-                      </Button>
+                        EDIT
+                      </button>
                     </div>
                   </div>
                 }
@@ -298,7 +323,7 @@ export default class Admin extends Component {
           <center>
             <div style={{ display: "inline" }}>Display: </div>
             <Select
-              defaultValue="pending"
+              defaultValue={this.state.contractsToView}
               onChange={value => {
                 this.handleViewChange(value);
               }}
