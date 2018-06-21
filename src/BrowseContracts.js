@@ -8,7 +8,8 @@ export default class BrowseContracts extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataFromDatabase: []
+      dataFromDatabase: [],
+      biddingUserName: ""
     };
   }
 
@@ -28,7 +29,33 @@ export default class BrowseContracts extends Component {
   }
 
   bidOnContract(e) {
-    console.log("Successfully badened on a contract");
+    let contractID = e.target.id
+    let database = firebase.database();
+    let eventContract = database
+      .ref("approvedCompanyContracts")
+      .child(e.target.name);
+
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        console.log(user);
+        let userKey = user.uid;
+        let userIDString = "/users/" + userKey;
+        let database = firebase.database().ref(userIDString);
+        console.log(userIDString);
+        //console.log(userIDString);
+        database.on("value", snapshot => {
+          //console.log(snapshot.val());
+          let newNameState = snapshot.val().name;
+          //console.log(newTitleState);
+          this.setState({
+            biddingUserName: newNameState
+          });
+      eventContract.child("BiddingUsers").push(newNameState);
+        });
+      } else {
+        console.log("else statment from bowser");
+      }
+    });
   }
 
   render() {
@@ -50,6 +77,7 @@ export default class BrowseContracts extends Component {
               {item.arrayData.additionalDetails} <br /> <br />
               <center>
                 <Button
+                  name = {item.id}
                   className={item.id}
                   onClick={e => this.bidOnContract(e)}
                 >

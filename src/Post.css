@@ -49,6 +49,7 @@
   border-radius: 50%;
 }
 .directory-image {
+  overflow: hidden;
   width: 100px;
   height: 100px;
   position: relative;
