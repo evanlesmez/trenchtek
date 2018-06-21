@@ -1,12 +1,24 @@
 import React, { Component } from "react";
-import { Button, Input, Menu, Dropdown, Checkbox, Card, Tag, Icon } from "antd";
+import {
+  Button,
+  Select,
+  Input,
+  Menu,
+  Dropdown,
+  Checkbox,
+  Card,
+  Tag,
+  Icon
+} from "antd";
 
 import firebase from "./Firebase";
 import "./Post.css";
 
+let storageRef = firebase.storage().ref("images/");
+let dBase = firebase.database();
 const CheckboxGroup = Checkbox.Group;
 const Search = Input.Search;
-const plainOptions = ["Intern", "Alumni", "Senior Developers", "Admin"];
+const plainOptions = ["Intern", "Alumni", "Admin"];
 const { Meta } = Card;
 const { CheckableTag } = Tag;
 
@@ -24,35 +36,9 @@ export default class Directory extends Component {
       sortByTag: false
     };
   }
-  menu2 = () => {
-    return (
-      <div>
-        <Menu
-          key="None"
-          onClick={e => this.allowNoneSort(e)}
-          selectable={false}
-        >
-          <Menu.Item>None</Menu.Item>
-        </Menu>
-        <Menu
-          key="Upvotes"
-          onClick={e => this.allowUpvoteSort(e)}
-          selectable={false}
-        >
-          <Menu.Item>Upvotes</Menu.Item>
-        </Menu>
-        <Menu
-          key="Name"
-          onClick={e => this.allowNameSort(e)}
-          selectable={false}
-        >
-          <Menu.Item>Name</Menu.Item>
-        </Menu>
-        <Menu key="Tags" onClick={e => this.allowTagSort(e)} selectable={false}>
-          <Menu.Item>#ofTags</Menu.Item>
-        </Menu>
-      </div>
-    );
+  handleClose = (removedTag, info) => {
+    console.log(removedTag);
+    console.log(info);
   };
   allowUpvoteSort = e => {
     this.setState({ sortByUpvote: true });
@@ -108,6 +94,9 @@ export default class Directory extends Component {
       let thing = {};
       let array2 = [];
       var person;
+      let image;
+      let boolean = false;
+
       for (let obj in objects) {
         person = objects[obj];
         if (this.state.checkedList.includes(person.title)) {
@@ -127,13 +116,27 @@ export default class Directory extends Component {
           //  delete tag[i];
           //}
         }
+        ///////////////////////
+        ///Retrieving Image////
+        ///////////////////////
+        dBase.ref(obj).on("value", snapshot => {
+          let userData;
+          storageRef
+            .child(obj)
+            .getDownloadURL()
+            .then(url => {
+              image = url;
+              boolean = true;
+            })
+            .catch(function(error) {});
+        });
 
         var name = person.name.toLowerCase();
         if (
           v.indexOf("#") != -1 &&
           tag.includes(v.toLowerCase().substring(1))
         ) {
-          if (person.image === "") {
+          if (!boolean) {
             thing = {
               name: person.name,
               title: person.title,
@@ -145,14 +148,14 @@ export default class Directory extends Component {
             thing = {
               name: person.name,
               title: person.title,
-              image: person.image,
+              image: image,
               tags: person.tags,
               upvotes: person.upvotes
             };
           }
           array.push(thing);
         } else if (v.indexOf("#") == -1 && name.includes(v.toLowerCase())) {
-          if (person.image === "")
+          if (!boolean)
             thing = {
               name: person.name,
               title: person.title,
@@ -164,14 +167,14 @@ export default class Directory extends Component {
             thing = {
               name: person.name,
               title: person.title,
-              image: person.image,
+              image: image,
               tags: person.tags,
               upvotes: person.upvotes
             };
           }
           array.push(thing);
         } else if (v == "") {
-          if (person.image == "") {
+          if (!boolean) {
             thing = {
               name: person.name,
               title: person.title,
@@ -183,7 +186,7 @@ export default class Directory extends Component {
             thing = {
               name: person.name,
               title: person.title,
-              image: person.image,
+              image: image,
               tags: person.tags,
               upvotes: person.upvotes
             };
@@ -211,7 +214,6 @@ export default class Directory extends Component {
           );
         });
       }
-
       this.setState({ array: array });
     });
   };
@@ -289,126 +291,93 @@ export default class Directory extends Component {
     });
   }
   render() {
-    if (this.state.default === true) {
-      return (
-        <div>
-          <div class="flexhorizontal2">
-            <h1>
-              The Directory
-              <Icon type="book" style={{ fontSize: 40, color: "black" }} />
-            </h1>
-          </div>
-          <div class="margin2">
+    return (
+      <div>
+        <center>
+          <div class="directory-title">Directory</div>
+          <div>
             <Search
-              placeholder="Type in name, (#)tag , or blank for all users"
+              placeholder="Enter name or #tag"
               onSearch={value => {
                 this.searchResult(value);
               }}
               style={{ width: 400 }}
               enterButton
             />
-            <Dropdown overlay={this.menu2()} trigger={["click"]}>
-              <a className="ant-dropdown-link" href="#">
-                Sort by <Icon type="down" />
-              </a>
-            </Dropdown>
-          </div>
-          <center>
-            <div>
-              <Checkbox
-                indeterminate={this.state.indeterminate}
-                onChange={this.onCheckAllChange}
-                checked={this.state.checkAll}
-              >
-                Check all
-              </Checkbox>
-            </div>
-            <br />
-            <CheckboxGroup
-              options={plainOptions}
-              value={this.state.checkedList}
-              onChange={this.onChange}
-            />
-            <br />
-            <br />
-            <br />
 
-            {this.state.array.map(user => (
+            <Select
+              defaultValue="Sort By"
+              style={{ width: 100 }}
+              className="sort-button"
+            >
+              <Select.Option value="None" onClick={e => this.allowNoneSort(e)}>
+                None
+              </Select.Option>
+              <Select.Option
+                value="Upvotes"
+                onClick={e => this.allowUpvoteSort(e)}
+              >
+                Upvotes
+              </Select.Option>
+              <Select.Option value="Name" onClick={e => this.allowNameSort(e)}>
+                Name
+              </Select.Option>
+              <Select.Option
+                value="#ofTags"
+                onClick={e => this.allowTagSort(e)}
+              >
+                #ofTags
+              </Select.Option>
+            </Select>
+          </div>
+          <br />
+          <CheckboxGroup
+            options={plainOptions}
+            value={this.state.checkedList}
+            onChange={this.onChange}
+          />
+          <Checkbox
+            onChange={this.onCheckAllChange}
+            checked={this.state.checkAll}
+          >
+            Check All
+          </Checkbox>
+          <br />
+          <br />
+          <br />
+          {this.state.array.map(user => (
+            <div>
               <div>
-                <div class="border">
-                  <div class="username">User: {user.name}</div>
-                  <Card hoverable style={{ width: 500, maxHeight: 1000 }}>
-                    <div class="flexhorizontal">
-                      <img class="directory-image" src={user.image} />
-                      <div class="indent">
-                        <h3>
-                          Title:{" "}
+                <Card
+                  style={{ width: 500, maxHeight: 1000 }}
+                  title={<div className="name-text">{user.name}</div>}
+                >
+                  <div class="flexhorizontal">
+                    <img class="directory-image" src={user.image} />
+                    <div class="indent">
+                      <div>
+                        <div className="bigger-text">{"  "}Title: </div>
+                        <div className="big-text">
                           {user.title.substring(0, 1).toUpperCase() +
                             user.title.substring(1)}
-                        </h3>
-                        <h3>Upvotes: {user.upvotes}</h3>
+                        </div>
+                      </div>
+                      <div>
+                        <div className="bigger-text">Upvotes: </div>
+                        <div className="big-text">{user.upvotes}</div>
                       </div>
                     </div>
-                  </Card>
-                  <div class="tags">
-                    {user.tags.map(t => <Tag color="blue">{t}</Tag>)}
                   </div>
+                </Card>
+                <div class="tags">
+                  {user.tags.map(t => <Tag color="blue">{t}</Tag>)}
                 </div>
-                <br />
               </div>
-            ))}
-          </center>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <div class="flexhorizontal2">
-            <h1>
-              The Directory<Icon
-                type="book"
-                style={{ fontSize: 40, color: "black" }}
-              />
-            </h1>
-          </div>
-          <div class="margin2">
-            <Search
-              placeholder="Type in name, (#)tag , or blank for all users"
-              onSearch={value => {
-                this.searchResult(value);
-              }}
-              style={{ width: 400 }}
-              enterButton
-            />
-
-            <Dropdown overlay={this.menu2()} trigger={["click"]}>
-              <a className="ant-dropdown-link" href="#">
-                Sort by <Icon type="down" />
-              </a>
-            </Dropdown>
-          </div>
-          <center>
-            <div>
-              <Checkbox
-                indeterminate={this.state.indeterminate}
-                onChange={this.onCheckAllChange}
-                checked={this.state.checkAll}
-              >
-                Check all
-              </Checkbox>
+              <br />
             </div>
-            <br />
-            <CheckboxGroup
-              options={plainOptions}
-              value={this.state.checkedList}
-              onChange={this.onChange}
-            />
-            <br />
-            <br />
-            <br />
-          </center>
-        </div>
-      );
-    }
+          ))}
+        </center>
+      </div>
+    );
   }
 }

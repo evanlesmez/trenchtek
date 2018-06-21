@@ -5,7 +5,7 @@ import "./App.css";
 const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 const chalRef = firebase.database().ref("challenges");
 const activeRef = firebase.database().ref("challenges/ative");
-const pastRef = firebase.database().ref("challenges/completed")
+const pastRef = firebase.database().ref("challenges/completed");
 const Panel = Collapse.Panel;
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -20,7 +20,16 @@ export default class Challenges extends Component {
       duedate: "",
       isAdd: false,
       userTitle: props.userTitle,
-      gitRepo: ""
+      gitRepo: "",
+      submitchal: false,
+      itemToSubmit: "",
+      nameOfUser: "",
+      url: "",
+      comments: "",
+      submissions: [],
+      submissionsToView: [],
+      viewSubmissions: false,
+      indexToView: ""
     };
   }
 
@@ -31,12 +40,14 @@ export default class Challenges extends Component {
         let namet = child.val().name;
         let detailst = child.val().details;
         let duedatet = child.val().duedate;
+        let submissions = child.val().submissions;
         let key = child.key;
         challengest.push({
           name: namet,
           details: detailst,
           duedate: duedatet,
-          id: key
+          id: key,
+          submissions: submissions
         });
       });
       challengest.sort(function(b, a) {
@@ -60,7 +71,7 @@ export default class Challenges extends Component {
 
   cancelbut = e => {
     e.preventDefault;
-    this.setState({ isAdd: false });
+    this.setState({ isAdd: false, submitchal: false, viewSubmissions: false });
   };
 
   submitChal = e => {
@@ -68,12 +79,14 @@ export default class Challenges extends Component {
     let obj = {
       name: this.state.name,
       details: this.state.details,
-      duedate: this.state.duedate
+      duedate: this.state.duedate,
+      submissions: [" "]
     };
     let newPostKey = chalRef.push().key;
     let updates = {};
     updates[newPostKey] = obj;
-    this.setState({ name: "", details: "", duedate: "", isAdd: false });
+    this.setState({ name: "", details: "", duedate: "" });
+    alert("Challenge submitted!");
     return chalRef.update(updates);
   };
 
@@ -90,8 +103,52 @@ export default class Challenges extends Component {
       challengeToDelete.remove();
     }
   };
+  addSubmit = item => {
+    this.setState({
+      ...this.state,
+      submitchal: true,
+      itemToSubmit: item
+    });
+  };
 
+  userSubmit = e => {
+    e.preventDefault();
+    let array = this.state.itemToSubmit.submissions;
+    let obj = {
+      userName: this.state.nameOfUser,
+      github: this.state.url,
+      comments: this.state.comments
+    };
+    array.push(obj);
+    firebase
+      .database()
+      .ref("challenges/" + this.state.itemToSubmit.id)
+      .child("submissions")
+      .set(array);
+    this.setState({
+      nameOfUser: "",
+      url: "",
+      comments: "",
+      itemToSubmit: ""
+    });
+    alert("Challenge submitted!");
+  };
+  viewSubmit = (item, index) => {
+    let view = [];
+    firebase
+      .database()
+      .ref("challenges/" + item.id)
+      .on("value", snapshot => {
+        view = snapshot.val().submissions;
+      });
+    this.setState({
+      submissionsToView: view,
+      viewSubmissions: true,
+      indexToView: index
+    });
+  };
   render() {
+    console.log(this.state);
     const formItemLayout = {
       labelCol: {
         xs: { span: 20 },
@@ -102,6 +159,105 @@ export default class Challenges extends Component {
         sm: { span: 1 }
       }
     };
+    if (this.state.viewSubmissions) {
+      return (
+        <div>
+          <br />
+          <center>
+            <Card
+              title={
+                "Submissions for Challenge: " +
+                this.state.challenges[this.state.indexToView].name
+              }
+              style={{ width: "85%" }}
+            >
+              <div>
+                {this.state.submissionsToView.map((submission, index) => {
+                  if (index != 0) {
+                    return (
+                      <div>
+                        <Card>
+                          <p>Name: {submission.userName}</p>
+                          <p>Comments: {submission.comments}</p>
+                          <a href={submission.github}>Github Repo</a>
+                        </Card>
+                        <br />
+                      </div>
+                    );
+                  }
+                })}
+              </div>
+            </Card>
+            <br />
+            <Button onClick={this.cancelbut}>Cancel</Button>
+          </center>
+        </div>
+      );
+    }
+    if (this.state.submitchal) {
+      return (
+        <div>
+          <br />
+          <center>
+            <Card
+              title={"Submit Challenge - " + this.state.itemToSubmit.name}
+              style={{ width: 600 }}
+            >
+              <Form onSubmit={this.submitChal}>
+                <center>
+                  <FormItem {...formItemLayout} label="Name">
+                    <div className="input">
+                      <Input
+                        value={this.state.nameOfUser}
+                        onChange={e => {
+                          this.handleChange(e, "nameOfUser");
+                        }}
+                      />
+                    </div>
+                  </FormItem>
+                  <FormItem {...formItemLayout} label="Link to GIT Repo">
+                    <div className="input">
+                      <Input
+                        value={this.state.url}
+                        onChange={e => {
+                          this.handleChange(e, "url");
+                        }}
+                      />
+                    </div>
+                  </FormItem>
+                  <FormItem {...formItemLayout} label="Comments">
+                    <div className="input">
+                      <TextArea
+                        value={this.state.comments}
+                        rows={8}
+                        onChange={e => {
+                          this.handleChange(e, "comments");
+                        }}
+                      />
+                    </div>
+                  </FormItem>
+                  <FormItem>
+                    <div>
+                      <Button
+                        onClick={e => {
+                          this.userSubmit(e);
+                        }}
+                        type="primary"
+                        htmlType="submit"
+                      >
+                        Submit
+                      </Button>
+                      {"              "}
+                      <Button onClick={this.cancelbut}>Cancel</Button>
+                    </div>
+                  </FormItem>
+                </center>
+              </Form>
+            </Card>
+          </center>
+        </div>
+      );
+    }
     if (this.state.isAdd) {
       return (
         <div>
@@ -113,6 +269,7 @@ export default class Challenges extends Component {
                   <FormItem {...formItemLayout} label="Name">
                     <div className="input">
                       <Input
+                        value={this.state.name}
                         onChange={e => {
                           this.handleChange(e, "name");
                         }}
@@ -123,6 +280,7 @@ export default class Challenges extends Component {
                     <div className="input">
                       <TextArea
                         rows={8}
+                        value={this.state.details}
                         onChange={e => {
                           this.handleChange(e, "details");
                         }}
@@ -160,7 +318,7 @@ export default class Challenges extends Component {
         <center>
           <Card title="Challenges" style={{ width: "85%" }}>
             <div>
-              {this.state.challenges.map(item => {
+              {this.state.challenges.map((item, index) => {
                 return (
                   <div>
                     <br />
@@ -195,6 +353,12 @@ export default class Challenges extends Component {
                           <p id="chalbold">Due date: </p>
                           {item.duedate}
                         </div>
+                        <Button onClick={() => this.addSubmit(item)}>
+                          Add Submission
+                        </Button>
+                        <Button onClick={() => this.viewSubmit(item, index)}>
+                          View Submissions
+                        </Button>
                       </Panel>
                     </Collapse>
                   </div>

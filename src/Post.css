@@ -5,7 +5,7 @@
   margin: 1em 12%;
 }
 .margin2 {
-  margin-left: 33%;
+  margin-left: 30%;
 }
 .flexhorizontal {
   display: flex;
@@ -42,14 +42,12 @@
   height: 60px;
   position: relative;
   border-radius: 50%;
-  border: 3px solid black;
 }
 .directory-image {
+  overflow: hidden;
   width: 100px;
   height: 100px;
   position: relative;
-  border-radius: 50%;
-  border: 3px solid black;
 }
 .username {
   width: 500px;
@@ -62,23 +60,21 @@
   padding-left: 10px;
 }
 .indent {
-  margin-left: 50px;
+  margin-top: 10px;
+  margin-left: 65px;
+  position: relative;
 }
 .tags {
   width: 500px;
   max-height: 300px;
   position: relative;
-  border: 1px solid rgb(180, 180, 180);
-  background-color: #d3d3d3;
+  border: 0.7px solid rgb(204, 204, 204);
+  background-color: #ffffff;
   color: #5a7191;
   padding: 10px;
 }
-.border {
-  width: 510px;
-  border: 5px solid rgb(180, 180, 180);
-}
+
 .card-style {
-  border-radius: 40%;
   width: 100px;
 }
 .space {

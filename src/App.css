@@ -21,6 +21,24 @@
   width: 30%;
 }
 
+.make-gray {
+  background-color: rgb(196, 210, 216);
+  border-radius: 10px;
+}
+
+.float-left {
+  float: left;
+}
+
+.rounded-corners {
+  border-radius: 10px;
+}
+
+.make-them-inline {
+  display: inline-block;
+  vertical-align: top;
+}
+
 .logo-button {
   font-size: 175%;
   font-family: "Arvo", sans-serif;
@@ -35,7 +53,7 @@
 }
 
 .inputtitle {
-  width: 65%;
+  width: 80%;
   height: auto;
   margin-left: 0%;
   display: inline-block;
@@ -50,11 +68,20 @@
   display: flex;
 }
 
-.headertitle {
-  display: block;
-  margin: 0 auto;
+.panelheader2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
+.panelheader.headertitle {
+  align-self: center;
+}
+
+.editbut {
+  position: absolute;
+  left: 400px;
+}
 .chalinfo {
   text-align: left;
 }
@@ -135,4 +162,33 @@ body {
 
 #contracts-bold {
   font-weight: bold;
+}
+
+.directory-title {
+  margin-top: 25px;
+  margin-bottom: 25px;
+  font-size: 300%;
+  font-weight: bold;
+}
+
+.sort-button {
+  margin-left: 10px;
+}
+
+.name-text {
+  font-size: 150%;
+  font-weight: bold;
+  color: rgb(95, 95, 95);
+}
+
+.big-text {
+  font-size: 120%;
+  display: inline;
+  margin-left: 10px;
+}
+
+.bigger-text {
+  font-size: 130%;
+  font-weight: bold;
+  display: inline;
 }

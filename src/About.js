@@ -3,18 +3,42 @@ import TopbarCompany from "./TopbarCompany.js";
 import "./About.css"
 import EditingForm from "./EditingForm"
 import { Button } from 'antd';
+import firebase from "./Firebase";
 
 export default class About extends Component {
 
+  constructor(props) {
+    super(props);
+  }
 
   state = {
-    history: "RevTek was founded by Mik Jagger in 1998. The mission of our company initially was to teach students living in empoverished areas the importance of computer science. Now, 20 years later, our mission of education remains, but is extended to anyone around the world. Our first company burn down in 2002, but thanks to the support of the community, we were able to gain our space once more and continue educating people of all ages.",
-    interns: "Our interns join our community in order to learn a skill of their interest. Of course, they are not merely given the information that they need to learn, but instead are given the necessary resources to search for the answers themselves. Then, in order for them to grasp the material, they are assigned individual and group projects. Our teaching process has been proved to be the most successful process, especially for software engineers",
-    companies: "Companies can visit this website and explore our Senior Developers and Instructors in full detail. Apart from that, companies can search fro skills they require for their contract and see how many people in our community posess such skill. Then, they may submit a contract through our website, which we were either approve or deny, depending on the skills it requires",
+    history: "",
+    interns: "",
+    companies: "",
     historyEdit: false,
     internsEdit: false,
     companiesEdit: false
   }
+
+  componentDidMount() {
+
+    const ref = firebase.database().ref('about/');
+    ref.on('value', (snapshot) => {
+      let about = snapshot.val();
+      let history = about.history;
+      let interns = about.interns;
+      let companies = about.companies;
+      let newState = [];
+
+      this.setState({
+        history: history,
+        interns: interns,
+        companies: companies
+
+      });
+    });
+  }
+
   handleEditH = () => {
 
     this.setState({
@@ -44,6 +68,11 @@ export default class About extends Component {
   }
 
   handlerH = (e) => {
+    const ref = firebase.database().ref('about/');
+    ref.update({
+      history: e.target.value
+    })
+
     this.setState(
       {
         history: e.target.value,
@@ -54,6 +83,10 @@ export default class About extends Component {
   }
 
   handlerI = (e) => {
+    const ref = firebase.database().ref('about/');
+    ref.update({
+      interns: e.target.value
+    })
     this.setState(
       {
         interns: e.target.value,
@@ -63,6 +96,10 @@ export default class About extends Component {
   }
 
   handlerC = (e) => {
+    const ref = firebase.database().ref('about/');
+    ref.update({
+      companies: e.target.value
+    })
     this.setState(
       {
         companies: e.target.value,
@@ -72,10 +109,25 @@ export default class About extends Component {
   }
   render() {
 
+    let ref = firebase.database().ref("about/");
 
+    ref.on("value", function (snapshot) {
+      console.log(snapshot.val().companies);
+    }, function (error) {
+      console.log("Error: " + error.code);
+    });
     let historyText = this.state.history;
     let internsText = this.state.interns;
     let companiesText = this.state.companies
+    // let edit = null;
+
+    // // if (this.props.userTitle === "admin") {
+    // edit = <p className="edit"
+    //   onClick={this.handleEditH}
+
+    // >  Edit</p>
+    // }
+
 
     if (this.state.historyEdit === true) {
       historyText = <EditingForm defaultValue={this.state.history} onPressEnter={(e) => this.handlerH(e)} />
@@ -115,13 +167,13 @@ export default class About extends Component {
           </div>
 
           <div id="companies">
-            <h1 className="historyTitle">Our <span>Companies</span></h1>
+            <h1 className="historyTitle2">Our <span className="word">Companies</span></h1>
             <div className="eliza">{companiesText}
             </div>
             <p className="edit"
               onClick={this.handleEditC}
 
-            > Edit </p>
+            >  Edit</p>
 
           </div>
 

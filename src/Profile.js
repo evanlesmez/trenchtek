@@ -30,20 +30,20 @@ export default class Profile extends Component {
       uidString: props.uidString
     }
   }
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps){ // Picture takes time to load oldschool lifecycle
     this.setState({
+      profURL: nextProps.profURL,
+      email: nextProps.email,
       github: nextProps.github,
       LinkedIn: nextProps.LinkedIn,
-      skills: nextProps.skills,
-      name: nextProps.name,
-      position: nextProps.position,
-      aboutMe: nextProps.aboutMe,
-      title: nextProps.title,
+      profURL: nextProps.profURL,
       uidString: nextProps.uidString,
-      email: nextProps.email,
-      profURL: nextProps.profURL
+      name: nextProps.name,
+      title: nextProps.title,
+      aboutMe: nextProps.aboutMe,
+      position: nextProps.position,
+      skills: nextProps.skills
     });
-    console.log(this.state.pro)
   }
 
   handleChange = (e) => { // handles changes in text entries
@@ -65,16 +65,20 @@ export default class Profile extends Component {
       editing: !this.state.editing,
       readmode: !this.state.readmode,
       inputclass:"inputfield"});
-      if(this.state.uidString !== ""){
+      if(this.state.uidString !== "" && this.state.uidString !== undefined){
+        let pos = this.state.position;
+        if(pos === undefined){  //Porblem with .update NEXT TIME DO FUNCTIONALITY FIRST!!!!
+          pos = "";
+        }
         dBase.ref(this.state.uidString)  // UPDATING FIREBASE HERE
           .update({
             name:this.state.name,
             tags:this.state.skills,
             email:this.state.email,
             github:this.state.github,
-            LinkedIn:this.state.LinkedIn,
+            linkedIn:this.state.LinkedIn,
             about: this.state.aboutMe,
-            position: this.state.position
+            position: pos
           });
       } else{
         console.log("Don't push b/c not in user!")
@@ -82,7 +86,7 @@ export default class Profile extends Component {
   }
 
   addClick = (e) =>{ //First array ever
-     if ((this.state.skills === undefined) || (this.state.skills === "")) {
+     if ((this.state.skills === undefined) && (this.state.skills === "")) {
       let firstSkills = [];
       firstSkills.push(this.state.newSkill);
       this.setState({skills: firstSkills,newSkil:""});
@@ -112,27 +116,13 @@ export default class Profile extends Component {
       let profPicRef = storageRef.child(this.state.uidString)
       let task = profPicRef.put(file);
       this.setState({profURL: reader.result });
-    //   task.on("state_changed", snapshot => {
-    //     let percentage = (snapshot.bytesTransferred/ snapshot.totalBytes) *100;
-    //     if(percentage==100){
-    //         profPicRef.getDownloadURL().then(url => {
-    //           console.log("yo?")
-    //            // You will get the Url here.
-    //           if(this.state.uidString !== ""){
-    //           dBase.ref(this.state.uidString)
-    //             .update({profURL:url}) };
-    //   });
-    // }});
     };
     reader.onerror = e => {
       console.log("Failed file read: " + e.toString());
     };
     reader.readAsDataURL(file);
   };
-  componentDidMount() {
-    // Updates the picture
-    // Get the download URL
-    }
+  
   render() {
     let button; // Conditional rendering
     let skillSpan;

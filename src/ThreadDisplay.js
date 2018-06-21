@@ -9,6 +9,9 @@ import { Button, Menu, Dropdown, Icon } from "antd";
 const { Meta } = Card;
 let useremail = null;
 let userinfo = null;
+let storageRef = firebase.storage().ref("images/");
+let dBase = firebase.database();
+
 class ThreadDisplay extends Component {
   constructor(props) {
     super(props);
@@ -25,16 +28,27 @@ class ThreadDisplay extends Component {
     const newState = Object.assign({}, this.state);
     let list = firebase.database().ref("/users");
     let thing = {};
+    let count = 0;
+    let image;
+    let boolean = false;
     list.on("value", snapshot => {
       let objects = snapshot.val();
       for (let obj in objects) {
         if (objects[obj].email == useremail) {
           thing = objects[obj];
+          dBase.ref(obj).on("value", snapshot => {
+            storageRef
+              .child(obj)
+              .getDownloadURL()
+              .then(url => {
+                image = url;
+                boolean = true;
+                console.log(image);
+              })
+              .catch(function(error) {});
+          });
         }
-        console.log(objects[obj].email);
       }
-      console.log(thing);
-
       var randomid = Math.floor(Math.random() * 20000000000);
 
       var months = [
@@ -90,16 +104,33 @@ class ThreadDisplay extends Component {
         String(time) +
         "";
 
-      var object = {
-        posts: newPostBody,
-        upvotes: newUpvotes,
-        currentUser: thing,
-        id: randomid,
-        date: date
-      };
+      if (boolean) {
+        var object = {
+          posts: newPostBody,
+          upvotes: newUpvotes,
+          currentUser: thing,
+          id: randomid,
+          date: date,
+          usersLiked: [""],
+          image: image
+        };
+        console.log("hello");
+      } else {
+        var object = {
+          posts: newPostBody,
+          upvotes: newUpvotes,
+          currentUser: thing,
+          id: randomid,
+          date: date,
+          usersLiked: [""],
+          image: "https://i.stack.imgur.com/34AD2.jpg"
+        };
+        console.log("hello2");
+      }
       this.state.array.push(object);
       let adder = firebase.database().ref("/posts");
       adder.push(object);
+      console.log("hello");
     });
   }
 
@@ -108,6 +139,7 @@ class ThreadDisplay extends Component {
     let key;
     let currentUpvotes;
     let self = false;
+    let usersLiked;
     list.on("value", snapshot => {
       let objects = snapshot.val();
       for (let obj in objects) {
@@ -118,15 +150,25 @@ class ThreadDisplay extends Component {
           key = obj;
           currentUpvotes = objects[obj].upvotes;
           self = true;
+          usersLiked = objects[obj].usersLiked;
         }
       }
     });
-    if (self) {
+
+    if (self && !usersLiked.includes(useremail)) {
+      console.log(usersLiked);
+      usersLiked.push(useremail);
+      console.log(usersLiked);
       firebase
         .database()
         .ref("/posts/" + key)
         .child("/upvotes")
         .set(parseInt(currentUpvotes) + 1);
+      firebase
+        .database()
+        .ref("/posts/" + key)
+        .child("usersLiked")
+        .set(usersLiked);
     }
   }
 
@@ -136,7 +178,6 @@ class ThreadDisplay extends Component {
         useremail = user.email;
       }
     });
-
     let list = firebase.database().ref("/users");
     list.on("value", snapshot => {
       let objects = snapshot.val();
@@ -164,7 +205,9 @@ class ThreadDisplay extends Component {
             upvotes: objects[obj].upvotes,
             currentUser: objects[obj].currentUser,
             id: objects[obj].id,
-            date: objects[obj].date
+            date: objects[obj].date,
+            usersLiked: objects[obj].usersLiked,
+            image: objects[obj].image
           };
           all.push(thing);
         }
@@ -182,10 +225,7 @@ class ThreadDisplay extends Component {
               <div className="post-body">
                 <div class="flexhorizontal">
                   <div class="flexvertical">
-                    <img
-                      class="image-cropper"
-                      src="https://i.stack.imgur.com/34AD2.jpg"
-                    />
+                    <img class="image-cropper" src={data.image} />
                     <center>
                       <div class="nametitle">
                         {data.currentUser.name}
