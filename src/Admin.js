@@ -42,7 +42,7 @@ export default class Admin extends Component {
       .database()
       .ref(`${this.state.contractsToView}CompanyContracts`)
       .child(e.target.className)
-      .on("value", snapshot => {
+      .once("value", snapshot => {
         console.log(snapshot.val());
         this.setState({
           companyName: snapshot.val().companyName,
@@ -66,14 +66,26 @@ export default class Admin extends Component {
     };
     this.state.contractToEdit.set(updatedContract);
     this.setState({
-      editMode: false
+      editMode: false,
+      contractToEdit: "",
+      companyName: "",
+      jobTimeframe: "",
+      specialSkills: "",
+      additionalDetails: "",
+      companyEmail: ""
     });
   };
 
   handleCancelClick = e => {
     e.preventDefault();
     this.setState({
-      editMode: false
+      editMode: false,
+      contractToEdit: "",
+      companyName: "",
+      jobTimeframe: "",
+      specialSkills: "",
+      additionalDetails: "",
+      companyEmail: ""
     });
   };
 
@@ -282,10 +294,11 @@ export default class Admin extends Component {
                     <div className="contracts-edit-button">
                       <button
                         size="small"
-                        className="manage-contract-buttons"
+                        className={item.id}
                         onClick={e => this.handleEditClick(e)}
+                        id="manage-contract-buttons"
                       >
-                        edit
+                        Edit
                       </button>
                     </div>
                   </div>
@@ -303,28 +316,26 @@ export default class Admin extends Component {
                 {item.arrayData.companyEmail}
                 <br />
                 <br />
-                {this.state.contractsToView !== "approved" && (
-                  <center>
+                <center>
+                  {this.state.contractsToView !== "approved" && (
                     <button
                       className={item.id}
                       onClick={e => this.approveContract(e)}
-                      type="primary"
+                      id="approve-button"
                     >
                       Approve Contract
                     </button>
-                  </center>
-                )}
-                {this.state.contractsToView !== "rejected" && (
-                  <center>
+                  )}
+                  {this.state.contractsToView !== "rejected" && (
                     <button
                       className={item.id}
                       onClick={e => this.rejectContract(e)}
-                      type="danger"
+                      id="reject-button"
                     >
                       Reject Contract
                     </button>
-                  </center>
-                )}
+                  )}
+                </center>
               </Panel>
             </Collapse>
             <br />
