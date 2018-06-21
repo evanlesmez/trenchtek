@@ -376,6 +376,7 @@ export default class Challenges extends Component {
             />
           ) : null}
         </center>
+        <br />
       </div>
     );
   }
