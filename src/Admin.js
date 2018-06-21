@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import firebase from "./Firebase.js";
-import { Collapse, Card, Select } from "antd";
+import { Collapse, Card, Select, Button, Icon, Form, Input } from "antd";
 const Panel = Collapse.Panel;
 
 export default class Admin extends Component {
@@ -10,13 +10,82 @@ export default class Admin extends Component {
       dataFromPending: [],
       dataFromApproved: [],
       dataFromRejected: [],
-      contractsToView: "pending"
+      contractsToView: "pending",
+      editMode: false,
+      companyName: "",
+      jobTimeframe: "",
+      specialSkills: "",
+      additionalDetails: "",
+      companyEmail: "",
+      contractToEdit: ""
     };
   }
 
   handleViewChange = value => {
     this.setState({
       contractsToView: value
+    });
+  };
+
+  handleEditClick = e => {
+    e.preventDefault();
+    this.setState({
+      editMode: true
+    });
+    this.setState({
+      contractToEdit: firebase
+        .database()
+        .ref(`${this.state.contractsToView}CompanyContracts`)
+        .child(e.target.className)
+    });
+    firebase
+      .database()
+      .ref(`${this.state.contractsToView}CompanyContracts`)
+      .child(e.target.className)
+      .once("value", snapshot => {
+        console.log(snapshot.val());
+        this.setState({
+          companyName: snapshot.val().companyName,
+          jobTimeframe: snapshot.val().jobTimeframe,
+          specialSkills: snapshot.val().specialSkills,
+          additionalDetails: snapshot.val().additionalDetails,
+          companyEmail: snapshot.val().companyEmail
+        });
+      });
+  };
+
+  handleSubmitChangesClick = e => {
+    e.preventDefault();
+    let updatedContract = {
+      additionalDetails: this.state.additionalDetails,
+      companyEmail: this.state.companyEmail,
+      companyName: this.state.companyName,
+      jobTimeframe: this.state.jobTimeframe,
+      specialSkills: this.state.specialSkills,
+      status: "pending"
+    };
+    this.state.contractToEdit.set(updatedContract);
+    this.setState({
+      editMode: false,
+      contractToEdit: "",
+      companyName: "",
+      jobTimeframe: "",
+      specialSkills: "",
+      additionalDetails: "",
+      companyEmail: ""
+    });
+  };
+
+  handleCancelClick = e => {
+    e.preventDefault();
+    this.setState({
+      editMode: false,
+      contractToEdit: "",
+      companyName: "",
+      jobTimeframe: "",
+      specialSkills: "",
+      additionalDetails: "",
+      companyEmail: ""
     });
   };
 
@@ -127,88 +196,188 @@ export default class Admin extends Component {
 
   render() {
     let stateArray;
-    let titleWords;
+    let statusWord;
     if (this.state.contractsToView === "pending") {
       stateArray = this.state.dataFromPending;
-      titleWords = "Manage Pending Contracts";
+      statusWord = "Pending";
     } else if (this.state.contractsToView === "approved") {
       stateArray = this.state.dataFromApproved;
-      titleWords = "Manage Approved Contracts";
+      statusWord = "Approved";
     } else if (this.state.contractsToView === "rejected") {
       stateArray = this.state.dataFromRejected;
-      titleWords = "Manage Rejected Contracts";
+      statusWord = "Rejected";
     }
-    let display = stateArray.map(item => {
+    if (this.state.editMode) {
       return (
         <div>
-          <Collapse>
-            <Panel header={item.arrayData.companyName}>
-              <div id="contracts-bold">Company : </div>
-              {item.arrayData.companyName} <br /> <br />
-              <div id="contracts-bold">Timeframe : </div>
-              {item.arrayData.jobTimeframe} <br /> <br />
-              <div id="contracts-bold">Skills Requested :</div>
-              {item.arrayData.specialSkills} <br /> <br />
-              <div id="contracts-bold">Additional Details :</div>
-              {item.arrayData.additionalDetails} <br /> <br />
-              <div id="contracts-bold">Contact Email:</div>
-              {item.arrayData.companyEmail}
-              <br />
-              <br />
-              {this.state.contractsToView !== "approved" && (
-                <center>
-                  <button
-                    className={item.id}
-                    onClick={e => this.approveContract(e)}
+          <center>
+            <div class="directory-title">Manage Contracts</div>
+            <br />
+            <Card
+              title={`Edit ${statusWord} Contract: ${this.state.companyName}`}
+              style={{ width: 600 }}
+            >
+              <Form layout="vertical" className="login-form">
+                <Form.Item label="Company Name:">
+                  <Input
+                    onChange={e =>
+                      this.setState({ companyName: e.target.value })
+                    }
+                    value={this.state.companyName}
+                  />
+                </Form.Item>
+                <Form.Item label="Job Timeframe:">
+                  <Input
+                    onChange={e =>
+                      this.setState({ jobTimeframe: e.target.value })
+                    }
+                    value={this.state.jobTimeframe}
+                  />
+                </Form.Item>
+                <Form.Item label="Special Skills Required:">
+                  <Input
+                    onChange={e =>
+                      this.setState({ specialSkills: e.target.value })
+                    }
+                    value={this.state.specialSkills}
+                  />
+                </Form.Item>
+                <Form.Item label="Details:">
+                  <Input.TextArea
+                    onChange={e =>
+                      this.setState({ additionalDetails: e.target.value })
+                    }
+                    value={this.state.additionalDetails}
+                    rows={8}
+                  />
+                </Form.Item>
+                <Form.Item label="Email Address to Contact:">
+                  <Input
+                    onChange={e =>
+                      this.setState({ companyEmail: e.target.value })
+                    }
+                    value={this.state.companyEmail}
+                  />
+                </Form.Item>
+                <Form.Item>
+                  <Button
+                    onClick={e => this.handleSubmitChangesClick(e)}
                     type="primary"
                   >
-                    Approve Contract
-                  </button>
-                </center>
-              )}
-              {this.state.contractsToView !== "rejected" && (
-                <center>
-                  <button
-                    className={item.id}
-                    onClick={e => this.rejectContract(e)}
-                    type="danger"
+                    Submit Changes
+                  </Button>
+                  <Button
+                    onClick={e => this.handleCancelClick(e)}
+                    className="sort-button"
                   >
-                    Reject Contract
-                  </button>
+                    Cancel
+                  </Button>
+                </Form.Item>
+              </Form>
+            </Card>
+            <br />
+          </center>
+        </div>
+      );
+    } else {
+      let display = stateArray.map(item => {
+        return (
+          <div>
+            <br />
+            <Collapse>
+              <Panel
+                header={
+                  <div>
+                    <div className="contract-comp-name">
+                      {item.arrayData.companyName}
+                    </div>
+                    <div className="contracts-edit-button">
+                      <button
+                        size="small"
+                        className={item.id}
+                        onClick={e => this.handleEditClick(e)}
+                        id="manage-contract-buttons"
+                      >
+                        Edit
+                      </button>
+                    </div>
+                  </div>
+                }
+              >
+                <div id="contracts-bold">Company : </div>
+                {item.arrayData.companyName} <br /> <br />
+                <div id="contracts-bold">Timeframe : </div>
+                {item.arrayData.jobTimeframe} <br /> <br />
+                <div id="contracts-bold">Skills Requested :</div>
+                {item.arrayData.specialSkills} <br /> <br />
+                <div id="contracts-bold">Additional Details :</div>
+                {item.arrayData.additionalDetails} <br /> <br />
+                <div id="contracts-bold">Contact Email:</div>
+                {item.arrayData.companyEmail}
+                <br />
+                <br />
+                <center>
+                  {this.state.contractsToView !== "approved" && (
+                    <button
+                      className={item.id}
+                      onClick={e => this.approveContract(e)}
+                      id="approve-button"
+                    >
+                      Approve Contract
+                    </button>
+                  )}
+                  {this.state.contractsToView !== "rejected" && (
+                    <button
+                      className={item.id}
+                      onClick={e => this.rejectContract(e)}
+                      id="reject-button"
+                    >
+                      Reject Contract
+                    </button>
+                  )}
                 </center>
-              )}
-            </Panel>
-          </Collapse>
+              </Panel>
+            </Collapse>
+            <br />
+          </div>
+        );
+      });
+
+      return (
+        <div>
+          <center>
+            <div class="directory-title">Manage Contracts</div>
+          </center>
+          <br />
+          <Card
+            title={
+              <center>
+                <div style={{ display: "inline" }}>Display: </div>
+                <Select
+                  defaultValue={this.state.contractsToView}
+                  onChange={value => {
+                    this.handleViewChange(value);
+                  }}
+                >
+                  <Select.Option value="pending">
+                    Pending Contracts
+                  </Select.Option>
+                  <Select.Option value="approved">
+                    Approved Contracts
+                  </Select.Option>
+                  <Select.Option value="rejected">
+                    Rejected Contracts
+                  </Select.Option>
+                </Select>
+              </center>
+            }
+            style={{ width: 720, margin: "auto" }}
+          >
+            {display}
+          </Card>
           <br />
         </div>
       );
-    });
-
-    return (
-      <div>
-        <center>
-          <div class="directory-title">Manage Contracts</div>
-          <div style={{ display: "inline" }}>Display: </div>
-          <Select
-            defaultValue="pending"
-            onChange={value => {
-              this.handleViewChange(value);
-            }}
-          >
-            <Select.Option value="pending">Pending Contracts</Select.Option>
-            <Select.Option value="approved">Approved Contracts</Select.Option>
-            <Select.Option value="rejected">Rejected Contracts</Select.Option>
-          </Select>
-        </center>
-        <br />
-        <Card
-          title={<div className="center-text">{titleWords}</div>}
-          style={{ width: 720, margin: "auto" }}
-        >
-          {display}
-        </Card>
-        <br />
-      </div>
-    );
+    }
   }
 }

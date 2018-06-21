@@ -29,7 +29,7 @@ export default class BrowseContracts extends Component {
   }
 
   bidOnContract(e) {
-    let contractID = e.target.id
+    let contractID = e.target.id;
     let database = firebase.database();
     let eventContract = database
       .ref("approvedCompanyContracts")
@@ -50,7 +50,7 @@ export default class BrowseContracts extends Component {
           this.setState({
             biddingUserName: newNameState
           });
-      eventContract.child("BiddingUsers").push(newNameState);
+          eventContract.child("BiddingUsers").push(newNameState);
         });
       } else {
         console.log("else statment from bowser");
@@ -77,7 +77,7 @@ export default class BrowseContracts extends Component {
               {item.arrayData.additionalDetails} <br /> <br />
               <center>
                 <Button
-                  name = {item.id}
+                  name={item.id}
                   className={item.id}
                   onClick={e => this.bidOnContract(e)}
                 >
