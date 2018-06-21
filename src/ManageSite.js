@@ -52,14 +52,21 @@ export default class ManageSite extends Component {
         });
     }
 
-    handlerI = (e, i) => {
+    handlerInstructors = (e, i, word) => {
+
         let instArray = this.state.instructors
+        let variable = eval("instArray[" + i + "]." + word)
         instArray[i].editI = false;
-        instArray[i].info = e.target.value;
+        variable = e.target.value;
+        console.log(variable);
+        console.log(instArray[i].info);
+
         this.setState({
             instructors: instArray
         })
     }
+
+
 
 
     handlerD = (e, i) => {
@@ -208,9 +215,9 @@ export default class ManageSite extends Component {
         for (let i = 0; i < arrayInfo.length; i++) {
 
             if (this.state.instructors[i].editI) {
-                arrayInfo[i] = <EditingForm defaultValue={this.state.instructors[i].info} onPressEnter={(e) => this.handlerI(e, i)} />;
-                arrayName[i] = <EditingForm defaultValue={this.state.instructors[i].name} onPressEnter={(e) => this.handlerI(e, i)} />;
-                arrayTags[i] = <EditingForm defaultValue={this.state.instructors[i].tags} onPressEnter={(e) => this.handlerI(e, i)} />;
+                arrayInfo[i] = <EditingForm defaultValue={this.state.instructors[i].info} onPressEnter={(e) => this.handlerInstructors(e, i, "info")} />;
+                arrayName[i] = <EditingForm defaultValue={this.state.instructors[i].name} onPressEnter={(e) => this.handlerInstructors(e, i, "name")} />;
+                arrayTags[i] = <Input className="tagForm" defaultValue={this.state.instructors[i].tags} onPressEnter={(e) => this.handlerInstructors(e, i, "tags")} />;
 
             }
 
@@ -315,7 +322,7 @@ export default class ManageSite extends Component {
                                                 onClick={() => this.handleInEdit(index)}
 
                                             > </p>
-                                            <div className="wholeText"><p className="actualText">{arrayInfo[index]}</p> <h5 className="tagz"><div>Tags: </div><Input className="tagForm" defaultValue={this.state.instructors[index].tags} onPressEnter={(e) => this.handlerI(e, index)} /></h5></div>
+                                            <div className="wholeText"><p className="actualText">{arrayInfo[index]}</p> <h5 className="tagz"><div>Tags:{arrayTags[index]} </div></h5></div>
                                         </div>
 
                                     </div>
