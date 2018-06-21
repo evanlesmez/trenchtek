@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import "./Profile.css";
-import { Row, Col, Icon } from "antd";
+import { Row, Col, Icon, Input, Button} from "antd";
 import firebase from "./Firebase.js";
+const {TextArea} = Input;
 // import Modal from 'react-modal';
 //Reg: "http://static.tvtropes.org/pmwiki/pub/images/reg_anime.jpg"
 // Banner from https://www.google.com/search?q=codding+banner&rlz=1C1CHBF_enUS765US765&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjm7KW7sNPbAhVJ3VMKHWUZBioQ_AUICigB&biw=1536&bih=734&dpr=1.25#imgrc=vAFXqrj7GeFLsM:}
@@ -27,7 +28,8 @@ export default class Profile extends Component {
       LinkedIn: props.LinkedIn,
       banner: "",
       profURL: props.profURL,
-      uidString: props.uidString
+      uidString: props.uidString,
+      upvotes: props.upvotes,
     }
   }
   componentWillReceiveProps(nextProps){ // Picture takes time to load oldschool lifecycle
@@ -42,7 +44,8 @@ export default class Profile extends Component {
       title: nextProps.title,
       aboutMe: nextProps.aboutMe,
       position: nextProps.position,
-      skills: nextProps.skills
+      skills: nextProps.skills,
+      upvotes: nextProps.upvotes,
     });
   }
 
@@ -130,7 +133,7 @@ export default class Profile extends Component {
     let linksPart;
     let profypic;
     if (this.state.editing == false) {    // FOR NOMRAL PAGE
-      button = <button type= "edit" onClick={e=>this.editPress(e)}>Edit</button> //Editbutton
+      button = <Button type= "edit" onClick={e=>this.editPress(e)}>Edit</Button> //Editbutton
       
       this.state.skills !=="" ?(skillSpan = this.state.skills.map((skill) => {  //For displaying skills (also removable)
         return(
@@ -144,15 +147,17 @@ export default class Profile extends Component {
                 Contact: <a href= {this.state.email}> {this.state.email}</a>
               </p> 
               <span>
-             <a href={this.state.github}> github,</a>
-             <a href={this.state.LinkedIn}> LinkedIn</a>
+             <a href={this.state.github}> <Icon type= "github"/></a>
+             <a href={this.state.LinkedIn}>   <Icon type = "linkedin"/></a>
              </span>
              </div>
       
-      profypic = <img className="profpic" src= {this.state.profURL} alt = "Prof pic"/> 
-      
+      profypic = 
+      <div className="imageCropper">
+        <img className="profpic" src= {this.state.profURL} alt = "Prof pic"/> 
+      </div>
     } else {  // All of the input fields
-      button = <button type= "save" onClick={e => this.saveClick(e)}>Save</button> 
+      button = <Button type= "save" onClick={e => this.saveClick(e)}>Save</Button> 
       
       this.state.skills !== "" ? (skillSpan = this.state.skills.map((skill) => { // Same dank conditional rendering
         return(
@@ -164,14 +169,14 @@ export default class Profile extends Component {
 
       newSkill = (
         <div>
-          <input
+          <TextArea
             name="newSkill"
             type="text"
             pattern="[A-Za-z]{0-9}{15}"
             placeholder="#New skill"
-            size="10"
             onChange={e => this.handleChange(e)}
             value={this.state.newSkill}
+            autosize
           />
           <Icon
             id="smallicon"
@@ -185,29 +190,32 @@ export default class Profile extends Component {
         <div>
           <p>
             Contact:{" "}
-            <input
+            <TextArea
               type="url"
               placeholder="your@email.com"
               name="email"
               value={this.state.email}
               onChange={e => this.handleChange(e)}
+              autosize
             />
           </p>
-          <span>
-            <input
+          <span><Icon type="github" />
+            <TextArea
               name="github"
               type="url"
               placeholder="github"
               value={this.state.github}
               onChange={e => this.handleChange(e)}
+              autosize
             />{" "}
-            {/*Need to handleChange*/}
-            <input
+            <Icon type="linkedin" />
+            <TextArea
               type="url"
               placeholder="LinkedIn"
               name="LinkedIn"
               value={this.state.LinkedIn}
               onChange={e => this.handleChange(e)}
+              autosize
             />
           </span>
         </div>
@@ -215,14 +223,16 @@ export default class Profile extends Component {
 
       profypic = (
         <div>
-          <img className="profpic" src={this.state.profURL} alt="profpic" />
+        <div className = "imageCropper">
+          <img className="profpic" src={this.state.profURL} alt="Profy!!! :)" />
+          </div>
           <input
             type="file"
             name="profpic"
             accept="image/"
             onChange={e => this.firePost(e)}
-            style={{ marginLeft: "30px", paddingTop: "5px" }}
           />
+       
         </div>
       );
     }
@@ -237,23 +247,18 @@ export default class Profile extends Component {
               alt="banner"
             />
             <Row type="flex" gutter={4}>
-              <Col span={6}>
+              <Col span={8} syle={{'margin-left':'3%'}}>
                 {profypic}
                 <div className="underpic">
-                  <input
-                    id="inputfield"
-                    type="text"
-                    name="title"
-                    value={this.state.title}
-                    size="10"
-                    readOnly /*Size is useful*/
-                  />
+                  <h3>
+                  {this.state.title}
+                  </h3>
                 </div>
               </Col>
 
-              <Col span={12}>
+              <Col span={10}>
                 <div id="userfo">
-                  <input
+                  <TextArea
                     id={this.state.inputclass}
                     type="text"
                     className="header"
@@ -261,34 +266,35 @@ export default class Profile extends Component {
                     value={this.state.name}
                     onChange={e => this.handleChange(e)}
                     readOnly={this.state.readmode}
-                    maxLength="35"
+                    maxLength="17"
+                    autosize={{maxRows:1}}
                   />
 
-                  <input
+                  <TextArea
                     id={this.state.inputclass}
                     type="text"
                     name="position"
                     style={{ textAlign: "center" }} //Inline styling
                     value={this.state.position}
-                    placeholder= "RevTekker"
+                    placeholder= "Current Job Title"
                     onChange={e => this.handleChange(e)}
                     readOnly={this.state.readmode}
-                    maxLength="35"
+                    maxLength="20"
+                    autosize={{maxRows:1}}
                   />
 
                   <h3> About me! </h3>
 
                   <div id="aboutme">
-                    <textarea
+                    <TextArea
                       id={this.state.inputclass}
                       placeholder= "Write something!"
                       type="text"
                       name="aboutMe"
                       value={this.state.aboutMe}
-                      style={{ width: "100%", height: "100%" }}
                       onChange={e => this.handleChange(e)}
                       readOnly={this.state.readmode}
-                      maxLength="400"
+                      autosize={{minRows:10, maxRows:12}}
                     />
                   </div>
                 </div>
@@ -297,7 +303,7 @@ export default class Profile extends Component {
                 {button}
                 <div id="sidefo">
                   <div>
-                    Skills: {skillSpan}
+                    <textLabel > Skills:</textLabel> {skillSpan}
                     {newSkill}
                   </div>
                   {linksPart}

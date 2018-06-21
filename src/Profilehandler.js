@@ -20,7 +20,8 @@ export default class Profilehandler extends Component {
       LinkedIn: "",
       profURL:
         "http://www.aminariana.com/assets/placeholders/avatar-39c4f0720c0b9f829e3dc8b644228be492ea900026f4057974840d54b149bb5d.png",
-      uidString: this.props.uidString
+      uidString: this.props.uidString,
+      upvotes: "",
     };
   }
   
@@ -44,6 +45,7 @@ export default class Profilehandler extends Component {
     aboutMe: userData.about,
     title: userData.title,
     LinkedIn: userData.linkedIn,
+    upvotes: userData.upvotes,
     }));
   });
     }

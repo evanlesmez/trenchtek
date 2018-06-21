@@ -106,6 +106,11 @@ class TopbarUser extends Component {
               </Menu.Item>
             </Menu.SubMenu>
           ) : null}
+          <Menu.Item>
+            <Link to= "/searchprofiles">
+              <div className = "topbar-tab"> search profiles </div>
+              </Link>
+            </Menu.Item>
           <Button className="login-logout-button" type="danger" ghost>
             <Link to="/logout">
               <div className="topbar-tab">logout</div>
