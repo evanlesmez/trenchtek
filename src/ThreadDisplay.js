@@ -23,14 +23,66 @@ class ThreadDisplay extends Component {
       currentUser: ""
     };
   }
-
   addPost(newPostBody, newUpvotes) {
     const newState = Object.assign({}, this.state);
     let list = firebase.database().ref("/users");
     let thing = {};
     let count = 0;
-    let image;
-    let boolean = false;
+    let image = "testing";
+    var randomid = Math.floor(Math.random() * 20000000000);
+    var months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ];
+    var n = new Date();
+    if (parseInt(n.getHours()) >= 13) {
+      var time =
+        String(parseInt(n.getHours()) - 12) +
+        ":" +
+        (String(n.getMinutes()).length == 1
+          ? "0" + n.getMinutes() + "PM"
+          : n.getMinutes() + "PM");
+    } else if (parseInt(n.getHours()) >= 1 && parseInt(n.getHours()) <= 11) {
+      var time =
+        n.getHours() +
+        ":" +
+        (String(n.getMinutes()).length == 1
+          ? "0" + n.getMinutes() + "AM"
+          : n.getMinutes() + "AM");
+    } else if (parseInt(n.getHours()) == 12) {
+      var time =
+        n.getHours() +
+        ":" +
+        (String(n.getMinutes()).length == 1
+          ? "0" + n.getMinutes() + "PM"
+          : n.getMinutes() + "PM");
+    } else if (parseInt(n.getHours()) == 0) {
+      var time =
+        "12:" +
+        (String(n.getMinutes()).length == 1
+          ? "0" + n.getMinutes() + "AM"
+          : n.getMinutes() + "AM");
+    }
+    var date =
+      months[n.getMonth()] +
+      " " +
+      (String(n.getDate()).length == 1 ? "0" + n.getDate() : n.getDate()) +
+      ", " +
+      String(n.getFullYear()) +
+      " " +
+      String(time) +
+      "";
+
     list.on("value", snapshot => {
       let objects = snapshot.val();
       for (let obj in objects) {
@@ -38,99 +90,40 @@ class ThreadDisplay extends Component {
           thing = objects[obj];
           dBase.ref(obj).on("value", snapshot => {
             storageRef
-              .child(obj)
+              .child("users/" + obj)
               .getDownloadURL()
               .then(url => {
-                image = url;
-                boolean = true;
-                console.log(image);
+                var object = {
+                  posts: newPostBody,
+                  upvotes: newUpvotes,
+                  currentUser: thing,
+                  id: randomid,
+                  date: date,
+                  usersLiked: [""],
+                  image: url
+                };
+                this.state.array.push(object);
+                let adder = firebase.database().ref("/posts");
+                adder.push(object);
               })
-              .catch(function(error) {});
+              .catch(function(error) {
+                var object = {
+                  posts: newPostBody,
+                  upvotes: newUpvotes,
+                  currentUser: thing,
+                  id: randomid,
+                  date: date,
+                  usersLiked: [""],
+                  image: "https://i.stack.imgur.com/34AD2.jpg"
+                };
+                this.state.array.push(object);
+                let adder = firebase.database().ref("/posts");
+                adder.push(object);
+              });
           });
+          break;
         }
       }
-      var randomid = Math.floor(Math.random() * 20000000000);
-
-      var months = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec"
-      ];
-      var n = new Date();
-      if (parseInt(n.getHours()) >= 13) {
-        var time =
-          String(parseInt(n.getHours()) - 12) +
-          ":" +
-          (String(n.getMinutes()).length == 1
-            ? "0" + n.getMinutes() + "PM"
-            : n.getMinutes() + "PM");
-      } else if (parseInt(n.getHours()) >= 1 && parseInt(n.getHours()) <= 11) {
-        var time =
-          n.getHours() +
-          ":" +
-          (String(n.getMinutes()).length == 1
-            ? "0" + n.getMinutes() + "AM"
-            : n.getMinutes() + "AM");
-      } else if (parseInt(n.getHours()) == 12) {
-        var time =
-          n.getHours() +
-          ":" +
-          (String(n.getMinutes()).length == 1
-            ? "0" + n.getMinutes() + "PM"
-            : n.getMinutes() + "PM");
-      } else if (parseInt(n.getHours()) == 0) {
-        var time =
-          "12:" +
-          (String(n.getMinutes()).length == 1
-            ? "0" + n.getMinutes() + "AM"
-            : n.getMinutes() + "AM");
-      }
-      var date =
-        months[n.getMonth()] +
-        " " +
-        (String(n.getDate()).length == 1 ? "0" + n.getDate() : n.getDate()) +
-        ", " +
-        String(n.getFullYear()) +
-        " " +
-        String(time) +
-        "";
-
-      if (boolean) {
-        var object = {
-          posts: newPostBody,
-          upvotes: newUpvotes,
-          currentUser: thing,
-          id: randomid,
-          date: date,
-          usersLiked: [""],
-          image: image
-        };
-        console.log("hello");
-      } else {
-        var object = {
-          posts: newPostBody,
-          upvotes: newUpvotes,
-          currentUser: thing,
-          id: randomid,
-          date: date,
-          usersLiked: [""],
-          image: "https://i.stack.imgur.com/34AD2.jpg"
-        };
-        console.log("hello2");
-      }
-      this.state.array.push(object);
-      let adder = firebase.database().ref("/posts");
-      adder.push(object);
-      console.log("hello");
     });
   }
 
@@ -156,19 +149,19 @@ class ThreadDisplay extends Component {
     });
 
     if (self && !usersLiked.includes(useremail)) {
-      console.log(usersLiked);
+      //console.log(usersLiked);
       usersLiked.push(useremail);
-      console.log(usersLiked);
-      firebase
-        .database()
-        .ref("/posts/" + key)
-        .child("/upvotes")
-        .set(parseInt(currentUpvotes) + 1);
+      //console.log(usersLiked);
       firebase
         .database()
         .ref("/posts/" + key)
         .child("usersLiked")
-        .set(usersLiked);
+        .set(usersLiked); // && console.log(usersLiked);
+      firebase
+        .database()
+        .ref("/posts/" + key)
+        .child("/upvotes")
+        .set(parseInt(currentUpvotes) + 1); // && console.log(usersLiked);
     }
   }
 
@@ -220,6 +213,9 @@ class ThreadDisplay extends Component {
     return (
       <div>
         <div>
+          <center>
+            <div class="directory-title">Forum</div>
+          </center>
           {this.state.array.map(data => {
             return (
               <div className="post-body">
@@ -258,6 +254,7 @@ class ThreadDisplay extends Component {
                     </Card>
                   </div>
                 </div>
+                <br />
               </div>
             );
           })}

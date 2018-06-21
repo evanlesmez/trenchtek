@@ -263,7 +263,6 @@ export default class User extends Component {
                         mode="tags"
                         style={{ width: "100%" }}
                         placeholder="Please select"
-                        defaultValue={["React"]}
                         onChange={this.updateTagField}
                       >
                         {children}
@@ -299,8 +298,8 @@ export default class User extends Component {
     // returns list of users
     return (
       <div>
-        <br />
         <center>
+          <div class="directory-title">Manage Users</div>
           <div className="selectusers">
             Display:{" "}
             <Select

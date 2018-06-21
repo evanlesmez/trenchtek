@@ -31,8 +31,9 @@ export default class BrowseContracts extends Component {
     });
   }
 
-  bidOnContract = (e) => {
-    let contractID = e.target.id
+
+  bidOnContract(e) {
+    let contractID = e.target.id;
     let database = firebase.database();
     let eventContract = database
       .ref("approvedCompanyContracts")
@@ -53,6 +54,7 @@ export default class BrowseContracts extends Component {
           this.setState({
             biddingUserName: newNameState
           });
+
       eventContract.child("BiddingUsers").child(newNameState).set(this.state.bidAmount);
         });
       } else {
@@ -101,6 +103,7 @@ export default class BrowseContracts extends Component {
       display = stateArray.map(item => {
       return (
         <div>
+          <br />
           <Collapse>
             <Panel header={item.arrayData.companyName}>
               <div id="contracts-bold">Company : </div>
@@ -113,7 +116,7 @@ export default class BrowseContracts extends Component {
               {item.arrayData.additionalDetails} <br /> <br />
               <center>
                 <Button
-                  name = {item.id}
+                  name={item.id}
                   className={item.id}
                   onClick={e => this.bidOnContract(e)}
                 >
@@ -171,6 +174,7 @@ export default class BrowseContracts extends Component {
           {display}
         </Card>
       )}
+
         <br />
       </div>
     );
