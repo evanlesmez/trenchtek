@@ -41,7 +41,7 @@ class TopbarUser extends Component {
       }
     });
   }
-  
+
   render() {
     return (
       <div>
@@ -61,7 +61,7 @@ class TopbarUser extends Component {
           </Menu.Item>
           <Menu.Item key="/q&a">
             <Link to="/q&a">
-              <div className="topbar-tab">q&a</div>
+              <div className="topbar-tab">forum</div>
             </Link>
           </Menu.Item>
           <Menu.Item key="/directory">
