@@ -18,17 +18,12 @@
 }
 
 .make-gray {
-  background-color: rgb(196, 210, 216);
   border-radius: 10px;
 }
 
-.flex-container {
-  display: flex;
-  /* justify-content: flex-start; */
-  flex-wrap: wrap;
-  flex-direction: row;
+.tasks {
+  width: 60%;
 }
-
 .top-margin {
   margin-top: 15px;
 }
@@ -106,55 +101,59 @@
 }
 
 body {
-  background-color: rgb(252, 252, 252);
+  background-color: rgb(247, 247, 247);
 }
 
 .welcome-pic {
-  max-width: 100%;
+  max-width: 110%;
   height: auto;
-  -webkit-filter: brightness(40%);
-  filter: brightness(40%);
+  -webkit-filter: brightness(38%);
+  filter: brightness(38%);
 }
 
 .welcome-text {
   position: absolute;
   text-align: center;
-  top: 40%;
+  top: 51%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: "Arvo", sans-serif;
   font-style: italic;
-  font-size: 4.3vw;
+  font-size: 3.9vw;
   color: white;
 }
 
 .welcome-text2 {
   position: absolute;
   text-align: center;
-  top: 62%;
+  top: 74%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: "Arvo", sans-serif;
   font-style: italic;
-  font-size: 4.3vw;
+  font-size: 3.9vw;
   color: white;
+  margin-right: 40px;
 }
 
 .logo-text {
   margin-top: 0;
   padding-top: 0;
   position: absolute;
-  top: 17%;
+  top: 25%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: "Arvo", sans-serif;
   font-weight: bold;
-  font-size: 16vw;
+  font-size: 14vw;
   color: white;
 }
 
 .container {
-  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
 .redirect-to-home-logo-button {
@@ -167,9 +166,6 @@ body {
   text-align: center;
 }
 
-.resourcesdiv {
-  width: 80%;
-}
 #contracts-bold {
   font-weight: bold;
 }
@@ -186,9 +182,9 @@ body {
 }
 
 .name-text {
-  font-size: 150%;
+  font-size: 120%;
   font-family: "PT Sans", sans-serif;
-  color: rgb(95, 95, 95);
+  color: white;
 }
 .ant-input-search-button.ant-btn-primary {
   background-color: #9ebed6;
@@ -205,4 +201,56 @@ body {
   font-size: 130%;
   font-family: "PT Sans", sans-serif;
   display: inline;
+}
+
+.contracts-edit-button {
+  float: right;
+  margin-right: 13px;
+}
+
+.contract-comp-name {
+  display: inline-block;
+}
+
+#manage-contract-buttons {
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  border: 0.8px solid rgb(172, 172, 172);
+  border-radius: 4px;
+  background-color: white;
+  outline: none;
+}
+
+#manage-contract-buttons:hover {
+  border-color: #7ea5e5;
+  color: #7ea5e5;
+}
+
+#approve-button {
+  display: inline-block;
+  margin-right: 10px;
+  height: 35px;
+  width: 130px;
+  border: none;
+  outline: none;
+  border-radius: 4px;
+  background-color: #7ea5e5;
+  color: white;
+}
+
+#reject-button {
+  display: inline-block;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  height: 35px;
+  width: 125px;
+  outline: none;
+  border: 0.8px solid rgb(172, 172, 172);
+  border-radius: 4px;
+  background-color: white;
+}
+
+#reject-button:hover {
+  border-color: #7ea5e5;
+  color: #7ea5e5;
 }
