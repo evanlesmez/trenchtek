@@ -282,10 +282,10 @@ export default class Admin extends Component {
                     <div className="contracts-edit-button">
                       <button
                         size="small"
-                        className={item.id}
+                        className="manage-contract-buttons"
                         onClick={e => this.handleEditClick(e)}
                       >
-                        EDIT
+                        edit
                       </button>
                     </div>
                   </div>

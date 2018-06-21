@@ -105,8 +105,8 @@ body {
 .welcome-pic {
   max-width: 100%;
   height: auto;
-  -webkit-filter: brightness(40%);
-  filter: brightness(40%);
+  -webkit-filter: brightness(38%);
+  filter: brightness(38%);
 }
 
 .welcome-text {
@@ -208,4 +208,9 @@ body {
 
 .contract-comp-name {
   display: inline-block;
+}
+
+.manage-contract-buttons {
+  border-radius: 5px;
+  background-color: blue;
 }
