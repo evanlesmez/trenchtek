@@ -117,6 +117,7 @@ export default class TaskManager extends Component {
           return (
             <center>
               <div>
+                <br />
                 <Card
                   className="make-gray"
                   title={
@@ -136,7 +137,7 @@ export default class TaskManager extends Component {
                     </div>
                   }
                   style={{
-                    marginTop: 25,
+                    marginTop: 30,
                     marginLeft: 20,
                     marginRight: 20,
                     width: 450

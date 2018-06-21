@@ -182,9 +182,9 @@ body {
 }
 
 .name-text {
-  font-size: 150%;
+  font-size: 120%;
   font-family: "PT Sans", sans-serif;
-  color: rgb(95, 95, 95);
+  color: white;
 }
 .ant-input-search-button.ant-btn-primary {
   background-color: #9ebed6;
