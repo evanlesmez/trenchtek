@@ -64,6 +64,7 @@ export default class BrowseContracts extends Component {
     let display = stateArray.map(item => {
       return (
         <div>
+          <br />
           <Collapse>
             <Panel header={item.arrayData.companyName}>
               <div id="contracts-bold">Company : </div>
@@ -92,13 +93,10 @@ export default class BrowseContracts extends Component {
 
     return (
       <div>
-        <br />
-        <Card
-          title={<div className="center-text">Approved Contracts</div>}
-          style={{ width: 720, margin: "auto" }}
-        >
-          {display}
-        </Card>
+        <center>
+          <div class="directory-title">Approved Contracts</div>
+        </center>
+        <Card style={{ width: 720, margin: "auto" }}>{display}</Card>
         <br />
       </div>
     );
