@@ -263,7 +263,6 @@ export default class User extends Component {
                         mode="tags"
                         style={{ width: "100%" }}
                         placeholder="Please select"
-                        defaultValue={["React"]}
                         onChange={this.updateTagField}
                       >
                         {children}
