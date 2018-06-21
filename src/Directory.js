@@ -13,6 +13,7 @@ import {
 
 import firebase from "./Firebase";
 import "./Post.css";
+import "./App.css";
 
 let storageRef = firebase.storage().ref("images/");
 let dBase = firebase.database();
@@ -373,11 +374,12 @@ export default class Directory extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="directory">
         <center>
           <div class="directory-title">Directory</div>
-          <div>
+          <div className="directory">
             <Search
+              className="directory"
               placeholder="Enter name or #tag"
               onSearch={value => {
                 this.searchResult(value);
@@ -412,17 +414,17 @@ export default class Directory extends Component {
             </Select>
           </div>
           <br />
-          <CheckboxGroup
-            options={plainOptions}
-            value={this.state.checkedList}
-            onChange={this.onChange}
-          />
           <Checkbox
             onChange={this.onCheckAllChange}
             checked={this.state.checkAll}
           >
             Check All
           </Checkbox>
+          <CheckboxGroup
+            options={plainOptions}
+            value={this.state.checkedList}
+            onChange={this.onChange}
+          />
           <br />
           <br />
           <br />
@@ -451,7 +453,9 @@ export default class Directory extends Component {
                   </div>
                 </Card>
                 <div class="tags">
-                  {user.tags.map(t => <Tag color="blue">{t}</Tag>)}
+                  {user.tags.map(
+                    t => t !== "999" && t !== " " && <Tag color="blue">{t}</Tag>
+                  )}
                 </div>
               </div>
               <br />

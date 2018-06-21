@@ -213,6 +213,9 @@ class ThreadDisplay extends Component {
     return (
       <div>
         <div>
+          <center>
+            <div class="directory-title">Chatroom</div>
+          </center>
           {this.state.array.map(data => {
             return (
               <div className="post-body">
@@ -251,6 +254,7 @@ class ThreadDisplay extends Component {
                     </Card>
                   </div>
                 </div>
+                <br />
               </div>
             );
           })}

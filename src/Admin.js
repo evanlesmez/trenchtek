@@ -186,8 +186,8 @@ export default class Admin extends Component {
 
     return (
       <div>
-        <br />
         <center>
+          <div class="directory-title">Manage Contracts</div>
           <div style={{ display: "inline" }}>Display: </div>
           <Select
             defaultValue="pending"

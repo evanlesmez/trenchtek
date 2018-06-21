@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Form, Input, Card } from "antd";
+import { Button, Form, Input, Card, Row, Col } from "antd";
 import firebase from "./Firebase.js";
 import TaskManager from "./TaskManager";
 
@@ -36,7 +36,7 @@ export default class AddGroups extends Component {
                 let groups = snapshot.val();
                 let tempGroup = [];
                 for (let group in groups) {
-                  if (group.substring(0, 8) === "Personal") {
+                  if (group === "Personal" + userid) {
                     this.setState({ personalCreated: true });
                   }
                   groupRef
@@ -48,12 +48,7 @@ export default class AddGroups extends Component {
                         users !== null &&
                         users.includes(this.state.currentEmail)
                       ) {
-                        // if (group.substring(0, 8) === "Personal") {
-                        //   //group = "Personal";
-                        //   tempGroup.push("Personal");
-                        // } else {
                         tempGroup.push(group);
-                        //}
                         let tempUser = [];
                         for (let user in users) {
                           tempUser.push(users[user]);
@@ -90,22 +85,6 @@ export default class AddGroups extends Component {
     });
   }
 
-  // setTasks = (group, update) => {
-  //   groupRef
-  //     .child(group)
-  //     .child("tasks")
-  //     .set(update);
-  //   this.setState({ [group + "Tasks"]: update });
-  // };
-
-  // setUsers = (group, update) => {
-  //   groupRef
-  //     .child(group)
-  //     .child("users")
-  //     .set(update);
-  //   this.setState({ [group + "Users"]: update });
-  // };
-
   deleteGroup = group => {
     if (group.substring(0, 8) === "Personal") {
       this.setState({ personalCreated: false });
@@ -122,24 +101,30 @@ export default class AddGroups extends Component {
   };
 
   submitGroup = () => {
-    let tempGroup = this.state.groups;
-    tempGroup.push(newGroup);
-    this.setState({
-      groups: tempGroup,
-      groupForm: null,
-      [newGroup + "Tasks"]: [{ name: "default", type: "uncompleted" }],
-      [newGroup + "Users"]: newUsers
-    });
-    groupRef
-      .child(newGroup)
-      .child("tasks")
-      .push({ name: "default", type: "uncompleted" });
-    groupRef
-      .child(newGroup)
-      .child("users")
-      .set(newUsers);
-    newGroup = null;
-    newUsers = null;
+    if (newGroup === null || newUsers.length === 0) {
+      alert("Please enter a group name and users!");
+      return false;
+    } else {
+      let tempGroup = this.state.groups;
+      tempGroup.push(newGroup);
+      this.setState({
+        groups: tempGroup,
+        groupForm: null,
+        [newGroup + "Tasks"]: [{ name: "default", type: "uncompleted" }],
+        [newGroup + "Users"]: newUsers
+      });
+      groupRef
+        .child(newGroup)
+        .child("tasks")
+        .push({ name: "default", type: "uncompleted" });
+      groupRef
+        .child(newGroup)
+        .child("users")
+        .set(newUsers);
+      newGroup = null;
+      newUsers = null;
+      return true;
+    }
   };
 
   submitPersonal = () => {
@@ -176,21 +161,38 @@ export default class AddGroups extends Component {
   addGroupForm = () => {
     this.setState({
       groupForm: (
-        <Form onSubmit={this.submitGroup}>
-          <FormItem label="new group name">
-            <Input onChange={this.handleGroupChange} />
-          </FormItem>
-          <FormItem label="new users emails">
-            <Input onChange={this.handleUserChange} />
-          </FormItem>
-          <FormItem>
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </FormItem>
-        </Form>
+        <Row>
+          <Col span={6}>
+            <Card>
+              <Form>
+                <FormItem label="new group name">
+                  <Input onChange={this.handleGroupChange} />
+                </FormItem>
+                <FormItem label="new users emails">
+                  <Input onChange={this.handleUserChange} />
+                </FormItem>
+                <FormItem>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    onClick={this.submitGroup}
+                  >
+                    Submit
+                  </Button>
+                </FormItem>
+                <FormItem>
+                  <Button onClick={this.handleCancel}>Cancel</Button>
+                </FormItem>
+              </Form>
+            </Card>
+          </Col>
+        </Row>
       )
     });
+  };
+
+  handleCancel = () => {
+    this.setState({ groupForm: null });
   };
 
   render() {
@@ -208,24 +210,18 @@ export default class AddGroups extends Component {
         />
         <Button
           onClick={this.addGroupForm}
-          style={{ marginLeft: 25, marginTop: 10 }}
+          style={{ marginLeft: 25, marginTop: 10, marginBottom: 10 }}
         >
           Add Group
         </Button>
-        <Button
-          onClick={this.submitPersonal}
-          style={{ marginLeft: 25, marginTop: 10 }}
-        >
-          Add Personal
-        </Button>
-        {/* {!this.state.personalCreated ? (
+        {!this.state.personalCreated ? (
           <Button
             onClick={this.submitPersonal}
             style={{ marginLeft: 25, marginTop: 10 }}
           >
             Add Personal
           </Button>
-        ) : null} */}
+        ) : null}
         <div>{this.state.groupForm}</div>
       </div>
     );
