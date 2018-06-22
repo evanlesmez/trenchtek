@@ -55,7 +55,7 @@
 }
 
 .inputtitle {
-  width: 80%;
+  width: 60%;
   height: auto;
   margin-left: 0%;
   display: inline-block;
@@ -160,6 +160,7 @@ body {
   font-family: "Arvo", sans-serif;
   font-weight: bold;
   font-size: 70px;
+  padding-top: -5%;
 }
 
 .center-text {

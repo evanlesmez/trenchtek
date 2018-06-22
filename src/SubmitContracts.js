@@ -103,6 +103,8 @@ export default class SubmitContracts extends Component {
             </Form>
           </Card>
         </center>
+        <br />
+        <br />
       </div>
     );
   }
