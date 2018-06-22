@@ -1,17 +1,23 @@
-
-
 .header {
   text-align: center;
-  font-size: 50px;
-  width: 90%;
+  width: 70%;
+  background-color: #8da5d6;
   /* margin-bottom: -1px; */
 }
 #sidefo {
-  margin-top: 30%;
-  padding-top: 20px;
   color: black;
   font-size: 18px;
-  padding-right: 15%;
+}
+.editbutton {
+  margin-left: 2%;
+  margin-top: 2%;
+}
+.topdiv {
+  margin-top: 2%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 7%;
 }
 .center {
   margin: 5% auto;
@@ -39,11 +45,12 @@
 }
 
 .imageCropper {
-  margin-left:15%;
-  width: 80%;
+  margin-top: 2%;
+  width: 150px;
+  height: 150px;
   position: relative;
   overflow: hidden;
-  border-radius:5%;
+  border-radius: 50%;
 }
 textarea {
   resize: none;
@@ -55,21 +62,37 @@ textarea {
   margin-bottom: 30px;
 }
 .underpic {
-  padding-top: 40px;
-  color: black;
-  font-size: 30px;
-  text-align: center;
-  width: 100%
+  font-family: "PT Sans", sans-serif;
+  background-color: #8da5d6;
+  margin-top: 2%;
+  color: white;
+  border-radius: 10px;
+  border-color: #4363a5;
+  border-width: 1px;
+  border-style: solid;
+  font-size: 18px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  width: 33%;
+  height: 35px;
+}
+#aboutmetext {
+  font-family: "PT Sans", sans-serif;
+  text-decoration: underline;
 }
 #aboutme {
+  font-family: "PT Sans", sans-serif;
   text-align: left;
   padding: 10px;
   margin: 0 auto;
-  border-color: rgb(199, 199, 199);
-  background-color: #f8f8f8;
-  width: 95%;
+  border-radius: 10px;
+  border-color: #4363a5;
+  border-width: 1px;
+  border-style: solid;
+  background-color: white;
+  width: 40%;
   height: 60%;
-  border-radius: 5%
 }
 
 #inputfield {
