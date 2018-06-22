@@ -368,10 +368,8 @@ export default class Profile extends Component {
         <br />
         <center>
           <div id="sidefo">
-            <div className="underpic">
-              {skillSpan}
-              {newSkill}
-            </div>
+            {skillSpan}
+            {newSkill}
             <div style={{ "margin-top": "30px" }}>
               <strong> You have </strong> {this.state.upvotes}{" "}
               <Icon type="like" />

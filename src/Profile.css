@@ -77,6 +77,21 @@ textarea {
   width: 33%;
   height: 35px;
 }
+.skillz {
+  font-family: "PT Sans", sans-serif;
+  background-color: #eeeeee;
+  margin-top: 2%;
+  border-radius: 10px;
+  border-color: #dfe1e4;
+  border-width: 1px;
+  border-style: solid;
+  font-size: 18px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  width: 33%;
+  height: 35px;
+}
 #aboutmetext {
   font-family: "PT Sans", sans-serif;
   text-decoration: underline;
