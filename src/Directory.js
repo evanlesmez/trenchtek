@@ -36,7 +36,7 @@ export default class Directory extends Component {
       sortByName: false,
       sortByTag: false,
       boolean: false,
-      loading: true
+      loading: "hello"
     };
   }
   setBooleanTrue = () => {
@@ -370,11 +370,14 @@ export default class Directory extends Component {
         }
         updatedArray.push(thing);
       }
+      this.state.loading = false;
       this.setState({ array: updatedArray });
     });
   }
 
   render() {
+    if (this.state.loading === "hello" && console.log("hello"))
+      this.state.loading = true;
     return (
       <div className="directory">
         <center>
@@ -437,7 +440,7 @@ export default class Directory extends Component {
                   style={{ width: 500, maxHeight: 1000 }}
                   title={<div className="name-text">{user.name}</div>}
                   hoverable={true}
-                  loading={false}
+                  loading={this.state.loading}
                 >
                   <div class="flexhorizontal">
                     <img class="directory-image" src={user.image} />

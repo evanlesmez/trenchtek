@@ -44,7 +44,7 @@ class TopbarUser extends Component {
 
   render() {
     return (
-      <div>
+      <div className="fixed">
         <Menu
           mode="horizontal"
           defaultSelectedKeys={this.props.history.location.pathname}
