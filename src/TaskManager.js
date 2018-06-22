@@ -63,6 +63,10 @@ export default class TaskManager extends Component {
     this.setState({ [group + "cardForm"]: null });
   };
 
+  handleCancel = group => {
+    this.setState({ [group + "cardForm"]: null });
+  };
+
   addTaskForm = group => {
     this.setState({
       [group + "cardForm"]: (
@@ -74,6 +78,9 @@ export default class TaskManager extends Component {
             <Button type="primary" htmlType="submit">
               Submit
             </Button>
+            <FormItem>
+              <Button onClick={() => this.handleCancel(group)}>Cancel</Button>
+            </FormItem>
           </FormItem>
         </Form>
       )
@@ -91,6 +98,9 @@ export default class TaskManager extends Component {
             <Button type="primary" htmlType="submit">
               Submit
             </Button>
+            <FormItem>
+              <Button onClick={() => this.handleCancel(group)}>Cancel</Button>
+            </FormItem>
           </FormItem>
         </Form>
       )
