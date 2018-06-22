@@ -199,7 +199,6 @@ export default class AddGroups extends Component {
   };
 
   render() {
-    console.log("add groups is rendering");
     return (
       <center>
         <div class="directory-title">Tasks</div>
