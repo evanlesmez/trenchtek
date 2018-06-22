@@ -37,32 +37,33 @@ export default class BrowseContracts extends Component {
     let eventContract = database
       .ref("approvedCompanyContracts")
       .child(e.target.name);
+    if (window.confirm(`Are you sure you want to bid on this contract?`)) {
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          console.log(user);
+          let userKey = user.uid;
+          let userIDString = "/users/" + userKey;
+          let userDatabase = firebase.database().ref(userIDString);
+          console.log(userIDString);
+          //console.log(userIDString);
+          userDatabase.on("value", snapshot => {
+            //console.log(snapshot.val());
+            let newNameState = snapshot.val().name;
+            //console.log(newTitleState);
+            this.setState({
+              biddingUserName: newNameState
+            });
 
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        console.log(user);
-        let userKey = user.uid;
-        let userIDString = "/users/" + userKey;
-        let userDatabase = firebase.database().ref(userIDString);
-        console.log(userIDString);
-        //console.log(userIDString);
-        userDatabase.on("value", snapshot => {
-          //console.log(snapshot.val());
-          let newNameState = snapshot.val().name;
-          //console.log(newTitleState);
-          this.setState({
-            biddingUserName: newNameState
+            eventContract
+              .child("BiddingUsers")
+              .child(newNameState)
+              .set(this.state.bidAmount);
           });
-
-          eventContract
-            .child("BiddingUsers")
-            .child(newNameState)
-            .set(this.state.bidAmount);
-        });
-      } else {
-        console.log("else statment from bowser");
-      }
-    });
+        } else {
+          console.log("else statment from bowser");
+        }
+      });
+    }
   }
 
   displayBids = e => {
@@ -139,7 +140,6 @@ export default class BrowseContracts extends Component {
       display = bidArray.map(item => {
         return (
           <div>
-            <div id="contracts-bold">Bids: </div>
             {item.key} <br />
             <br />
           </div>
@@ -155,15 +155,17 @@ export default class BrowseContracts extends Component {
         <br />
         {!this.state.bidsHidden ? (
           <div>
-            <Card
-              title="Bids on selected contract:"
-              style={{ width: 720, margin: "auto" }}
-            >
-              {display}
-              <Button onClick={e => this.stopDisplayBids(e)}>
-                Browse All Contracts
-              </Button>
-            </Card>
+            <center>
+              <Card
+                title="Bids on selected contract:"
+                style={{ width: 720, margin: "auto" }}
+              >
+                {display}
+                <Button onClick={e => this.stopDisplayBids(e)}>
+                  Browse All Contracts
+                </Button>
+              </Card>
+            </center>
           </div>
         ) : (
           <div>{display}</div>

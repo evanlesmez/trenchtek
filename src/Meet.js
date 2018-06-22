@@ -131,7 +131,8 @@ export default class Meet extends Component {
             autoStart={false}
           />
         </center>
-
+        <br />
+        <br />
         <div className="flexhorizontal">
           {this.state.array.map((instructor, index) => {
             return (

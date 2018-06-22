@@ -111,7 +111,6 @@ class Login extends Component {
     return (
       <div>
         <br />
-        <br />
         <center>
           <Link to="/" className="redirect-to-home-logo-button">
             RevTek
