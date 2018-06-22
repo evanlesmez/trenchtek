@@ -75,6 +75,14 @@ export default class User extends Component {
       let approvedUserstemp = [];
       let removedUserstemp = [];
       snapshot.forEach(value => {
+        let tagst = [];
+        console.log(value.val().tags.length);
+        if (value.val().tags.length < 2) {
+          tagst = ["999", " ", "Java"];
+          console.log("hi");
+        } else {
+          tagst = value.val().tags;
+        }
         let obj = {
           name: value.val().name,
           email: value.val().email,
@@ -173,7 +181,7 @@ export default class User extends Component {
   submitChanges = () => {
     let edit = {
       about: this.state.editAbout,
-      approved: this.state.editApproved,
+      approved: this.state.editUser.approved,
       email: this.state.editEmail,
       image: this.state.editImage,
       name: this.state.editName,

@@ -42,11 +42,28 @@
 .nametitle {
   font-size: 12px;
 }
+.name {
+  font-size: 30px;
+  font-weight: bold;
+  padding-top: 10px;
+  text-align: center;
+}
+.title {
+  font-size: 20px;
+  text-align: center;
+}
 .image-cropper {
   width: 60px;
   height: 60px;
   position: relative;
   border-radius: 50%;
+  object-fit: cover;
+}
+.image-cropper2 {
+  border-radius: 60%;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
 }
 .directory-image {
   overflow: hidden;
@@ -88,7 +105,9 @@
   width: 500px;
   max-height: 300px;
   position: relative;
-  border: 0.1px solid #eaeaea;
+  border-bottom-left-radius: 11px;
+  border-bottom-right-radius: 11px;
+  border: 0.5px solid #5e7dbc;
   background-color: #ffffff;
   color: #5a7191;
   padding: 10px;
@@ -106,6 +125,10 @@
 .space {
   width: 1px;
   height: 1px;
+}
+.space2 {
+  width: 5px;
+  height: 50px;
 }
 @media (max-width: 900px) {
   .post-body {
