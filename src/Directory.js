@@ -463,6 +463,8 @@ export default class Directory extends Component {
                 </div>
               </div>
               <br />
+              <br />
+              <br />
             </div>
           ))}
         </center>

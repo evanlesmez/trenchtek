@@ -47,7 +47,7 @@ export default class SubmitContracts extends Component {
     return (
       <div>
         <center>
-          <br />
+          <div class="directory-title">Submit Contract</div>
           <Card title="Company Information Form" style={{ width: 600 }}>
             <Form layout="vertical" className="login-form">
               <Form.Item label="Company Name:">
