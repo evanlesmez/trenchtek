@@ -3,9 +3,9 @@ import "./Manage.css";
 import EditingForm from "./EditingForm";
 import firebase from "./Firebase";
 
-import { Form, Row, Col, Input, Card, Button, Icon } from 'antd';
+import { Form, Row, Col, Input, Card, Button, Icon, Avatar } from "antd";
 const FormItem = Form.Item;
-
+const meetRef = firebase.database().ref("meet");
 
 export default class ManageSite extends Component {
 
@@ -33,6 +33,52 @@ export default class ManageSite extends Component {
 
 
 
+
+
+    handleDelete = (index, word) => {
+        if (word == "inst") {
+            let arrayIn = this.state.instructors;
+            arrayIn.splice(index, 1)
+            this.setState(
+                {
+                    instructors: arrayIn
+                }
+            )
+
+        }
+
+        else if (word == "dev") {
+            let arrayDev = this.state.seniorDevs;
+            arrayDev.splice(index, 1)
+            this.setState(
+                {
+                    seniorDevs: arrayDev
+                }
+            )
+
+        }
+    }
+
+    handleAdd = word => {
+        if (word == "inst") {
+            this.setState(
+                {
+                    instructors: [...this.state.instructors, { name: "", tags: "", editI: true, info: "" }]
+                }
+            )
+
+        }
+
+        else if (word == "dev") {
+            this.setState(
+                {
+                    seniorDevs: [...this.state.seniorDevs, { name: "", tags: "", editD: true, info: "" }]
+                }
+            )
+
+        }
+    }
+
     componentDidMount() {
 
         const ref = firebase.database().ref('about/');
@@ -50,60 +96,10 @@ export default class ManageSite extends Component {
 
             });
         });
-    }
 
-    handlerInstructors = (e, i, word) => {
+        meetRef.on("value", snapshot => {
 
-        let instArray = this.state.instructors
-        let variable = eval("instArray[" + i + "]." + word)
-        instArray[i].editI = false;
-        variable = e.target.value;
-        console.log(variable);
-        console.log(instArray[i].info);
-
-        this.setState({
-            instructors: instArray
         })
-    }
-
-
-
-
-    handlerD = (e, i) => {
-        let devArray = this.state.seniorDevs
-        devArray[i].editD = false;
-        devArray[i].info = e.target.value;
-        this.setState({
-            seniorDevs: devArray
-        })
-
-
-    }
-
-
-
-    handleInEdit = ind => {
-        let instArray = this.state.instructors
-        instArray[ind].editI = true;
-        this.setState(
-            {
-                instructors: instArray
-            }
-        )
-
-
-    }
-
-    handleDevEdit = ind => {
-        let devArray = this.state.seniorDevs
-        devArray[ind].editD = true;
-        this.setState(
-            {
-                seniorDevs: devArray
-            }
-        )
-
-        console.log(this.state)
     }
 
     handleEditH = () => {
@@ -174,50 +170,84 @@ export default class ManageSite extends Component {
             }
         )
     }
-    handleDelete = index => {
-        let array = this.state.instructors;
-        array.splice(index, 1);
+
+    handlerInstructors = (e, i, word) => {
+
+        let instArray = this.state.instructors
+        if (word === "info") {
+            instArray[i].info = e.target.value;
+        }
+        else if (word === "name") {
+            instArray[i].name = e.target.value;
+        }
+        else if (word === "tags") {
+            instArray[i].tags = e.target.value;
+        }
+        instArray[i].editI = false;
+
+
+        meetRef.update({ instructors: instArray })
         this.setState({
-            instructors: array
+            instructors: instArray
         })
     }
 
-    handleAdd = () => {
+
+
+
+    handlerD = (e, i, word) => {
+        let devArray = this.state.seniorDevs
+        if (word === "info") {
+            devArray[i].info = e.target.value;
+        }
+        else if (word === "name") {
+            devArray[i].name = e.target.value;
+        }
+        else if (word === "tags") {
+            devArray[i].tags = e.target.value;
+        }
+        devArray[i].editD = false;
+
+        this.setState({
+            seniorDevs: devArray
+        })
+
+
+    }
+
+
+
+    handleInEdit = ind => {
+        let instArray = this.state.instructors
+        instArray[ind].editI = true;
         this.setState(
             {
-                instructors: [...this.state.instructors, { name: "", tags: "", editI: true, info: "" }]
+                instructors: instArray
             }
         )
+
+
     }
     render() {
-        let edit = <p className="infoEdit"
-            onClick={this.handleEditH}
 
-        > </p>;
 
-        if (this.props.userTitle === "admin") {
-            edit = <p className="editt"
-                onClick={this.handleEditH}
 
-            >  Edit</p>
-        }
-
-        let arrayInfo = [];
-        let arrayName = [];
-        let arrayTags = [];
+        let array = [];
+        // let arrayName = [];
+        // let arrayTags = [];
         for (let i = 0; i < this.state.instructors.length; i++) {
-            if (!(arrayInfo.includes(this.state.instructors[i].info)))
-                arrayInfo.push(this.state.instructors[i].info);
-            arrayName.push(this.state.instructors[i].name);
-            arrayTags.push(this.state.instructors[i].tags);
+            if (!(array.includes(this.state.instructors[i])))
+                array.push(this.state.instructors[i]);
+            // arrayName.unshift(this.state.instructors[i].name);
+            // arrayTags.unshift(this.state.instructors[i].tags);
 
         }
-        for (let i = 0; i < arrayInfo.length; i++) {
+        for (let i = 0; i < array.length; i++) {
 
             if (this.state.instructors[i].editI) {
-                arrayInfo[i] = <EditingForm defaultValue={this.state.instructors[i].info} onPressEnter={(e) => this.handlerInstructors(e, i, "info")} />;
-                arrayName[i] = <EditingForm defaultValue={this.state.instructors[i].name} onPressEnter={(e) => this.handlerInstructors(e, i, "name")} />;
-                arrayTags[i] = <Input className="tagForm" defaultValue={this.state.instructors[i].tags} onPressEnter={(e) => this.handlerInstructors(e, i, "tags")} />;
+                array[i].info = <EditingForm defaultValue={this.state.instructors[i].info} onPressEnter={(e) => this.handlerInstructors(e, i, "info")} />;
+                array[i].name = <EditingForm defaultValue={this.state.instructors[i].name} onPressEnter={(e) => this.handlerInstructors(e, i, "name")} />;
+                array[i].tags = <Input className="tagForm" defaultValue={this.state.instructors[i].tags} onPressEnter={(e) => this.handlerInstructors(e, i, "tags")} />;
 
             }
 
@@ -225,14 +255,20 @@ export default class ManageSite extends Component {
 
 
         let arrayDev = [];
+        // let arrayDevName = [];
+        // let arrayDevTags = [];
         for (let i = 0; i < this.state.seniorDevs.length; i++) {
-            if (!(arrayDev.includes(this.state.seniorDevs[i].info)))
-                arrayDev.unshift(this.state.seniorDevs[i].info)
+            if (!(arrayDev.includes(this.state.seniorDevs[i])))
+                arrayDev.push(this.state.seniorDevs[i])
+            // arrayDevName.unshift(this.state.seniorDevs[i].name)
+            // arrayDevTags.unshift(this.state.seniorDevs[i].tags)
         }
         for (let i = 0; i < arrayDev.length; i++) {
 
             if (this.state.seniorDevs[i].editD) {
-                arrayDev[i] = <EditingForm defaultValue={this.state.seniorDevs[i].info} onPressEnter={(e) => this.handlerD(e, i)} />;
+                arrayDev[i].info = <EditingForm defaultValue={this.state.seniorDevs[i].info} onPressEnter={(e) => this.handlerD(e, i, "info")} />;
+                arrayDev[i].name = <EditingForm defaultValue={this.state.seniorDevs[i].name} onPressEnter={(e) => this.handlerD(e, i, "name")} />;
+                arrayDev[i].tags = <Input className="tagForm" defaultValue={this.state.seniorDevs[i].tags} onPressEnter={(e) => this.handlerD(e, i, "tags")} />;
             }
 
         }
@@ -263,85 +299,160 @@ export default class ManageSite extends Component {
             companiesText = <EditingForm defaultValue={this.state.companies} onPressEnter={(e) => this.handlerC(e)} />
         }
         return (
-            <div className="wrapper">
-                <div className="AboutPage">
-                    <h1>About Page</h1>
-                    <div className="aboutText">
-                        <div className="textAndEdit">
-                            <p className="editt"
-                                onClick={this.handleEditH}
+            <Row gutter={24}>
+                <Col span={12}>
+                    <div className="left">
+                        <h1>About Page</h1>
+                        <p className="editt" onClick={this.handleEditH}>
+                            {" "}
+                            Edit History
+            </p>
+                        <div> {historyText}</div>
+                        <br />
+                        <p className="editt" onClick={this.handleEditI}>
+                            {" "}
+                            Edit Interns
+            </p>
+                        <div> {internsText}</div>
+                        <br />
+                        <p className="editt" onClick={this.handleEditC}>
+                            {" "}
+                            Edit Companies
+            </p>
 
-                            >  Edit History</p>
-                            <div className="information"> {historyText}
-                            </div>
-                        </div>
-                        <div className="textAndEdit">
-                            <p className="editt"
-                                onClick={this.handleEditI}
-
-                            >  Edit Interns</p>
-                            <div className="information"> {internsText}
-                            </div>
-                        </div>
-                        <div className="textAndEdit">
-                            <p className="editt"
-                                onClick={this.handleEditC}
-
-                            >  Edit Companies</p>
-                            <div className="information">{companiesText}
-                            </div>
-                        </div>
+                        <div>{companiesText}</div>
+                        <br />
                     </div>
-                </div>
-
-
-                <div className="MeetTeam"> <h1>Meet the Team Page</h1>
-                    <div className="instructorEdit"> <h2 className="titles"> Edit Instructors <span onClick={this.handleAdd} className="add">Add</span></h2>
-                        <div className="informationCard">
-
-                            {this.state.instructors.map((instructor, index) => {
-                                return (
-                                    <div className="card" >
-                                        <div>
-                                            <div className="toEditInst" onClick={() => this.handleInEdit(index)}> Edit</div>  <span onClick={() => this.handleDelete(index)} className="x">X</span></div>
-                                        <Card className="cardi">
-                                            <div className="customImage">
-
-                                                <img className="img" alt="example" width="100%" src="https://www.shrs.pitt.edu/sites/default/files/default_images/default-person.jpg" />
-                                            </div>
-                                            <div className="customCard">
-                                                <div className="textCard">
-                                                    <h3>{arrayName[index]}</h3>
-                                                    {/* <p>linkedIn</p> */}
-                                                </div>
-                                            </div>
-                                        </Card>
-
-                                        <div className="nextImg">
-                                            <p className="infoEdit"
-                                                onClick={() => this.handleInEdit(index)}
-
-                                            > </p>
-                                            <div className="wholeText"><p className="actualText">{arrayInfo[index]}</p> <h5 className="tagz"><div>Tags:{arrayTags[index]} </div></h5></div>
+                </Col>
+                <Col span={12}>
+                    {" "}
+                    <h1>Meet the Team Page</h1>{" "}
+                    <div>
+                        {" "}
+                        <h1 className="titles">
+                            Edit Instructors{" "}
+                        </h1>
+                        <span onClick={() => this.handleAdd("inst")} className="add">
+                            Add
+            </span>
+                    </div>
+                    {this.state.instructors.map((instructor, index) => {
+                        return (
+                            <Card
+                                style={{
+                                    marginTop: 25,
+                                    marginRight: 25
+                                }}
+                                title={array[index].name}
+                                extra={
+                                    <Button
+                                        size="small"
+                                        onClick={() => this.handleDelete(index, "inst")}
+                                        className="float-right"
+                                    >
+                                        <Icon type="delete" />
+                                    </Button>
+                                }
+                            >
+                                <div>
+                                    <div
+                                        className="toEditInst"
+                                        onClick={() => this.handleInEdit(index)}
+                                    >
+                                        {" "}
+                                        Edit
+                  </div>{" "}
+                                </div>
+                                <Row gutter={16}>
+                                    <Col span={12}>
+                                        <div className="customImage">
+                                            <img
+                                                className="img"
+                                                alt="example"
+                                                width="100%"
+                                                src="https://www.shrs.pitt.edu/sites/default/files/default_images/default-person.jpg"
+                                            />
                                         </div>
-
-                                    </div>
-                                );
-                            })}
-                        </div>
-
+                                    </Col>
+                                    <Col span={12}>
+                                        <p>{array[index].info}</p>
+                                    </Col>
+                                </Row>
+                                <br />
+                                <Row>
+                                    <div>Tags: </div>
+                                    {array[index].tags}
+                                </Row>
+                            </Card>
+                        );
+                    })}
+                    <div>
+                        {" "}
+                        <h1 className="titles">
+                            Edit Developers{" "}
+                        </h1>
+                        <span onClick={() => this.handleAdd("dev")} className="add">
+                            Add
+            </span>
                     </div>
+                    {this.state.seniorDevs.map((instructor, index) => {
+                        return (
+                            <Card
+                                style={{
+                                    marginTop: 25,
+                                    marginRight: 25
+                                }}
+                                title={arrayDev[index].name}
+                                extra={
+                                    <Button
+                                        size="small"
+                                        onClick={() => this.handleDelete(index, "dev")}
+                                        className="float-right"
+                                    >
+                                        <Icon type="delete" />
+                                    </Button>
+                                }
+                            >
+                                <div>
+                                    <div
+                                        className="toEditInst"
+                                        onClick={() => this.handleInEdit(index)}
+                                    >
+                                        {" "}
+                                        Edit
+                  </div>{" "}
+                                </div>
+                                <Row gutter={16}>
+                                    <Col span={12}>
+                                        <div className="customImage">
+                                            <img
+                                                className="img"
+                                                alt="example"
+                                                width="100%"
+                                                src="https://www.shrs.pitt.edu/sites/default/files/default_images/default-person.jpg"
+                                            />
+                                        </div>
+                                    </Col>
+                                    <Col span={12}>
+                                        <p>{arrayDev[index].info}</p>
+                                    </Col>
+                                </Row>
+                                <br />
+                                <Row>
+                                    <div>Tags: </div>
+                                    {arrayDev[index].tags}
+                                </Row>
+                            </Card>
+                        );
+                    })}
 
-                    <div className="devEdit"> <h2 className="titles"> Edit Senior Developers</h2></div>
-                </div>
 
 
 
+                </Col>
+            </Row>
 
-            </div >
-        )
+        );
     }
+
 }
-
-
-

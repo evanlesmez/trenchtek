@@ -153,7 +153,7 @@ export default class Meet extends Component {
                       <p className="editInfo"
                         onClick={() => this.handleInEdit(index)}
 
-                      > Edit</p>
+                      > </p>
                       <div className="texty"><p>{array[index]}</p> <h5>Tags: {instructor.tags}</h5></div>
                     </div>
                   </div>
@@ -195,7 +195,7 @@ export default class Meet extends Component {
                       <p className="editInfo"
                         onClick={() => this.handleDevEdit(index)}
 
-                      > Edit </p>
+                      > </p>
                       <div className="texty"> <div><p>{arrayDev[index]}</p> <h5>Tags: {senior.tags}</h5></div> </div>
                     </div>
                   </div>

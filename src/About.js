@@ -151,7 +151,7 @@ export default class About extends Component {
             <p className="edit"
               onClick={this.handleEditH}
 
-            >  Edit</p>
+            >  </p>
           </div>
 
 
@@ -162,7 +162,7 @@ export default class About extends Component {
             <p className="edit"
               onClick={this.handleEditI}
 
-            >  Edit</p>
+            >  </p>
 
           </div>
 
@@ -173,7 +173,7 @@ export default class About extends Component {
             <p className="edit"
               onClick={this.handleEditC}
 
-            >  Edit</p>
+            >  </p>
 
           </div>
 

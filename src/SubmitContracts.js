@@ -48,8 +48,7 @@ export default class SubmitContracts extends Component {
       <div>
         <center>
           <br />
-          <br />
-          <Card title="Company Information Form" style={{ width: 450 }}>
+          <Card title="Company Information Form" style={{ width: 600 }}>
             <Form layout="vertical" className="login-form">
               <Form.Item label="Company Name:">
                 <Input
@@ -74,11 +73,12 @@ export default class SubmitContracts extends Component {
                 />
               </Form.Item>
               <Form.Item label="Details:">
-                <Input
+                <Input.TextArea
                   onChange={e =>
                     this.setState({ additionalDetails: e.target.value })
                   }
                   value={this.state.additionalDetails}
+                  rows={8}
                 />
               </Form.Item>
               <Form.Item label="Email Address to Contact:">
