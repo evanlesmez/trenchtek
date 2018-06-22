@@ -7,7 +7,7 @@ const groupRef = firebase.database().ref("groups");
 const userRef = firebase.database().ref("users");
 const FormItem = Form.Item;
 let newTask = null;
-let newUser = null;
+let newUser = [];
 let newContent = "";
 //let tasks = [];
 
