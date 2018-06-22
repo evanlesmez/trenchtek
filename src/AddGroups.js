@@ -162,6 +162,7 @@ export default class AddGroups extends Component {
     this.setState({
       groupForm: (
         <center>
+          <br />
           <Row align="middle">
             <Col span={6} offset={9}>
               <Card>
@@ -198,7 +199,6 @@ export default class AddGroups extends Component {
   };
 
   render() {
-    console.log("add groups is rendering");
     return (
       <center>
         <div class="directory-title">Tasks</div>
@@ -212,6 +212,7 @@ export default class AddGroups extends Component {
               Add Personal
             </Button>
           ) : null}
+          <br />
           <center>
             <div>{this.state.groupForm}</div>
           </center>

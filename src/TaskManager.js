@@ -9,7 +9,6 @@ const FormItem = Form.Item;
 let newTask = null;
 let newUser = [];
 let newContent = "";
-//let tasks = [];
 
 const { Content } = Layout;
 
@@ -18,7 +17,6 @@ export default class TaskManager extends Component {
     super(props);
     this.state = {
       isClicked: false,
-      //tasks: [],
       cardForm: null
     };
   }
@@ -58,11 +56,14 @@ export default class TaskManager extends Component {
     if (!tempUser.includes(newUser)) {
       tempUser.push(newUser);
     }
-    //this.props.setUsers(group, tempUser);
     groupRef
       .child(group)
       .child("users")
       .set(tempUser);
+    this.setState({ [group + "cardForm"]: null });
+  };
+
+  handleCancel = group => {
     this.setState({ [group + "cardForm"]: null });
   };
 
@@ -77,6 +78,9 @@ export default class TaskManager extends Component {
             <Button type="primary" htmlType="submit">
               Submit
             </Button>
+            <FormItem>
+              <Button onClick={() => this.handleCancel(group)}>Cancel</Button>
+            </FormItem>
           </FormItem>
         </Form>
       )
@@ -94,6 +98,9 @@ export default class TaskManager extends Component {
             <Button type="primary" htmlType="submit">
               Submit
             </Button>
+            <FormItem>
+              <Button onClick={() => this.handleCancel(group)}>Cancel</Button>
+            </FormItem>
           </FormItem>
         </Form>
       )
@@ -105,7 +112,6 @@ export default class TaskManager extends Component {
   };
 
   render() {
-    console.log("task manager is rendering");
     let title = "";
     return this.props.started ? (
       <div className="flex-container">
@@ -194,7 +200,6 @@ export default class TaskManager extends Component {
                         task.type === "completed" ? (
                           <Card
                             style={{ marginTop: 16 }}
-                            type="inner"
                             className="rounded-corners"
                           >
                             <Col span={12}>

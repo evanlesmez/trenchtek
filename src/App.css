@@ -55,7 +55,7 @@
 }
 
 .inputtitle {
-  width: 80%;
+  width: 60%;
   height: auto;
   margin-left: 0%;
   display: inline-block;
@@ -106,7 +106,7 @@ body {
 
 .welcome-pic {
   max-width: 110%;
-  height: auto;
+  height: 100%;
   -webkit-filter: brightness(38%);
   filter: brightness(38%);
 }
@@ -160,6 +160,7 @@ body {
   font-family: "Arvo", sans-serif;
   font-weight: bold;
   font-size: 70px;
+  padding-top: -5%;
 }
 
 .center-text {
