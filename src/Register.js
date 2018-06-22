@@ -10,12 +10,16 @@ import {
   Radio,
   Card,
   Row,
+  Select,
   WrapperCol
 } from "antd";
 import { Link, Redirect } from "react-router-dom";
 import { auth, logout } from "./Auth";
 import firebase from "./Firebase";
 import "./App.css";
+
+const Option = Select.Option;
+const children = [];
 
 class Register extends Component {
   constructor(props) {
@@ -26,18 +30,45 @@ class Register extends Component {
       password2: "",
       title: "",
       name: "",
+      tags: ["999"],
       confirmDirty: false,
       disablebut: true,
       go: false
     };
+    this.inputData();
   }
-
+  handleChange(value) {
+    console.log(`selected ${value}`);
+  }
+  inputData() {
+    let list = [
+      "Java",
+      "Python",
+      "R",
+      "Javascript",
+      "React",
+      "C++",
+      "Go",
+      "Ruby",
+      "RubyOnRails",
+      "Entrepreneurship",
+      "Arduino",
+      "Raspberry pi"
+    ];
+    for (let i = 0; i < list.length; i++) {
+      children.push(<Option key={list[i]}>{list[i]}</Option>);
+    }
+  }
   updateField = (field, value) => {
     this.setState({
       [field]: value
     });
   };
-
+  updateTagField = value => {
+    value.push("999");
+    this.state.tags = value;
+    console.log(this.state.tags);
+  };
   compareToFirstPassword = (rule, value, callback) => {
     const form = this.props.form;
     if (value !== this.state.password) {
@@ -69,14 +100,15 @@ class Register extends Component {
             email: this.state.email,
             title: this.state.title,
             name: this.state.name,
+            tags: this.state.tags,
             image: "",
-            tags: [],
             about: "",
             upvotes: 0,
             upvotes: "",
             approved: false,
-            github: "",
-            linkedIn:""
+            github: "https://github.com/",
+            linkedIn: "https://www.linkedin.com/",
+            position: ""
           };
           let newPostKey = firebase
             .database()
@@ -243,6 +275,28 @@ class Register extends Component {
                     </div>
                   )}
                 </Form.Item>
+                <Form.Item {...formItemLayout} label="Tags">
+                  {getFieldDecorator("name", {
+                    rules: [
+                      {
+                        required: true,
+                        message: "Please input at least one tag!"
+                      }
+                    ]
+                  })(
+                    <div className="input">
+                      <Select
+                        mode="tags"
+                        style={{ width: "100%" }}
+                        placeholder="Please select"
+                        defaultValue={["React"]}
+                        onChange={this.updateTagField}
+                      >
+                        {children}
+                      </Select>
+                    </div>
+                  )}
+                </Form.Item>
                 <Form.Item {...formItemLayout} label="Title">
                   {getFieldDecorator("title", {
                     rules: [
@@ -285,6 +339,7 @@ class Register extends Component {
             </Form>
           </Card>
         </center>
+        <br />
         <br />
       </div>
     );

@@ -155,16 +155,20 @@ class Resources extends Component {
     return (
       <div>
         <center>
-          <br />
-          <Card title="Resources" style={{ width: 720 }}>
-            {this.state.resources.map(resource => {
-              return (
-                <div>
-                  <Card
-                    title={resource.description}
-                    extra={
-                      this.state.userTitle === "Admin" ? (
-                        <div className="chaldelete">
+          <div class="directory-title">Resources</div>
+          {this.state.resources.map(resource => {
+            return (
+              <center>
+                <Card
+                  title={
+                    <div className="panelheader2">
+                      <center>
+                        <div className="headertitle">
+                          {resource.description}
+                        </div>
+                      </center>
+                      {this.state.userTitle === "Admin" && (
+                        <div className="editbut">
                           <Button
                             size="small"
                             onClick={e =>
@@ -178,28 +182,28 @@ class Resources extends Component {
                             <Icon type="delete" />
                           </Button>
                         </div>
-                      ) : null
-                    }
-                    style={{ width: "95%" }}
-                  >
-                    <a href={resource.url} target="_blank">
-                      {resource.url}
-                    </a>
-                  </Card>
-                  <br />
-                </div>
-              );
-            })}
-            {this.state.userTitle === "Admin" ? (
-              <Button
-                size="large"
-                type="primary"
-                shape="circle"
-                icon="plus"
-                onClick={this.handleAddResourceClick}
-              />
-            ) : null}
-          </Card>
+                      )}
+                    </div>
+                  }
+                  style={{ width: 450 }}
+                >
+                  <a href={resource.url} target="_blank">
+                    {resource.url}
+                  </a>
+                </Card>
+                <br />
+              </center>
+            );
+          })}
+          {this.state.userTitle === "Admin" ? (
+            <Button
+              size="large"
+              type="primary"
+              shape="circle"
+              icon="plus"
+              onClick={this.handleAddResourceClick}
+            />
+          ) : null}
         </center>
       </div>
     );

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { Form, Input, Button, Icon, Card } from "antd";
 import "./App.css";
+import "./Post.css";
 import firebase from "./Firebase.js";
 
 export default class SubmitContracts extends Component {
@@ -9,79 +10,84 @@ export default class SubmitContracts extends Component {
     super(props);
     this.state = {
       companyName: "",
-      jobType: "",
+      companyEmail: "",
       jobTimeframe: "",
       specialSkills: "",
       additionalDetails: "",
-      adminApproved: false
+      status: ""
     };
   }
 
   handleClick = () => {
     let obj = {
       companyName: this.state.companyName,
-      jobType: this.state.jobType,
+      companyEmail: this.state.companyEmail,
       jobTimeframe: this.state.jobTimeframe,
       specialSkills: this.state.specialSkills,
       additionalDetails: this.state.additionalDetails,
-      adminApproved: this.state.adminApproved
+      status: "pending"
     };
-
-    console.log(obj);
-    let newPostKey = firebase
+    firebase
       .database()
-      .ref("/unapprovedCompanyContracts")
+      .ref("pendingCompanyContracts")
       .push(obj);
     this.setState({
-      username: "",
-      age: "",
-      name: "",
-      password: ""
+      companyName: "",
+      companyEmail: "",
+      jobTimeframe: "",
+      specialSkills: "",
+      additionalDetails: "",
+      status: ""
     });
+    alert(
+      "Your contract has been successfully submitted! RevTek administrators will be in touch with you by email to let you know whether your contract has been approved. If you have any questions, please contact help@revtek.com."
+    );
   };
 
   render() {
     return (
-      <div>
+      <div className="background2">
         <center>
-          <br />
-          <br />
-          <Card title="Company Information Form" style={{ width: 450 }}>
+          <div class="directory-title">Submit Contract</div>
+          <Card title="Company Information Form" style={{ width: 600 }}>
             <Form layout="vertical" className="login-form">
-              <Form.Item>
+              <Form.Item label="Company Name:">
                 <Input
-                  placeholder="Company Name"
                   onChange={e => this.setState({ companyName: e.target.value })}
+                  value={this.state.companyName}
                 />
               </Form.Item>
-              <Form.Item>
+              <Form.Item label="Job Timeframe (e.g. &quot;2 weeks&quot;):">
                 <Input
-                  placeholder="Job Type"
-                  onChange={e => this.setState({ jobType: e.target.value })}
-                />
-              </Form.Item>
-              <Form.Item>
-                <Input
-                  placeholder="Job Timeframe"
                   onChange={e =>
                     this.setState({ jobTimeframe: e.target.value })
                   }
+                  value={this.state.jobTimeframe}
                 />
               </Form.Item>
-              <Form.Item>
+              <Form.Item label="Special Skills Required (e.g. &quot;Python&quot;):">
                 <Input
-                  placeholder="Special Skills"
                   onChange={e =>
                     this.setState({ specialSkills: e.target.value })
                   }
+                  value={this.state.specialSkills}
                 />
               </Form.Item>
-              <Form.Item>
-                <Input
-                  placeholder="Additional Details"
+              <Form.Item label="Details:">
+                <Input.TextArea
                   onChange={e =>
                     this.setState({ additionalDetails: e.target.value })
                   }
+                  value={this.state.additionalDetails}
+                  rows={8}
+                />
+              </Form.Item>
+              <Form.Item label="Email Address to Contact:">
+                <Input
+                  onChange={e =>
+                    this.setState({ companyEmail: e.target.value })
+                  }
+                  value={this.state.companyEmail}
                 />
               </Form.Item>
               <Form.Item>
@@ -97,6 +103,8 @@ export default class SubmitContracts extends Component {
             </Form>
           </Card>
         </center>
+        <br />
+        <br />
       </div>
     );
   }

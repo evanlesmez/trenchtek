@@ -1,19 +1,77 @@
+@import url("https://fonts.googleapis.com/css?family=PT+Sans");
+
+.directory {
+  font-family: "PT Sans", sans-serif;
+}
 .post-body {
   margin: 1em 27%;
 }
 .post-body2 {
   margin: 1em 12%;
 }
+.webTitle {
+  font-size: 50px;
+  padding: 30px;
+  font-weight: bold;
+}
 .margin2 {
-  margin-left: 33%;
+  margin-left: 30%;
+}
+.label {
+  color: black;
+  font-size: 40px;
+}
+.flexvertical {
+  flex-direction: column;
+}
+.transbox {
+  background-color: black;
+  height: 300px;
+  width: 300px;
+  border: 1px solid black;
+  opacity: 0.1;
 }
 .flexhorizontal {
   display: flex;
 }
+.background {
+  font-family: "Arvo", sans-serif;
+  background-color: #1f2833;
+  height: 600px;
+  object-fit: cover;
+}
+.background {
+  font-family: "Arvo", sans-serif;
+  background-color: #1f2833;
+  height: 650px;
+  object-fit: cover;
+}
+.info {
+  width: 230px;
+  height: 200px;
+  overflow-y: scroll;
+}
+.links {
+  width: 100px;
+  height: 50px;
+}
+.column {
+  float: left;
+  width: 25%;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
+}
+
 .flexhorizontal2 {
   margin-left: 40%;
   display: flex;
   padding: 40px;
+}
+.icon {
+  border-radius: 60%;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
 }
 .directoryfont {
   font-size: 40;
@@ -37,19 +95,35 @@
 .nametitle {
   font-size: 12px;
 }
+.name {
+  font-size: 30px;
+  font-weight: bold;
+  padding-top: 10px;
+  text-align: center;
+}
+.title {
+  color: gray;
+  font-size: 13px;
+  text-align: center;
+}
 .image-cropper {
   width: 60px;
   height: 60px;
   position: relative;
   border-radius: 50%;
-  border: 3px solid black;
+  object-fit: cover;
+}
+.image-cropper2 {
+  border-radius: 60%;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
 }
 .directory-image {
+  overflow: hidden;
   width: 100px;
   height: 100px;
   position: relative;
-  border-radius: 50%;
-  border: 3px solid black;
 }
 .username {
   width: 500px;
@@ -62,23 +136,40 @@
   padding-left: 10px;
 }
 .indent {
-  margin-left: 50px;
+  margin-top: 10px;
+  margin-left: 65px;
+  position: relative;
+}
+.ant-input {
+  font-family: "PT Sans", sans-serif;
+  font-size: 14px;
+}
+.ant-input-suffix {
+  border-color: pink;
+}
+.ant-input-search-button.ant-btn-primary {
+  background-color: #7ea5e5;
+  border-color: #7ea5e5;
+}
+.ant-checkbox {
+  background-color: #7ea5e5;
 }
 .tags {
+  font-family: "PT Sans", sans-serif;
   width: 500px;
   max-height: 300px;
   position: relative;
-  border: 1px solid rgb(180, 180, 180);
-  background-color: #d3d3d3;
+  border-bottom-left-radius: 11px;
+  border-bottom-right-radius: 11px;
+  border: 0.5px solid #5e7dbc;
+  background-color: #ffffff;
   color: #5a7191;
   padding: 10px;
+
+  margin-top: -1%;
 }
-.border {
-  width: 510px;
-  border: 5px solid rgb(180, 180, 180);
-}
+
 .card-style {
-  border-radius: 40%;
   width: 100px;
 }
 .space {
@@ -88,6 +179,10 @@
 .space {
   width: 1px;
   height: 1px;
+}
+.space2 {
+  width: 5px;
+  height: 50px;
 }
 @media (max-width: 900px) {
   .post-body {

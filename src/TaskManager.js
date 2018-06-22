@@ -1,11 +1,15 @@
 import React, { Component } from "react";
-import { Button, Form, Input, Card, Layout, Row, Col } from "antd";
+import { Button, Form, Input, Card, Layout, Row, Col, Icon } from "antd";
 import firebase from "./Firebase.js";
+import "./App.css";
 
 const groupRef = firebase.database().ref("groups");
 const userRef = firebase.database().ref("users");
 const FormItem = Form.Item;
 let newTask = null;
+let newUser = [];
+let newContent = "";
+//let tasks = [];
 
 const { Content } = Layout;
 
@@ -14,7 +18,7 @@ export default class TaskManager extends Component {
     super(props);
     this.state = {
       isClicked: false,
-      tasks: [],
+      //tasks: [],
       cardForm: null
     };
   }
@@ -23,16 +27,42 @@ export default class TaskManager extends Component {
     newTask = e.target.value;
   };
 
+  handleUserChange = e => {
+    newUser = e.target.value;
+  };
+
   submitTask = (e, group) => {
+    if (group === "Personal") {
+      group = group + this.props.userid;
+    }
     e.preventDefault();
-    let tempTask = this.props[group + "Tasks"];
-    tempTask.push(newTask);
-    this.props.setTasks(group, tempTask);
     groupRef
       .child(group)
       .child("tasks")
-      .set(tempTask);
-    newTask = null;
+      .push({ name: newTask, des: newTask + "Content", type: "uncompleted" });
+    this.setState({ [group + "cardForm"]: null });
+  };
+
+  mark = (group, key, place) => {
+    groupRef
+      .child(group)
+      .child("tasks")
+      .child(key)
+      .child("type")
+      .set(place);
+  };
+
+  submitUser = (e, group) => {
+    e.preventDefault();
+    let tempUser = this.props[group + "Users"];
+    if (!tempUser.includes(newUser)) {
+      tempUser.push(newUser);
+    }
+    //this.props.setUsers(group, tempUser);
+    groupRef
+      .child(group)
+      .child("users")
+      .set(tempUser);
     this.setState({ [group + "cardForm"]: null });
   };
 
@@ -53,47 +83,170 @@ export default class TaskManager extends Component {
     });
   };
 
+  addUserForm = group => {
+    this.setState({
+      [group + "cardForm"]: (
+        <Form onSubmit={e => this.submitUser(e, group)}>
+          <FormItem label="new user">
+            <Input onChange={this.handleUserChange} />
+          </FormItem>
+          <FormItem>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </FormItem>
+        </Form>
+      )
+    });
+  };
+
+  editContent = e => {
+    newContent = e.target.value;
+  };
+
   render() {
-    return this.props.started
-      ? this.props.groups.map(group => {
+    console.log("task manager is rendering");
+    let title = "";
+    return this.props.started ? (
+      <div className="flex-container">
+        {" "}
+        {this.props.groups.map(group => {
+          group.substring(0, 8) === "Personal"
+            ? (title = "Personal")
+            : (title = group);
           return (
-            <Card
-              title={group}
-              style={{
-                marginTop: 25,
-                marginLeft: 25
-              }}
-              className="challenge-collapse"
-            >
-              {this.props[group + "Tasks"].map((task, index) => {
-                return (
-                  <Card style={{ marginTop: 16 }} type="inner" title={task}>
-                    {task} content
-                    <Button
-                      style={{ marginTop: 16 }}
-                      onClick={() => this.props.deleteTask(group, index)}
-                    >
-                      Delete Task
-                    </Button>
-                  </Card>
-                );
-              })}
-              <Button
-                style={{ marginTop: 16 }}
-                onClick={() => this.addTaskForm(group)}
-              >
-                Add Task
-              </Button>
-              <Button
-                style={{ marginTop: 16 }}
-                onClick={() => this.props.deleteGroup(group)}
-              >
-                Delete Group
-              </Button>
-              {this.state[group + "cardForm"]}
-            </Card>
+            <center>
+              <div>
+                <br />
+                <Card
+                  className="make-gray"
+                  title={
+                    <div className="panelheader2">
+                      {" "}
+                      <center>
+                        <div className="headertitle">{title}</div>
+                      </center>
+                      <div className="editbut">
+                        <Button
+                          size="small"
+                          onClick={() => this.props.deleteGroup(group)}
+                        >
+                          <Icon type="delete" />
+                        </Button>
+                      </div>
+                    </div>
+                  }
+                  style={{
+                    marginTop: 30,
+                    marginLeft: 20,
+                    marginRight: 20,
+                    width: 450
+                  }}
+                >
+                  <div>
+                    <em>Uncompleted tasks:</em>
+                  </div>
+                  {this.props[group + "Tasks"].map(task => {
+                    return (
+                      <div>
+                        {task.name !== "default" &&
+                        task.type === "uncompleted" ? (
+                          <Card style={{ marginTop: 16 }} type="inner">
+                            <Col span={12}>
+                              <div>{task.name}</div>
+                            </Col>
+                            <Col span={12}>
+                              <div className="chaldelete">
+                                <Button
+                                  size="small"
+                                  onClick={() =>
+                                    this.props.deleteTask(group, task.key)
+                                  }
+                                  className="float-right"
+                                >
+                                  <Icon type="delete" />
+                                </Button>
+
+                                <Button
+                                  size="small"
+                                  onClick={() =>
+                                    this.mark(group, task.key, "completed")
+                                  }
+                                  className="float-right"
+                                >
+                                  <Icon type="check" />
+                                </Button>
+                              </div>
+                            </Col>
+                          </Card>
+                        ) : null}{" "}
+                      </div>
+                    );
+                  })}
+
+                  <div className="top-margin">
+                    <em>Completed tasks:</em>
+                  </div>
+                  {this.props[group + "Tasks"].map(task => {
+                    return (
+                      <div>
+                        {task.name !== "default" &&
+                        task.type === "completed" ? (
+                          <Card
+                            style={{ marginTop: 16 }}
+                            className="rounded-corners"
+                          >
+                            <Col span={12}>
+                              <div>{task.name}</div>
+                            </Col>
+                            <Col span={12}>
+                              <div className="chaldelete">
+                                <Button
+                                  size="small"
+                                  onClick={() =>
+                                    this.props.deleteTask(group, task.key)
+                                  }
+                                  className="float-right"
+                                >
+                                  <Icon type="delete" />
+                                </Button>
+
+                                <Button
+                                  size="small"
+                                  onClick={() =>
+                                    this.mark(group, task.key, "uncompleted")
+                                  }
+                                  className="float-right"
+                                >
+                                  <Icon type="sync" />
+                                </Button>
+                              </div>
+                            </Col>
+                          </Card>
+                        ) : null}
+                      </div>
+                    );
+                  })}
+
+                  <Button
+                    style={{ marginTop: 16 }}
+                    onClick={() => this.addTaskForm(group)}
+                  >
+                    Add Task
+                  </Button>
+                  <Button
+                    style={{ marginTop: 16 }}
+                    onClick={() => this.addUserForm(group)}
+                  >
+                    Add User
+                  </Button>
+                  {this.state[group + "cardForm"]}
+                </Card>
+              </div>
+            </center>
           );
-        })
-      : null;
+        })}{" "}
+      </div>
+    ) : null;
   }
 }

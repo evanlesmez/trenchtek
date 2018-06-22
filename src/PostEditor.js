@@ -26,11 +26,6 @@ class PostEditor extends Component {
   }
 
   createPost() {
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        useremail = user.email;
-      }
-    });
     var object = {
       posts: this.state.newPostBody,
       upvotes: this.state.newUpvotes,
@@ -62,7 +57,7 @@ class PostEditor extends Component {
           value={this.state.newPostBody}
           onChange={this.handlePostEditorInputChange}
           onKeyDown={this.addMessage}
-          placeholder="Type and press enter."
+          placeholder="What's on your mind today?"
         />
         <Button type="primary" onClick={this.createPost}>
           Post

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { Form, Input, Button, Icon, Card } from "antd";
 import "./App.css";
+import "./Post.css";
+
 import firebase from "./Firebase.js";
 
 class Login extends Component {
@@ -38,9 +40,7 @@ class Login extends Component {
           .ref("/users")
           .child(user.uid)
           .once("value", snapshot => {
-            exists =
-              snapshot.val().title !== "removed" &&
-              snapshot.val().approved === true;
+            exists = snapshot.val().approved === true;
           })
           .then(() => {
             if (exists === false) {
@@ -72,10 +72,7 @@ class Login extends Component {
           .ref("/users")
           .child(user.uid)
           .once("value", snapshot => {
-            console.log(snapshot.val().approved);
-            removed =
-              snapshot.val().title === "removed" &&
-              snapshot.val().approved === "removed";
+            removed = snapshot.val().approved === "removed";
             accepted = snapshot.val().approved === true;
           })
           .then(() => {
@@ -113,6 +110,7 @@ class Login extends Component {
     }
     return (
       <div>
+        <br />
         <center>
           <Link to="/" className="redirect-to-home-logo-button">
             RevTek

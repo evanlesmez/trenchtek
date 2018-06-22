@@ -1,52 +1,67 @@
 @import "~antd/dist/antd.css";
 
-
-
-/*
-p{
-    background: black;
-  /*background: linear-gradient(bottom, rgba(0,0,0,1), rgba(0,0,0,.4));
-  background: -webkit-linear-gradient(bottom, rgba(0,0,0,1), rgba(0,0,0,.4));
-  background: -moz-linear-gradient(bottom, rgba(0,0,0,1), rgba(0,0,0,.4));
-  
-}
-*/
-
-/*
-.contents{
-   position: relative;
-   right:100%;
-}
-*/
-
-.contents{
-    margin-top:70px;
-    margin-left:455px;
-
+.contents {
+  margin-top: 5%;
+  margin-left: 30%;
 }
 
-
-#history, #interns, #companies{font-family:"Verdana";display:inline-flex; width:75% ;margin-bottom: 70px;} 
-.historyTitle,.word{width:35%;height:1px;padding:0px;}
-
-.eliza{
-width: 40%;
+.history,
+.interns {
+  font-family: "Verdana";
+  display: inline-flex;
+  width: 40%;
+  margin-bottom: 10%;
+}
+.companies {
+  font-family: "Verdana";
+  display: inline-flex;
+  width: 45%;
+  margin-bottom: 10%;
+}
+.historyTitle,
+.historyTitle2,
+.word {
+  width: 35%;
+  height: 1%;
 }
 
-.word{
-    background-color: black;
-    color: white;
+.eliza {
+  text-align: left;
+  width: 20%;
+  height: 50%;
 }
 
-.edit{
-    top:100%;
-    font-size:10px;
-    color: blue;
-    cursor: pointer;
-    text-decoration: underline
+.word {
+  background-color: black;
+  color: white;
 }
 
-.buttonText{
-    margin:auto;
+.edit {
+  top: 100%;
+  font-size: 10px;
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
+}
 
+.buttonText {
+  margin: auto;
+}
+
+@media (max-width: 1400px) {
+  .historyTitle,
+  .historyTitle2,
+  .word {
+    width: 13%;
+    height: 1%;
+    padding: 0%;
+    margin-right: 10%;
+  }
+
+  .eliza {
+    height: 30%;
+    margin-left: 20%;
+
+    width: 1000%;
+  }
 }

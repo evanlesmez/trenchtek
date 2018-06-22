@@ -1,12 +1,25 @@
 import React, { Component } from "react";
-import { Button, Input, Menu, Dropdown, Checkbox, Card, Tag, Icon } from "antd";
+import {
+  Button,
+  Select,
+  Input,
+  Menu,
+  Dropdown,
+  Checkbox,
+  Card,
+  Tag,
+  Icon
+} from "antd";
 
 import firebase from "./Firebase";
 import "./Post.css";
+import "./App.css";
 
+let storageRef = firebase.storage().ref("images/");
+let dBase = firebase.database();
 const CheckboxGroup = Checkbox.Group;
 const Search = Input.Search;
-const plainOptions = ["Intern", "Alumni", "Senior Developers", "Admin"];
+const plainOptions = ["Intern", "Alumni", "Admin"];
 const { Meta } = Card;
 const { CheckableTag } = Tag;
 
@@ -21,39 +34,18 @@ export default class Directory extends Component {
       array: [],
       sortByUpvote: false,
       sortByName: false,
-      sortByTag: false
+      sortByTag: false,
+      boolean: false,
+      loading: "hello"
     };
   }
-  menu2 = () => {
-    return (
-      <div>
-        <Menu
-          key="None"
-          onClick={e => this.allowNoneSort(e)}
-          selectable={false}
-        >
-          <Menu.Item>None</Menu.Item>
-        </Menu>
-        <Menu
-          key="Upvotes"
-          onClick={e => this.allowUpvoteSort(e)}
-          selectable={false}
-        >
-          <Menu.Item>Upvotes</Menu.Item>
-        </Menu>
-        <Menu
-          key="Name"
-          onClick={e => this.allowNameSort(e)}
-          selectable={false}
-        >
-          <Menu.Item>Name</Menu.Item>
-        </Menu>
-        <Menu key="Tags" onClick={e => this.allowTagSort(e)} selectable={false}>
-          <Menu.Item>#ofTags</Menu.Item>
-        </Menu>
-      </div>
-    );
+  setBooleanTrue = () => {
+    this.state.boolean = true;
   };
+  setBooleanFalse = () => {
+    this.state.boolean = false;
+  };
+  handleClose = (removedTag, info) => {};
   allowUpvoteSort = e => {
     this.setState({ sortByUpvote: true });
     this.setState({ sortByName: false });
@@ -99,6 +91,28 @@ export default class Directory extends Component {
       });
     }
   };
+  sort = array => {
+    if (this.state.sortByUpvote) {
+      array.sort(function(a, b) {
+        return parseInt(b.upvotes) - parseInt(a.upvotes);
+      });
+    } else if (this.state.sortByTag) {
+      array.sort(function(a, b) {
+        return b.tags.length - a.tags.length;
+      });
+    } else if (this.state.sortByName) {
+      array.sort(function(a, b) {
+        return (
+          a.name.toUpperCase().charCodeAt(0) -
+          b.name.toUpperCase().charCodeAt(0)
+        );
+      });
+    }
+    console.log(array);
+    this.setState({ array: array }, () => {
+      console.log("new state", this.state);
+    });
+  };
   searchResult = v => {
     var array = this.state.users;
     let list = firebase.database().ref("/users");
@@ -106,12 +120,14 @@ export default class Directory extends Component {
       let objects = snapshot.val();
       let array = [];
       let thing = {};
-      let array2 = [];
+      let array2 = {};
       var person;
+      let image;
+
       for (let obj in objects) {
         person = objects[obj];
         if (this.state.checkedList.includes(person.title)) {
-          array2.push(person);
+          array2[obj] = person;
         }
       }
       for (let obj in array2) {
@@ -119,21 +135,108 @@ export default class Directory extends Component {
         var tag = person.tags;
         for (var i = 0; i < tag.length; i++) {
           if (tag[i] != "") {
-            console.log(tag[i]);
             tag[i] = tag[i].toLowerCase();
-            console.log(i);
           }
-          //else {
-          //  delete tag[i];
-          //}
         }
+        ///////////////////////
+        ///Retrieving Image////
+        ///////////////////////
+        /*
+        dBase.ref(obj).on("value", snapshot => {
+          storageRef
+            .child("users/" + obj)
+            .getDownloadURL()
+            .then(url => {
+              person = array2[obj];
+              var name = person.name.toLowerCase();
+              if (
+                v.indexOf("#") != -1 &&
+                tag.includes(v.toLowerCase().substring(1))
+              ) {
+                thing = {
+                  name: person.name,
+                  title: person.title,
+                  image: url,
+                  tags: person.tags,
+                  upvotes: person.upvotes
+                };
+                array.push(thing);
+                console.log("1");
+              } else if (
+                v.indexOf("#") == -1 &&
+                name.includes(v.toLowerCase())
+              ) {
+                thing = {
+                  name: person.name,
+                  title: person.title,
+                  image: url,
+                  tags: person.tags,
+                  upvotes: person.upvotes
+                };
+                array.push(thing);
+                console.log("2");
+              } else if (v == "") {
+                thing = {
+                  name: person.name,
+                  title: person.title,
+                  image: url,
+                  tags: person.tags,
+                  upvotes: person.upvotes
+                };
+                array.push(thing);
+                console.log("3");
+              }
+            })
+            .catch(function(error) {
+              person = array2[obj];
 
+              var name = person.name.toLowerCase();
+              if (
+                v.indexOf("#") != -1 &&
+                tag.includes(v.toLowerCase().substring(1))
+              ) {
+                thing = {
+                  name: person.name,
+                  title: person.title,
+                  image: "https://i.stack.imgur.com/34AD2.jpg",
+                  tags: person.tags,
+                  upvotes: person.upvotes
+                };
+                array.push(thing);
+                console.log("1a");
+              } else if (
+                v.indexOf("#") == -1 &&
+                name.includes(v.toLowerCase())
+              ) {
+                thing = {
+                  name: person.name,
+                  title: person.title,
+                  image: "https://i.stack.imgur.com/34AD2.jpg",
+                  tags: person.tags,
+                  upvotes: person.upvotes
+                };
+                array.push(thing);
+                console.log("2a");
+              } else if (v == "") {
+                thing = {
+                  name: person.name,
+                  title: person.title,
+                  image: "https://i.stack.imgur.com/34AD2.jpg",
+                  tags: person.tags,
+                  upvotes: person.upvotes
+                };
+                array.push(thing);
+                console.log("3a");
+              }
+            });
+        });
+      }*/
         var name = person.name.toLowerCase();
         if (
           v.indexOf("#") != -1 &&
           tag.includes(v.toLowerCase().substring(1))
         ) {
-          if (person.image === "") {
+          if (!this.state.boolean) {
             thing = {
               name: person.name,
               title: person.title,
@@ -145,14 +248,14 @@ export default class Directory extends Component {
             thing = {
               name: person.name,
               title: person.title,
-              image: person.image,
+              image: image,
               tags: person.tags,
               upvotes: person.upvotes
             };
           }
           array.push(thing);
         } else if (v.indexOf("#") == -1 && name.includes(v.toLowerCase())) {
-          if (person.image === "")
+          if (!this.state.boolean)
             thing = {
               name: person.name,
               title: person.title,
@@ -164,14 +267,14 @@ export default class Directory extends Component {
             thing = {
               name: person.name,
               title: person.title,
-              image: person.image,
+              image: image,
               tags: person.tags,
               upvotes: person.upvotes
             };
           }
           array.push(thing);
         } else if (v == "") {
-          if (person.image == "") {
+          if (!this.state.boolean) {
             thing = {
               name: person.name,
               title: person.title,
@@ -183,7 +286,7 @@ export default class Directory extends Component {
             thing = {
               name: person.name,
               title: person.title,
-              image: person.image,
+              image: image,
               tags: person.tags,
               upvotes: person.upvotes
             };
@@ -194,25 +297,7 @@ export default class Directory extends Component {
       ///////////////////////////
       /////////SORTING///////////
       ///////////////////////////
-
-      if (this.state.sortByUpvote) {
-        array.sort(function(a, b) {
-          return parseInt(b.upvotes) - parseInt(a.upvotes);
-        });
-      } else if (this.state.sortByTag) {
-        array.sort(function(a, b) {
-          return b.tags.length - a.tags.length;
-        });
-      } else if (this.state.sortByName) {
-        array.sort(function(a, b) {
-          return (
-            a.name.toUpperCase().charCodeAt(0) -
-            b.name.toUpperCase().charCodeAt(0)
-          );
-        });
-      }
-
-      this.setState({ array: array });
+      this.sort(array);
     });
   };
   componentDidMount() {
@@ -266,15 +351,7 @@ export default class Directory extends Component {
       for (let obj in objects) {
         person = objects[obj];
 
-        if (person.image === "") {
-          thing = {
-            name: person.name,
-            title: person.title,
-            image: "https://i.stack.imgur.com/34AD2.jpg",
-            tags: person.tags,
-            upvotes: person.upvotes
-          };
-        } else {
+        if (person.image) {
           thing = {
             name: person.name,
             title: person.title,
@@ -282,133 +359,119 @@ export default class Directory extends Component {
             tags: person.tags,
             upvotes: person.upvotes
           };
+        } else {
+          thing = {
+            name: person.name,
+            title: person.title,
+            image: "https://i.stack.imgur.com/34AD2.jpg",
+            tags: person.tags,
+            upvotes: person.upvotes
+          };
         }
         updatedArray.push(thing);
       }
+      this.state.loading = false;
       this.setState({ array: updatedArray });
     });
   }
+
   render() {
-    if (this.state.default === true) {
-      return (
-        <div>
-          <div class="flexhorizontal2">
-            <h1>
-              The Directory
-              <Icon type="book" style={{ fontSize: 40, color: "black" }} />
-            </h1>
-          </div>
-          <div class="margin2">
+    if (this.state.loading === "hello" && console.log("hello"))
+      this.state.loading = true;
+    return (
+      <div className="directory">
+        <center>
+          <div class="directory-title">Directory</div>
+          <div className="directory">
             <Search
-              placeholder="Type in name, (#)tag , or blank for all users"
+              className="directory"
+              placeholder="Enter name or #tag"
               onSearch={value => {
                 this.searchResult(value);
               }}
               style={{ width: 400 }}
               enterButton
             />
-            <Dropdown overlay={this.menu2()} trigger={["click"]}>
-              <a className="ant-dropdown-link" href="#">
-                Sort by <Icon type="down" />
-              </a>
-            </Dropdown>
-          </div>
-          <center>
-            <div>
-              <Checkbox
-                indeterminate={this.state.indeterminate}
-                onChange={this.onCheckAllChange}
-                checked={this.state.checkAll}
-              >
-                Check all
-              </Checkbox>
-            </div>
-            <br />
-            <CheckboxGroup
-              options={plainOptions}
-              value={this.state.checkedList}
-              onChange={this.onChange}
-            />
-            <br />
-            <br />
-            <br />
 
-            {this.state.array.map(user => (
+            <Select
+              defaultValue="Sort By"
+              style={{ width: 100 }}
+              className="sort-button"
+            >
+              <Select.Option value="None" onClick={e => this.allowNoneSort(e)}>
+                None
+              </Select.Option>
+              <Select.Option
+                value="Upvotes"
+                onClick={e => this.allowUpvoteSort(e)}
+              >
+                Upvotes
+              </Select.Option>
+              <Select.Option value="Name" onClick={e => this.allowNameSort(e)}>
+                Name
+              </Select.Option>
+              <Select.Option
+                value="#ofTags"
+                onClick={e => this.allowTagSort(e)}
+              >
+                #ofTags
+              </Select.Option>
+            </Select>
+          </div>
+          <br />
+          <Checkbox
+            onChange={this.onCheckAllChange}
+            checked={this.state.checkAll}
+          >
+            Check All
+          </Checkbox>
+          <CheckboxGroup
+            options={plainOptions}
+            value={this.state.checkedList}
+            onChange={this.onChange}
+          />
+          <br />
+          <br />
+          <br />
+          {this.state.array.map(user => (
+            <div>
               <div>
-                <div class="border">
-                  <div class="username">User: {user.name}</div>
-                  <Card hoverable style={{ width: 500, maxHeight: 1000 }}>
-                    <div class="flexhorizontal">
-                      <img class="directory-image" src={user.image} />
-                      <div class="indent">
-                        <h3>
-                          Title:{" "}
+                <Card
+                  style={{ width: 500, maxHeight: 1000 }}
+                  title={<div className="name-text">{user.name}</div>}
+                  hoverable={true}
+                  loading={this.state.loading}
+                >
+                  <div class="flexhorizontal">
+                    <img class="directory-image" src={user.image} />
+                    <div class="indent">
+                      <div>
+                        <div className="bigger-text">{"  "}Title: </div>
+                        <div className="big-text">
                           {user.title.substring(0, 1).toUpperCase() +
                             user.title.substring(1)}
-                        </h3>
-                        <h3>Upvotes: {user.upvotes}</h3>
+                        </div>
+                      </div>
+                      <div>
+                        <div className="bigger-text">Upvotes: </div>
+                        <div className="big-text">{user.upvotes}</div>
                       </div>
                     </div>
-                  </Card>
-                  <div class="tags">
-                    {user.tags.map(t => <Tag color="blue">{t}</Tag>)}
                   </div>
+                </Card>
+                <div class="tags">
+                  {user.tags.map(
+                    t => t !== "999" && t !== " " && <Tag color="blue">{t}</Tag>
+                  )}
                 </div>
-                <br />
               </div>
-            ))}
-          </center>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <div class="flexhorizontal2">
-            <h1>
-              The Directory<Icon
-                type="book"
-                style={{ fontSize: 40, color: "black" }}
-              />
-            </h1>
-          </div>
-          <div class="margin2">
-            <Search
-              placeholder="Type in name, (#)tag , or blank for all users"
-              onSearch={value => {
-                this.searchResult(value);
-              }}
-              style={{ width: 400 }}
-              enterButton
-            />
-
-            <Dropdown overlay={this.menu2()} trigger={["click"]}>
-              <a className="ant-dropdown-link" href="#">
-                Sort by <Icon type="down" />
-              </a>
-            </Dropdown>
-          </div>
-          <center>
-            <div>
-              <Checkbox
-                indeterminate={this.state.indeterminate}
-                onChange={this.onCheckAllChange}
-                checked={this.state.checkAll}
-              >
-                Check all
-              </Checkbox>
+              <br />
+              <br />
+              <br />
             </div>
-            <br />
-            <CheckboxGroup
-              options={plainOptions}
-              value={this.state.checkedList}
-              onChange={this.onChange}
-            />
-            <br />
-            <br />
-            <br />
-          </center>
-        </div>
-      );
-    }
+          ))}
+        </center>
+      </div>
+    );
   }
 }

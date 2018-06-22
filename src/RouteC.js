@@ -19,6 +19,9 @@ import Admin from "./Admin.js";
 import User from "./User.js";
 import firebase from "./Firebase.js";
 import AddGroups from "./AddGroups";
+import TaskManager from "./TaskManager";
+import ManageSite from "./ManageSite";
+import "./App.css";
 
 export default class RouteC extends Component {
   constructor(props) {
@@ -36,18 +39,21 @@ export default class RouteC extends Component {
       field: value
     });
   };
-  componentDidMount() {
+
+  componentWillMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
+        console.log("hello2");
+        console.log(user);
         let userKey = user.uid;
         let userIDString = "/users/" + userKey;
         let database = firebase.database().ref(userIDString);
+        console.log(userIDString);
         //console.log(userIDString);
         database.on("value", snapshot => {
           //console.log(snapshot.val());
           let newTitleState = snapshot.val().title;
           //console.log(newTitleState);
-
           this.setState({
             userTitle: newTitleState,
             uidString: userIDString
@@ -70,12 +76,12 @@ export default class RouteC extends Component {
       "^/$|/about|/meet-the-team|/submit-contracts"
     );
     const UserRegex = new RegExp(
-      "/challenges|/task-manager|/browse-contracts|/connect|/resources|/profile|/q&a|/directory|/manage-contracts|/manage-users"
+      "/challenges|/task-manager|/browse-contracts|/connect|/resources|/profile|/q&a|/directory|/manage-contracts|/manage-users|/manage-site"
     );
     return (
       <div>
         <BrowserRouter>
-          <div>
+          <div className="padding">
             <Route path={CompanyRegex} component={TopbarCompany} />
             <Route
               path={UserRegex}
@@ -96,14 +102,17 @@ export default class RouteC extends Component {
                 <div>
                   <Route
                     path="/profile"
-                    render={() => (
-                      <Profilehandler {...this.state} /> // Need this for sending uid
-                    )}
+                    render={
+                      () => <Profilehandler {...this.state} /> // Need this for sending uid
+                    }
                   />
                   <Route
                     path="/challenges"
                     render={() => (
-                      <Challenges userTitle={this.state.userTitle} uidString ={this.state.uidString}/>
+                      <Challenges
+                        userTitle={this.state.userTitle}
+                        uidString={this.state.uidString}
+                      />
                     )}
                   />
                   <Route
@@ -141,6 +150,13 @@ export default class RouteC extends Component {
                       <Route
                         path="/manage-users"
                         render={() => <User userTitle={this.state.userTitle} />}
+                      />
+
+                      <Route
+                        path="/manage-site"
+                        render={() => (
+                          <ManageSite userTitle={this.state.userTitle} />
+                        )}
                       />
                     </div>
                   ) : null}
