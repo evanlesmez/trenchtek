@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Profile from "./Profile.js";
+import Directory from "./Directory.js";
 import firebase from "./Firebase.js";
 // Create a reference to the file we want to download
 let storageRef = firebase.storage().ref("images/");
@@ -21,34 +22,37 @@ export default class Profilehandler extends Component {
       profURL:
         "http://www.aminariana.com/assets/placeholders/avatar-39c4f0720c0b9f829e3dc8b644228be492ea900026f4057974840d54b149bb5d.png",
       uidString: this.props.uidString,
-      upvotes: "",
+      upvotes: ""
     };
   }
 
   fireReadProfile = userID => {
     dBase.ref(userID).on("value", snapshot => {
       let userData;
-      storageRef.child(userID)
-      .getDownloadURL().then( url => {
-        this.setState({profURL: url});
-    })
-    .catch(function(error) {
-    }).then(
-  userData = snapshot.val(),
-  this.setState({
-    email: userData.email,
-    github: userData.github,
-    skills: userData.tags,
-    name: userData.name,
-    position: userData.position,
-    aboutMe: userData.about,
-    title: userData.title,
-    LinkedIn: userData.linkedIn,
-    uidString: userID,
-    upvotes: userData.upvotes,
-    }));
-  });
-    }
+      storageRef
+        .child(userID)
+        .getDownloadURL()
+        .then(url => {
+          this.setState({ profURL: url });
+        })
+        .catch(function(error) {})
+        .then(
+          (userData = snapshot.val()),
+          this.setState({
+            email: userData.email,
+            github: userData.github,
+            skills: userData.tags,
+            name: userData.name,
+            position: userData.position,
+            aboutMe: userData.about,
+            title: userData.title,
+            LinkedIn: userData.linkedIn,
+            uidString: userID,
+            upvotes: userData.upvotes
+          })
+        );
+    });
+  };
 
   componentWillMount() {
     // MY HERO

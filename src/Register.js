@@ -340,6 +340,7 @@ class Register extends Component {
           </Card>
         </center>
         <br />
+        <br />
       </div>
     );
   }

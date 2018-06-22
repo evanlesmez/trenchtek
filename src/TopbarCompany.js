@@ -16,12 +16,8 @@ class TopbarCompany extends Component {
       currentPage = this.props.history.location.pathname;
     }
     return (
-      <div>
-        <Menu
-          mode="horizontal"
-          classname="navbar"
-          defaultSelectedKeys={currentPage}
-        >
+      <div className="fixed">
+        <Menu mode="horizontal" defaultSelectedKeys={currentPage}>
           <Menu.Item exact key="/welcome">
             <Link to="/">
               <div className="logo-button">RevTek</div>

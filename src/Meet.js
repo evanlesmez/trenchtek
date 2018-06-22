@@ -2,53 +2,61 @@ import React, { Component } from "react";
 import TopbarCompany from "./TopbarCompany.js";
 import "./Meet.css";
 import "./Post.css";
-import { Input, Card, Popover, Button } from "antd";
+import { Input, Card, Tag, Popover, Button } from "antd";
 import "antd/dist/antd.css";
 import EditingForm from "./EditingForm";
+import Type from "./Type.js";
 
-let content = (
-  <div>
-    "Bruno is a wonderful instructor. He taught for 5 years in Cambridge, but
-    got kicked out for sleeping with one of his students. Despite his
-    misconducts, Bruno is still considered one of the top 10 instuctors of the
-    world and attends talks at various universities and schools. His interests
-    include software engineering, playing the banjo, trombone, and the pipes. He
-    has a flamboyant personality and is very friendly to both humans and
-    animals. "
-  </div>
-);
 export default class Meet extends Component {
   state = {
     array: [
       {
         name: "Eliza Evans",
-        tags: "#Javascipt #Python",
-        title: "Instructor",
+        tags: ["Leading", "Time Management", "UI-Friendly Design"],
+        title: "Administrator",
         editI: false,
+        linkedin: "https://www.linkedin.com/in/eliza-evans-7b3654157/",
+        github: "https://github.com/eve9du",
         pic:
           "https://hackcville.com/launch-profiles/headshots/SWEElizaEvans.jpg",
         info:
-          "Bruno is a wonderful instructor. He taught for 5 years in Cambridge, but got kicked out for sleeping with one of his students. Despite his misconducts, Bruno is still considered one of the top 10 instuctors of the world and attends talks at various universities and schools. His interests include software engineering, playing the banjo, trombone, and the pipes. He has a flamboyant personality and is very friendly to both humans and animals. "
+          "Eliza is a wonderful instructor. He taught for 5 years in Cambridge, but got kicked out for sleeping with one of his students. Despite his misconducts, Bruno is still considered one of the top 10 instuctors of the world and attends talks at various universities and schools. His interests include software engineering, playing the banjo, trombone, and the pipes. He has a flamboyant personality and is very friendly to both humans and animals. "
       },
       {
         name: "Marina Kun",
-        tags: "#legitknowseverything",
+        tags: ["PyTorch", "R", "Entrepreneurship"],
         editI: false,
-        title: "Instructor",
+        title: "Intern",
+        linkedin: "https://www.linkedin.com/in/marina-kun/",
+        github: "https://github.com/marinak6",
         pic:
           "https://hackcville.com/launch-profiles/headshots/SWEMarinaKun.jpg",
         info:
-          " Eliza is hands down the best software engineer that has ever lived.Apart from that, she is quite the business woman. In contrast to common knowledge, she was the creator of Google, Facebook, Twitter, Amazon, Apple and Microsoft. Even though she has had her ideas stolen too many time, Eliza remains content with her contributions to the world and now teaches in our company in order to pass down her knowledge and experiences to our own lucky interns"
+          "Marina is hands down the best software engineer that has ever lived.Apart from that, she is quite the business woman. In contrast to common knowledge, she was the creator of Google, Facebook, Twitter, Amazon, Apple and Microsoft. Even though she has had her ideas stolen too many time, Eliza remains content with her contributions to the world and now teaches in our company in order to pass down her knowledge and experiences to our own lucky interns"
+      },
+      {
+        name: "Sonali Luthar",
+        tags: ["Javascript", "Java", "Python", "UI/UX Design"],
+        title: "Alumni",
+        editI: false,
+        linkedin: "https://www.linkedin.com/in/sonali-luthar/",
+        github: "https://github.com/sonaliluthar",
+        pic:
+          "https://hackcville.com/launch-profiles/headshots/SWESonaliLuthar.jpg",
+        info:
+          "Eliza is a wonderful instructor. He taught for 5 years in Cambridge, but got kicked out for sleeping with one of his students. Despite his misconducts, Bruno is still considered one of the top 10 instuctors of the world and attends talks at various universities and schools. His interests include software engineering, playing the banjo, trombone, and the pipes. He has a flamboyant personality and is very friendly to both humans and animals. "
       },
       {
         name: "Sung Joon Park",
-        tags: "#Javascipt #Python",
+        tags: ["ReactJS", "AngularJS", "Python"],
         editD: false,
         title: "Senior Developer",
+        linkedin: "https://www.linkedin.com/in/sung-joon-park/",
+        github: "https://github.com/sp3bk",
         pic:
           "https://hackcville.com/launch-profiles/headshots/SWESungJoonPark.jpg",
         info:
-          "Bruno is a wonderful instructor. He taught for 5 years in Cambridge, but got kicked out for sleeping with one of his students. Desite his misconducts, Bruno is still considered one of the top 10 instuctors of the world and attends talks at various universities and schools. His interests include software engineering, playing the banjo, trombone, and the pipes. He has a flamboyant personality and is very friendly to both humans and animals. "
+          "Sung Joon is a wonderful instructor. He taught for 5 years in Cambridge, but got kicked out for sleeping with one of his students. Desite his misconducts, Bruno is still considered one of the top 10 instuctors of the world and attends talks at various universities and schools. His interests include software engineering, playing the banjo, trombone, and the pipes. He has a flamboyant personality and is very friendly to both humans and animals. "
       }
     ]
   };
@@ -112,31 +120,23 @@ export default class Meet extends Component {
       }
     }
 
-    /*let arrayDev = [];
-    for (let i = 0; i < this.state.seniorDevs.length; i++) {
-      if (!arrayDev.includes(this.state.seniorDevs[i].info))
-        arrayDev.push(this.state.seniorDevs[i].info);
-    }
-    for (let i = 0; i < arrayDev.length; i++) {
-      if (this.state.seniorDevs[i].editD) {
-        arrayDev[i] = (
-          <EditingForm
-            defaultValue={this.state.seniorDevs[i].info}
-            onPressEnter={e => this.handlerD(e, i)}
-          />
-        );
-      }
-    }*/
     return (
       <div>
-        <center className="center">
-          <nobr>Meet The Team</nobr>
+        <center>
+          <Type
+            strings={["Meet The Team", "Meet Team Trench"]}
+            loopDelay={7000}
+            speed={170}
+            breakLines={false}
+            autoStart={false}
+          />
         </center>
-
+        <br />
+        <br />
         <div className="flexhorizontal">
           {this.state.array.map((instructor, index) => {
             return (
-              <div>
+              <div className="column">
                 <center>
                   <img
                     className="image-cropper2"
@@ -144,17 +144,45 @@ export default class Meet extends Component {
                     src={instructor.pic}
                   />
                   <div className="name">{instructor.name}</div>
-                  <div className="title">{instructor.title}</div>
-                  <div>
-                    <Popover
-                      content={<div>{instructor.info}</div>}
-                      title="Title"
-                      trigger="hover"
-                    >
-                      <Button>About</Button>
-                    </Popover>
-                  </div>
-                  <p>{array[index]}</p> <h5>Tags: {instructor.tags}</h5>
+                  <div className="title">{instructor.title.toUpperCase()}</div>
+                  <Popover
+                    content={
+                      <div className="info">
+                        <div>{instructor.info}</div>
+                        <p>
+                          {instructor.tags.map(tag => (
+                            <Tag color="cyan">{tag}</Tag>
+                          ))}
+                        </p>
+                      </div>
+                    }
+                    title="About"
+                    trigger="hover"
+                  >
+                    <Tag color="#108ee9">About</Tag>
+                  </Popover>
+                  <Popover
+                    content={
+                      <div className="links">
+                        <a href={instructor.github}>
+                          <img
+                            className="icon"
+                            src="https://image.flaticon.com/icons/svg/25/25231.svg"
+                          />
+                        </a>
+                        <a href={instructor.linkedin}>
+                          <img
+                            className="icon"
+                            src="http://icons.iconarchive.com/icons/sicons/basic-round-social/256/linkedin-icon.png"
+                          />
+                        </a>
+                      </div>
+                    }
+                    title="Links"
+                    trigger="hover"
+                  >
+                    <Tag color="#2db7f5">Connect</Tag>
+                  </Popover>
                 </center>
               </div>
             );

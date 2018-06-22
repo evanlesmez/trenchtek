@@ -190,7 +190,6 @@ export default class TaskManager extends Component {
                         task.type === "completed" ? (
                           <Card
                             style={{ marginTop: 16 }}
-                            type="inner"
                             className="rounded-corners"
                           >
                             <Col span={12}>

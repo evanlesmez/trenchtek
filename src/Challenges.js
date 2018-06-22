@@ -162,14 +162,11 @@ export default class Challenges extends Component {
     if (this.state.viewSubmissions) {
       return (
         <div>
-          <br />
           <center>
+            <div class="directory-title">Submissions</div>
             <Card
-              title={
-                "Submissions for Challenge: " +
-                this.state.challenges[this.state.indexToView].name
-              }
-              style={{ width: "85%" }}
+              title={this.state.challenges[this.state.indexToView].name}
+              style={{ width: "60%" }}
             >
               <div>
                 {this.state.submissionsToView.map((submission, index) => {
@@ -182,6 +179,7 @@ export default class Challenges extends Component {
                           <a href={submission.github}>Github Repo</a>
                         </Card>
                         <br />
+                        <br />
                       </div>
                     );
                   }
@@ -191,12 +189,14 @@ export default class Challenges extends Component {
             <br />
             <Button onClick={this.cancelbut}>Cancel</Button>
           </center>
+          <br />
         </div>
       );
     }
     if (this.state.submitchal) {
       return (
         <div>
+          <br />
           <br />
           <center>
             <Card
@@ -261,6 +261,7 @@ export default class Challenges extends Component {
     if (this.state.isAdd) {
       return (
         <div>
+          <br />
           <br />
           <center>
             <Card title="Add Challenge" style={{ width: 600 }}>

@@ -19,8 +19,9 @@ import Admin from "./Admin.js";
 import User from "./User.js";
 import firebase from "./Firebase.js";
 import AddGroups from "./AddGroups";
-import TaskManager from "./TaskManager"
-import ManageSite from "./ManageSite"
+import TaskManager from "./TaskManager";
+import ManageSite from "./ManageSite";
+import "./App.css";
 
 export default class RouteC extends Component {
   constructor(props) {
@@ -80,9 +81,7 @@ export default class RouteC extends Component {
     return (
       <div>
         <BrowserRouter>
-          <div>
-
-
+          <div className="padding">
             <Route path={CompanyRegex} component={TopbarCompany} />
             <Route
               path={UserRegex}
@@ -103,14 +102,17 @@ export default class RouteC extends Component {
                 <div>
                   <Route
                     path="/profile"
-                    render={() => (
-                      <Profilehandler {...this.state} /> // Need this for sending uid
-                    )}
+                    render={
+                      () => <Profilehandler {...this.state} /> // Need this for sending uid
+                    }
                   />
                   <Route
                     path="/challenges"
                     render={() => (
-                      <Challenges userTitle={this.state.userTitle} uidString={this.state.uidString} />
+                      <Challenges
+                        userTitle={this.state.userTitle}
+                        uidString={this.state.uidString}
+                      />
                     )}
                   />
                   <Route
@@ -152,9 +154,10 @@ export default class RouteC extends Component {
 
                       <Route
                         path="/manage-site"
-                        render={() => <ManageSite userTitle={this.state.userTitle} />}
+                        render={() => (
+                          <ManageSite userTitle={this.state.userTitle} />
+                        )}
                       />
-
                     </div>
                   ) : null}
                 </div>
