@@ -35,7 +35,8 @@ export default class Directory extends Component {
       sortByUpvote: false,
       sortByName: false,
       sortByTag: false,
-      boolean: false
+      boolean: false,
+      loading: true
     };
   }
   setBooleanTrue = () => {
@@ -372,6 +373,7 @@ export default class Directory extends Component {
       this.setState({ array: updatedArray });
     });
   }
+
   render() {
     return (
       <div className="directory">
@@ -434,6 +436,8 @@ export default class Directory extends Component {
                 <Card
                   style={{ width: 500, maxHeight: 1000 }}
                   title={<div className="name-text">{user.name}</div>}
+                  hoverable={true}
+                  loading={false}
                 >
                   <div class="flexhorizontal">
                     <img class="directory-image" src={user.image} />
