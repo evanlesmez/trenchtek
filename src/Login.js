@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { Form, Input, Button, Icon, Card } from "antd";
 import "./App.css";
+import "./Post.css";
+
 import firebase from "./Firebase.js";
 
 class Login extends Component {

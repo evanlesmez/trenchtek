@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { Form, Input, Button, Icon, Card } from "antd";
 import "./App.css";
+import "./Post.css";
 import firebase from "./Firebase.js";
 
 export default class SubmitContracts extends Component {
@@ -45,7 +46,7 @@ export default class SubmitContracts extends Component {
 
   render() {
     return (
-      <div>
+      <div className="background2">
         <center>
           <div class="directory-title">Submit Contract</div>
           <Card title="Company Information Form" style={{ width: 600 }}>
