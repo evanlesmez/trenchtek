@@ -3,7 +3,14 @@ import { Link, Redirect } from "react-router-dom";
 import { Form, Input, Button, Icon, Card } from "antd";
 import "./App.css";
 import "./Post.css";
-
+import Type from "./Type.js";
+import Fade from "react-reveal/Fade";
+import Slide from "react-reveal/Slide";
+import {
+  NotificationContainer,
+  NotificationManager
+} from "react-notifications";
+import "react-notifications/lib/notifications.css";
 import firebase from "./Firebase.js";
 
 class Login extends Component {
@@ -112,48 +119,52 @@ class Login extends Component {
       <div>
         <br />
         <center>
-          <Link to="/" className="redirect-to-home-logo-button">
-            RevTek
-          </Link>
-          <Card title="Sign in" style={{ width: 450 }}>
-            <Form layout="vertical" className="login-form">
-              <Form.Item>
-                <Input
-                  value={this.state.email}
-                  prefix={
-                    <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
-                  }
-                  placeholder="Email"
-                  onChange={e => this.setState({ email: e.target.value })}
-                />
-              </Form.Item>
-              <Form.Item>
-                <Input
-                  value={this.state.password}
-                  prefix={
-                    <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
-                  }
-                  type="password"
-                  placeholder="Password"
-                  onChange={e => this.setState({ password: e.target.value })}
-                />
-              </Form.Item>
-              <Form.Item>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  className="login-form-button"
-                  onClick={this.handleClick}
-                  ghost
-                >
-                  Sign in
-                </Button>
-                <br />
-                <br />
-                Or <Link to="/register">register now!</Link>
-              </Form.Item>
-            </Form>
-          </Card>
+          <Fade bottom>
+            <Link to="/" className="redirect-to-home-logo-button">
+              RevTek
+            </Link>
+          </Fade>
+          <Fade>
+            <Card title="Sign in" style={{ width: 450 }}>
+              <Form layout="vertical" className="login-form">
+                <Form.Item>
+                  <Input
+                    value={this.state.email}
+                    prefix={
+                      <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
+                    }
+                    placeholder="Email"
+                    onChange={e => this.setState({ email: e.target.value })}
+                  />
+                </Form.Item>
+                <Form.Item>
+                  <Input
+                    value={this.state.password}
+                    prefix={
+                      <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
+                    }
+                    type="password"
+                    placeholder="Password"
+                    onChange={e => this.setState({ password: e.target.value })}
+                  />
+                </Form.Item>
+                <Form.Item>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    className="login-form-button"
+                    onClick={this.handleClick}
+                    ghost
+                  >
+                    Sign in
+                  </Button>
+                  <br />
+                  <br />
+                  Or <Link to="/register">register now!</Link>
+                </Form.Item>
+              </Form>
+            </Card>
+          </Fade>
         </center>
       </div>
     );

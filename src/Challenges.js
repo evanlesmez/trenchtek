@@ -2,6 +2,15 @@ import React, { Component } from "react";
 import firebase from "./Firebase.js";
 import { Collapse, Button, Form, Input, DatePicker, Icon, Card } from "antd";
 import "./App.css";
+import Type from "./Type.js";
+import Fade from "react-reveal/Fade";
+import Slide from "react-reveal/Slide";
+import {
+  NotificationContainer,
+  NotificationManager
+} from "react-notifications";
+import "react-notifications/lib/notifications.css";
+
 const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 const chalRef = firebase.database().ref("challenges");
 const activeRef = firebase.database().ref("challenges/ative");
@@ -163,29 +172,39 @@ export default class Challenges extends Component {
       return (
         <div>
           <center>
-            <div class="directory-title">Submissions</div>
-            <Card
-              title={this.state.challenges[this.state.indexToView].name}
-              style={{ width: "60%" }}
-            >
-              <div>
-                {this.state.submissionsToView.map((submission, index) => {
-                  if (index != 0) {
-                    return (
-                      <div>
-                        <Card>
-                          <p>Name: {submission.userName}</p>
-                          <p>Comments: {submission.comments}</p>
-                          <a href={submission.github}>Github Repo</a>
-                        </Card>
-                        <br />
-                        <br />
-                      </div>
-                    );
-                  }
-                })}
-              </div>
-            </Card>
+            <div class="directory-title">
+              <Type
+                strings={["Submissions"]}
+                loopDelay={7000}
+                speed={70}
+                breakLines={false}
+                autoStart={false}
+              />
+            </div>
+            <Fade>
+              <Card
+                title={this.state.challenges[this.state.indexToView].name}
+                style={{ width: "60%" }}
+              >
+                <div>
+                  {this.state.submissionsToView.map((submission, index) => {
+                    if (index != 0) {
+                      return (
+                        <div>
+                          <Card>
+                            <p>Name: {submission.userName}</p>
+                            <p>Comments: {submission.comments}</p>
+                            <a href={submission.github}>Github Repo</a>
+                          </Card>
+                          <br />
+                          <br />
+                        </div>
+                      );
+                    }
+                  })}
+                </div>
+              </Card>
+            </Fade>
             <br />
             <Button onClick={this.cancelbut}>Cancel</Button>
           </center>
@@ -199,61 +218,63 @@ export default class Challenges extends Component {
           <br />
           <br />
           <center>
-            <Card
-              title={"Submit Challenge - " + this.state.itemToSubmit.name}
-              style={{ width: 600 }}
-            >
-              <Form onSubmit={this.submitChal}>
-                <center>
-                  <FormItem {...formItemLayout} label="Name">
-                    <div className="input">
-                      <Input
-                        value={this.state.nameOfUser}
-                        onChange={e => {
-                          this.handleChange(e, "nameOfUser");
-                        }}
-                      />
-                    </div>
-                  </FormItem>
-                  <FormItem {...formItemLayout} label="Link to GIT Repo">
-                    <div className="input">
-                      <Input
-                        value={this.state.url}
-                        onChange={e => {
-                          this.handleChange(e, "url");
-                        }}
-                      />
-                    </div>
-                  </FormItem>
-                  <FormItem {...formItemLayout} label="Comments">
-                    <div className="input">
-                      <TextArea
-                        value={this.state.comments}
-                        rows={8}
-                        onChange={e => {
-                          this.handleChange(e, "comments");
-                        }}
-                      />
-                    </div>
-                  </FormItem>
-                  <FormItem>
-                    <div>
-                      <Button
-                        onClick={e => {
-                          this.userSubmit(e);
-                        }}
-                        type="primary"
-                        htmlType="submit"
-                      >
-                        Submit
-                      </Button>
-                      {"              "}
-                      <Button onClick={this.cancelbut}>Cancel</Button>
-                    </div>
-                  </FormItem>
-                </center>
-              </Form>
-            </Card>
+            <Fade top>
+              <Card
+                title={"Submit Challenge - " + this.state.itemToSubmit.name}
+                style={{ width: 600 }}
+              >
+                <Form onSubmit={this.submitChal}>
+                  <center>
+                    <FormItem {...formItemLayout} label="Name">
+                      <div className="input">
+                        <Input
+                          value={this.state.nameOfUser}
+                          onChange={e => {
+                            this.handleChange(e, "nameOfUser");
+                          }}
+                        />
+                      </div>
+                    </FormItem>
+                    <FormItem {...formItemLayout} label="Link to GIT Repo">
+                      <div className="input">
+                        <Input
+                          value={this.state.url}
+                          onChange={e => {
+                            this.handleChange(e, "url");
+                          }}
+                        />
+                      </div>
+                    </FormItem>
+                    <FormItem {...formItemLayout} label="Comments">
+                      <div className="input">
+                        <TextArea
+                          value={this.state.comments}
+                          rows={8}
+                          onChange={e => {
+                            this.handleChange(e, "comments");
+                          }}
+                        />
+                      </div>
+                    </FormItem>
+                    <FormItem>
+                      <div>
+                        <Button
+                          onClick={e => {
+                            this.userSubmit(e);
+                          }}
+                          type="primary"
+                          htmlType="submit"
+                        >
+                          Submit
+                        </Button>
+                        {"              "}
+                        <Button onClick={this.cancelbut}>Cancel</Button>
+                      </div>
+                    </FormItem>
+                  </center>
+                </Form>
+              </Card>
+            </Fade>
           </center>
         </div>
       );
@@ -316,53 +337,63 @@ export default class Challenges extends Component {
     return (
       <div>
         <center>
-          <div class="directory-title">Challenges</div>
+          <div class="directory-title">
+            <Type
+              strings={["Challenges"]}
+              loopDelay={7000}
+              speed={70}
+              breakLines={false}
+              autoStart={false}
+            />
+          </div>
 
           <div>
             {this.state.challenges.map((item, index) => {
               return (
-                <div>
-                  <br />
-                  <Collapse style={{ width: "85%" }}>
-                    <Panel
-                      header={
-                        <div className="panelheader">
-                          {" "}
-                          {item.name}
-                          <div className="chaldelete">
-                            Due: {item.duedate} {"     "}
-                            {this.state.userTitle === "Admin" ? (
-                              <Button
-                                size="small"
-                                onClick={e =>
-                                  this.deletechal(e, item.id, item.name)
-                                }
-                              >
-                                <Icon type="delete" />
-                              </Button>
-                            ) : null}
+                <Fade bottom>
+                  <div>
+                    <br />
+                    <Collapse style={{ width: "85%" }}>
+                      <Panel
+                        header={
+                          <div className="panelheader">
+                            {" "}
+                            {item.name}
+                            <div className="chaldelete">
+                              Due: {item.duedate} {"     "}
+                              {this.state.userTitle === "Admin" ? (
+                                <Button
+                                  size="small"
+                                  onClick={e =>
+                                    this.deletechal(e, item.id, item.name)
+                                  }
+                                >
+                                  <Icon type="delete" />
+                                </Button>
+                              ) : null}
+                            </div>
                           </div>
+                        }
+                      >
+                        <div className="chalinfo">
+                          <p id="chalbold">Details: </p>
+                          {item.details}
                         </div>
-                      }
-                    >
-                      <div className="chalinfo">
-                        <p id="chalbold">Details: </p>
-                        {item.details}
-                      </div>
-                      <br />
-                      <div className="chalinfo">
-                        <p id="chalbold">Due date: </p>
-                        {item.duedate}
-                      </div>
-                      <Button onClick={() => this.addSubmit(item)}>
-                        Add Submission
-                      </Button>
-                      <Button onClick={() => this.viewSubmit(item, index)}>
-                        View Submissions
-                      </Button>
-                    </Panel>
-                  </Collapse>
-                </div>
+                        <br />
+                        <div className="chalinfo">
+                          <p id="chalbold">Due date: </p>
+                          {item.duedate}
+                        </div>
+                        <Button onClick={() => this.addSubmit(item)}>
+                          Add Submission
+                        </Button>
+                        <Button onClick={() => this.viewSubmit(item, index)}>
+                          View Submissions
+                        </Button>
+                      </Panel>
+                    </Collapse>
+                  </div>
+                </Fade>
               );
             })}
           </div>

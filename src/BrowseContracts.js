@@ -2,6 +2,14 @@ import React, { Component } from "react";
 import firebase from "./Firebase.js";
 import { Card, Button, Collapse } from "antd";
 import "./App.css";
+import Type from "./Type.js";
+import Fade from "react-reveal/Fade";
+import Slide from "react-reveal/Slide";
+import {
+  NotificationContainer,
+  NotificationManager
+} from "react-notifications";
+import "react-notifications/lib/notifications.css";
 const Panel = Collapse.Panel;
 
 export default class BrowseContracts extends Component {
@@ -150,26 +158,36 @@ export default class BrowseContracts extends Component {
     return (
       <div>
         <center>
-          <div class="directory-title">Approved Contracts</div>
+          <Type
+            strings={["Approved Contracts"]}
+            loopDelay={7000}
+            speed={70}
+            breakLines={false}
+            autoStart={false}
+          />
         </center>
         <br />
-        {!this.state.bidsHidden ? (
-          <div>
-            <center>
-              <Card
-                title="Bids on selected contract:"
-                style={{ width: 720, margin: "auto" }}
-              >
-                {display}
-                <Button onClick={e => this.stopDisplayBids(e)}>
-                  Browse All Contracts
-                </Button>
-              </Card>
-            </center>
-          </div>
-        ) : (
-          <div>{display}</div>
-        )}
+        <Fade bottom>
+          {!this.state.bidsHidden ? (
+            <div>
+              <center>
+                <Card
+                  title="Bids on selected contract:"
+                  style={{ width: 720, margin: "auto" }}
+                >
+                  {display}
+                  <Button onClick={e => this.stopDisplayBids(e)}>
+                    Browse All Contracts
+                  </Button>
+                </Card>
+              </center>
+            </div>
+          ) : (
+            <Fade bottom>
+              <div>{display}</div>
+            </Fade>
+          )}
+        </Fade>
 
         <br />
       </div>
