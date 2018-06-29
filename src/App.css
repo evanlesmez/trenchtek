@@ -53,7 +53,9 @@
   margin: 0 auto;
   display: inline-block;
 }
-
+.notice {
+  margin-top: 20%;
+}
 .inputtitle {
   width: 60%;
   height: auto;
@@ -114,12 +116,12 @@ body {
 .welcome-text {
   position: absolute;
   text-align: center;
-  top: 51%;
+  top: 75%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: "Arvo", sans-serif;
   font-style: italic;
-  font-size: 3.9vw;
+  font-size: 3.7vw;
   color: white;
 }
 
@@ -135,18 +137,20 @@ body {
   color: white;
   margin-right: 40px;
 }
-
+.space {
+  height: 100px;
+  width: 100px;
+}
 .logo-text {
   margin-top: 0;
   padding-top: 0;
   position: absolute;
-  top: 25%;
-  left: 50%;
+  top: 15%;
   transform: translate(-50%, -50%);
   font-family: "Arvo", sans-serif;
   font-weight: bold;
-  font-size: 14vw;
   color: white;
+  font-size: 150px;
 }
 
 .container {
@@ -174,8 +178,8 @@ body {
 .directory-title {
   margin-top: 25px;
   margin-bottom: 25px;
-  font-size: 270%;
   font-family: "PT Sans", sans-serif;
+  font-size: 270%;
 }
 
 .sort-button {

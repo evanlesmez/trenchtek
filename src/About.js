@@ -6,6 +6,8 @@ import EditingForm from "./EditingForm";
 import { Button } from "antd";
 import firebase from "./Firebase";
 import Type from "./Type.js";
+import Fade from "react-reveal/Fade";
+import Slide from "react-reveal/Slide";
 
 export default class About extends Component {
   constructor(props) {
@@ -139,26 +141,39 @@ export default class About extends Component {
           <Type strings={["About Us"]} speed={170} autoStart={false} />{" "}
         </center>
 
-        <center className="">
+        <center className="flexvertical">
           <div className="history flexhorizontal">
             <div className="label">
-              Our <span className="word">History</span>
+              <Fade bottom>
+                Our <span className="word">History</span>
+              </Fade>
             </div>
-            <div className="eliza"> {historyText}</div>
+
+            <Slide right>
+              <div className="eliza"> {historyText}</div>
+            </Slide>
           </div>
 
           <div className="interns flexhorizontal">
             <div className="label">
-              Our <span className="word">Interns</span>
+              <Fade bottom>
+                Our <span className="word">Interns</span>
+              </Fade>
             </div>
-            <div className="eliza"> {internsText}</div>
+            <Slide right>
+              <div className="eliza"> {internsText}</div>
+            </Slide>
           </div>
 
           <div className="companies flexhorizontal">
             <div className="label">
-              Our <span className="word">Companies</span>
+              <Fade bottom>
+                Our <span className="word">Companies</span>
+              </Fade>
             </div>
-            <div className="eliza">{companiesText}</div>
+            <Slide right>
+              <div className="eliza">{companiesText}</div>
+            </Slide>
           </div>
         </center>
       </div>

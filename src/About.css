@@ -5,17 +5,18 @@
   margin-left: 30%;
 }
 
-.history,
-.interns {
-  font-family: "Verdana";
-  display: inline-flex;
-  width: 40%;
-  margin-bottom: 10%;
-}
 .companies {
   font-family: "Verdana";
   display: inline-flex;
-  width: 45%;
+  width: 60%;
+  margin-bottom: 10%;
+}
+.history,
+.interns,
+.companies {
+  font-family: "Verdana";
+  display: inline-flex;
+  width: 60%;
   margin-bottom: 10%;
 }
 .historyTitle,

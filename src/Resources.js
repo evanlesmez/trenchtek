@@ -2,6 +2,14 @@ import React, { Component } from "react";
 import firebase from "./Firebase.js";
 import { Button, Card, Input, Form, Icon } from "antd";
 import "./App.css";
+import Type from "./Type.js";
+import Fade from "react-reveal/Fade";
+import Slide from "react-reveal/Slide";
+import {
+  NotificationContainer,
+  NotificationManager
+} from "react-notifications";
+import "react-notifications/lib/notifications.css";
 
 const resourcesRef = firebase.database().ref("resources");
 
@@ -155,42 +163,52 @@ class Resources extends Component {
     return (
       <div>
         <center>
-          <div class="directory-title">Resources</div>
+          <div class="directory-title">
+            <Type
+              strings={["Resources"]}
+              loopDelay={7000}
+              speed={70}
+              breakLines={false}
+              autoStart={false}
+            />
+          </div>
           {this.state.resources.map(resource => {
             return (
               <center>
-                <Card
-                  title={
-                    <div className="panelheader2">
-                      <center>
-                        <div className="headertitle">
-                          {resource.description}
-                        </div>
-                      </center>
-                      {this.state.userTitle === "Admin" && (
-                        <div className="editbut">
-                          <Button
-                            size="small"
-                            onClick={e =>
-                              this.removeResource(
-                                e,
-                                resource.id,
-                                resource.description
-                              )
-                            }
-                          >
-                            <Icon type="delete" />
-                          </Button>
-                        </div>
-                      )}
-                    </div>
-                  }
-                  style={{ width: 450 }}
-                >
-                  <a href={resource.url} target="_blank">
-                    {resource.url}
-                  </a>
-                </Card>
+                <Slide top>
+                  <Card
+                    title={
+                      <div className="panelheader2">
+                        <center>
+                          <div className="headertitle">
+                            {resource.description}
+                          </div>
+                        </center>
+                        {this.state.userTitle === "Admin" && (
+                          <div className="editbut">
+                            <Button
+                              size="small"
+                              onClick={e =>
+                                this.removeResource(
+                                  e,
+                                  resource.id,
+                                  resource.description
+                                )
+                              }
+                            >
+                              <Icon type="delete" />
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    }
+                    style={{ width: 450 }}
+                  >
+                    <a href={resource.url} target="_blank">
+                      {resource.url}
+                    </a>
+                  </Card>
+                </Slide>
                 <br />
               </center>
             );

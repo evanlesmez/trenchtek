@@ -17,6 +17,14 @@ import { Link, Redirect } from "react-router-dom";
 import { auth, logout } from "./Auth";
 import firebase from "./Firebase";
 import "./App.css";
+import Type from "./Type.js";
+import Fade from "react-reveal/Fade";
+import Slide from "react-reveal/Slide";
+import {
+  NotificationContainer,
+  NotificationManager
+} from "react-notifications";
+import "react-notifications/lib/notifications.css";
 
 const Option = Select.Option;
 const children = [];
@@ -123,14 +131,16 @@ class Register extends Component {
             confirmDirty: false,
             go: true
           });
+
           alert(
-            "Registration successful. Please wait for your registration to be approved."
+            "Please wait for your registration to be approved.",
+            "Registration successful!"
           );
           logout();
         }
       })
       .catch(error => {
-        alert("Registration error: " + error.message);
+        alert("Registratoin Error: " + error.message);
       });
   };
   hasErrors(fieldsError) {
@@ -176,169 +186,179 @@ class Register extends Component {
     return (
       <div>
         <center>
-          <Link to="/" className="redirect-to-home-logo-button">
-            RevTek
-          </Link>
-          <Card
-            justify="start"
-            layout="vertical"
-            title="Register"
-            style={{ width: 450 }}
-          >
-            <Form>
-              <Row justify="start">
-                <Form.Item {...formItemLayout} label="E-mail">
-                  {getFieldDecorator("email", {
-                    rules: [
-                      {
-                        type: "email",
-                        message: "The input is not valid E-mail!"
-                      },
-                      {
-                        required: true,
-                        message: "Please input your E-mail!"
-                      }
-                    ]
-                  })(
-                    <div className="input">
-                      <Input
-                        onChange={e =>
-                          this.updateField("email", e.target.value)
+          <Fade top>
+            <Link to="/" className="redirect-to-home-logo-button">
+              RevTek
+            </Link>
+          </Fade>
+          <Fade>
+            <Card
+              justify="start"
+              layout="vertical"
+              title="Register"
+              style={{ width: 450 }}
+            >
+              <Form>
+                <Row justify="start">
+                  <Form.Item {...formItemLayout} label="E-mail">
+                    {getFieldDecorator("email", {
+                      rules: [
+                        {
+                          type: "email",
+                          message: "The input is not valid E-mail!"
+                        },
+                        {
+                          required: true,
+                          message: "Please input your E-mail!"
                         }
-                        value={this.state.email}
-                      />
-                    </div>
-                  )}
-                </Form.Item>
-
-                <Form.Item {...formItemLayout} label="Password">
-                  {getFieldDecorator("password", {
-                    rules: [
-                      {
-                        required: true,
-                        message: "Please input your password!"
-                      },
-                      {
-                        validator: this.validateToNextPassword
-                      }
-                    ]
-                  })(
-                    <div className="input">
-                      <Input
-                        type="password"
-                        onChange={e =>
-                          this.updateField("password", e.target.value)
-                        }
-                        value={this.state.password}
-                      />
-                    </div>
-                  )}
-                </Form.Item>
-                <Form.Item {...formItemLayout} label="Confirm Password">
-                  {getFieldDecorator("confirm", {
-                    rules: [
-                      {
-                        required: true,
-                        message: "Please confirm your password!"
-                      },
-                      {
-                        validator: this.compareToFirstPassword
-                      }
-                    ]
-                  })(
-                    <div className="input">
-                      <Input
-                        type="password"
-                        value={this.state.password2}
-                        onBlur={this.handleConfirmBlur}
-                        onChange={e =>
-                          this.updateField("password2", e.target.value)
-                        }
-                      />
-                    </div>
-                  )}
-                </Form.Item>
-                <Form.Item {...formItemLayout} label="Full Name">
-                  {getFieldDecorator("name", {
-                    rules: [
-                      {
-                        required: true,
-                        message: "Please input your name!"
-                      }
-                    ]
-                  })(
-                    <div className="input">
-                      <Input
-                        value={this.state.name}
-                        onChange={e => this.updateField("name", e.target.value)}
-                      />
-                    </div>
-                  )}
-                </Form.Item>
-                <Form.Item {...formItemLayout} label="Tags">
-                  {getFieldDecorator("name", {
-                    rules: [
-                      {
-                        required: true,
-                        message: "Please input at least one tag!"
-                      }
-                    ]
-                  })(
-                    <div className="input">
-                      <Select
-                        mode="tags"
-                        style={{ width: "100%" }}
-                        placeholder="Please select"
-                        defaultValue={["React"]}
-                        onChange={this.updateTagField}
-                      >
-                        {children}
-                      </Select>
-                    </div>
-                  )}
-                </Form.Item>
-                <Form.Item {...formItemLayout} label="Title">
-                  {getFieldDecorator("title", {
-                    rules: [
-                      {
-                        required: true,
-                        message: "Please select your title"
-                      }
-                    ]
-                  })(
-                    <div className="inputtitle">
-                      <Radio.Group
-                        onChange={e =>
-                          this.updateField("title", e.target.value)
-                        }
-                        value={this.state.title}
-                      >
-                        <Radio value="Intern">Intern</Radio>
-                        <Radio value="Alumni">Alumni</Radio>
-                        <Radio value="Admin">Admin</Radio>
-                      </Radio.Group>
-                    </div>
-                  )}
-                </Form.Item>
-                <center>
-                  <Form.Item {...formItemLayout}>
-                    <Button
-                      type="primary"
-                      htmlType="submit"
-                      disabled={this.hasErrors(getFieldsError()) || disablebut}
-                      onClick={() => this.handleSubmit()}
-                      ghost
-                    >
-                      Register
-                    </Button>
-                    <br />
-                    Or <Link to="/login">login now!</Link>
+                      ]
+                    })(
+                      <div className="input">
+                        <Input
+                          onChange={e =>
+                            this.updateField("email", e.target.value)
+                          }
+                          value={this.state.email}
+                        />
+                      </div>
+                    )}
                   </Form.Item>
-                </center>
-              </Row>
-            </Form>
-          </Card>
+
+                  <Form.Item {...formItemLayout} label="Password">
+                    {getFieldDecorator("password", {
+                      rules: [
+                        {
+                          required: true,
+                          message: "Please input your password!"
+                        },
+                        {
+                          validator: this.validateToNextPassword
+                        }
+                      ]
+                    })(
+                      <div className="input">
+                        <Input
+                          type="password"
+                          onChange={e =>
+                            this.updateField("password", e.target.value)
+                          }
+                          value={this.state.password}
+                        />
+                      </div>
+                    )}
+                  </Form.Item>
+                  <Form.Item {...formItemLayout} label="Confirm Password">
+                    {getFieldDecorator("confirm", {
+                      rules: [
+                        {
+                          required: true,
+                          message: "Please confirm your password!"
+                        },
+                        {
+                          validator: this.compareToFirstPassword
+                        }
+                      ]
+                    })(
+                      <div className="input">
+                        <Input
+                          type="password"
+                          value={this.state.password2}
+                          onBlur={this.handleConfirmBlur}
+                          onChange={e =>
+                            this.updateField("password2", e.target.value)
+                          }
+                        />
+                      </div>
+                    )}
+                  </Form.Item>
+                  <Form.Item {...formItemLayout} label="Full Name">
+                    {getFieldDecorator("name", {
+                      rules: [
+                        {
+                          required: true,
+                          message: "Please input your name!"
+                        }
+                      ]
+                    })(
+                      <div className="input">
+                        <Input
+                          value={this.state.name}
+                          onChange={e =>
+                            this.updateField("name", e.target.value)
+                          }
+                        />
+                      </div>
+                    )}
+                  </Form.Item>
+                  <Form.Item {...formItemLayout} label="Tags">
+                    {getFieldDecorator("name", {
+                      rules: [
+                        {
+                          required: true,
+                          message: "Please input at least one tag!"
+                        }
+                      ]
+                    })(
+                      <div className="input">
+                        <Select
+                          mode="tags"
+                          style={{ width: "100%" }}
+                          placeholder="Please select"
+                          defaultValue={["React"]}
+                          onChange={this.updateTagField}
+                        >
+                          {children}
+                        </Select>
+                      </div>
+                    )}
+                  </Form.Item>
+                  <Form.Item {...formItemLayout} label="Title">
+                    {getFieldDecorator("title", {
+                      rules: [
+                        {
+                          required: true,
+                          message: "Please select your title"
+                        }
+                      ]
+                    })(
+                      <div className="inputtitle">
+                        <Radio.Group
+                          onChange={e =>
+                            this.updateField("title", e.target.value)
+                          }
+                          value={this.state.title}
+                        >
+                          <Radio value="Intern">Intern</Radio>
+                          <Radio value="Alumni">Alumni</Radio>
+                          <Radio value="Admin">Admin</Radio>
+                        </Radio.Group>
+                      </div>
+                    )}
+                  </Form.Item>
+                  <center>
+                    <Form.Item {...formItemLayout}>
+                      <Button
+                        type="primary"
+                        htmlType="submit"
+                        disabled={
+                          this.hasErrors(getFieldsError()) || disablebut
+                        }
+                        onClick={() => this.handleSubmit()}
+                        ghost
+                      >
+                        Register
+                      </Button>
+                      <br />
+                      Or <Link to="/login">login now!</Link>
+                    </Form.Item>
+                  </center>
+                </Row>
+              </Form>
+            </Card>
+          </Fade>
         </center>
+        <NotificationContainer />
+
         <br />
         <br />
       </div>

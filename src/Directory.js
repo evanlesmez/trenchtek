@@ -14,6 +14,14 @@ import {
 import firebase from "./Firebase";
 import "./Post.css";
 import "./App.css";
+import Type from "./Type.js";
+import Fade from "react-reveal/Fade";
+import Slide from "react-reveal/Slide";
+import {
+  NotificationContainer,
+  NotificationManager
+} from "react-notifications";
+import "react-notifications/lib/notifications.css";
 
 let storageRef = firebase.storage().ref("images/");
 let dBase = firebase.database();
@@ -381,7 +389,13 @@ export default class Directory extends Component {
     return (
       <div className="directory">
         <center>
-          <div class="directory-title">Directory</div>
+          <Type
+            strings={["Directory"]}
+            loopDelay={7000}
+            speed={85}
+            breakLines={false}
+            autoStart={false}
+          />
           <div className="directory">
             <Search
               className="directory"
@@ -392,7 +406,6 @@ export default class Directory extends Component {
               style={{ width: 400 }}
               enterButton
             />
-
             <Select
               defaultValue="Sort By"
               style={{ width: 100 }}
@@ -434,41 +447,45 @@ export default class Directory extends Component {
           <br />
           <br />
           {this.state.array.map(user => (
-            <div>
+            <Slide top>
               <div>
-                <Card
-                  style={{ width: 500, maxHeight: 1000 }}
-                  title={<div className="name-text">{user.name}</div>}
-                  hoverable={true}
-                  loading={this.state.loading}
-                >
-                  <div class="flexhorizontal">
-                    <img class="directory-image" src={user.image} />
-                    <div class="indent">
-                      <div>
-                        <div className="bigger-text">{"  "}Title: </div>
-                        <div className="big-text">
-                          {user.title.substring(0, 1).toUpperCase() +
-                            user.title.substring(1)}
+                <div>
+                  <Card
+                    style={{ width: 500, maxHeight: 1000 }}
+                    title={<div className="name-text">{user.name}</div>}
+                    hoverable={true}
+                    loading={this.state.loading}
+                  >
+                    <div class="flexhorizontal">
+                      <img class="directory-image" src={user.image} />
+                      <div class="indent">
+                        <div>
+                          <div className="bigger-text">{"  "}Title: </div>
+                          <div className="big-text">
+                            {user.title.substring(0, 1).toUpperCase() +
+                              user.title.substring(1)}
+                          </div>
+                        </div>
+                        <div>
+                          <div className="bigger-text">Upvotes: </div>
+                          <div className="big-text">{user.upvotes}</div>
                         </div>
                       </div>
-                      <div>
-                        <div className="bigger-text">Upvotes: </div>
-                        <div className="big-text">{user.upvotes}</div>
-                      </div>
                     </div>
+                  </Card>
+
+                  <div class="tags">
+                    {user.tags.map(
+                      t =>
+                        t !== "999" && t !== " " && <Tag color="blue">{t}</Tag>
+                    )}
                   </div>
-                </Card>
-                <div class="tags">
-                  {user.tags.map(
-                    t => t !== "999" && t !== " " && <Tag color="blue">{t}</Tag>
-                  )}
                 </div>
+                <br />
+                <br />
+                <br />
               </div>
-              <br />
-              <br />
-              <br />
-            </div>
+            </Slide>
           ))}
         </center>
       </div>

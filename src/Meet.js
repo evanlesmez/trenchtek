@@ -6,6 +6,13 @@ import { Input, Card, Tag, Popover, Button } from "antd";
 import "antd/dist/antd.css";
 import EditingForm from "./EditingForm";
 import Type from "./Type.js";
+import Fade from "react-reveal/Fade";
+import Slide from "react-reveal/Slide";
+import {
+  NotificationContainer,
+  NotificationManager
+} from "react-notifications";
+import "react-notifications/lib/notifications.css";
 
 export default class Meet extends Component {
   state = {
@@ -138,12 +145,16 @@ export default class Meet extends Component {
             return (
               <div className="column">
                 <center>
-                  <img
-                    className="image-cropper2"
-                    alt="example"
-                    src={instructor.pic}
-                  />
-                  <div className="name">{instructor.name}</div>
+                  <Fade top>
+                    <img
+                      className="image-cropper2"
+                      alt="example"
+                      src={instructor.pic}
+                    />
+                  </Fade>
+                  <Fade>
+                    <div className="name">{instructor.name}</div>
+                  </Fade>
                   <div className="title">{instructor.title.toUpperCase()}</div>
                   <Popover
                     content={

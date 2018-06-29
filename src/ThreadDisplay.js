@@ -5,6 +5,14 @@ import PostEditor from "./PostEditor";
 import firebase from "./Firebase";
 import { Card } from "antd";
 import { Button, Menu, Dropdown, Icon } from "antd";
+import Type from "./Type.js";
+import Fade from "react-reveal/Fade";
+import Slide from "react-reveal/Slide";
+import {
+  NotificationContainer,
+  NotificationManager
+} from "react-notifications";
+import "react-notifications/lib/notifications.css";
 
 const { Meta } = Card;
 let useremail = null;
@@ -214,7 +222,9 @@ class ThreadDisplay extends Component {
       <div>
         <div>
           <center>
-            <div class="directory-title">Forum</div>
+            <div class="directory-title">
+              <Type strings={["Forum"]} loopDelay={7000} speed={70} />
+            </div>
           </center>
           {this.state.array.map(data => {
             return (
@@ -223,20 +233,22 @@ class ThreadDisplay extends Component {
                   <div class="flexvertical">
                     <img class="image-cropper" src={data.image} />
                     <center>
-                      <div class="nametitle">
-                        {(data.currentUser.name.indexOf(" ") != -1 &&
-                          data.currentUser.name.substring(
-                            0,
-                            data.currentUser.name.indexOf(" ")
-                          )) ||
-                          data.currentUser.name}
-                        <br />
-                        <small>
-                          (
-                          {data.currentUser.title}
-                          )
-                        </small>
-                      </div>
+                      <Fade>
+                        <div class="nametitle">
+                          {(data.currentUser.name.indexOf(" ") != -1 &&
+                            data.currentUser.name.substring(
+                              0,
+                              data.currentUser.name.indexOf(" ")
+                            )) ||
+                            data.currentUser.name}
+                          <br />
+                          <small>
+                            (
+                            {data.currentUser.title}
+                            )
+                          </small>
+                        </div>
+                      </Fade>
                       <div class="space" />
                     </center>
                   </div>
@@ -253,10 +265,12 @@ class ThreadDisplay extends Component {
 
                   <div class="flexhorizontal">
                     <div class="space" />
-                    <Card hoverable style={{ width: 500 }}>
-                      <div class="date"> {data.date}</div>
-                      <div class="escape">{data.posts}</div>
-                    </Card>
+                    <Fade bottom>
+                      <Card hoverable style={{ width: 500 }}>
+                        <div class="date"> {data.date}</div>
+                        <div class="escape">{data.posts}</div>
+                      </Card>
+                    </Fade>
                   </div>
                 </div>
                 <br />

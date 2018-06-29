@@ -2,6 +2,14 @@ import React, { Component } from "react";
 import "./Profile.css";
 import { Row, Col, Icon, Input, Button, Tag } from "antd";
 import firebase from "./Firebase.js";
+import Type from "./Type.js";
+import Fade from "react-reveal/Fade";
+import Slide from "react-reveal/Slide";
+import {
+  NotificationContainer,
+  NotificationManager
+} from "react-notifications";
+import "react-notifications/lib/notifications.css";
 const { TextArea } = Input;
 // import Modal from 'react-modal';
 //Reg: "http://static.tvtropes.org/pmwiki/pub/images/reg_anime.jpg"
@@ -157,11 +165,17 @@ export default class Profile extends Component {
     if (this.state.editing == false) {
       // FOR NOMRAL PAGE
       button = (
-        <div className="editbutton">
-          <Button id="editbutton" type="edit" onClick={e => this.editPress(e)}>
-            Edit
-          </Button>
-        </div>
+        <Fade>
+          <div className="editbutton">
+            <Button
+              id="editbutton"
+              type="edit"
+              onClick={e => this.editPress(e)}
+            >
+              Edit
+            </Button>
+          </div>
+        </Fade>
       ); //Editbutton
 
       this.state.skills !== ""
@@ -175,39 +189,49 @@ export default class Profile extends Component {
         : null; // Dank conditional rendering from Noah
 
       linksPart = (
-        <div>
-          <p>
-            <strong> Contact: </strong>
-            <a href={this.state.email}> {this.state.email}</a>
-          </p>
-          <span>
-            <a href={this.state.github}>
-              {" "}
-              <Icon type="github" />
-            </a>
-            <a href={this.state.LinkedIn}>
-              {" "}
-              <Icon type="linkedin" />
-            </a>
-          </span>
-        </div>
+        <Fade>
+          <div>
+            <p>
+              <strong> Contact: </strong>
+              <a href={this.state.email}> {this.state.email}</a>
+            </p>
+            <span>
+              <a href={this.state.github}>
+                {" "}
+                <Icon type="github" />
+              </a>
+              <a href={this.state.LinkedIn}>
+                {" "}
+                <Icon type="linkedin" />
+              </a>
+            </span>
+          </div>
+        </Fade>
       );
 
       profypic = (
         <center>
-          <div className="imageCropper">
-            <img className="profpic" src={this.state.profURL} alt="Prof pic" />
-          </div>
+          <Fade>
+            <div className="imageCropper">
+              <img
+                className="profpic"
+                src={this.state.profURL}
+                alt="Prof pic"
+              />
+            </div>
+          </Fade>
         </center>
       );
     } else {
       // All of the input fields
       button = (
-        <div className="editbutton">
-          <Button type="save" onClick={e => this.saveClick(e)}>
-            Save
-          </Button>
-        </div>
+        <Fade>
+          <div className="editbutton">
+            <Button type="save" onClick={e => this.saveClick(e)}>
+              Save
+            </Button>
+          </div>
+        </Fade>
       );
 
       this.state.skills !== ""
@@ -348,34 +372,40 @@ export default class Profile extends Component {
             <br />
             {linksPart}
             <br />
-            <div id="aboutme">
-              <center>
-                <h3 id="aboutmetext"> About me! </h3>
-              </center>
-              <TextArea
-                id={this.state.inputclass}
-                placeholder="Write something!"
-                type="text"
-                name="aboutMe"
-                value={this.state.aboutMe}
-                onChange={e => this.handleChange(e)}
-                readOnly={this.state.readmode}
-                autosize={{ minRows: 10, maxRows: 12 }}
-              />
-            </div>
+            <Fade>
+              <div id="aboutme">
+                <center>
+                  <h3 id="aboutmetext"> About me! </h3>
+                </center>
+                <TextArea
+                  id={this.state.inputclass}
+                  placeholder="Write something!"
+                  type="text"
+                  name="aboutMe"
+                  value={this.state.aboutMe}
+                  onChange={e => this.handleChange(e)}
+                  readOnly={this.state.readmode}
+                  autosize={{ minRows: 10, maxRows: 12 }}
+                />
+              </div>
+            </Fade>
           </div>
         </center>
         <br />
+
         <center>
-          <div id="sidefo">
-            {skillSpan}
-            {newSkill}
-            <div style={{ "margin-top": "30px" }}>
-              <strong> You have </strong> {this.state.upvotes}{" "}
-              <Icon type="like" />
+          <Fade>
+            <div id="sidefo">
+              {skillSpan}
+              {newSkill}
+              <div style={{ "margin-top": "30px" }}>
+                <strong> You have </strong> {this.state.upvotes}{" "}
+                <Icon type="like" />
+              </div>
             </div>
-          </div>
+          </Fade>
         </center>
+
         <br />
         <br />
       </div>
